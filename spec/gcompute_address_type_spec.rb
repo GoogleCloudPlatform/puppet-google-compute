@@ -24,7 +24,7 @@
 
 require 'spec_helper'
 
-describe Puppet::Type.type(:gcompute_network) do
+describe Puppet::Type.type(:gcompute_address) do
   it "should have 'name' as key" do
     expect(described_class.key_attributes).to contain_exactly :name
   end
@@ -39,14 +39,12 @@ describe Puppet::Type.type(:gcompute_network) do
 
   context 'object properties' do
     [
+      :address,
+      :creation_timestamp,
       :description,
-      :gateway_ipv4,
       :id,
-      :ipv4_range,
       :name,
-      :subnetworks,
-      :auto_create_subnetworks,
-      :creation_timestamp
+      :users
     ].each do |prop|
       it "should have '#{prop}' property" do
         expect(described_class.attrtype(prop)).to eq :property
@@ -58,14 +56,12 @@ describe Puppet::Type.type(:gcompute_network) do
         described_class.new(
           ensure: :present,
           title: 'my-object-15',
+          address: 'test address#15 data',
+          creation_timestamp: '3176-04-11T19:10:53-07:00',
           description: 'test description#15 data',
-          gateway_ipv4: 'test gateway_ipv4#15 data',
           id: 34_392_013_944,
-          ipv4_range: 'test ipv4_range#15 data',
           name: 'test name#15 data',
-          subnetworks: %w(dd ee ff),
-          auto_create_subnetworks: false,
-          creation_timestamp: '3176-04-11T19:10:53-07:00'
+          users: %w(ss tt)
         )
       end.not_to raise_error
     end

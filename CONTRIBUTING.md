@@ -51,6 +51,8 @@ puppet-codegen:
 
   * .rubocop.yml
   * CONTRIBUTING.md
+  * examples/address.pp
+  * examples/delete_address.pp
   * examples/delete_network.pp
   * examples/disk_type.pp
   * examples/network.pp
@@ -64,8 +66,10 @@ puppet-codegen:
   * lib/google/property/string.rb
   * lib/google/property/time.rb
   * lib/google/string_utils.rb
+  * lib/puppet/provider/gcompute_address/google.rb
   * lib/puppet/provider/gcompute_disk_type/google.rb
   * lib/puppet/provider/gcompute_network/google.rb
+  * lib/puppet/type/gcompute_address.rb
   * lib/puppet/type/gcompute_disk_type.rb
   * lib/puppet/type/gcompute_network.rb
   * metadata.json
@@ -81,6 +85,8 @@ puppet-codegen:
   * spec/data/network/gcompute_disk_type/success2.yaml
   * spec/data/network/gcompute_network/success1.yaml
   * spec/data/network/gcompute_network/success2.yaml
+  * spec/gcompute_address_provider_spec.rb
+  * spec/gcompute_address_type_spec.rb
   * spec/gcompute_disk_type_provider_spec.rb
   * spec/gcompute_disk_type_type_spec.rb
   * spec/gcompute_network_provider_spec.rb
