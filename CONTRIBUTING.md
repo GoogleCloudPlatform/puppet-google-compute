@@ -59,6 +59,7 @@ puppet-codegen:
   * lib/google/property/array.rb
   * lib/google/property/base.rb
   * lib/google/property/boolean.rb
+  * lib/google/property/enum.rb
   * lib/google/property/integer.rb
   * lib/google/property/string.rb
   * lib/google/property/time.rb
@@ -76,6 +77,8 @@ puppet-codegen:
   * spec/data/copyright_bad2.rb
   * spec/data/copyright_good1.rb
   * spec/data/copyright_good2.rb
+  * spec/data/network/gcompute_disk_type/success1.yaml
+  * spec/data/network/gcompute_disk_type/success2.yaml
   * spec/data/network/gcompute_network/success1.yaml
   * spec/data/network/gcompute_network/success2.yaml
   * spec/gcompute_disk_type_provider_spec.rb

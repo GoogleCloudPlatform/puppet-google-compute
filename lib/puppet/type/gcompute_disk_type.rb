@@ -67,7 +67,7 @@ Puppet::Type.newtype(:gcompute_disk_type) do
     desc 'The name of the DiskType.'
   end
 
-  newparam(:zone) do
+  newparam(:zone, parent: Google::Property::String) do
     desc 'URL of the zone where the disk type resides.'
   end
 
@@ -82,7 +82,7 @@ Puppet::Type.newtype(:gcompute_disk_type) do
   newproperty(:deprecated_deleted, parent: Google::Property::Time) do
     desc <<-EOT
       An optional RFC3339 timestamp on or after which the deprecation state of
-      this resource will be changed to DELETED.  (output only)
+      this resource will be changed to DELETED. (output only)
     EOT
   end
 
@@ -96,7 +96,7 @@ Puppet::Type.newtype(:gcompute_disk_type) do
   newproperty(:deprecated_obsolete, parent: Google::Property::Time) do
     desc <<-EOT
       An optional RFC3339 timestamp on or after which the deprecation state of
-      this resource will be changed to OBSOLETE.  (output only)
+      this resource will be changed to OBSOLETE. (output only)
     EOT
   end
 
@@ -104,7 +104,7 @@ Puppet::Type.newtype(:gcompute_disk_type) do
     desc <<-EOT
       The URL of the suggested replacement for a deprecated resource. The
       suggested replacement resource must be the same kind of resource as the
-      deprecated resource.  (output only)
+      deprecated resource. (output only)
     EOT
   end
 
@@ -115,7 +115,7 @@ Puppet::Type.newtype(:gcompute_disk_type) do
       resource will return successfully, but with a warning indicating the
       deprecated resource and recommending its replacement. Operations which
       use OBSOLETE or DELETED resources will be rejected and result in an
-      error.  (output only)
+      error. (output only)
     EOT
     newvalue(:DEPRECATED)
     newvalue(:OBSOLETE)

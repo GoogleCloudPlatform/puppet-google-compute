@@ -408,7 +408,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
     results = File.join(File.dirname(__FILE__), 'data', 'network',
                         'gcompute_network', file)
     raise "Network result data file #{results}" unless File.exist?(results)
-    data = YAML.load(File.read(results))
+    data = YAML.safe_load(File.read(results))
     raise "Invalid network results #{results}" unless data.class <= Hash
     data
   end

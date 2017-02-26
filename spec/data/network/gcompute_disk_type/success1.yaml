@@ -22,32 +22,19 @@
 #
 # ----------------------------------------------------------------------------
 
-# Our default timezone is UTC, to avoid local time compromise test code seed
-# generation.
-ENV['TZ'] = 'UTC'
-
-require 'simplecov'
-SimpleCov.start
-
-$LOAD_PATH.unshift(File.expand_path('.'))
-$LOAD_PATH.unshift(File.expand_path('../puppet-google-auth/lib'))
-
-require 'fakeweb'
-require 'fake_web/registry'
-FakeWeb.allow_net_connect = false
-
-files = []
-files << 'spec/copyright.rb'
-files << 'spec/copyright_spec.rb'
-files << File.join('lib', '**', '*.rb')
-
-# Require all files so we can track them via code coverage
-Dir[*files].reject { |p| File.directory? p }
-           .each do |f|
-             puts "Auto requiring #{f}" \
-               if ENV['RSPEC_DEBUG']
-             require f
-           end
-
-require 'pp'
-require 'yaml'
+---
+kind: 'compute#diskType'
+creationTimestamp: '2045-05-23T12:08:10+00:00'
+defaultDiskSizeGb: '2109438101'
+deprecated:
+  deleted: '2023-11-07T16:45:28+00:00'
+  deprecated: '2054-11-19T12:29:05+00:00'
+  obsolete: '2008-04-08T00:34:16+00:00'
+  replacement: 'test deprecated_replacement#0 data'
+  state: 'DEPRECATED'
+description: 'test description#0 data'
+id: '2149500871'
+name: 'test name#0 data'
+project: 'test project#0 data'
+validDiskSize: 'test valid_disk_size#0 data'
+zone: 'test zone#0 data'

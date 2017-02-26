@@ -22,32 +22,19 @@
 #
 # ----------------------------------------------------------------------------
 
-# Our default timezone is UTC, to avoid local time compromise test code seed
-# generation.
-ENV['TZ'] = 'UTC'
+require 'google/property/base'
 
-require 'simplecov'
-SimpleCov.start
+module Google
+  module Property
+    # A Puppet property that holds an enum
+    class Enum < Google::Property::Base
+      def unsafe_munge(value)
+        value
+      end
 
-$LOAD_PATH.unshift(File.expand_path('.'))
-$LOAD_PATH.unshift(File.expand_path('../puppet-google-auth/lib'))
-
-require 'fakeweb'
-require 'fake_web/registry'
-FakeWeb.allow_net_connect = false
-
-files = []
-files << 'spec/copyright.rb'
-files << 'spec/copyright_spec.rb'
-files << File.join('lib', '**', '*.rb')
-
-# Require all files so we can track them via code coverage
-Dir[*files].reject { |p| File.directory? p }
-           .each do |f|
-             puts "Auto requiring #{f}" \
-               if ENV['RSPEC_DEBUG']
-             require f
-           end
-
-require 'pp'
-require 'yaml'
+      def self.parse(value)
+        value
+      end
+    end
+  end
+end
