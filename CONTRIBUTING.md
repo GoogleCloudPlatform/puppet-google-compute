@@ -84,6 +84,8 @@ puppet-codegen:
   * spec/data/copyright_bad2.rb
   * spec/data/copyright_good1.rb
   * spec/data/copyright_good2.rb
+  * spec/data/network/gcompute_address/success1.yaml
+  * spec/data/network/gcompute_address/success2.yaml
   * spec/data/network/gcompute_disk_type/success1.yaml
   * spec/data/network/gcompute_disk_type/success2.yaml
   * spec/data/network/gcompute_network/success1.yaml
