@@ -17,12 +17,16 @@ require 'copyright'
 
 describe 'ensure files have copyright notice' do
   let(:my_path) { File.expand_path(File.dirname(__FILE__)) }
+  let(:my_root) { File.expand_path('..', File.dirname(__FILE__)) }
   it do
     files = Find.find(File.expand_path(File.join(my_path, '..')))
                 .select { |f| File.file?(f) }
                 .select do |f|
-                  # Exclude my own tests
-                  !f.start_with?("#{my_path}/data/copyright_")
+                  my_tests = f.start_with?("#{my_path}/data/copyright_")
+                  artifacts = f.start_with?("#{my_root}/build/")
+                  presubmit = f.start_with?("#{my_root}/build/presubmit/")
+
+                  !my_tests && !artifacts || presubmit
                 end
     checker = Google::CopyrightChecker.new(files)
     missing = checker.check_missing.collect { |f| "  - #{f}" }

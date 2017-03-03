@@ -65,7 +65,7 @@ describe Puppet::Type.type(:gcompute_network) do
           name: 'test name#15 data',
           subnetworks: %w(dd ee ff),
           auto_create_subnetworks: false,
-          creation_timestamp: '3176-04-11T19:10:53-07:00'
+          creation_timestamp: '3176-04-12T02:10:53+00:00'
         )
       end.not_to raise_error
     end

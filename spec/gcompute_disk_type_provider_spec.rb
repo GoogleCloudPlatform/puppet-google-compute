@@ -112,7 +112,7 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
 
         it do
           is_expected
-            .to have_attributes(creation_timestamp: '2045-05-23T05:08:10-07:00')
+            .to have_attributes(creation_timestamp: '2045-05-23T12:08:10+00:00')
         end
         it do
           is_expected
@@ -120,15 +120,15 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
         end
         it do
           is_expected
-            .to have_attributes(deprecated_deleted: '2023-11-07T08:45:28-08:00')
+            .to have_attributes(deprecated_deleted: '2023-11-07T16:45:28+00:00')
         end
         it do
           is_expected
-            .to have_attributes(deprecated_deprecated: '2054-11-19T04:29:05-08:00')
+            .to have_attributes(deprecated_deprecated: '2054-11-19T12:29:05+00:00')
         end
         it do
           is_expected
-            .to have_attributes(deprecated_obsolete: '2008-04-07T17:34:16-07:00')
+            .to have_attributes(deprecated_obsolete: '2008-04-08T00:34:16+00:00')
         end
         it do
           is_expected
@@ -155,7 +155,7 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
 
         it do
           is_expected
-            .to have_attributes(creation_timestamp: '2120-10-13T17:16:21-07:00')
+            .to have_attributes(creation_timestamp: '2120-10-14T00:16:21+00:00')
         end
         it do
           is_expected
@@ -163,15 +163,15 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
         end
         it do
           is_expected
-            .to have_attributes(deprecated_deleted: '2077-09-13T02:30:57-07:00')
+            .to have_attributes(deprecated_deleted: '2077-09-13T09:30:57+00:00')
         end
         it do
           is_expected
-            .to have_attributes(deprecated_deprecated: '2139-10-08T17:58:11-07:00')
+            .to have_attributes(deprecated_deprecated: '2139-10-09T00:58:11+00:00')
         end
         it do
           is_expected
-            .to have_attributes(deprecated_obsolete: '2046-07-14T18:08:32-07:00')
+            .to have_attributes(deprecated_obsolete: '2046-07-15T01:08:32+00:00')
         end
         it do
           is_expected
@@ -243,11 +243,11 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
 
         Puppet::Type.type(:gcompute_disk_type).new(
           title: 'title4',
-          creation_timestamp: '2271-07-27T17:32:43-07:00',
+          creation_timestamp: '2271-07-28T00:32:43+00:00',
           default_disk_size_gb: 8_437_752_406,
-          deprecated_deleted: '2185-05-27T12:01:54-07:00',
-          deprecated_deprecated: '2309-07-16T18:56:22-07:00',
-          deprecated_obsolete: '2123-01-26T18:17:04-08:00',
+          deprecated_deleted: '2185-05-27T19:01:54+00:00',
+          deprecated_deprecated: '2309-07-17T01:56:22+00:00',
+          deprecated_obsolete: '2123-01-27T02:17:04+00:00',
           deprecated_replacement: 'test deprecated_replacement#3 data',
           deprecated_state: 'DEPRECATED',
           description: 'test description#3 data',
@@ -278,11 +278,11 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
 
         Puppet::Type.type(:gcompute_disk_type).new(
           title: 'title4',
-          creation_timestamp: '2271-07-27T17:32:43-07:00',
+          creation_timestamp: '2271-07-28T00:32:43+00:00',
           default_disk_size_gb: 8_437_752_406,
-          deprecated_deleted: '2185-05-27T12:01:54-07:00',
-          deprecated_deprecated: '2309-07-16T18:56:22-07:00',
-          deprecated_obsolete: '2123-01-26T18:17:04-08:00',
+          deprecated_deleted: '2185-05-27T19:01:54+00:00',
+          deprecated_deprecated: '2309-07-17T01:56:22+00:00',
+          deprecated_obsolete: '2123-01-27T02:17:04+00:00',
           deprecated_replacement: 'test deprecated_replacement#3 data',
           deprecated_state: 'DEPRECATED',
           description: 'test description#3 data',

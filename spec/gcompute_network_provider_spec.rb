@@ -117,7 +117,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
         it { is_expected.to have_attributes(auto_create_subnetworks: true) }
         it do
           is_expected
-            .to have_attributes(creation_timestamp: '2045-05-23T05:08:10-07:00')
+            .to have_attributes(creation_timestamp: '2045-05-23T12:08:10+00:00')
         end
       end
       #
@@ -145,7 +145,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
         it { is_expected.to have_attributes(auto_create_subnetworks: false) }
         it do
           is_expected
-            .to have_attributes(creation_timestamp: '2120-10-13T17:16:21-07:00')
+            .to have_attributes(creation_timestamp: '2120-10-14T00:16:21+00:00')
         end
       end
 
@@ -205,7 +205,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
           ipv4_range: 'test ipv4_range#3 data',
           subnetworks: %w(xx yy zz),
           auto_create_subnetworks: false,
-          creation_timestamp: '2271-07-27T17:32:43-07:00',
+          creation_timestamp: '2271-07-28T00:32:43+00:00',
           project: 'test project#3 data',
           credential: 'cred3'
         ).provider.create
@@ -242,7 +242,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
           name: 'test name#3 data',
           subnetworks: %w(xx yy zz),
           auto_create_subnetworks: false,
-          creation_timestamp: '2271-07-27T17:32:43-07:00',
+          creation_timestamp: '2271-07-28T00:32:43+00:00',
           project: 'test project#3 data',
           credential: 'cred3'
         ).provider.create

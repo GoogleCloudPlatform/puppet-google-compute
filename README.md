@@ -65,6 +65,10 @@ TODO(nelsonjr): Add documentation
     Compute
     Engine currently does not support IPv6. However, Google is a major
     advocate of IPv6 and it is an important future direction.
+* [`gcompute_region`](#gcompute_region):
+    Represents a Region resource. A region is a specific geographical
+    location where you can run your resources. Each region has one or more
+    zones
 
 ### Parameters
 
@@ -210,6 +214,58 @@ TODO(nelsonjr): Add documentation
 ##### `creation_timestamp`
 
   Creation timestamp in RFC3339 text format.
+
+#### `gcompute_region`
+
+##### `creation_timestamp`
+
+  Creation timestamp in RFC3339 text format.
+
+##### `deprecated_deleted`
+
+  An optional RFC3339 timestamp on or after which the deprecation state
+  of this resource will be changed to DELETED.
+
+##### `deprecated_deprecated`
+
+  An optional RFC3339 timestamp on or after which the deprecation state
+  of this resource will be changed to DEPRECATED.
+
+##### `deprecated_obsolete`
+
+  An optional RFC3339 timestamp on or after which the deprecation state
+  of this resource will be changed to OBSOLETE.
+
+##### `deprecated_replacement`
+
+  The URL of the suggested replacement for a deprecated resource. The
+  suggested replacement resource must be the same kind of resource as
+  the deprecated resource.
+
+##### `deprecated_state`
+
+  The deprecation state of this resource. This can be DEPRECATED,
+  OBSOLETE, or DELETED. Operations which create a new resource using a
+  DEPRECATED resource will return successfully, but with a warning
+  indicating the deprecated resource and recommending its replacement.
+  Operations which use OBSOLETE or DELETED resources will be rejected
+  and result in an error.
+
+##### `description`
+
+  An optional description of this resource.
+
+##### `id`
+
+  The unique identifier for the resource.
+
+##### `zones`
+
+  List of zones within the region
+
+##### `region`
+
+  Name of the region being selected
 
 ## Limitations
 

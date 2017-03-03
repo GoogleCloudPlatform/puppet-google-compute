@@ -24,7 +24,7 @@
 
 require 'spec_helper'
 
-describe Puppet::Type.type(:gcompute_disk_type) do
+describe Puppet::Type.type(:gcompute_region) do
   it "should have 'name' as key" do
     expect(described_class.key_attributes).to contain_exactly :name
   end
@@ -40,7 +40,6 @@ describe Puppet::Type.type(:gcompute_disk_type) do
   context 'object properties' do
     [
       :creation_timestamp,
-      :default_disk_size_gb,
       :deprecated_deleted,
       :deprecated_deprecated,
       :deprecated_obsolete,
@@ -48,8 +47,7 @@ describe Puppet::Type.type(:gcompute_disk_type) do
       :deprecated_state,
       :description,
       :id,
-      :name,
-      :valid_disk_size
+      :zones
     ].each do |prop|
       it "should have '#{prop}' property" do
         expect(described_class.attrtype(prop)).to eq :property
@@ -62,7 +60,6 @@ describe Puppet::Type.type(:gcompute_disk_type) do
           ensure: :present,
           title: 'my-object-15',
           creation_timestamp: '3176-04-12T02:10:53+00:00',
-          default_disk_size_gb: 33_751_009_625,
           deprecated_deleted: '2831-08-14T04:07:37+00:00',
           deprecated_deprecated: '3328-02-27T07:45:30+00:00',
           deprecated_obsolete: '2582-04-14T09:08:17+00:00',
@@ -70,8 +67,7 @@ describe Puppet::Type.type(:gcompute_disk_type) do
           deprecated_state: 'DEPRECATED',
           description: 'test description#15 data',
           id: 34_392_013_944,
-          name: 'test name#15 data',
-          valid_disk_size: 'test valid_disk_size#15 data'
+          zones: %w(vv ww xx yy zz)
         )
       end.not_to raise_error
     end

@@ -57,7 +57,7 @@ describe Puppet::Type.type(:gcompute_address) do
           ensure: :present,
           title: 'my-object-15',
           address: 'test address#15 data',
-          creation_timestamp: '3176-04-11T19:10:53-07:00',
+          creation_timestamp: '3176-04-12T02:10:53+00:00',
           description: 'test description#15 data',
           id: 34_392_013_944,
           name: 'test name#15 data',

@@ -14,6 +14,7 @@
 require 'find'
 
 module Google
+  # Enforces copyright notices on source files.
   class CopyrightChecker
     def initialize(files)
       @input_files = files

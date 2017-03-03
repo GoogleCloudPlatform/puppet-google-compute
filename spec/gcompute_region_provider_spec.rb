@@ -24,10 +24,10 @@
 
 require 'spec_helper'
 
-describe Puppet::Type.type(:gcompute_address).provider(:google) do
+describe Puppet::Type.type(:gcompute_region).provider(:google) do
   let(:start_time) { Time.new(2017, 1, 2, 3, 4, 5) }
 
-  A_PROJECT_DATA = %w(
+  R_PROJECT_DATA = %w(
     test\ project#0\ data
     test\ project#1\ data
     test\ project#2\ data
@@ -35,15 +35,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     test\ project#4\ data
   ).freeze
 
-  A_REGION_DATA = %w(
-    test\ region#0\ data
-    test\ region#1\ data
-    test\ region#2\ data
-    test\ region#3\ data
-    test\ region#4\ data
-  ).freeze
-
-  A_NAME_DATA = %w(
+  R_NAME_DATA = %w(
     test\ name#0\ data
     test\ name#1\ data
     test\ name#2\ data
@@ -64,11 +56,15 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
   context 'create provider' do
     subject { create_type(1).provider }
 
-    it { is_expected.to have_attributes(address: :absent) }
     it { is_expected.to have_attributes(creation_timestamp: :absent) }
+    it { is_expected.to have_attributes(deprecated_deleted: :absent) }
+    it { is_expected.to have_attributes(deprecated_deprecated: :absent) }
+    it { is_expected.to have_attributes(deprecated_obsolete: :absent) }
+    it { is_expected.to have_attributes(deprecated_replacement: :absent) }
+    it { is_expected.to have_attributes(deprecated_state: :absent) }
     it { is_expected.to have_attributes(description: :absent) }
     it { is_expected.to have_attributes(id: :absent) }
-    it { is_expected.to have_attributes(users: :absent) }
+    it { is_expected.to have_attributes(zones: :absent) }
   end
 
   context '#prefetch' do
@@ -105,18 +101,33 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
       context 'provider 1' do
         subject { providers[0] }
 
-        it { is_expected.to have_attributes(address: 'test address#0 data') }
         it do
           is_expected
             .to have_attributes(creation_timestamp: '2045-05-23T12:08:10+00:00')
         end
         it do
           is_expected
+            .to have_attributes(deprecated_deleted: '2023-11-07T16:45:28+00:00')
+        end
+        it do
+          is_expected
+            .to have_attributes(deprecated_deprecated: '2054-11-19T12:29:05+00:00')
+        end
+        it do
+          is_expected
+            .to have_attributes(deprecated_obsolete: '2008-04-08T00:34:16+00:00')
+        end
+        it do
+          is_expected
+            .to have_attributes(deprecated_replacement: 'test deprecated_replacement#0 data')
+        end
+        it { is_expected.to have_attributes(deprecated_state: 'DEPRECATED') }
+        it do
+          is_expected
             .to have_attributes(description: 'test description#0 data')
         end
         it { is_expected.to have_attributes(id: 2_149_500_871) }
-        it { is_expected.to have_attributes(name: 'test name#0 data') }
-        it { is_expected.to have_attributes(users: %w(ww xx yy zz)) }
+        it { is_expected.to have_attributes(zones: %w(uu vv)) }
       end
       #
       # Ensure we have the final vales as retrieved from the service
@@ -125,18 +136,33 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
       context 'provider 2' do
         subject { providers[1] }
 
-        it { is_expected.to have_attributes(address: 'test address#1 data') }
         it do
           is_expected
             .to have_attributes(creation_timestamp: '2120-10-14T00:16:21+00:00')
         end
         it do
           is_expected
+            .to have_attributes(deprecated_deleted: '2077-09-13T09:30:57+00:00')
+        end
+        it do
+          is_expected
+            .to have_attributes(deprecated_deprecated: '2139-10-09T00:58:11+00:00')
+        end
+        it do
+          is_expected
+            .to have_attributes(deprecated_obsolete: '2046-07-15T01:08:32+00:00')
+        end
+        it do
+          is_expected
+            .to have_attributes(deprecated_replacement: 'test deprecated_replacement#1 data')
+        end
+        it { is_expected.to have_attributes(deprecated_state: 'OBSOLETE') }
+        it do
+          is_expected
             .to have_attributes(description: 'test description#1 data')
         end
         it { is_expected.to have_attributes(id: 4_299_001_743) }
-        it { is_expected.to have_attributes(name: 'test name#1 data') }
-        it { is_expected.to have_attributes(users: %w(uu vv)) }
+        it { is_expected.to have_attributes(zones: %w(rr ss tt)) }
       end
 
       #
@@ -146,11 +172,15 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
       context 'provider 3' do
         subject { providers[2] }
 
-        it { is_expected.to have_attributes(address: :absent) }
         it { is_expected.to have_attributes(creation_timestamp: :absent) }
+        it { is_expected.to have_attributes(deprecated_deleted: :absent) }
+        it { is_expected.to have_attributes(deprecated_deprecated: :absent) }
+        it { is_expected.to have_attributes(deprecated_obsolete: :absent) }
+        it { is_expected.to have_attributes(deprecated_replacement: :absent) }
+        it { is_expected.to have_attributes(deprecated_state: :absent) }
         it { is_expected.to have_attributes(description: :absent) }
         it { is_expected.to have_attributes(id: :absent) }
-        it { is_expected.to have_attributes(users: :absent) }
+        it { is_expected.to have_attributes(zones: :absent) }
       end
     end
   end
@@ -158,7 +188,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
   context '#exists' do
     context 'with ensure set to :present' do
       subject do
-        Puppet::Type.type(:gcompute_address).provider(:google).new(
+        Puppet::Type.type(:gcompute_region).provider(:google).new(
           ensure: :present
         ).exists?
       end
@@ -168,7 +198,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
 
     context 'with ensure set to :absent' do
       subject do
-        Puppet::Type.type(:gcompute_address).provider(:google).new(
+        Puppet::Type.type(:gcompute_region).provider(:google).new(
           ensure: :absent
         ).exists?
       end
@@ -185,13 +215,17 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         expect_credential
         debug_network_expectations
 
-        Puppet::Type.type(:gcompute_address).new(
+        Puppet::Type.type(:gcompute_region).new(
           title: 'title4',
-          address: 'test address#3 data',
           creation_timestamp: '2271-07-28T00:32:43+00:00',
+          deprecated_deleted: '2185-05-27T19:01:54+00:00',
+          deprecated_deprecated: '2309-07-17T01:56:22+00:00',
+          deprecated_obsolete: '2123-01-27T02:17:04+00:00',
+          deprecated_replacement: 'test deprecated_replacement#3 data',
+          deprecated_state: 'DEPRECATED',
           description: 'test description#3 data',
           id: 8_598_003_486,
-          users: %w(qq rr),
+          zones: %w(kk ll mm nn),
           region: 'test region#3 data',
           project: 'test project#3 data',
           credential: 'cred3'
@@ -200,10 +234,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
 
       let(:expected_results) do
         {
-          'kind' => 'compute#address',
-          'address' => 'test address#3 data',
-          'description' => 'test description#3 data',
-          'name' => 'title4'
+          'kind' => 'compute#region',
         }
       end
 
@@ -218,14 +249,17 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         expect_credential
         debug_network_expectations
 
-        Puppet::Type.type(:gcompute_address).new(
+        Puppet::Type.type(:gcompute_region).new(
           title: 'title4',
-          address: 'test address#3 data',
           creation_timestamp: '2271-07-28T00:32:43+00:00',
+          deprecated_deleted: '2185-05-27T19:01:54+00:00',
+          deprecated_deprecated: '2309-07-17T01:56:22+00:00',
+          deprecated_obsolete: '2123-01-27T02:17:04+00:00',
+          deprecated_replacement: 'test deprecated_replacement#3 data',
+          deprecated_state: 'DEPRECATED',
           description: 'test description#3 data',
           id: 8_598_003_486,
-          name: 'test name#3 data',
-          users: %w(qq rr),
+          zones: %w(kk ll mm nn),
           region: 'test region#3 data',
           project: 'test project#3 data',
           credential: 'cred3'
@@ -234,10 +268,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
 
       let(:expected_results) do
         {
-          'kind' => 'compute#address',
-          'address' => 'test address#3 data',
-          'description' => 'test description#3 data',
-          'name' => 'test name#3 data'
+          'kind' => 'compute#region',
         }
       end
 
@@ -255,9 +286,8 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         expect_credential
         debug_network_expectations
 
-        Puppet::Type.type(:gcompute_address).new(
+        Puppet::Type.type(:gcompute_region).new(
           title: 'title3',
-          region: 'test region#2 data',
           project: 'test project#2 data',
           credential: 'cred2'
         ).provider.delete
@@ -272,10 +302,8 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         expect_credential
         debug_network_expectations
 
-        Puppet::Type.type(:gcompute_address).new(
+        Puppet::Type.type(:gcompute_region).new(
           title: 'title3',
-          name: 'test name#2 data',
-          region: 'test region#2 data',
           project: 'test project#2 data',
           credential: 'cred2'
         ).provider.delete
@@ -287,7 +315,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
 
   context '#flush' do
     subject do
-      Puppet::Type.type(:gcompute_address).new(
+      Puppet::Type.type(:gcompute_region).new(
         ensure: :present,
         name: 'my-name'
       ).provider
@@ -336,7 +364,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     FakeWeb.register_uri(:post,
                          collection(uri_data(id)),
                          status: 200,
-                         body: { kind: 'compute#address' }.to_json)
+                         body: { kind: 'compute#region' }.to_json)
   end
 
   def expect_network_delete(id, name = nil)
@@ -346,13 +374,12 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
   end
 
   def create_type(id)
-    Puppet::Type.type(:gcompute_address).new(
+    Puppet::Type.type(:gcompute_region).new(
       ensure: :present,
       title: "title#{id - 1}",
       credential: "cred#{id - 1}",
-      project: A_PROJECT_DATA[(id - 1) % A_PROJECT_DATA.size],
-      region: A_REGION_DATA[(id - 1) % A_REGION_DATA.size],
-      name: A_NAME_DATA[(id - 1) % A_NAME_DATA.size]
+      project: R_PROJECT_DATA[(id - 1) % R_PROJECT_DATA.size],
+      name: R_NAME_DATA[(id - 1) % R_NAME_DATA.size]
     )
   end
 
@@ -360,7 +387,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/regions/{{region}}/addresses',
+        'projects/{{project}}/regions',
         data
       )
     )
@@ -370,29 +397,28 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/regions/{{region}}/addresses/{{name}}',
+        'projects/{{project}}/regions/{{name}}',
         data
       )
     )
   end
 
   def expand_variables(template, data, extra_data = {})
-    Puppet::Type.type(:gcompute_address).provider(:google)
+    Puppet::Type.type(:gcompute_region).provider(:google)
                 .expand_variables(template, data, extra_data)
   end
 
   # Creates variable test data to comply with self_link URI parameters
   def uri_data(id)
     {
-      project: A_PROJECT_DATA[(id - 1) % A_PROJECT_DATA.size],
-      region: A_REGION_DATA[(id - 1) % A_REGION_DATA.size],
-      name: A_NAME_DATA[(id - 1) % A_NAME_DATA.size]
+      project: R_PROJECT_DATA[(id - 1) % R_PROJECT_DATA.size],
+      name: R_NAME_DATA[(id - 1) % R_NAME_DATA.size]
     }
   end
 
   def load_network_result(file)
     results = File.join(File.dirname(__FILE__), 'data', 'network',
-                        'gcompute_address', file)
+                        'gcompute_region', file)
     raise "Network result data file #{results}" unless File.exist?(results)
     data = YAML.safe_load(File.read(results))
     raise "Invalid network results #{results}" unless data.class <= Hash
