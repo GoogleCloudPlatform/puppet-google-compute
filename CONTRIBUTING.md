@@ -66,6 +66,8 @@ puppet-codegen:
   * lib/google/property/integer.rb
   * lib/google/property/string.rb
   * lib/google/property/time.rb
+  * lib/google/request/base.rb
+  * lib/google/request/get.rb
   * lib/google/string_utils.rb
   * lib/puppet/provider/gcompute_address/google.rb
   * lib/puppet/provider/gcompute_disk_type/google.rb
@@ -102,6 +104,7 @@ puppet-codegen:
   * spec/gcompute_region_type_spec.rb
   * spec/google_property_base_spec.rb
   * spec/hash_utils_spec.rb
+  * spec/request_get_spec.rb
   * spec/spec_helper.rb
   * spec/string_utils_spec.rb
 

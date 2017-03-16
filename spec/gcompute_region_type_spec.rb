@@ -47,6 +47,7 @@ describe Puppet::Type.type(:gcompute_region) do
       :deprecated_state,
       :description,
       :id,
+      :name,
       :zones
     ].each do |prop|
       it "should have '#{prop}' property" do
@@ -67,6 +68,7 @@ describe Puppet::Type.type(:gcompute_region) do
           deprecated_state: 'DEPRECATED',
           description: 'test description#15 data',
           id: 34_392_013_944,
+          name: 'test name#15 data',
           zones: %w(vv ww xx yy zz)
         )
       end.not_to raise_error

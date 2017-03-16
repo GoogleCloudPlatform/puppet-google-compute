@@ -52,7 +52,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
   ).freeze
 
   before do
-    FakeWeb.clean_registry
     allow(Time).to receive(:now).and_return(start_time)
   end
 
@@ -181,21 +180,10 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
   context '#create' do
     context 'title only' do
       before do
-        expect_network_create 4
+        expect_network_create 4, expected_results
+        expect_network_get_async 4
         expect_credential
         debug_network_expectations
-
-        Puppet::Type.type(:gcompute_address).new(
-          title: 'title4',
-          address: 'test address#3 data',
-          creation_timestamp: '2271-07-28T00:32:43+00:00',
-          description: 'test description#3 data',
-          id: 8_598_003_486,
-          users: %w(qq rr),
-          region: 'test region#3 data',
-          project: 'test project#3 data',
-          credential: 'cred3'
-        ).provider.create
       end
 
       let(:expected_results) do
@@ -206,30 +194,31 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
           'name' => 'title4'
         }
       end
+      subject do
+        lambda do
+          Puppet::Type.type(:gcompute_address).new(
+            title: 'title4',
+            address: 'test address#3 data',
+            creation_timestamp: '2271-07-28T00:32:43+00:00',
+            description: 'test description#3 data',
+            id: 8_598_003_486,
+            users: %w(qq rr),
+            region: 'test region#3 data',
+            project: 'test project#3 data',
+            credential: 'cred3'
+          ).provider.create
+        end
+      end
 
-      subject { JSON.parse(FakeWeb.last_request.body) }
-
-      it { is_expected.to eq expected_results }
+      it { is_expected.not_to raise_error }
     end
 
     context 'title and name' do
       before do
-        expect_network_create 4
+        expect_network_create 4, expected_results
+        expect_network_get_async 4
         expect_credential
         debug_network_expectations
-
-        Puppet::Type.type(:gcompute_address).new(
-          title: 'title4',
-          address: 'test address#3 data',
-          creation_timestamp: '2271-07-28T00:32:43+00:00',
-          description: 'test description#3 data',
-          id: 8_598_003_486,
-          name: 'test name#3 data',
-          users: %w(qq rr),
-          region: 'test region#3 data',
-          project: 'test project#3 data',
-          credential: 'cred3'
-        ).provider.create
       end
 
       let(:expected_results) do
@@ -241,9 +230,24 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         }
       end
 
-      subject { JSON.parse(FakeWeb.last_request.body) }
+      subject do
+        lambda do
+          Puppet::Type.type(:gcompute_address).new(
+            title: 'title4',
+            address: 'test address#3 data',
+            creation_timestamp: '2271-07-28T00:32:43+00:00',
+            description: 'test description#3 data',
+            id: 8_598_003_486,
+            name: 'test name#3 data',
+            users: %w(qq rr),
+            region: 'test region#3 data',
+            project: 'test project#3 data',
+            credential: 'cred3'
+          ).provider.create
+        end
+      end
 
-      it { is_expected.to eq expected_results }
+      it { is_expected.not_to raise_error }
     end
   end
 
@@ -252,36 +256,44 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     context 'title only' do
       before do
         expect_network_delete 3, 'title3'
+        expect_network_get_async 3
         expect_credential
         debug_network_expectations
-
-        Puppet::Type.type(:gcompute_address).new(
-          title: 'title3',
-          region: 'test region#2 data',
-          project: 'test project#2 data',
-          credential: 'cred2'
-        ).provider.delete
       end
 
-      it { expect(FakeWeb.last_request.method).to eq 'DELETE' }
+      subject do
+        lambda do
+          Puppet::Type.type(:gcompute_address).new(
+            title: 'title3',
+            region: 'test region#2 data',
+            project: 'test project#2 data',
+            credential: 'cred2'
+          ).provider.delete
+        end
+      end
+      it { is_expected.not_to raise_error }
     end
 
     context 'title and name' do
       before do
         expect_network_delete 3
+        expect_network_get_async 3
         expect_credential
         debug_network_expectations
-
-        Puppet::Type.type(:gcompute_address).new(
-          title: 'title3',
-          name: 'test name#2 data',
-          region: 'test region#2 data',
-          project: 'test project#2 data',
-          credential: 'cred2'
-        ).provider.delete
       end
 
-      it { expect(FakeWeb.last_request.method).to eq 'DELETE' }
+      subject do
+        lambda do
+          Puppet::Type.type(:gcompute_address).new(
+            title: 'title3',
+            name: 'test name#2 data',
+            region: 'test region#2 data',
+            project: 'test project#2 data',
+            credential: 'cred2'
+          ).provider.delete
+        end
+      end
+      it { is_expected.not_to raise_error }
     end
   end
 
@@ -324,25 +336,74 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
   end
 
   def expect_network_get_success(id)
-    FakeWeb.register_uri(:get, self_link(uri_data(id)),
-                         body: load_network_result("success#{id}.yaml").to_json)
+    body = load_network_result("success#{id}.yaml").to_json
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    expect(Google::Request::Get).to receive(:new)
+      .with(self_link(uri_data(id)), instance_of(RSpec::Mocks::Double))
+      .and_return(request)
+  end
+
+  def http_success(body)
+    response = Net::HTTPOK.new(1.0, 200, 'OK')
+    response.body = body
+    response.instance_variable_set(:@read, true)
+    response
+  end
+
+  def expect_network_get_async(id)
+    body = { kind: 'compute#address' }.to_json
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    expect(Google::Request::Get).to receive(:new)
+      .with(self_link(uri_data(id)), instance_of(RSpec::Mocks::Double))
+      .and_return(request)
   end
 
   def expect_network_get_failed(id)
-    FakeWeb.register_uri(:get, self_link(uri_data(id)), status: 404)
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_failed_object_missing)
+
+    expect(Google::Request::Get).to receive(:new)
+      .with(self_link(uri_data(id)), instance_of(RSpec::Mocks::Double))
+      .and_return(request)
   end
 
-  def expect_network_create(id)
-    FakeWeb.register_uri(:post,
-                         collection(uri_data(id)),
-                         status: 200,
-                         body: { kind: 'compute#address' }.to_json)
+  def http_failed_object_missing
+    Net::HTTPNotFound.new(1.0, 404, 'Not Found')
+  end
+
+  def expect_network_create(id, expected_body)
+    body = { kind: 'compute#operation',
+             status: 'DONE',
+             targetLink: self_link(uri_data(id)) }.to_json
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    expect(Google::Request::Post).to receive(:new)
+      .with(collection(uri_data(id)), instance_of(RSpec::Mocks::Double),
+            expected_body.to_json)
+      .and_return(request)
   end
 
   def expect_network_delete(id, name = nil)
     delete_data = uri_data(id)
     delete_data[:name] = name unless name.nil?
-    FakeWeb.register_uri(:delete, self_link(delete_data), status: 204)
+    body = { kind: 'compute#operation',
+             status: 'DONE',
+             targetLink: self_link(uri_data(id)) }.to_json
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    expect(Google::Request::Delete).to receive(:new)
+      .with(self_link(delete_data), instance_of(RSpec::Mocks::Double))
+      .and_return(request)
   end
 
   def create_type(id)

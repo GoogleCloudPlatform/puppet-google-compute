@@ -259,6 +259,10 @@ TODO(nelsonjr): Add documentation
 
   The unique identifier for the resource.
 
+##### `name`
+
+  Name of the resource.
+
 ##### `zones`
 
   List of zones within the region

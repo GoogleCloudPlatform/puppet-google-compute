@@ -126,6 +126,10 @@ Puppet::Type.newtype(:gcompute_region) do
     desc 'The unique identifier for the resource. (output only)'
   end
 
+  newproperty(:name, parent: Google::Property::String) do
+    desc 'Name of the resource.'
+  end
+
   newproperty(:zones, parent: Google::Property::Array) do
     desc 'List of zones within the region (output only)'
   end

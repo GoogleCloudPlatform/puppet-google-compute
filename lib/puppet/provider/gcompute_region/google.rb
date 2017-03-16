@@ -23,6 +23,9 @@
 # ----------------------------------------------------------------------------
 
 require 'google/hash_utils'
+require 'google/request/get'
+require 'google/request/post'
+require 'google/request/delete'
 require 'net/http'
 require 'puppet'
 
@@ -43,7 +46,8 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = prefetch_one_resource resource
+      fetch = fetch_resource(resource, self_link(resource),
+                             'compute#region')
       resource.provider = if fetch.nil?
                             new(title: name, ensure: :absent)
                           else
@@ -76,6 +80,7 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
       ),
       description: Google::Property::String.parse(fetch['description']),
       id: Google::Property::Integer.parse(fetch['id']),
+      name: Google::Property::String.parse(fetch['name']),
       zones: Google::Property::Array.parse(fetch['zones'])
     )
     result.instance_variable_set(:@fetched, fetch)
@@ -91,25 +96,18 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
   def create
     debug('create')
     @created = true
-    cred = Puppet::Type.type(:gauth_credential).fetch(@resource)
-    create_req = cred.authorize(
-      Net::HTTP::Post.new(collection(@resource))
-    )
-    create_req.content_type = 'application/json'
-    create_req.body = resource_to_request
-    return_if_object transport(create_req).request(create_req),
-                     'compute#region'
+    create_req = Google::Request::Post.new(collection(@resource),
+                                           fetch_auth(@resource),
+                                           resource_to_request)
+    return_if_object create_req.send, 'compute#region'
   end
 
   def delete
     debug('delete')
     @deleted = true
-    cred = Puppet::Type.type(:gauth_credential).fetch(@resource)
-    delete_req = cred.authorize(
-      Net::HTTP::Delete.new(self_link(@resource))
-    )
-    return_if_object transport(delete_req).request(delete_req),
-                     'compute#region'
+    delete_req = Google::Request::Delete.new(self_link(@resource),
+                                             fetch_auth(@resource))
+    return_if_object delete_req.send, 'compute#region'
   end
 
   def flush
@@ -147,20 +145,21 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
     }.select { |_, v| !v.nil? }
   end
 
-  def self.extract_variables(template)
-    template.scan(/{{[^}]*}}/).map { |v| v.gsub(/{{([^}]*)}}/, '\1') }
-            .map(&:to_sym)
+  def resource_to_request
+    request = Google::HashUtils.camelize_keys(
+      kind: 'compute#region',
+      name: @resource[:name]
+    ).select { |_, v| !v.nil? }.to_json
+    debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
+    request
   end
 
-  def self.expand_variables(template, var_data, extra_data = {})
-    data = resource_to_hash(var_data).merge(extra_data)
-    extract_variables(template).each do |v|
-      unless data.key?(v)
-        raise "Missing variable :#{v} in #{data} on #{caller.join("\n")}}"
-      end
-      template.gsub!(/{{#{v}}}/, CGI.escape(data[v].to_s))
-    end
-    template
+  def fetch_auth(resource)
+    self.class.fetch_auth(resource)
+  end
+
+  def self.fetch_auth(resource)
+    Puppet::Type.type(:gauth_credential).fetch(resource)
   end
 
   def self.collection(data)
@@ -191,14 +190,6 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
     self.class.self_link(data)
   end
 
-  def resource_to_request
-    request = Google::HashUtils.camelize_keys(
-      kind: 'compute#region'
-    ).select { |_, v| !v.nil? }.to_json
-    debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
-    request
-  end
-
   def self.return_if_object(response, kind)
     raise "Bad response: #{response}" unless response.is_a?(Net::HTTPResponse)
     return if response.is_a?(Net::HTTPNotFound)
@@ -215,35 +206,30 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
     self.class.return_if_object(response, kind)
   end
 
-  def self.raise_if_errors(response, err_path, msg_field)
-    errors = Google::HashUtils.navigate(response, err_path)
-    raise "Operation failed: #{errors.map { |e| e[msg_field] }.join(', ')}" \
-      unless errors.nil?
+  def self.extract_variables(template)
+    template.scan(/{{[^}]*}}/).map { |v| v.gsub(/{{([^}]*)}}/, '\1') }
+            .map(&:to_sym)
   end
 
-  def self.transport(request)
-    uri = request.uri
-    puts "network(#{request}: #{uri})" unless ENV['PUPPET_HTTP_VERBOSE'].nil?
-    transport = Net::HTTP.new(uri.host, uri.port)
-    transport.use_ssl = uri.is_a?(URI::HTTPS)
-    transport.verify_mode = OpenSSL::SSL::VERIFY_PEER
-    transport.set_debug_output $stderr unless ENV['PUPPET_HTTP_DEBUG'].nil?
-    transport
-  end
-
-  def transport(request)
-    self.class.transport(request)
-  end
-
-  def self.prefetch_one_resource(resource)
-    fetch_resource resource, self_link(resource), 'compute#region'
+  def self.expand_variables(template, var_data, extra_data = {})
+    data = resource_to_hash(var_data).merge(extra_data)
+    extract_variables(template).each do |v|
+      unless data.key?(v)
+        raise "Missing variable :#{v} in #{data} on #{caller.join("\n")}}"
+      end
+      template.gsub!(/{{#{v}}}/, CGI.escape(data[v].to_s))
+    end
+    template
   end
 
   def self.fetch_resource(resource, self_link, kind)
-    cred = Puppet::Type.type(:gauth_credential).fetch(resource)
-    get_request = cred.authorize(
-      Net::HTTP::Get.new(self_link)
-    )
-    return_if_object transport(get_request).request(get_request), kind
+    get_request = Google::Request::Get.new(self_link, fetch_auth(resource))
+    return_if_object get_request.send, kind
+  end
+
+  def self.raise_if_errors(response, err_path, msg_field)
+    errors = ::Google::HashUtils.navigate(response, err_path)
+    raise "Operation failed: #{errors.map { |e| e[msg_field] }.join(', ')}" \
+      unless errors.nil?
   end
 end
