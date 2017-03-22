@@ -46,17 +46,7 @@ Puppet::Type.newtype(:gcompute_address) do
     [self[:credential]]
   end
 
-  ensurable do
-    newvalue(:present) do
-      provider.create
-    end
-
-    defaultto :present
-
-    newvalue(:absent) do
-      provider.delete
-    end
-  end
+  ensurable
 
   newparam :credential do
     desc <<-EOT
