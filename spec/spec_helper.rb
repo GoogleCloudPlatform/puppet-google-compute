@@ -22,18 +22,34 @@
 #
 # ----------------------------------------------------------------------------
 
-# Our default timezone is UTC, to avoid local time compromise test code seed
-# generation.
+#----------------------------------------------------------
+# Setup timezone.
+#
+# Our default timezone is UTC, to avoid local time compromise
+# test code seed generation.
+
 ENV['TZ'] = 'UTC'
+
+#----------------------------------------------------------
+# Setup code coverage
 
 require 'simplecov'
 SimpleCov.start
 
+#----------------------------------------------------------
+# Add test path to the search libs
+
 $LOAD_PATH.unshift(File.expand_path('.'))
+
+#----------------------------------------------------------
+# Block all network traffic
 
 require 'fakeweb'
 require 'fake_web/registry'
 FakeWeb.allow_net_connect = false
+
+#----------------------------------------------------------
+# Auto require files
 
 files = []
 files << 'spec/copyright.rb'
@@ -49,5 +65,25 @@ Dir[*files].reject { |p| File.directory? p }
              require f
            end
 
-require 'pp'
+#----------------------------------------------------------
+# Setup PuppetSpec to allow executing the Puppet manifests from within tests
+
+require 'puppet'
+
+module PuppetSpec
+  puppet_dir = File.dirname(Puppet.method(:settings).source_location[0])
+  require File.join(puppet_dir, '../spec/lib/puppet_spec/compiler')
+  require File.join(puppet_dir, '../spec/lib/puppet_spec/files')
+end
+
+require 'rspec-puppet'
+
+RSpec.configure do |c|
+  c.include PuppetSpec::Compiler
+  c.include PuppetSpec::Files
+end
+
+#----------------------------------------------------------
+# Helper modules
+
 require 'yaml'
