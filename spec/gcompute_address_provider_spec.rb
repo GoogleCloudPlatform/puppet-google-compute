@@ -27,6 +27,12 @@ require 'spec_helper'
 describe Puppet::Type.type(:gcompute_address).provider(:google) do
   let(:start_time) { Time.new(2017, 1, 2, 3, 4, 5) }
 
+  before(:all) do
+    cred = Google::FakeCredential.new
+    Puppet::Type.type(:gauth_credential)
+                .define_singleton_method(:fetch) { |_resource| cred }
+  end
+
   A_PROJECT_DATA = %w(
     test\ project#0\ data
     test\ project#1\ data
@@ -75,7 +81,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
       expect_network_get_success 1
       expect_network_get_success 2
       expect_network_get_failed 3
-      expect_credential
       debug_network_expectations
     end
 
@@ -182,7 +187,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
       before do
         expect_network_create 4, expected_results
         expect_network_get_async 4
-        expect_credential
         debug_network_expectations
       end
 
@@ -217,7 +221,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
       before do
         expect_network_create 4, expected_results
         expect_network_get_async 4
-        expect_credential
         debug_network_expectations
       end
 
@@ -257,7 +260,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
       before do
         expect_network_delete 3, 'title3'
         expect_network_get_async 3
-        expect_credential
         debug_network_expectations
       end
 
@@ -278,7 +280,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
       before do
         expect_network_delete 3
         expect_network_get_async 3
-        expect_credential
         debug_network_expectations
       end
 
@@ -328,13 +329,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
 
   private
 
-  def expect_credential
-    cred = double('cred')
-    Puppet::Type.type(:gauth_credential)
-                .define_singleton_method(:fetch) { |_resource| cred }
-    allow(cred).to receive(:authorize) { |arg| arg }
-  end
-
   def expect_network_get_success(id)
     body = load_network_result("success#{id}.yaml").to_json
 
@@ -342,7 +336,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     allow(request).to receive(:send).and_return(http_success(body))
 
     expect(Google::Request::Get).to receive(:new)
-      .with(self_link(uri_data(id)), instance_of(RSpec::Mocks::Double))
+      .with(self_link(uri_data(id)), instance_of(Google::FakeCredential))
       .and_return(request)
   end
 
@@ -360,7 +354,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     allow(request).to receive(:send).and_return(http_success(body))
 
     expect(Google::Request::Get).to receive(:new)
-      .with(self_link(uri_data(id)), instance_of(RSpec::Mocks::Double))
+      .with(self_link(uri_data(id)), instance_of(Google::FakeCredential))
       .and_return(request)
   end
 
@@ -369,7 +363,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     allow(request).to receive(:send).and_return(http_failed_object_missing)
 
     expect(Google::Request::Get).to receive(:new)
-      .with(self_link(uri_data(id)), instance_of(RSpec::Mocks::Double))
+      .with(self_link(uri_data(id)), instance_of(Google::FakeCredential))
       .and_return(request)
   end
 
@@ -386,7 +380,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     allow(request).to receive(:send).and_return(http_success(body))
 
     expect(Google::Request::Post).to receive(:new)
-      .with(collection(uri_data(id)), instance_of(RSpec::Mocks::Double),
+      .with(collection(uri_data(id)), instance_of(Google::FakeCredential),
             expected_body.to_json)
       .and_return(request)
   end
@@ -402,7 +396,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     allow(request).to receive(:send).and_return(http_success(body))
 
     expect(Google::Request::Delete).to receive(:new)
-      .with(self_link(delete_data), instance_of(RSpec::Mocks::Double))
+      .with(self_link(delete_data), instance_of(Google::FakeCredential))
       .and_return(request)
   end
 

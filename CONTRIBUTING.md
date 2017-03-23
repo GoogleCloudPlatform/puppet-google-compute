@@ -94,6 +94,7 @@ puppet-codegen:
   * spec/data/network/gcompute_network/success2.yaml
   * spec/data/network/gcompute_region/success1.yaml
   * spec/data/network/gcompute_region/success2.yaml
+  * spec/fake_cred.rb
   * spec/gcompute_address_provider_spec.rb
   * spec/gcompute_address_type_spec.rb
   * spec/gcompute_disk_type_provider_spec.rb

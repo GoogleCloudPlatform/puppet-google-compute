@@ -22,32 +22,13 @@
 #
 # ----------------------------------------------------------------------------
 
-# Our default timezone is UTC, to avoid local time compromise test code seed
-# generation.
-ENV['TZ'] = 'UTC'
-
-require 'simplecov'
-SimpleCov.start
-
-$LOAD_PATH.unshift(File.expand_path('.'))
-
-require 'fakeweb'
-require 'fake_web/registry'
-FakeWeb.allow_net_connect = false
-
-files = []
-files << 'spec/copyright.rb'
-files << 'spec/copyright_spec.rb'
-files << 'spec/fake_cred.rb'
-files << File.join('lib', '**', '*.rb')
-
-# Require all files so we can track them via code coverage
-Dir[*files].reject { |p| File.directory? p }
-           .each do |f|
-             puts "Auto requiring #{f}" \
-               if ENV['RSPEC_DEBUG']
-             require f
-           end
-
-require 'pp'
-require 'yaml'
+module Google
+  # A dummy credential that responds to the same authorize interface as a
+  # gauth_credential. Useful for testing code without the need to take a
+  # dependency on the real resource provider.
+  class FakeCredential
+    def authorize(request)
+      request
+    end
+  end
+end
