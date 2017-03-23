@@ -52,6 +52,32 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
                                                         /not supported/)
   end
 
+  context 'ensure => present' do
+    context 'resource exists' do
+      context 'no changes == no action' do
+        # TODO(nelsonjr): Implement new test format.
+      end
+
+      context 'changes == converge object' do
+        # TODO(nelsonjr): Implement new test format.
+      end
+    end
+
+    context 'resource does not exist == create resource' do
+      # TODO(nelsonjr): Implement new test format.
+    end
+  end
+
+  context 'ensure => absent' do
+    context 'resource exists == delete resource' do
+      # TODO(nelsonjr): Implement new test format.
+    end
+
+    context 'resource does not exist == no action' do
+      # TODO(nelsonjr): Implement new test format.
+    end
+  end
+
   context 'create provider' do
     subject { create_type(1).provider }
 
