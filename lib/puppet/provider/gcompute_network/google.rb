@@ -48,11 +48,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource),
                              'compute#network')
-      resource.provider = if fetch.nil?
-                            new(title: name, ensure: :absent)
-                          else
-                            present(name, fetch)
-                          end
+      resource.provider = present(name, fetch) unless fetch.nil?
     end
   end
 

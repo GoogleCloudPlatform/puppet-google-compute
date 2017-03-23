@@ -25,8 +25,6 @@
 require 'spec_helper'
 
 describe Puppet::Type.type(:gcompute_network).provider(:google) do
-  let(:start_time) { Time.new(2017, 1, 2, 3, 4, 5) }
-
   before(:all) do
     cred = Google::FakeCredential.new
     Puppet::Type.type(:gauth_credential)
@@ -48,10 +46,6 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
     test\ name#3\ data
     test\ name#4\ data
   ).freeze
-
-  before do
-    allow(Time).to receive(:now).and_return(start_time)
-  end
 
   it '#instances' do
     expect { described_class.instances }.to raise_error(StandardError,
