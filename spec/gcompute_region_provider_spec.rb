@@ -97,7 +97,6 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
       expect_network_get_success 1
       expect_network_get_success 2
       expect_network_get_failed 3
-      debug_network_expectations
     end
 
     let(:resource1) { create_type 1 }
@@ -244,7 +243,6 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
     context 'title only' do
       before do
         expect_network_create 4, expected_results
-        debug_network_expectations
       end
 
       let(:expected_results) do
@@ -279,7 +277,6 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
     context 'title and name' do
       before do
         expect_network_create 4, expected_results
-        debug_network_expectations
       end
 
       let(:expected_results) do
@@ -288,7 +285,6 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
           'name' => 'test name#3 data'
         }
       end
-
       subject do
         lambda do
           Puppet::Type.type(:gcompute_region).new(
@@ -319,9 +315,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
     context 'title only' do
       before do
         expect_network_delete 3, 'title3'
-        debug_network_expectations
       end
-
       subject do
         lambda do
           Puppet::Type.type(:gcompute_region).new(
@@ -337,7 +331,6 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
     context 'title and name' do
       before do
         expect_network_delete 3
-        debug_network_expectations
       end
 
       subject do
@@ -491,11 +484,5 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
     data = YAML.safe_load(File.read(results))
     raise "Invalid network results #{results}" unless data.class <= Hash
     data
-  end
-
-  def debug_network_expectations
-    FakeWeb::Registry.instance.uri_map.each do |name, _value|
-      puts "Expect network: #{name}" if ENV['RSPEC_DEBUG']
-    end
   end
 end
