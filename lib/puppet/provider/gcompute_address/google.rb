@@ -82,8 +82,8 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
     wait_for_operation create_req.send
   end
 
-  def delete
-    debug('delete')
+  def destroy
+    debug('destroy')
     @deleted = true
     delete_req = Google::Request::Delete.new(self_link(@resource),
                                              fetch_auth(@resource))

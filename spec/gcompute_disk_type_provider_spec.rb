@@ -335,7 +335,7 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
   end
 
   #------------------------------------------------------------------
-  context '#delete' do
+  context '#destroy' do
     context 'title only' do
       before do
         expect_network_delete 3, 'title3'
@@ -347,7 +347,7 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
             zone: 'test zone#2 data',
             project: 'test project#2 data',
             credential: 'cred2'
-          ).provider.delete
+          ).provider.destroy
         end
       end
       it { is_expected.not_to raise_error }
@@ -366,7 +366,7 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
             zone: 'test zone#2 data',
             project: 'test project#2 data',
             credential: 'cred2'
-          ).provider.delete
+          ).provider.destroy
         end
       end
       it { is_expected.not_to raise_error }

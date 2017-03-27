@@ -289,7 +289,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
   end
 
   #------------------------------------------------------------------
-  context '#delete' do
+  context '#destroy' do
     context 'title only' do
       before do
         expect_network_delete 3, 'title3'
@@ -301,7 +301,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
             title: 'title3',
             project: 'test project#2 data',
             credential: 'cred2'
-          ).provider.delete
+          ).provider.destroy
         end
       end
       it { is_expected.not_to raise_error }
@@ -320,7 +320,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
             name: 'test name#2 data',
             project: 'test project#2 data',
             credential: 'cred2'
-          ).provider.delete
+          ).provider.destroy
         end
       end
       it { is_expected.not_to raise_error }

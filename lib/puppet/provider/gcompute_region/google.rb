@@ -98,8 +98,8 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
     return_if_object create_req.send, 'compute#region'
   end
 
-  def delete
-    debug('delete')
+  def destroy
+    debug('destroy')
     @deleted = true
     delete_req = Google::Request::Delete.new(self_link(@resource),
                                              fetch_auth(@resource))
