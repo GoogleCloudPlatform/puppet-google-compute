@@ -21,54 +21,37 @@ class TestCred
 end
 
 describe Google::Request::Post do
-  before { FakeWeb.clean_registry }
-
   let(:credential) { TestCred.new }
+  let(:uri_in) { Google::NetworkBlocker::ALLOWED_TEST_URI }
+  let(:uri_out) { URI.parse('https://somewhere.else.com/some/path') }
+  let(:type_in) { 'application/myapp-request' }
+  let(:type_out) { 'application/myapp-response' }
+  let(:body_in) { { 'test1' => 'test' }.to_json }
+  let(:body_out) { { field1: 'WORKS' }.to_json }
 
-  let(:uri) { URI('http://www.example.com/test1') }
-  let(:body) { { 'test1' => 'test' }.to_json }
-
-  context 'verify proper request' do
-    let(:request) { Google::Request::Post.new(uri, credential, body) }
-
-    before do
-      expect_success
-      request.send
+  context 'successful request' do
+    before(:each) do
+      Google::NetworkBlocker.instance.allow_post(
+        uri_in: uri_in, type_in: type_in, body_in: body_in,
+        code: 200, uri_out: uri_out, type_out: type_out, body_out: body_out
+      )
     end
 
-    subject { FakeWeb.last_request }
+    subject { described_class.new(uri_in, credential, type_in, body_in).send }
 
-    it { is_expected.to have_attributes(body: body) }
-    it { is_expected.to have_attributes(content_type: 'application/json') }
-    it { is_expected.to have_attributes(uri: uri) }
-    it { is_expected.to be_a_kind_of(Net::HTTP::Post) }
-  end
-
-  context 'post request succeed' do
-    before { expect_success }
-
-    subject { Google::Request::Post.new(uri, credential, body).send }
-
-    it { is_expected.to have_attributes(body: { status: 'DONE' }.to_json) }
-    it { is_expected.to have_attributes(code: '200') }
+    it { is_expected.to be_a_kind_of(Net::HTTPOK) }
+    it { is_expected.to have_attributes(code: 200) }
+    it { is_expected.to have_attributes(uri: uri_out) }
+    it { is_expected.to have_attributes(content_type: type_out) }
+    it { is_expected.to have_attributes(body: body_out) }
   end
 
   context 'failed request' do
-    before { expect_failure }
+    before(:each) { Google::NetworkBlocker.instance.deny(uri_in) }
 
-    subject { Google::Request::Post.new(uri, credential, body).send }
+    subject { described_class.new(uri_in, credential, type_in, body_in).send }
 
-    it { is_expected.to have_attributes(code: '404') }
-  end
-
-  def expect_success
-    FakeWeb.register_uri(:post, 'http://www.example.com/test1',
-                         body: { status: 'DONE' }.to_json,
-                         status: 200)
-  end
-
-  def expect_failure
-    FakeWeb.register_uri(:post, 'http://www.example.com/test1',
-                         status: 404)
+    it { is_expected.to be_a_kind_of(Net::HTTPNotFound) }
+    it { is_expected.to have_attributes(code: 404) }
   end
 end

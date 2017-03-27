@@ -105,6 +105,8 @@ puppet-codegen:
   * spec/gcompute_region_type_spec.rb
   * spec/google_property_base_spec.rb
   * spec/hash_utils_spec.rb
+  * spec/network_blocker.rb
+  * spec/network_blocker_spec.rb
   * spec/request_get_spec.rb
   * spec/spec_helper.rb
   * spec/string_utils_spec.rb

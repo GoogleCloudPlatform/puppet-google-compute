@@ -11,6 +11,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'net/http'
+require 'net/https'
+
 module Google
   module Request
     # A Puppet property that can compare its values
@@ -26,7 +29,6 @@ module Google
 
       def send
         request = @cred.authorize(builder.new(@link))
-        request.content_type = 'application/json'
         transport(request).request(request)
       end
 

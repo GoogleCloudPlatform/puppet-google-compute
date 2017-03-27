@@ -21,53 +21,31 @@ class TestCred
 end
 
 describe Google::Request::Get do
-  before { FakeWeb.clean_registry }
-
   let(:credential) { TestCred.new }
+  let(:uri) { Google::NetworkBlocker::ALLOWED_TEST_URI }
 
-  let(:uri) { URI('http://www.example.com/test1') }
-
-  context 'verify proper request' do
-    let(:request) { Google::Request::Get.new(uri, credential) }
-
-    before do
-      expect_success
-      request.send
+  context 'successful request' do
+    before(:each) do
+      Google::NetworkBlocker.instance.allow_get(uri, 200,
+                                                'application/myfooapp',
+                                                { field1: 'FOOBAR' }.to_json)
     end
 
-    subject { FakeWeb.last_request }
+    subject { described_class.new(uri, credential).send }
 
-    it { is_expected.to have_attributes(content_type: 'application/json') }
+    it { is_expected.to be_a_kind_of(Net::HTTPResponse) }
+    it { is_expected.to have_attributes(body: { field1: 'FOOBAR' }.to_json) }
+    it { is_expected.to have_attributes(code: 200) }
+    it { is_expected.to have_attributes(content_type: 'application/myfooapp') }
     it { is_expected.to have_attributes(uri: uri) }
-    it { is_expected.to be_a_kind_of(Net::HTTP::Get) }
-  end
-
-  context 'get request' do
-    before { expect_success }
-
-    subject { Google::Request::Get.new(uri, credential).send }
-
-    it { is_expected.to have_attributes(body: { status: 'DONE' }.to_json) }
-    it { is_expected.to have_attributes(code: '200') }
   end
 
   context 'failed request' do
-    before { expect_failure }
+    before(:each) { Google::NetworkBlocker.instance.deny(uri) }
 
-    subject { Google::Request::Get.new(uri, credential).send }
+    subject { described_class.new(uri, credential).send }
 
-    it { is_expected.to have_attributes(body: '') }
-    it { is_expected.to have_attributes(code: '404') }
-  end
-
-  def expect_success
-    FakeWeb.register_uri(:get, 'http://www.example.com/test1',
-                         body: { status: 'DONE' }.to_json,
-                         status: 200)
-  end
-
-  def expect_failure
-    FakeWeb.register_uri(:get, 'http://www.example.com/test1',
-                         status: 404)
+    it { is_expected.to be_a_kind_of(Net::HTTPNotFound) }
+    it { is_expected.to have_attributes(code: 404) }
   end
 end

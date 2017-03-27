@@ -16,12 +16,14 @@ module Google
   module Request
     # A wrapper class for a Post Request
     class Post < Google::Request::Base
-      def initialize(link, cred, body)
+      def initialize(link, cred, type, body)
         super(link, cred)
+        @type = type
         @body = body
       end
 
       def transport(request)
+        request.content_type = @type
         request.body = @body
         super(request)
       end

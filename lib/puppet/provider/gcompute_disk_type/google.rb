@@ -97,6 +97,7 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
     @created = true
     create_req = Google::Request::Post.new(collection(@resource),
                                            fetch_auth(@resource),
+                                           'application/json',
                                            resource_to_request)
     return_if_object create_req.send, 'compute#diskType'
   end

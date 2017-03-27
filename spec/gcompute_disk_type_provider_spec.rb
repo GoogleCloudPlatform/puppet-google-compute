@@ -443,7 +443,7 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
 
     expect(Google::Request::Post).to receive(:new)
       .with(collection(uri_data(id)), instance_of(Google::FakeCredential),
-            expected_body.to_json)
+            'application/json', expected_body.to_json)
       .and_return(request)
   end
 

@@ -12,7 +12,6 @@
 # limitations under the License.
 
 require 'spec_helper'
-require 'uri'
 
 class TestCred
   def authorize(request)
@@ -21,52 +20,24 @@ class TestCred
 end
 
 describe Google::Request::Delete do
-  before { FakeWeb.clean_registry }
-
   let(:credential) { TestCred.new }
-
-  let(:uri) { URI('http://www.example.com/test1') }
+  let(:uri) { Google::NetworkBlocker::ALLOWED_TEST_URI }
 
   context 'verify proper request' do
-    let(:request) { Google::Request::Delete.new(uri, credential) }
+    before(:each) { Google::NetworkBlocker.instance.allow_delete(uri) }
 
-    before do
-      expect_success
-      request.send
-    end
+    subject { described_class.new(uri, credential).send }
 
-    subject { FakeWeb.last_request }
-
-    it { is_expected.to have_attributes(content_type: 'application/json') }
-    it { is_expected.to have_attributes(uri: uri) }
-    it { is_expected.to be_a_kind_of(Net::HTTP::Delete) }
-  end
-
-  context 'delete request' do
-    before { expect_success }
-
-    subject { Google::Request::Delete.new(uri, credential).send }
-
-    it { is_expected.to have_attributes(body: { status: 'DONE' }.to_json) }
-    it { is_expected.to have_attributes(code: '200') }
+    it { is_expected.to be_a_kind_of(Net::HTTPNoContent) }
+    it { is_expected.to have_attributes(code: 204) }
   end
 
   context 'failed request' do
-    before { expect_failure }
+    before(:each) { Google::NetworkBlocker.instance.deny(uri) }
 
-    subject { Google::Request::Delete.new(uri, credential).send }
+    subject { described_class.new(uri, credential).send }
 
-    it { is_expected.to have_attributes(code: '404') }
-  end
-
-  def expect_success
-    FakeWeb.register_uri(:delete, 'http://www.example.com/test1',
-                         body: { status: 'DONE' }.to_json,
-                         status: 200)
-  end
-
-  def expect_failure
-    FakeWeb.register_uri(:delete, 'http://www.example.com/test1',
-                         status: 404)
+    it { is_expected.to be_a_kind_of(Net::HTTPNotFound) }
+    it { is_expected.to have_attributes(code: 404) }
   end
 end

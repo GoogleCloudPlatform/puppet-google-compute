@@ -44,9 +44,7 @@ $LOAD_PATH.unshift(File.expand_path('.'))
 #----------------------------------------------------------
 # Block all network traffic
 
-require 'fakeweb'
-require 'fake_web/registry'
-FakeWeb.allow_net_connect = false
+require 'network_blocker'
 
 #----------------------------------------------------------
 # Auto require files

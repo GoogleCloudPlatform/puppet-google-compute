@@ -83,6 +83,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     @created = true
     create_req = Google::Request::Post.new(collection(@resource),
                                            fetch_auth(@resource),
+                                           'application/json',
                                            resource_to_request)
     wait_for_operation create_req.send
   end
