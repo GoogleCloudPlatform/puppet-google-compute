@@ -60,25 +60,52 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                                                         /not supported/)
   end
 
-  context 'ensure => present' do
+  context 'ensure == present' do
     context 'resource exists' do
       context 'no changes == no action' do
         # TODO(nelsonjr): Implement new test format.
       end
 
       context 'changes == converge object' do
-        # TODO(nelsonjr): Implement new test format.
+        context 'converge == succeeded' do
+          # TODO(nelsonjr): Implement new test format.
+        end
+
+        context 'converge == failed' do
+          # TODO(nelsonjr): Implement new test format.
+          subject { -> { raise '[placeholder] This should fail.' } }
+
+          it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+        end
       end
     end
 
-    context 'resource does not exist == create resource' do
-      # TODO(nelsonjr): Implement new test format.
+    context 'resource does not exist' do
+      context 'create resource == succeeded' do
+        # TODO(nelsonjr): Implement new test format.
+      end
+
+      context 'create resource == failed' do
+        # TODO(nelsonjr): Implement new test format.
+        subject { -> { raise '[placeholder] This should fail.' } }
+
+        it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+      end
     end
   end
 
-  context 'ensure => absent' do
-    context 'resource exists == delete resource' do
-      # TODO(nelsonjr): Implement new test format.
+  context 'ensure == absent' do
+    context 'resource exists' do
+      context 'delete resource == succeeded' do
+        # TODO(nelsonjr): Implement new test format.
+      end
+
+      context 'delete resource == failed' do
+        # TODO(nelsonjr): Implement new test format.
+        subject { -> { raise '[placeholder] This should fail.' } }
+
+        it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+      end
     end
 
     context 'resource does not exist == no action' do
