@@ -59,37 +59,68 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     expect { described_class.instances }.to raise_error(StandardError,
                                                         /not supported/)
   end
-
   context 'ensure == present' do
     context 'resource exists' do
       context 'no changes == no action' do
-        # TODO(nelsonjr): Implement new test format.
+        context 'title == name' do
+          # TODO(nelsonjr): Implement new test format.
+        end
+
+        context 'title != name' do
+          # TODO(nelsonjr): Implement new test format.
+        end
       end
 
       context 'changes == converge object' do
         context 'converge == succeeded' do
-          # TODO(nelsonjr): Implement new test format.
+          context 'title == name' do
+            # TODO(nelsonjr): Implement new test format.
+          end
+
+          context 'title != name' do
+            # TODO(nelsonjr): Implement new test format.
+          end
         end
 
         context 'converge == failed' do
-          # TODO(nelsonjr): Implement new test format.
-          subject { -> { raise '[placeholder] This should fail.' } }
+          context 'title == name' do
+            # TODO(nelsonjr): Implement new test format.
+            subject { -> { raise '[placeholder] This should fail.' } }
+            it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+          end
 
-          it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+          context 'title != name' do
+            # TODO(nelsonjr): Implement new test format.
+            subject { -> { raise '[placeholder] This should fail.' } }
+            it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+          end
         end
       end
     end
 
     context 'resource does not exist' do
       context 'create resource == succeeded' do
-        # TODO(nelsonjr): Implement new test format.
+        context 'title == name' do
+          # TODO(nelsonjr): Implement new test format.
+        end
+
+        context 'title != name' do
+          # TODO(nelsonjr): Implement new test format.
+        end
       end
 
       context 'create resource == failed' do
-        # TODO(nelsonjr): Implement new test format.
-        subject { -> { raise '[placeholder] This should fail.' } }
+        context 'title == name' do
+          # TODO(nelsonjr): Implement new test format.
+          subject { -> { raise '[placeholder] This should fail.' } }
+          it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+        end
 
-        it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+        context 'title != name' do
+          # TODO(nelsonjr): Implement new test format.
+          subject { -> { raise '[placeholder] This should fail.' } }
+          it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+        end
       end
     end
   end
