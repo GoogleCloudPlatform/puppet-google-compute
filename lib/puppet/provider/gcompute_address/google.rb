@@ -62,6 +62,7 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
       description: Google::Property::String.parse(fetch['description']),
       id: Google::Property::Integer.parse(fetch['id']),
       name: Google::Property::String.parse(fetch['name']),
+      region: Google::Property::String.parse(fetch['region']),
       users: Google::Property::Array.parse(fetch['users'])
     )
     result.instance_variable_set(:@fetched, fetch)
@@ -118,8 +119,8 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
       creation_timestamp: resource[:creation_timestamp],
       description: resource[:description],
       id: resource[:id],
-      users: resource[:users],
-      region: resource[:region]
+      region: resource[:region],
+      users: resource[:users]
     }.select { |_, v| !v.nil? }
   end
 
@@ -128,7 +129,8 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
       kind: 'compute#address',
       address: @resource[:address],
       description: @resource[:description],
-      name: @resource[:name]
+      name: @resource[:name],
+      region: @resource[:region]
     ).select { |_, v| !v.nil? }.to_json
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request

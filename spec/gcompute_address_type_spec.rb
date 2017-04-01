@@ -44,6 +44,7 @@ describe Puppet::Type.type(:gcompute_address) do
       :description,
       :id,
       :name,
+      :region,
       :users
     ].each do |prop|
       it "should have '#{prop}' property" do
@@ -61,6 +62,7 @@ describe Puppet::Type.type(:gcompute_address) do
           description: 'test description#15 data',
           id: 34_392_013_944,
           name: 'test name#15 data',
+          region: 'test region#15 data',
           users: %w(ss tt)
         )
       end.not_to raise_error

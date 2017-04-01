@@ -109,7 +109,6 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
               <<-MANIFEST
               gcompute_region { 'title0':
                 ensure     => present,
-                region     => 'test region#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0'
               }
@@ -122,7 +121,29 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
         end
 
         context 'title != name' do
-          # TODO(nelsonjr): Implement new test format.
+          before(:each) do
+            expect_network_get_failed 1
+            expect_network_create \
+              1,
+              'kind' => 'compute#region',
+              'name' => 'test name#0 data'
+          end
+
+          subject do
+            apply_compiled_manifest(
+              <<-MANIFEST
+              gcompute_region { 'title0':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0'
+              }
+              MANIFEST
+            ).catalog.resource('Gcompute_region[title0]')
+              .provider.ensure
+          end
+
+          it { is_expected.to eq :present }
         end
       end
 
@@ -318,44 +339,6 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
       end
 
       it { is_expected.to be false }
-    end
-  end
-
-  #------------------------------------------------------------------
-  context '#create' do
-    context 'title and name' do
-      before do
-        expect_network_create 1, expected_results
-      end
-
-      let(:expected_results) do
-        {
-          'kind' => 'compute#region',
-          'name' => 'test name#0 data'
-        }
-      end
-      subject do
-        lambda do
-          Puppet::Type.type(:gcompute_region).new(
-            title: 'title1',
-            creation_timestamp: '2045-05-23T12:08:10+00:00',
-            deprecated_deleted: '2023-11-07T16:45:28+00:00',
-            deprecated_deprecated: '2054-11-19T12:29:05+00:00',
-            deprecated_obsolete: '2008-04-08T00:34:16+00:00',
-            deprecated_replacement: 'test deprecated_replacement#0 data',
-            deprecated_state: 'DEPRECATED',
-            description: 'test description#0 data',
-            id: 2_149_500_871,
-            name: 'test name#0 data',
-            zones: %w(uu vv),
-            region: 'test region#0 data',
-            project: 'test project#0 data',
-            credential: 'cred0'
-          ).provider.create
-        end
-      end
-
-      it { is_expected.not_to raise_error }
     end
   end
 

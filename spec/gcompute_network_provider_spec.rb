@@ -130,7 +130,38 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
         end
 
         context 'title != name' do
-          # TODO(nelsonjr): Implement new test format.
+          before(:each) do
+            expect_network_get_failed 1
+            expect_network_create \
+              1,
+              'kind' => 'compute#network',
+              'description' => 'test description#0 data',
+              'gatewayIPv4' => 'test gateway_ipv4#0 data',
+              'IPv4Range' => 'test ipv4_range#0 data',
+              'name' => 'test name#0 data',
+              'autoCreateSubnetworks' => true
+            expect_network_get_async 1
+          end
+
+          subject do
+            apply_compiled_manifest(
+              <<-MANIFEST
+              gcompute_network { 'title0':
+                ensure                  => present,
+                auto_create_subnetworks => true,
+                description             => 'test description#0 data',
+                gateway_ipv4            => 'test gateway_ipv4#0 data',
+                ipv4_range              => 'test ipv4_range#0 data',
+                name                    => 'test name#0 data',
+                project                 => 'test project#0 data',
+                credential              => 'cred0'
+              }
+              MANIFEST
+            ).catalog.resource('Gcompute_network[title0]')
+              .provider.ensure
+          end
+
+          it { is_expected.to eq :present }
         end
       end
 
@@ -300,46 +331,6 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
       end
 
       it { is_expected.to be false }
-    end
-  end
-
-  #------------------------------------------------------------------
-  context '#create' do
-    context 'title and name' do
-      before do
-        expect_network_create 1, expected_results
-        expect_network_get_async 1
-      end
-
-      let(:expected_results) do
-        {
-          'kind' => 'compute#network',
-          'description' => 'test description#0 data',
-          'gatewayIPv4' => 'test gateway_ipv4#0 data',
-          'IPv4Range' => 'test ipv4_range#0 data',
-          'name' => 'test name#0 data',
-          'autoCreateSubnetworks' => true
-        }
-      end
-      subject do
-        lambda do
-          Puppet::Type.type(:gcompute_network).new(
-            title: 'title1',
-            description: 'test description#0 data',
-            gateway_ipv4: 'test gateway_ipv4#0 data',
-            id: 2_149_500_871,
-            ipv4_range: 'test ipv4_range#0 data',
-            name: 'test name#0 data',
-            subnetworks: %w(ll mm nn),
-            auto_create_subnetworks: true,
-            creation_timestamp: '2045-05-23T12:08:10+00:00',
-            project: 'test project#0 data',
-            credential: 'cred0'
-          ).provider.create
-        end
-      end
-
-      it { is_expected.not_to raise_error }
     end
   end
 

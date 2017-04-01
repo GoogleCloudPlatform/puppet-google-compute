@@ -57,10 +57,6 @@ Puppet::Type.newtype(:gcompute_region) do
     desc 'The name of the Region.'
   end
 
-  newparam(:region, parent: Google::Property::String) do
-    desc 'Name of the region being selected'
-  end
-
   newproperty(:creation_timestamp, parent: Google::Property::Time) do
     desc 'Creation timestamp in RFC3339 text format. (output only)'
   end

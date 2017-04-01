@@ -138,8 +138,7 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
       deprecated_state: resource[:deprecated_state],
       description: resource[:description],
       id: resource[:id],
-      zones: resource[:zones],
-      region: resource[:region]
+      zones: resource[:zones]
     }.select { |_, v| !v.nil? }
   end
 

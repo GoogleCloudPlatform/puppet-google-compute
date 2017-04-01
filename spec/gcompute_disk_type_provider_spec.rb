@@ -59,113 +59,24 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
     expect { described_class.instances }.to raise_error(StandardError,
                                                         /not supported/)
   end
-  context 'ensure == present' do
-    context 'resource exists' do
-      context 'no changes == no action' do
-        context 'title == name' do
-          # TODO(nelsonjr): Implement new test format.
-        end
-
-        context 'title != name' do
-          # TODO(nelsonjr): Implement new test format.
-        end
-      end
-
-      context 'changes == converge object' do
-        context 'converge == succeeded' do
-          context 'title == name' do
-            # TODO(nelsonjr): Implement new test format.
-          end
-
-          context 'title != name' do
-            # TODO(nelsonjr): Implement new test format.
-          end
-        end
-
-        context 'converge == failed' do
-          context 'title == name' do
-            # TODO(nelsonjr): Implement new test format.
-            subject { -> { raise '[placeholder] This should fail.' } }
-            it { is_expected.to raise_error(RuntimeError, /placeholder/) }
-          end
-
-          context 'title != name' do
-            # TODO(nelsonjr): Implement new test format.
-            subject { -> { raise '[placeholder] This should fail.' } }
-            it { is_expected.to raise_error(RuntimeError, /placeholder/) }
-          end
-        end
-      end
+  context 'resource exists' do
+    context 'no changes == no action' do
+      # TODO(nelsonjr): Implement new test format.
     end
 
-    context 'resource does not exist' do
-      context 'create resource == succeeded' do
-        context 'title == name' do
-          before(:each) do
-            expect_network_get_failed 1, name: 'title0'
-            expect_network_create \
-              1,
-              {
-                'kind' => 'compute#diskType'
-              },
-              name: 'title0'
-          end
+    context 'changes == failure' do
+      # TODO(nelsonjr): Implement new test format.
+      subject { -> { raise '[placeholder] This should fail.' } }
 
-          subject do
-            apply_compiled_manifest(
-              <<-MANIFEST
-              gcompute_disk_type { 'title0':
-                ensure     => present,
-                zone       => 'test zone#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0'
-              }
-              MANIFEST
-            ).catalog.resource('Gcompute_disk_type[title0]')
-              .provider.ensure
-          end
-
-          it { is_expected.to eq :present }
-        end
-
-        context 'title != name' do
-          # TODO(nelsonjr): Implement new test format.
-        end
-      end
-
-      context 'create resource == failed' do
-        context 'title == name' do
-          # TODO(nelsonjr): Implement new test format.
-          subject { -> { raise '[placeholder] This should fail.' } }
-          it { is_expected.to raise_error(RuntimeError, /placeholder/) }
-        end
-
-        context 'title != name' do
-          # TODO(nelsonjr): Implement new test format.
-          subject { -> { raise '[placeholder] This should fail.' } }
-          it { is_expected.to raise_error(RuntimeError, /placeholder/) }
-        end
-      end
+      it { is_expected.to raise_error(RuntimeError, /placeholder/) }
     end
   end
 
-  context 'ensure == absent' do
-    context 'resource exists' do
-      context 'delete resource == succeeded' do
-        # TODO(nelsonjr): Implement new test format.
-      end
+  context 'resource does not exist == failure' do
+    # TODO(nelsonjr): Implement new test format.
+    subject { -> { raise '[placeholder] This should fail.' } }
 
-      context 'delete resource == failed' do
-        # TODO(nelsonjr): Implement new test format.
-        subject { -> { raise '[placeholder] This should fail.' } }
-
-        it { is_expected.to raise_error(RuntimeError, /placeholder/) }
-      end
-    end
-
-    context 'resource does not exist == no action' do
-      # TODO(nelsonjr): Implement new test format.
-    end
+    it { is_expected.to raise_error(RuntimeError, /placeholder/) }
   end
 
   context 'create provider' do
@@ -322,109 +233,9 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
     end
   end
 
-  context '#exists' do
-    context 'with ensure set to :present' do
-      subject do
-        Puppet::Type.type(:gcompute_disk_type).provider(:google).new(
-          ensure: :present
-        ).exists?
-      end
-
-      it { is_expected.to be true }
-    end
-
-    context 'with ensure set to :absent' do
-      subject do
-        Puppet::Type.type(:gcompute_disk_type).provider(:google).new(
-          ensure: :absent
-        ).exists?
-      end
-
-      it { is_expected.to be false }
-    end
-  end
-
-  #------------------------------------------------------------------
-  context '#create' do
-    context 'title and name' do
-      before do
-        expect_network_create 1, expected_results
-      end
-
-      let(:expected_results) do
-        {
-          'kind' => 'compute#diskType'
-        }
-      end
-      subject do
-        lambda do
-          Puppet::Type.type(:gcompute_disk_type).new(
-            title: 'title1',
-            creation_timestamp: '2045-05-23T12:08:10+00:00',
-            default_disk_size_gb: 2_109_438_101,
-            deprecated_deleted: '2023-11-07T16:45:28+00:00',
-            deprecated_deprecated: '2054-11-19T12:29:05+00:00',
-            deprecated_obsolete: '2008-04-08T00:34:16+00:00',
-            deprecated_replacement: 'test deprecated_replacement#0 data',
-            deprecated_state: 'DEPRECATED',
-            description: 'test description#0 data',
-            id: 2_149_500_871,
-            name: 'test name#0 data',
-            valid_disk_size: 'test valid_disk_size#0 data',
-            zone: 'test zone#0 data',
-            project: 'test project#0 data',
-            credential: 'cred0'
-          ).provider.create
-        end
-      end
-
-      it { is_expected.not_to raise_error }
-    end
-  end
-
-  #------------------------------------------------------------------
-  context '#destroy' do
-    context 'title only' do
-      before do
-        expect_network_delete 3, 'title3'
-      end
-      subject do
-        lambda do
-          Puppet::Type.type(:gcompute_disk_type).new(
-            title: 'title3',
-            zone: 'test zone#2 data',
-            project: 'test project#2 data',
-            credential: 'cred2'
-          ).provider.destroy
-        end
-      end
-      it { is_expected.not_to raise_error }
-    end
-
-    context 'title and name' do
-      before do
-        expect_network_delete 3
-      end
-
-      subject do
-        lambda do
-          Puppet::Type.type(:gcompute_disk_type).new(
-            title: 'title3',
-            name: 'test name#2 data',
-            zone: 'test zone#2 data',
-            project: 'test project#2 data',
-            credential: 'cred2'
-          ).provider.destroy
-        end
-      end
-      it { is_expected.not_to raise_error }
-    end
-  end
-
   context '#flush' do
     subject do
       Puppet::Type.type(:gcompute_disk_type).new(
-        ensure: :present,
         name: 'my-name'
       ).provider
     end
@@ -484,35 +295,8 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
     Net::HTTPNotFound.new(1.0, 404, 'Not Found')
   end
 
-  def expect_network_create(id, expected_body, data = {})
-    body = { kind: 'compute#diskType' }.to_json
-
-    request = double('request')
-    allow(request).to receive(:send).and_return(http_success(body))
-
-    expect(Google::Request::Post).to receive(:new)
-      .with(collection(uri_data(id).merge(data)),
-            instance_of(Google::FakeCredential),
-            'application/json', expected_body.to_json)
-      .and_return(request)
-  end
-
-  def expect_network_delete(id, name = nil)
-    delete_data = uri_data(id)
-    delete_data[:name] = name unless name.nil?
-    body = { kind: 'compute#diskType' }.to_json
-
-    request = double('request')
-    allow(request).to receive(:send).and_return(http_success(body))
-
-    expect(Google::Request::Delete).to receive(:new)
-      .with(self_link(delete_data), instance_of(Google::FakeCredential))
-      .and_return(request)
-  end
-
   def create_type(id)
     Puppet::Type.type(:gcompute_disk_type).new(
-      ensure: :present,
       title: "title#{id - 1}",
       credential: "cred#{id - 1}",
       project: DT_PROJECT_DATA[(id - 1) % DT_PROJECT_DATA.size],

@@ -59,7 +59,6 @@ describe Puppet::Type.type(:gcompute_disk_type) do
     it 'supports properties' do
       expect do
         described_class.new(
-          ensure: :present,
           title: 'my-object-15',
           creation_timestamp: '3176-04-12T02:10:53+00:00',
           default_disk_size_gb: 33_751_009_625,
@@ -74,24 +73,6 @@ describe Puppet::Type.type(:gcompute_disk_type) do
           valid_disk_size: 'test valid_disk_size#15 data'
         )
       end.not_to raise_error
-    end
-  end
-
-  context 'ensure' do
-    [:present, :absent].each do |value|
-      it "should support '#{value}' to ensure" do
-        expect do
-          described_class.new(ensure: value,
-                              name: 'my-object')
-        end.to_not raise_error
-      end
-    end
-
-    it 'should not support other values' do
-      expect do
-        described_class.new(ensure: 'foo',
-                            name: 'my-object')
-      end.to raise_error(Puppet::Error, /Invalid value/)
     end
   end
 end

@@ -95,14 +95,14 @@ TODO(nelsonjr): Add documentation
 
   Name of the resource.
 
-##### `users`
-
-  The URLs of the resources that are using this address.
-
 ##### `region`
 
   URL of the region where the regional address resides.
   This field is not applicable to global addresses.
+
+##### `users`
+
+  The URLs of the resources that are using this address.
 
 #### `gcompute_disk_type`
 
@@ -266,10 +266,6 @@ TODO(nelsonjr): Add documentation
 ##### `zones`
 
   List of zones within the region
-
-##### `region`
-
-  Name of the region being selected
 
 ## Limitations
 

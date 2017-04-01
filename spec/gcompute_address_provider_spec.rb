@@ -109,7 +109,8 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 'kind' => 'compute#address',
                 'address' => 'test address#0 data',
                 'description' => 'test description#0 data',
-                'name' => 'title0'
+                'name' => 'title0',
+                'region' => 'test region#0 data'
               },
               name: 'title0'
             expect_network_get_async 1
@@ -135,7 +136,36 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         end
 
         context 'title != name' do
-          # TODO(nelsonjr): Implement new test format.
+          before(:each) do
+            expect_network_get_failed 1
+            expect_network_create \
+              1,
+              'kind' => 'compute#address',
+              'address' => 'test address#0 data',
+              'description' => 'test description#0 data',
+              'name' => 'test name#0 data',
+              'region' => 'test region#0 data'
+            expect_network_get_async 1
+          end
+
+          subject do
+            apply_compiled_manifest(
+              <<-MANIFEST
+              gcompute_address { 'title0':
+                ensure      => present,
+                address     => 'test address#0 data',
+                description => 'test description#0 data',
+                name        => 'test name#0 data',
+                region      => 'test region#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0'
+              }
+              MANIFEST
+            ).catalog.resource('Gcompute_address[title0]')
+              .provider.ensure
+          end
+
+          it { is_expected.to eq :present }
         end
       end
 
@@ -181,6 +211,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     it { is_expected.to have_attributes(creation_timestamp: :absent) }
     it { is_expected.to have_attributes(description: :absent) }
     it { is_expected.to have_attributes(id: :absent) }
+    it { is_expected.to have_attributes(region: :absent) }
     it { is_expected.to have_attributes(users: :absent) }
   end
 
@@ -227,6 +258,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         end
         it { is_expected.to have_attributes(id: 2_149_500_871) }
         it { is_expected.to have_attributes(name: 'test name#0 data') }
+        it { is_expected.to have_attributes(region: 'test region#0 data') }
         it { is_expected.to have_attributes(users: %w(ww xx yy zz)) }
       end
       #
@@ -247,6 +279,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         end
         it { is_expected.to have_attributes(id: 4_299_001_743) }
         it { is_expected.to have_attributes(name: 'test name#1 data') }
+        it { is_expected.to have_attributes(region: 'test region#1 data') }
         it { is_expected.to have_attributes(users: %w(uu vv)) }
       end
 
@@ -261,6 +294,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         it { is_expected.to have_attributes(creation_timestamp: :absent) }
         it { is_expected.to have_attributes(description: :absent) }
         it { is_expected.to have_attributes(id: :absent) }
+        it { is_expected.to have_attributes(region: :absent) }
         it { is_expected.to have_attributes(users: :absent) }
       end
     end
@@ -285,43 +319,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
       end
 
       it { is_expected.to be false }
-    end
-  end
-
-  #------------------------------------------------------------------
-  context '#create' do
-    context 'title and name' do
-      before do
-        expect_network_create 1, expected_results
-        expect_network_get_async 1
-      end
-
-      let(:expected_results) do
-        {
-          'kind' => 'compute#address',
-          'address' => 'test address#0 data',
-          'description' => 'test description#0 data',
-          'name' => 'test name#0 data'
-        }
-      end
-      subject do
-        lambda do
-          Puppet::Type.type(:gcompute_address).new(
-            title: 'title1',
-            address: 'test address#0 data',
-            creation_timestamp: '2045-05-23T12:08:10+00:00',
-            description: 'test description#0 data',
-            id: 2_149_500_871,
-            name: 'test name#0 data',
-            users: %w(ww xx yy zz),
-            region: 'test region#0 data',
-            project: 'test project#0 data',
-            credential: 'cred0'
-          ).provider.create
-        end
-      end
-
-      it { is_expected.not_to raise_error }
     end
   end
 

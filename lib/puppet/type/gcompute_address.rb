@@ -64,13 +64,6 @@ Puppet::Type.newtype(:gcompute_address) do
     desc 'The name of the Address.'
   end
 
-  newparam(:region, parent: Google::Property::String) do
-    desc <<-EOT
-      URL of the region where the regional address resides. This field is not
-      applicable to global addresses.
-    EOT
-  end
-
   newproperty(:address, parent: Google::Property::String) do
     desc <<-EOT
       The static external IP address represented by this resource. Only IPv4 is
@@ -92,6 +85,13 @@ Puppet::Type.newtype(:gcompute_address) do
 
   newproperty(:name, parent: Google::Property::String) do
     desc 'Name of the resource.'
+  end
+
+  newproperty(:region, parent: Google::Property::String) do
+    desc <<-EOT
+      URL of the region where the regional address resides. This field is not
+      applicable to global addresses.
+    EOT
   end
 
   newproperty(:users, parent: Google::Property::Array) do

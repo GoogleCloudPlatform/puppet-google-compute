@@ -87,30 +87,6 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
   end
   # rubocop:enable Metrics/MethodLength
 
-  def exists?
-    debug("exists? #{@property_hash[:ensure] == :present}")
-    @property_hash[:ensure] == :present
-  end
-
-  def create
-    debug('create')
-    @created = true
-    create_req = Google::Request::Post.new(collection(@resource),
-                                           fetch_auth(@resource),
-                                           'application/json',
-                                           resource_to_request)
-    return_if_object create_req.send, 'compute#diskType'
-    @property_hash[:ensure] = :present
-  end
-
-  def destroy
-    debug('destroy')
-    @deleted = true
-    delete_req = Google::Request::Delete.new(self_link(@resource),
-                                             fetch_auth(@resource))
-    return_if_object delete_req.send, 'compute#diskType'
-  end
-
   def flush
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
