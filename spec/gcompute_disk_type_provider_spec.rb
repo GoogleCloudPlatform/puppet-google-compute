@@ -101,7 +101,31 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
     context 'resource does not exist' do
       context 'create resource == succeeded' do
         context 'title == name' do
-          # TODO(nelsonjr): Implement new test format.
+          before(:each) do
+            expect_network_get_failed 1, name: 'title0'
+            expect_network_create \
+              1,
+              {
+                'kind' => 'compute#diskType'
+              },
+              name: 'title0'
+          end
+
+          subject do
+            apply_compiled_manifest(
+              <<-MANIFEST
+              gcompute_disk_type { 'title0':
+                ensure     => present,
+                zone       => 'test zone#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0'
+              }
+              MANIFEST
+            ).catalog.resource('Gcompute_disk_type[title0]')
+              .provider.ensure
+          end
+
+          it { is_expected.to eq :present }
         end
 
         context 'title != name' do
@@ -322,43 +346,9 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
 
   #------------------------------------------------------------------
   context '#create' do
-    context 'title only' do
-      before do
-        expect_network_create 4, expected_results
-      end
-
-      let(:expected_results) do
-        {
-          'kind' => 'compute#diskType'
-        }
-      end
-      subject do
-        lambda do
-          Puppet::Type.type(:gcompute_disk_type).new(
-            title: 'title4',
-            creation_timestamp: '2271-07-28T00:32:43+00:00',
-            default_disk_size_gb: 8_437_752_406,
-            deprecated_deleted: '2185-05-27T19:01:54+00:00',
-            deprecated_deprecated: '2309-07-17T01:56:22+00:00',
-            deprecated_obsolete: '2123-01-27T02:17:04+00:00',
-            deprecated_replacement: 'test deprecated_replacement#3 data',
-            deprecated_state: 'DEPRECATED',
-            description: 'test description#3 data',
-            id: 8_598_003_486,
-            valid_disk_size: 'test valid_disk_size#3 data',
-            zone: 'test zone#3 data',
-            project: 'test project#3 data',
-            credential: 'cred3'
-          ).provider.create
-        end
-      end
-
-      it { is_expected.not_to raise_error }
-    end
-
     context 'title and name' do
       before do
-        expect_network_create 4, expected_results
+        expect_network_create 1, expected_results
       end
 
       let(:expected_results) do
@@ -369,21 +359,21 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
       subject do
         lambda do
           Puppet::Type.type(:gcompute_disk_type).new(
-            title: 'title4',
-            creation_timestamp: '2271-07-28T00:32:43+00:00',
-            default_disk_size_gb: 8_437_752_406,
-            deprecated_deleted: '2185-05-27T19:01:54+00:00',
-            deprecated_deprecated: '2309-07-17T01:56:22+00:00',
-            deprecated_obsolete: '2123-01-27T02:17:04+00:00',
-            deprecated_replacement: 'test deprecated_replacement#3 data',
+            title: 'title1',
+            creation_timestamp: '2045-05-23T12:08:10+00:00',
+            default_disk_size_gb: 2_109_438_101,
+            deprecated_deleted: '2023-11-07T16:45:28+00:00',
+            deprecated_deprecated: '2054-11-19T12:29:05+00:00',
+            deprecated_obsolete: '2008-04-08T00:34:16+00:00',
+            deprecated_replacement: 'test deprecated_replacement#0 data',
             deprecated_state: 'DEPRECATED',
-            description: 'test description#3 data',
-            id: 8_598_003_486,
-            name: 'test name#3 data',
-            valid_disk_size: 'test valid_disk_size#3 data',
-            zone: 'test zone#3 data',
-            project: 'test project#3 data',
-            credential: 'cred3'
+            description: 'test description#0 data',
+            id: 2_149_500_871,
+            name: 'test name#0 data',
+            valid_disk_size: 'test valid_disk_size#0 data',
+            zone: 'test zone#0 data',
+            project: 'test project#0 data',
+            credential: 'cred0'
           ).provider.create
         end
       end
@@ -480,12 +470,13 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
     response
   end
 
-  def expect_network_get_failed(id)
+  def expect_network_get_failed(id, data = {})
     request = double('request')
     allow(request).to receive(:send).and_return(http_failed_object_missing)
 
     expect(Google::Request::Get).to receive(:new)
-      .with(self_link(uri_data(id)), instance_of(Google::FakeCredential))
+      .with(self_link(uri_data(id).merge(data)),
+            instance_of(Google::FakeCredential))
       .and_return(request)
   end
 
@@ -493,14 +484,15 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
     Net::HTTPNotFound.new(1.0, 404, 'Not Found')
   end
 
-  def expect_network_create(id, expected_body)
+  def expect_network_create(id, expected_body, data = {})
     body = { kind: 'compute#diskType' }.to_json
 
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
     expect(Google::Request::Post).to receive(:new)
-      .with(collection(uri_data(id)), instance_of(Google::FakeCredential),
+      .with(collection(uri_data(id).merge(data)),
+            instance_of(Google::FakeCredential),
             'application/json', expected_body.to_json)
       .and_return(request)
   end

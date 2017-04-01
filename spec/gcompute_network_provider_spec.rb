@@ -93,7 +93,40 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
     context 'resource does not exist' do
       context 'create resource == succeeded' do
         context 'title == name' do
-          # TODO(nelsonjr): Implement new test format.
+          before(:each) do
+            expect_network_get_failed 1, name: 'title0'
+            expect_network_create \
+              1,
+              {
+                'kind' => 'compute#network',
+                'description' => 'test description#0 data',
+                'gatewayIPv4' => 'test gateway_ipv4#0 data',
+                'IPv4Range' => 'test ipv4_range#0 data',
+                'name' => 'title0',
+                'autoCreateSubnetworks' => true
+              },
+              name: 'title0'
+            expect_network_get_async 1
+          end
+
+          subject do
+            apply_compiled_manifest(
+              <<-MANIFEST
+              gcompute_network { 'title0':
+                ensure                  => present,
+                auto_create_subnetworks => true,
+                description             => 'test description#0 data',
+                gateway_ipv4            => 'test gateway_ipv4#0 data',
+                ipv4_range              => 'test ipv4_range#0 data',
+                project                 => 'test project#0 data',
+                credential              => 'cred0'
+              }
+              MANIFEST
+            ).catalog.resource('Gcompute_network[title0]')
+              .provider.ensure
+          end
+
+          it { is_expected.to eq :present }
         end
 
         context 'title != name' do
@@ -272,72 +305,36 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
 
   #------------------------------------------------------------------
   context '#create' do
-    context 'title only' do
-      before do
-        expect_network_create 4, expected_results
-        expect_network_get_async 4
-      end
-
-      let(:expected_results) do
-        {
-          'kind' => 'compute#network',
-          'description' => 'test description#3 data',
-          'gatewayIPv4' => 'test gateway_ipv4#3 data',
-          'IPv4Range' => 'test ipv4_range#3 data',
-          'name' => 'title4',
-          'autoCreateSubnetworks' => false
-        }
-      end
-      subject do
-        lambda do
-          Puppet::Type.type(:gcompute_network).new(
-            title: 'title4',
-            description: 'test description#3 data',
-            gateway_ipv4: 'test gateway_ipv4#3 data',
-            id: 8_598_003_486,
-            ipv4_range: 'test ipv4_range#3 data',
-            subnetworks: %w(xx yy zz),
-            auto_create_subnetworks: false,
-            creation_timestamp: '2271-07-28T00:32:43+00:00',
-            project: 'test project#3 data',
-            credential: 'cred3'
-          ).provider.create
-        end
-      end
-
-      it { is_expected.not_to raise_error }
-    end
-
     context 'title and name' do
       before do
-        expect_network_create 4, expected_results
-        expect_network_get_async 4
+        expect_network_create 1, expected_results
+        expect_network_get_async 1
       end
 
       let(:expected_results) do
         {
           'kind' => 'compute#network',
-          'description' => 'test description#3 data',
-          'gatewayIPv4' => 'test gateway_ipv4#3 data',
-          'IPv4Range' => 'test ipv4_range#3 data',
-          'name' => 'test name#3 data',
-          'autoCreateSubnetworks' => false
+          'description' => 'test description#0 data',
+          'gatewayIPv4' => 'test gateway_ipv4#0 data',
+          'IPv4Range' => 'test ipv4_range#0 data',
+          'name' => 'test name#0 data',
+          'autoCreateSubnetworks' => true
         }
       end
       subject do
         lambda do
           Puppet::Type.type(:gcompute_network).new(
-            title: 'title4',
-            description: 'test description#3 data',
-            gateway_ipv4: 'test gateway_ipv4#3 data',
-            id: 8_598_003_486,
-            ipv4_range: 'test ipv4_range#3 data',
-            name: 'test name#3 data',
-            subnetworks: %w(xx yy zz),
-            auto_create_subnetworks: false,
-            creation_timestamp: '2271-07-28T00:32:43+00:00',
-            project: 'test project#3 data',
-            credential: 'cred3'
+            title: 'title1',
+            description: 'test description#0 data',
+            gateway_ipv4: 'test gateway_ipv4#0 data',
+            id: 2_149_500_871,
+            ipv4_range: 'test ipv4_range#0 data',
+            name: 'test name#0 data',
+            subnetworks: %w(ll mm nn),
+            auto_create_subnetworks: true,
+            creation_timestamp: '2045-05-23T12:08:10+00:00',
+            project: 'test project#0 data',
+            credential: 'cred0'
           ).provider.create
         end
       end
@@ -445,12 +442,13 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
       .and_return(request)
   end
 
-  def expect_network_get_failed(id)
+  def expect_network_get_failed(id, data = {})
     request = double('request')
     allow(request).to receive(:send).and_return(http_failed_object_missing)
 
     expect(Google::Request::Get).to receive(:new)
-      .with(self_link(uri_data(id)), instance_of(Google::FakeCredential))
+      .with(self_link(uri_data(id).merge(data)),
+            instance_of(Google::FakeCredential))
       .and_return(request)
   end
 
@@ -458,7 +456,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
     Net::HTTPNotFound.new(1.0, 404, 'Not Found')
   end
 
-  def expect_network_create(id, expected_body)
+  def expect_network_create(id, expected_body, data = {})
     body = { kind: 'compute#operation',
              status: 'DONE',
              targetLink: self_link(uri_data(id)) }.to_json
@@ -467,7 +465,8 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
     allow(request).to receive(:send).and_return(http_success(body))
 
     expect(Google::Request::Post).to receive(:new)
-      .with(collection(uri_data(id)), instance_of(Google::FakeCredential),
+      .with(collection(uri_data(id).merge(data)),
+            instance_of(Google::FakeCredential),
             'application/json', expected_body.to_json)
       .and_return(request)
   end

@@ -81,6 +81,7 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
                                            'application/json',
                                            resource_to_request)
     wait_for_operation create_req.send
+    @property_hash[:ensure] = :present
   end
 
   def destroy

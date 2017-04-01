@@ -100,6 +100,7 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
                                            'application/json',
                                            resource_to_request)
     return_if_object create_req.send, 'compute#diskType'
+    @property_hash[:ensure] = :present
   end
 
   def destroy
