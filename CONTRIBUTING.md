@@ -56,7 +56,10 @@ puppet-codegen:
   * examples/delete_address.pp
   * examples/delete_network.pp
   * examples/disk_type.pp
-  * examples/network.pp
+  * examples/network~auto.pp
+  * examples/network~convert_to_custom.pp
+  * examples/network~custom.pp
+  * examples/network~legacy.pp
   * Gemfile
   * lib/google/hash_utils.rb
   * lib/google/property/array.rb

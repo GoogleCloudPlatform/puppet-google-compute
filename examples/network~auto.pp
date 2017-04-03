@@ -41,38 +41,9 @@ gauth_credential { 'mycred':
 # |   credential              => 'mycred',
 # | }
 
-if $convert_network_to_custom {
-  notice('Converting network to Custom')
-  gcompute_network { "mynetwork-${network_id}":
-    auto_create_subnetworks => false,
-    project                 => 'google.com:graphite-playground',
-    credential              => 'mycred',
-  }
-} elsif $network_custom_empty {
-  notice('Creating network without automatically assigned subnetworks')
-  gcompute_network { "mynetwork-${network_id}":
-    auto_create_subnetworks => false,
-    project                 => 'google.com:graphite-playground',
-    credential              => 'mycred',
-  }
-} elsif $network_auto_create {
-  notice('Creating network with automatically assigned subnetworks')
-  gcompute_network { "mynetwork-${network_id}":
-    auto_create_subnetworks => true,
-    project                 => 'google.com:graphite-playground',
-    credential              => 'mycred',
-  }
-} elsif $network_legacy {
-  notice('Creating network in Legacy mode')
-  gcompute_network { "mynetwork-${network_id}":
-    # On a legacy network you cannot specify the auto_create_subnetworks
-    # parameter.
-    # | auto_create_subnetworks => false,
-    ipv4_range   => '192.168.0.0/16',
-    gateway_ipv4 => '192.168.0.1',
-    project      => 'google.com:graphite-playground',
-    credential   => 'mycred',
-  }
-} else {
-  fail('Please specify one of the variables in this file to determine style')
+notice('Creating network with automatically assigned subnetworks')
+gcompute_network { "mynetwork-${network_id}":
+  auto_create_subnetworks => true,
+  project                 => 'google.com:graphite-playground',
+  credential              => 'mycred',
 }
