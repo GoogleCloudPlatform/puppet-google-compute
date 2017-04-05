@@ -468,6 +468,15 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
       .and_return(request)
   end
 
+  def load_network_result(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_region', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
   def create_type(id)
     Puppet::Type.type(:gcompute_region).new(
       ensure: :present,
@@ -476,6 +485,11 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
       project: R_PROJECT_DATA[(id - 1) % R_PROJECT_DATA.size],
       name: R_NAME_DATA[(id - 1) % R_NAME_DATA.size]
     )
+  end
+
+  def expand_variables(template, data, extra_data = {})
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .expand_variables(template, data, extra_data)
   end
 
   def collection(data)
@@ -498,25 +512,11 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
     )
   end
 
-  def expand_variables(template, data, extra_data = {})
-    Puppet::Type.type(:gcompute_region).provider(:google)
-                .expand_variables(template, data, extra_data)
-  end
-
   # Creates variable test data to comply with self_link URI parameters
   def uri_data(id)
     {
       project: R_PROJECT_DATA[(id - 1) % R_PROJECT_DATA.size],
       name: R_NAME_DATA[(id - 1) % R_NAME_DATA.size]
     }
-  end
-
-  def load_network_result(file)
-    results = File.join(File.dirname(__FILE__), 'data', 'network',
-                        'gcompute_region', file)
-    raise "Network result data file #{results}" unless File.exist?(results)
-    data = YAML.safe_load(File.read(results))
-    raise "Invalid network results #{results}" unless data.class <= Hash
-    data
   end
 end

@@ -295,6 +295,15 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
     Net::HTTPNotFound.new(1.0, 404, 'Not Found')
   end
 
+  def load_network_result(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_disk_type', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
   def create_type(id)
     Puppet::Type.type(:gcompute_disk_type).new(
       title: "title#{id - 1}",
@@ -303,6 +312,11 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
       zone: DT_ZONE_DATA[(id - 1) % DT_ZONE_DATA.size],
       name: DT_NAME_DATA[(id - 1) % DT_NAME_DATA.size]
     )
+  end
+
+  def expand_variables(template, data, extra_data = {})
+    Puppet::Type.type(:gcompute_disk_type).provider(:google)
+                .expand_variables(template, data, extra_data)
   end
 
   def collection(data)
@@ -325,11 +339,6 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
     )
   end
 
-  def expand_variables(template, data, extra_data = {})
-    Puppet::Type.type(:gcompute_disk_type).provider(:google)
-                .expand_variables(template, data, extra_data)
-  end
-
   # Creates variable test data to comply with self_link URI parameters
   def uri_data(id)
     {
@@ -337,14 +346,5 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
       zone: DT_ZONE_DATA[(id - 1) % DT_ZONE_DATA.size],
       name: DT_NAME_DATA[(id - 1) % DT_NAME_DATA.size]
     }
-  end
-
-  def load_network_result(file)
-    results = File.join(File.dirname(__FILE__), 'data', 'network',
-                        'gcompute_disk_type', file)
-    raise "Network result data file #{results}" unless File.exist?(results)
-    data = YAML.safe_load(File.read(results))
-    raise "Invalid network results #{results}" unless data.class <= Hash
-    data
   end
 end
