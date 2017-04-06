@@ -95,6 +95,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     delete_req = Google::Request::Delete.new(self_link(@resource),
                                              fetch_auth(@resource))
     wait_for_operation delete_req.send
+    @property_hash[:ensure] = :absent
   end
 
   def flush

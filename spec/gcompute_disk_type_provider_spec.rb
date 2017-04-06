@@ -263,14 +263,16 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
 
   private
 
-  def expect_network_get_success(id)
-    body = load_network_result("success#{id}.yaml").to_json
+  def expect_network_get_success(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result("success#{id}~#{id_data}.yaml").to_json
 
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
     expect(Google::Request::Get).to receive(:new)
-      .with(self_link(uri_data(id)), instance_of(Google::FakeCredential))
+      .with(self_link(uri_data(id).merge(data)),
+            instance_of(Google::FakeCredential))
       .and_return(request)
   end
 

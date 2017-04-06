@@ -89,14 +89,22 @@ puppet-codegen:
   * spec/data/copyright_bad2.rb
   * spec/data/copyright_good1.rb
   * spec/data/copyright_good2.rb
-  * spec/data/network/gcompute_address/success1.yaml
-  * spec/data/network/gcompute_address/success2.yaml
-  * spec/data/network/gcompute_disk_type/success1.yaml
-  * spec/data/network/gcompute_disk_type/success2.yaml
-  * spec/data/network/gcompute_network/success1.yaml
-  * spec/data/network/gcompute_network/success2.yaml
-  * spec/data/network/gcompute_region/success1.yaml
-  * spec/data/network/gcompute_region/success2.yaml
+  * spec/data/network/gcompute_address/success1~name.yaml
+  * spec/data/network/gcompute_address/success1~title.yaml
+  * spec/data/network/gcompute_address/success2~name.yaml
+  * spec/data/network/gcompute_address/success2~title.yaml
+  * spec/data/network/gcompute_disk_type/success1~name.yaml
+  * spec/data/network/gcompute_disk_type/success1~title.yaml
+  * spec/data/network/gcompute_disk_type/success2~name.yaml
+  * spec/data/network/gcompute_disk_type/success2~title.yaml
+  * spec/data/network/gcompute_network/success1~name.yaml
+  * spec/data/network/gcompute_network/success1~title.yaml
+  * spec/data/network/gcompute_network/success2~name.yaml
+  * spec/data/network/gcompute_network/success2~title.yaml
+  * spec/data/network/gcompute_region/success1~name.yaml
+  * spec/data/network/gcompute_region/success1~title.yaml
+  * spec/data/network/gcompute_region/success2~name.yaml
+  * spec/data/network/gcompute_region/success2~title.yaml
   * spec/fake_cred.rb
   * spec/gcompute_address_provider_spec.rb
   * spec/gcompute_address_type_spec.rb

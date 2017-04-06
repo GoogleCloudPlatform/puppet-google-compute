@@ -106,6 +106,7 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
     delete_req = Google::Request::Delete.new(self_link(@resource),
                                              fetch_auth(@resource))
     return_if_object delete_req.send, 'compute#region'
+    @property_hash[:ensure] = :absent
   end
 
   def flush

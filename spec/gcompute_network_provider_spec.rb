@@ -51,6 +51,34 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
     expect { described_class.instances }.to raise_error(StandardError,
                                                         /not supported/)
   end
+  # Test Matrix:
+  #
+  # +---------------------------------------------------------------+
+  # | Ensure  | Exists | Changes | Action | Success | Name          |
+  # +---------------------------------------------------------------+
+  # | present | Y      | N       | -      | Y       | Title == Name |
+  # | present | Y      | N       | -      | Y       | Title != Name |
+  # | present | Y      | Y       | Flush  | Y       | Title == Name |
+  # | present | Y      | Y       | Flush  | Y       | Title != Name |
+  # | present | N      | -       | Create | Y       | Title == Name |
+  # | present | N      | -       | Create | Y       | Title != Name |
+  # | absent  | Y      | -       | Delete | Y       | Title == Name |
+  # | absent  | Y      | -       | Delete | Y       | Title != Name |
+  # | absent  | N      | -       | -      | Y       | Title == Name |
+  # | absent  | N      | -       | -      | Y       | Title != Name |
+  # +---------------------------------------------------------------+
+  # | present | Y      | N       | -      | N       | Title == Name |
+  # | present | Y      | N       | -      | N       | Title != Name |
+  # | present | Y      | Y       | Flush  | N       | Title == Name |
+  # | present | Y      | Y       | Flush  | N       | Title != Name |
+  # | present | N      | -       | Create | N       | Title == Name |
+  # | present | N      | -       | Create | N       | Title != Name |
+  # | absent  | Y      | -       | Delete | N       | Title == Name |
+  # | absent  | Y      | -       | Delete | N       | Title != Name |
+  # | absent  | N      | -       | -      | N       | Title == Name |
+  # | absent  | N      | -       | -      | N       | Title != Name |
+  # +---------------------------------------------------------------+
+
   context 'ensure == present' do
     context 'resource exists' do
       context 'no changes == no action' do
@@ -184,19 +212,118 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
   context 'ensure == absent' do
     context 'resource exists' do
       context 'delete resource == succeeded' do
-        # TODO(nelsonjr): Implement new test format.
+        context 'title == name' do
+          before(:each) do
+            expect_network_get_success 1, name: 'title0'
+            expect_network_delete 1, 'title0'
+            expect_network_get_async 1
+          end
+
+          subject do
+            apply_compiled_manifest(
+              <<-MANIFEST
+              gcompute_network { 'title0':
+                ensure     => absent,
+                project    => 'test project#0 data',
+                credential => 'cred0'
+              }
+              MANIFEST
+            ).catalog.resource('Gcompute_network[title0]')
+              .provider.ensure
+          end
+
+          it { is_expected.to eq :absent }
+        end
+
+        context 'title != name' do
+          before(:each) do
+            expect_network_get_success 1
+            expect_network_delete 1
+            expect_network_get_async 1
+          end
+
+          subject do
+            apply_compiled_manifest(
+              <<-MANIFEST
+              gcompute_network { 'title0':
+                ensure     => absent,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0'
+              }
+              MANIFEST
+            ).catalog.resource('Gcompute_network[title0]')
+              .provider.ensure
+          end
+
+          it { is_expected.to eq :absent }
+        end
       end
 
       context 'delete resource == failed' do
-        # TODO(nelsonjr): Implement new test format.
-        subject { -> { raise '[placeholder] This should fail.' } }
+        context 'title == name' do
+          # TODO(nelsonjr): Implement new test format.
+          subject { -> { raise '[placeholder] This should fail.' } }
 
-        it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+          it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+        end
+
+        context 'title != name' do
+          # TODO(nelsonjr): Implement new test format.
+          subject { -> { raise '[placeholder] This should fail.' } }
+
+          it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+        end
       end
     end
 
     context 'resource does not exist == no action' do
-      # TODO(nelsonjr): Implement new test format.
+      context 'title == name' do
+        before(:each) do
+          expect_network_get_success 1, name: 'title0'
+          expect_network_delete 1, 'title0'
+          expect_network_get_async 1
+        end
+
+        subject do
+          apply_compiled_manifest(
+            <<-MANIFEST
+            gcompute_network { 'title0':
+              ensure     => absent,
+              project    => 'test project#0 data',
+              credential => 'cred0'
+            }
+            MANIFEST
+          ).catalog.resource('Gcompute_network[title0]')
+            .provider.ensure
+        end
+
+        it { is_expected.to eq :absent }
+      end
+
+      context 'title != name' do
+        before(:each) do
+          expect_network_get_success 1
+          expect_network_delete 1
+          expect_network_get_async 1
+        end
+
+        subject do
+          apply_compiled_manifest(
+            <<-MANIFEST
+            gcompute_network { 'title0':
+              ensure     => absent,
+              name       => 'test name#0 data',
+              project    => 'test project#0 data',
+              credential => 'cred0'
+            }
+            MANIFEST
+          ).catalog.resource('Gcompute_network[title0]')
+            .provider.ensure
+        end
+
+        it { is_expected.to eq :absent }
+      end
     end
   end
 
@@ -334,45 +461,6 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
     end
   end
 
-  #------------------------------------------------------------------
-  context '#destroy' do
-    context 'title only' do
-      before do
-        expect_network_delete 3, 'title3'
-        expect_network_get_async 3
-      end
-      subject do
-        lambda do
-          Puppet::Type.type(:gcompute_network).new(
-            title: 'title3',
-            project: 'test project#2 data',
-            credential: 'cred2'
-          ).provider.destroy
-        end
-      end
-      it { is_expected.not_to raise_error }
-    end
-
-    context 'title and name' do
-      before do
-        expect_network_delete 3
-        expect_network_get_async 3
-      end
-
-      subject do
-        lambda do
-          Puppet::Type.type(:gcompute_network).new(
-            title: 'title3',
-            name: 'test name#2 data',
-            project: 'test project#2 data',
-            credential: 'cred2'
-          ).provider.destroy
-        end
-      end
-      it { is_expected.not_to raise_error }
-    end
-  end
-
   context '#flush' do
     subject do
       Puppet::Type.type(:gcompute_network).new(
@@ -404,14 +492,16 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
 
   private
 
-  def expect_network_get_success(id)
-    body = load_network_result("success#{id}.yaml").to_json
+  def expect_network_get_success(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result("success#{id}~#{id_data}.yaml").to_json
 
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
     expect(Google::Request::Get).to receive(:new)
-      .with(self_link(uri_data(id)), instance_of(Google::FakeCredential))
+      .with(self_link(uri_data(id).merge(data)),
+            instance_of(Google::FakeCredential))
       .and_return(request)
   end
 
