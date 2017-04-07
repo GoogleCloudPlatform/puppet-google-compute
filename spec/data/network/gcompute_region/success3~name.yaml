@@ -23,16 +23,20 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#address'
-address: 'test address#0 data'
-creationTimestamp: '2045-05-23T12:08:10+00:00'
-description: 'test description#0 data'
-id: 2149500871
-name: 'test name#0 data'
-project: 'test project#0 data'
-users:
-  - ww
-  - xx
-  - yy
-  - zz
-region: 'test region#0 data'
+kind: 'compute#region'
+creationTimestamp: '2196-03-05T12:24:32+00:00'
+deprecated:
+  deleted: '2131-07-22T02:16:25+00:00'
+  deprecated: '2224-08-27T13:27:16+00:00'
+  obsolete: '2084-10-20T01:42:48+00:00'
+  replacement: 'test deprecated_replacement#2 data'
+  state: 'DELETED'
+description: 'test description#2 data'
+id: 6448502614
+name: 'test name#2 data'
+project: 'test project#2 data'
+zones:
+  - oo
+  - pp
+  - qq
+  - rr

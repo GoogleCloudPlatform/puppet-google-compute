@@ -23,16 +23,15 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#address'
-address: 'test address#0 data'
-creationTimestamp: '2045-05-23T12:08:10+00:00'
-description: 'test description#0 data'
-id: 2149500871
-name: 'test name#0 data'
-project: 'test project#0 data'
-users:
-  - ww
-  - xx
-  - yy
-  - zz
-region: 'test region#0 data'
+kind: compute#network
+id: 6448502614
+creationTimestamp: '2196-03-05T12:24:32+00:00'
+name: 'title2'
+description: 'test description#2 data'
+IPv4Range: 'test ipv4_range#2 data'
+gatewayIPv4: 'test gateway_ipv4#2 data'
+selfLink: https://www.googleapis.com/compute/v1/projects/google.com:graphite-playground/global/networks/default
+autoCreateSubnetworks: true
+subnetworks:
+  - mm
+  - nn

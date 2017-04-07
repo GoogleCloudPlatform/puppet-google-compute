@@ -27,7 +27,7 @@ kind: 'compute#address'
 address: 'test address#1 data'
 creationTimestamp: '2120-10-14T00:16:21+00:00'
 description: 'test description#1 data'
-id: '4299001743'
+id: 4299001743
 name: 'test name#1 data'
 project: 'test project#1 data'
 users:

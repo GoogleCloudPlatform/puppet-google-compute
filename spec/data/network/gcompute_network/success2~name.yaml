@@ -24,7 +24,7 @@
 
 ---
 kind: compute#network
-id: '4299001743'
+id: 4299001743
 creationTimestamp: '2120-10-14T00:16:21+00:00'
 name: 'test name#1 data'
 description: 'test description#1 data'

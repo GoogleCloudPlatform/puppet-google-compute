@@ -33,7 +33,7 @@ deprecated:
   replacement: 'test deprecated_replacement#0 data'
   state: 'DEPRECATED'
 description: 'test description#0 data'
-id: '2149500871'
+id: 2149500871
 name: 'test name#0 data'
 project: 'test project#0 data'
 validDiskSize: 'test valid_disk_size#0 data'

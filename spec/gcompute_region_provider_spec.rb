@@ -83,11 +83,317 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
     context 'resource exists' do
       context 'no changes == no action' do
         context 'title == name' do
-          # TODO(nelsonjr): Implement new test format.
-        end
+          before do
+            allow(Time).to receive(:now).and_return(
+              Time.new(2017, 1, 2, 3, 4, 5)
+            )
+            expect_network_get_success 1, name: 'title0'
+            expect_network_get_success 2, name: 'title1'
+            expect_network_get_success 3, name: 'title2'
+          end
 
+          let(:catalog) do
+            apply_compiled_manifest(
+              <<-MANIFEST
+              gcompute_region { 'title0':
+                ensure     => present,
+                project    => 'test project#0 data',
+                credential => 'cred0'
+              }
+              gcompute_region { 'title1':
+                ensure     => present,
+                project    => 'test project#1 data',
+                credential => 'cred1'
+              }
+              gcompute_region { 'title2':
+                ensure     => present,
+                project    => 'test project#2 data',
+                credential => 'cred2'
+              }
+              MANIFEST
+            ).catalog
+          end
+
+          context 'Gcompute_region[title0]' do
+            subject do
+              catalog.resource('Gcompute_region[title0]').provider
+            end
+
+            it do
+              is_expected
+                .to have_attributes(creation_timestamp:
+                  '2045-05-23T12:08:10+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_deleted:
+                  '2023-11-07T16:45:28+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_deprecated:
+                  '2054-11-19T12:29:05+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_obsolete:
+                  '2008-04-08T00:34:16+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_replacement:
+                  'test deprecated_replacement#0 data')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_state: 'DEPRECATED')
+            end
+            it do
+              is_expected
+                .to have_attributes(description: 'test description#0 data')
+            end
+            it { is_expected.to have_attributes(id: 2_149_500_871) }
+            it { is_expected.to have_attributes(name: 'title0') }
+            it { is_expected.to have_attributes(zones: %w(uu vv)) }
+          end
+
+          context 'Gcompute_region[title1]' do
+            subject do
+              catalog.resource('Gcompute_region[title1]').provider
+            end
+
+            it do
+              is_expected
+                .to have_attributes(creation_timestamp:
+                  '2120-10-14T00:16:21+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_deleted:
+                  '2077-09-13T09:30:57+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_deprecated:
+                  '2139-10-09T00:58:11+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_obsolete:
+                  '2046-07-15T01:08:32+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_replacement:
+                  'test deprecated_replacement#1 data')
+            end
+            it { is_expected.to have_attributes(deprecated_state: 'OBSOLETE') }
+            it do
+              is_expected
+                .to have_attributes(description: 'test description#1 data')
+            end
+            it { is_expected.to have_attributes(id: 4_299_001_743) }
+            it { is_expected.to have_attributes(name: 'title1') }
+            it { is_expected.to have_attributes(zones: %w(rr ss tt)) }
+          end
+
+          context 'Gcompute_region[title2]' do
+            subject do
+              catalog.resource('Gcompute_region[title2]').provider
+            end
+
+            it do
+              is_expected
+                .to have_attributes(creation_timestamp:
+                  '2196-03-05T12:24:32+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_deleted:
+                  '2131-07-22T02:16:25+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_deprecated:
+                  '2224-08-27T13:27:16+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_obsolete:
+                  '2084-10-20T01:42:48+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_replacement:
+                  'test deprecated_replacement#2 data')
+            end
+            it { is_expected.to have_attributes(deprecated_state: 'DELETED') }
+            it do
+              is_expected
+                .to have_attributes(description: 'test description#2 data')
+            end
+            it { is_expected.to have_attributes(id: 6_448_502_614) }
+            it { is_expected.to have_attributes(name: 'title2') }
+            it { is_expected.to have_attributes(zones: %w(oo pp qq rr)) }
+          end
+        end
         context 'title != name' do
-          # TODO(nelsonjr): Implement new test format.
+          before do
+            allow(Time).to receive(:now).and_return(
+              Time.new(2017, 1, 2, 3, 4, 5)
+            )
+            expect_network_get_success 1
+            expect_network_get_success 2
+            expect_network_get_success 3
+          end
+
+          let(:catalog) do
+            apply_compiled_manifest(
+              <<-MANIFEST
+              gcompute_region { 'title0':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0'
+              }
+              gcompute_region { 'title1':
+                ensure     => present,
+                name       => 'test name#1 data',
+                project    => 'test project#1 data',
+                credential => 'cred1'
+              }
+              gcompute_region { 'title2':
+                ensure     => present,
+                name       => 'test name#2 data',
+                project    => 'test project#2 data',
+                credential => 'cred2'
+              }
+              MANIFEST
+            ).catalog
+          end
+
+          context 'Gcompute_region[title0]' do
+            subject do
+              catalog.resource('Gcompute_region[title0]').provider
+            end
+
+            it do
+              is_expected
+                .to have_attributes(creation_timestamp:
+                  '2045-05-23T12:08:10+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_deleted:
+                  '2023-11-07T16:45:28+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_deprecated:
+                  '2054-11-19T12:29:05+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_obsolete:
+                  '2008-04-08T00:34:16+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_replacement:
+                  'test deprecated_replacement#0 data')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_state: 'DEPRECATED')
+            end
+            it do
+              is_expected
+                .to have_attributes(description: 'test description#0 data')
+            end
+            it { is_expected.to have_attributes(id: 2_149_500_871) }
+            it { is_expected.to have_attributes(name: 'test name#0 data') }
+            it { is_expected.to have_attributes(zones: %w(uu vv)) }
+          end
+
+          context 'Gcompute_region[title1]' do
+            subject do
+              catalog.resource('Gcompute_region[title1]').provider
+            end
+
+            it do
+              is_expected
+                .to have_attributes(creation_timestamp:
+                  '2120-10-14T00:16:21+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_deleted:
+                  '2077-09-13T09:30:57+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_deprecated:
+                  '2139-10-09T00:58:11+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_obsolete:
+                  '2046-07-15T01:08:32+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_replacement:
+                  'test deprecated_replacement#1 data')
+            end
+            it { is_expected.to have_attributes(deprecated_state: 'OBSOLETE') }
+            it do
+              is_expected
+                .to have_attributes(description: 'test description#1 data')
+            end
+            it { is_expected.to have_attributes(id: 4_299_001_743) }
+            it { is_expected.to have_attributes(name: 'test name#1 data') }
+            it { is_expected.to have_attributes(zones: %w(rr ss tt)) }
+          end
+
+          context 'Gcompute_region[title2]' do
+            subject do
+              catalog.resource('Gcompute_region[title2]').provider
+            end
+
+            it do
+              is_expected
+                .to have_attributes(creation_timestamp:
+                  '2196-03-05T12:24:32+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_deleted:
+                  '2131-07-22T02:16:25+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_deprecated:
+                  '2224-08-27T13:27:16+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_obsolete:
+                  '2084-10-20T01:42:48+00:00')
+            end
+            it do
+              is_expected
+                .to have_attributes(deprecated_replacement:
+                  'test deprecated_replacement#2 data')
+            end
+            it { is_expected.to have_attributes(deprecated_state: 'DELETED') }
+            it do
+              is_expected
+                .to have_attributes(description: 'test description#2 data')
+            end
+            it { is_expected.to have_attributes(id: 6_448_502_614) }
+            it { is_expected.to have_attributes(name: 'test name#2 data') }
+            it { is_expected.to have_attributes(zones: %w(oo pp qq rr)) }
+          end
         end
       end
 
@@ -302,166 +608,6 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
 
         it { is_expected.to eq :absent }
       end
-    end
-  end
-
-  context 'create provider' do
-    subject { create_type(1).provider }
-
-    it { is_expected.to have_attributes(creation_timestamp: :absent) }
-    it { is_expected.to have_attributes(deprecated_deleted: :absent) }
-    it { is_expected.to have_attributes(deprecated_deprecated: :absent) }
-    it { is_expected.to have_attributes(deprecated_obsolete: :absent) }
-    it { is_expected.to have_attributes(deprecated_replacement: :absent) }
-    it { is_expected.to have_attributes(deprecated_state: :absent) }
-    it { is_expected.to have_attributes(description: :absent) }
-    it { is_expected.to have_attributes(id: :absent) }
-    it { is_expected.to have_attributes(zones: :absent) }
-  end
-
-  context '#prefetch' do
-    before do
-      expect_network_get_success 1
-      expect_network_get_success 2
-      expect_network_get_failed 3
-    end
-
-    let(:resource1) { create_type 1 }
-    let(:resource2) { create_type 2 }
-    let(:resource3) { create_type 3 }
-
-    subject { [resource1, resource2, resource3] }
-
-    context 'network' do
-      before do
-        # Process the resources
-        described_class.prefetch(title1: resource1,
-                                 title2: resource2,
-                                 title3: resource3)
-      end
-
-      let(:providers) do
-        [resource1.provider, resource2.provider, resource3.provider]
-      end
-
-      #
-      # Ensure we have the final vales as retrieved from the service
-      #
-
-      context 'provider 1' do
-        subject { providers[0] }
-
-        it do
-          is_expected
-            .to have_attributes(creation_timestamp: '2045-05-23T12:08:10+00:00')
-        end
-        it do
-          is_expected
-            .to have_attributes(deprecated_deleted: '2023-11-07T16:45:28+00:00')
-        end
-        it do
-          is_expected
-            .to have_attributes(deprecated_deprecated:
-              '2054-11-19T12:29:05+00:00')
-        end
-        it do
-          is_expected
-            .to have_attributes(deprecated_obsolete:
-              '2008-04-08T00:34:16+00:00')
-        end
-        it do
-          is_expected
-            .to have_attributes(deprecated_replacement:
-              'test deprecated_replacement#0 data')
-        end
-        it { is_expected.to have_attributes(deprecated_state: 'DEPRECATED') }
-        it do
-          is_expected
-            .to have_attributes(description: 'test description#0 data')
-        end
-        it { is_expected.to have_attributes(id: 2_149_500_871) }
-        it { is_expected.to have_attributes(name: 'test name#0 data') }
-        it { is_expected.to have_attributes(zones: %w(uu vv)) }
-      end
-      #
-      # Ensure we have the final vales as retrieved from the service
-      #
-
-      context 'provider 2' do
-        subject { providers[1] }
-
-        it do
-          is_expected
-            .to have_attributes(creation_timestamp: '2120-10-14T00:16:21+00:00')
-        end
-        it do
-          is_expected
-            .to have_attributes(deprecated_deleted: '2077-09-13T09:30:57+00:00')
-        end
-        it do
-          is_expected
-            .to have_attributes(deprecated_deprecated:
-              '2139-10-09T00:58:11+00:00')
-        end
-        it do
-          is_expected
-            .to have_attributes(deprecated_obsolete:
-              '2046-07-15T01:08:32+00:00')
-        end
-        it do
-          is_expected
-            .to have_attributes(deprecated_replacement:
-              'test deprecated_replacement#1 data')
-        end
-        it { is_expected.to have_attributes(deprecated_state: 'OBSOLETE') }
-        it do
-          is_expected
-            .to have_attributes(description: 'test description#1 data')
-        end
-        it { is_expected.to have_attributes(id: 4_299_001_743) }
-        it { is_expected.to have_attributes(name: 'test name#1 data') }
-        it { is_expected.to have_attributes(zones: %w(rr ss tt)) }
-      end
-
-      #
-      # Ensure we have the final vales as retrieved from the service
-      #
-
-      context 'provider 3' do
-        subject { providers[2] }
-
-        it { is_expected.to have_attributes(creation_timestamp: :absent) }
-        it { is_expected.to have_attributes(deprecated_deleted: :absent) }
-        it { is_expected.to have_attributes(deprecated_deprecated: :absent) }
-        it { is_expected.to have_attributes(deprecated_obsolete: :absent) }
-        it { is_expected.to have_attributes(deprecated_replacement: :absent) }
-        it { is_expected.to have_attributes(deprecated_state: :absent) }
-        it { is_expected.to have_attributes(description: :absent) }
-        it { is_expected.to have_attributes(id: :absent) }
-        it { is_expected.to have_attributes(zones: :absent) }
-      end
-    end
-  end
-
-  context '#exists' do
-    context 'with ensure set to :present' do
-      subject do
-        Puppet::Type.type(:gcompute_region).provider(:google).new(
-          ensure: :present
-        ).exists?
-      end
-
-      it { is_expected.to be true }
-    end
-
-    context 'with ensure set to :absent' do
-      subject do
-        Puppet::Type.type(:gcompute_region).provider(:google).new(
-          ensure: :absent
-        ).exists?
-      end
-
-      it { is_expected.to be false }
     end
   end
 
