@@ -30,7 +30,7 @@ describe Puppet::Type.type(:gcompute_network) do
   end
 
   context 'common parameters' do
-    [:project, :credential].each do |param|
+    %i[project credential].each do |param|
       it "should have '#{param}' parameter" do
         expect(described_class.attrtype(param)).to eq :param
       end
@@ -38,15 +38,15 @@ describe Puppet::Type.type(:gcompute_network) do
   end
 
   context 'object properties' do
-    [
-      :description,
-      :gateway_ipv4,
-      :id,
-      :ipv4_range,
-      :name,
-      :subnetworks,
-      :auto_create_subnetworks,
-      :creation_timestamp
+    %i[
+      description
+      gateway_ipv4
+      id
+      ipv4_range
+      name
+      subnetworks
+      auto_create_subnetworks
+      creation_timestamp
     ].each do |prop|
       it "should have '#{prop}' property" do
         expect(described_class.attrtype(prop)).to eq :property
@@ -63,7 +63,7 @@ describe Puppet::Type.type(:gcompute_network) do
           id: 34_392_013_944,
           ipv4_range: 'test ipv4_range#15 data',
           name: 'test name#15 data',
-          subnetworks: %w(dd ee ff),
+          subnetworks: %w[dd ee ff],
           auto_create_subnetworks: false,
           creation_timestamp: '3176-04-12T02:10:53+00:00'
         )
@@ -72,7 +72,7 @@ describe Puppet::Type.type(:gcompute_network) do
   end
 
   context 'ensure' do
-    [:present, :absent].each do |value|
+    %i[present absent].each do |value|
       it "should support '#{value}' to ensure" do
         expect do
           described_class.new(ensure: value,

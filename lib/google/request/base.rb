@@ -16,7 +16,7 @@ require 'net/https'
 
 module Google
   module Request
-    # A Puppet property that can compare its values
+    # A handler for authenticated network request
     class Base
       def initialize(link, cred)
         @link = link

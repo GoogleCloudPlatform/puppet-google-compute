@@ -37,7 +37,7 @@ module Google
 
     # Converts a path in the form a/b/c/d into %w(a b c d)
     def self.path2navigate(path)
-      "%w(#{path.split('/').join(' ')})"
+      "%w[#{path.split('/').join(' ')}]"
     end
   end
 end

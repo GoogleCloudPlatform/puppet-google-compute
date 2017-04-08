@@ -37,28 +37,26 @@ module Google
     private
 
     def exist?(files)
-      not_found = files.select { |f| !File.exist?(f) }
+      not_found = files.reject { |f| File.exist?(f) }
       raise "Some files were not found: #{not_found}" unless not_found.empty?
       files
     end
 
     def file?(files)
-      not_files = files.select { |f| !File.file?(f) }
+      not_files = files.reject { |f| File.file?(f) }
       raise "Some inputs were not files: #{not_files}" unless not_files.empty?
       files
     end
 
     def suitable?(files)
-      files.select do |f|
-        !@copyrightable_files.select { |c, _| c =~ f }.empty?
+      files.reject do |f|
+        @copyrightable_files.select { |c, _| c =~ f }.empty?
       end
     end
 
     def notice_present?(files)
       files.select do |f|
-        mark = @copyrightable_files.select do |c, _|
-          !(c =~ f).nil?
-        end
+        mark = @copyrightable_files.reject { |c, _| (c =~ f).nil? }
         File.readlines(f).select { |l| mark.values[0] =~ l }.empty?
       end
     end

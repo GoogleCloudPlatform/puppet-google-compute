@@ -53,7 +53,30 @@ describe Google::NetworkBlocker do
       Net::HTTP.new(uri.host, uri.port).request(Net::HTTP::Delete.new(uri))
     end
 
-    it { is_expected.to be_a Net::HTTPNoContent  }
+    it { is_expected.to be_a Net::HTTPNoContent }
+  end
+
+  context '#allowed_test_hosts' do
+    let(:uri) { URI.parse('http://some-other-site.com') }
+
+    before(:each) do
+      described_class.instance.allow_get(uri, 200, 'text/html', 'hello')
+    end
+
+    context 'failed without #allowed_test_hosts update' do
+      subject { -> { Net::HTTP.get(uri) } }
+      it { is_expected.to raise_error(IOError) }
+    end
+
+    context '#allowed_test_hosts' do
+      before(:each) do
+        described_class.instance.allowed_test_hosts << \
+          { host: uri.host, port: uri.port }
+      end
+
+      subject { -> { Net::HTTP.get(uri) } }
+      it { is_expected.not_to raise_error }
+    end
   end
 end
 

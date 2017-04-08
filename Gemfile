@@ -35,6 +35,6 @@ group :test do
   gem 'rspec'
   gem 'rspec-mocks'
   gem 'rspec-puppet'
-  gem 'rubocop'
+  gem 'rubocop', '~> 0.48.1'
   gem 'simplecov'
 end

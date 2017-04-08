@@ -31,29 +31,29 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
                 .define_singleton_method(:fetch) { |_resource| cred }
   end
 
-  DT_PROJECT_DATA = %w(
+  DT_PROJECT_DATA = %w[
     test\ project#0\ data
     test\ project#1\ data
     test\ project#2\ data
     test\ project#3\ data
     test\ project#4\ data
-  ).freeze
+  ].freeze
 
-  DT_ZONE_DATA = %w(
+  DT_ZONE_DATA = %w[
     test\ zone#0\ data
     test\ zone#1\ data
     test\ zone#2\ data
     test\ zone#3\ data
     test\ zone#4\ data
-  ).freeze
+  ].freeze
 
-  DT_NAME_DATA = %w(
+  DT_NAME_DATA = %w[
     test\ name#0\ data
     test\ name#1\ data
     test\ name#2\ data
     test\ name#3\ data
     test\ name#4\ data
-  ).freeze
+  ].freeze
 
   it '#instances' do
     expect { described_class.instances }.to raise_error(StandardError,
@@ -118,8 +118,10 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
 
     expect(Google::Request::Get).to receive(:new)
       .with(self_link(uri_data(id).merge(data)),
-            instance_of(Google::FakeCredential))
-      .and_return(request)
+            instance_of(Google::FakeCredential)) do |args|
+      debug ">> GET #{args}"
+      request
+    end
   end
 
   def http_success(body)
@@ -135,8 +137,10 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
 
     expect(Google::Request::Get).to receive(:new)
       .with(self_link(uri_data(id).merge(data)),
-            instance_of(Google::FakeCredential))
-      .and_return(request)
+            instance_of(Google::FakeCredential)) do |args|
+      debug ">> GET [failed] #{args}"
+      request
+    end
   end
 
   def http_failed_object_missing
@@ -150,6 +154,10 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
     data = YAML.safe_load(File.read(results))
     raise "Invalid network results #{results}" unless data.class <= Hash
     data
+  end
+
+  def debug(message)
+    puts(message) if ENV['RSPEC_DEBUG']
   end
 
   def create_type(id)

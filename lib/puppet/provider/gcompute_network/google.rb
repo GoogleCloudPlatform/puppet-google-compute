@@ -26,7 +26,6 @@ require 'google/hash_utils'
 require 'google/request/get'
 require 'google/request/post'
 require 'google/request/delete'
-require 'net/http'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_network).provide(:google) do
@@ -142,7 +141,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
       subnetworks: resource[:subnetworks],
       auto_create_subnetworks: resource[:auto_create_subnetworks],
       creation_timestamp: resource[:creation_timestamp]
-    }.select { |_, v| !v.nil? }
+    }.reject { |_, v| v.nil? }
   end
 
   def resource_to_request
@@ -153,13 +152,13 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
       IPv4Range: @resource[:ipv4_range],
       name: @resource[:name],
       autoCreateSubnetworks: @resource[:auto_create_subnetworks]
-    ).select { |_, v| !v.nil? }
-                               .inject({}) do |h, (k, v)|
-                                 h.merge(k => sym_to_bool(v))
-                               end
-                               .to_json
+    ).reject { |_, v| v.nil? }
+
+    # Convert boolean symbols into JSON compatible value.
+    request = request.inject({}) { |h, (k, v)| h.merge(k => sym_to_bool(v)) }
+
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
-    request
+    request.to_json
   end
 
   def fetch_auth(resource)
@@ -168,6 +167,11 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
 
   def self.fetch_auth(resource)
     Puppet::Type.type(:gauth_credential).fetch(resource)
+  end
+
+  def debug(message)
+    puts("DEBUG: #{message}") if ENV['DEBUG_HTTP_VERBOSE']
+    super(message)
   end
 
   def self.collection(data)
@@ -199,11 +203,12 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
   end
 
   def self.return_if_object(response, kind)
-    raise "Bad response: #{response}" unless response.is_a?(Net::HTTPResponse)
+    raise "Bad response: #{response}" \
+      unless response.is_a?(Net::HTTPResponse)
     return if response.is_a?(Net::HTTPNotFound)
     return if response.is_a?(Net::HTTPNoContent)
     result = JSON.parse(response.body)
-    raise_if_errors result, %w(error errors), 'message'
+    raise_if_errors result, %w[error errors], 'message'
     raise "Bad response: #{response}" unless response.is_a?(Net::HTTPOK)
     raise "Incorrect result: #{result['kind']} (expecting #{kind})" \
       unless result['kind'] == kind
@@ -220,7 +225,11 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
   end
 
   def self.expand_variables(template, var_data, extra_data = {})
-    data = resource_to_hash(var_data).merge(extra_data)
+    data = if var_data.class <= Hash
+             var_data.merge(extra_data)
+           else
+             resource_to_hash(var_data).merge(extra_data)
+           end
     extract_variables(template).each do |v|
       unless data.key?(v)
         raise "Missing variable :#{v} in #{data} on #{caller.join("\n")}}"
@@ -250,27 +259,27 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
 
   def wait_for_operation(response)
     op_result = return_if_object(response, 'compute#operation')
-    status = Google::HashUtils.navigate(op_result, %w(status))
+    status = Google::HashUtils.navigate(op_result, %w[status])
     fetch_resource(
       @resource,
       URI.parse(Google::HashUtils.navigate(wait_for_completion(status,
                                                                op_result),
-                                           %w(targetLink))),
+                                           %w[targetLink])),
       'compute#network'
     )
   end
 
   def wait_for_completion(status, op_result)
-    op_id = Google::HashUtils.navigate(op_result, %w(name))
+    op_id = Google::HashUtils.navigate(op_result, %w[name])
     op_uri = async_op_url(@resource, op_id: op_id)
     while status != 'DONE'
       debug("Waiting for completion of operation #{op_id}")
-      raise_if_errors op_result, %w(error errors), 'message'
+      raise_if_errors op_result, %w[error errors], 'message'
       sleep 1.0
       raise "Invalid result '#{status}' on gcompute_network." \
-        unless %w(PENDING RUNNING DONE).include?(status)
+        unless %w[PENDING RUNNING DONE].include?(status)
       op_result = fetch_resource(@resource, op_uri, 'compute#operation')
-      status = Google::HashUtils.navigate(op_result, %w(status))
+      status = Google::HashUtils.navigate(op_result, %w[status])
     end
     op_result
   end
@@ -296,13 +305,18 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
   end
 
   def self.fetch_resource(resource, self_link, kind)
-    get_request = Google::Request::Get.new(self_link, fetch_auth(resource))
+    get_request = ::Google::Request::Get.new(self_link,
+                                             fetch_auth(resource))
     return_if_object get_request.send, kind
   end
 
   def self.raise_if_errors(response, err_path, msg_field)
     errors = ::Google::HashUtils.navigate(response, err_path)
-    raise "Operation failed: #{errors.map { |e| e[msg_field] }.join(', ')}" \
-      unless errors.nil?
+    raise_error(errors, msg_field) unless errors.nil?
+  end
+
+  def self.raise_error(errors, msg_field)
+    raise IOError, ['Operation failed:',
+                    errors.map { |e| e[msg_field] }.join(', ')].join(' ')
   end
 end

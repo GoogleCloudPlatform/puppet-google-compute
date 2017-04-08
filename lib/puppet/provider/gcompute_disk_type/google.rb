@@ -26,7 +26,6 @@ require 'google/hash_utils'
 require 'google/request/get'
 require 'google/request/post'
 require 'google/request/delete'
-require 'net/http'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_disk_type).provide(:google) do
@@ -62,19 +61,19 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
       default_disk_size_gb:
         Google::Property::Integer.parse(fetch['defaultDiskSizeGb']),
       deprecated_deleted: Google::Property::Time.parse(
-        Google::HashUtils.navigate(fetch, %w(deprecated deleted))
+        Google::HashUtils.navigate(fetch, %w[deprecated deleted])
       ),
       deprecated_deprecated: Google::Property::Time.parse(
-        Google::HashUtils.navigate(fetch, %w(deprecated deprecated))
+        Google::HashUtils.navigate(fetch, %w[deprecated deprecated])
       ),
       deprecated_obsolete: Google::Property::Time.parse(
-        Google::HashUtils.navigate(fetch, %w(deprecated obsolete))
+        Google::HashUtils.navigate(fetch, %w[deprecated obsolete])
       ),
       deprecated_replacement: Google::Property::String.parse(
-        Google::HashUtils.navigate(fetch, %w(deprecated replacement))
+        Google::HashUtils.navigate(fetch, %w[deprecated replacement])
       ),
       deprecated_state: Google::Property::Enum.parse(
-        Google::HashUtils.navigate(fetch, %w(deprecated state))
+        Google::HashUtils.navigate(fetch, %w[deprecated state])
       ),
       description: Google::Property::String.parse(fetch['description']),
       id: Google::Property::Integer.parse(fetch['id']),
@@ -124,16 +123,16 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
       id: resource[:id],
       valid_disk_size: resource[:valid_disk_size],
       zone: resource[:zone]
-    }.select { |_, v| !v.nil? }
+    }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength
 
   def resource_to_request
     request = Google::HashUtils.camelize_keys(
       kind: 'compute#diskType'
-    ).select { |_, v| !v.nil? }.to_json
+    ).reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
-    request
+    request.to_json
   end
 
   def fetch_auth(resource)
@@ -142,6 +141,11 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
 
   def self.fetch_auth(resource)
     Puppet::Type.type(:gauth_credential).fetch(resource)
+  end
+
+  def debug(message)
+    puts("DEBUG: #{message}") if ENV['DEBUG_HTTP_VERBOSE']
+    super(message)
   end
 
   def self.collection(data)
@@ -173,11 +177,12 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
   end
 
   def self.return_if_object(response, kind)
-    raise "Bad response: #{response}" unless response.is_a?(Net::HTTPResponse)
+    raise "Bad response: #{response}" \
+      unless response.is_a?(Net::HTTPResponse)
     return if response.is_a?(Net::HTTPNotFound)
     return if response.is_a?(Net::HTTPNoContent)
     result = JSON.parse(response.body)
-    raise_if_errors result, %w(error errors), 'message'
+    raise_if_errors result, %w[error errors], 'message'
     raise "Bad response: #{response}" unless response.is_a?(Net::HTTPOK)
     raise "Incorrect result: #{result['kind']} (expecting #{kind})" \
       unless result['kind'] == kind
@@ -194,7 +199,11 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
   end
 
   def self.expand_variables(template, var_data, extra_data = {})
-    data = resource_to_hash(var_data).merge(extra_data)
+    data = if var_data.class <= Hash
+             var_data.merge(extra_data)
+           else
+             resource_to_hash(var_data).merge(extra_data)
+           end
     extract_variables(template).each do |v|
       unless data.key?(v)
         raise "Missing variable :#{v} in #{data} on #{caller.join("\n")}}"
@@ -212,13 +221,18 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
   end
 
   def self.fetch_resource(resource, self_link, kind)
-    get_request = Google::Request::Get.new(self_link, fetch_auth(resource))
+    get_request = ::Google::Request::Get.new(self_link,
+                                             fetch_auth(resource))
     return_if_object get_request.send, kind
   end
 
   def self.raise_if_errors(response, err_path, msg_field)
     errors = ::Google::HashUtils.navigate(response, err_path)
-    raise "Operation failed: #{errors.map { |e| e[msg_field] }.join(', ')}" \
-      unless errors.nil?
+    raise_error(errors, msg_field) unless errors.nil?
+  end
+
+  def self.raise_error(errors, msg_field)
+    raise IOError, ['Operation failed:',
+                    errors.map { |e| e[msg_field] }.join(', ')].join(' ')
   end
 end

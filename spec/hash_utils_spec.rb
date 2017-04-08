@@ -29,26 +29,26 @@ describe Google::HashUtils do
   end
 
   context '#navigate' do
-    let(:source) { { a: { b: { c: [:d, :e] } } } }
+    let(:source) { { a: { b: { c: %i[d e] } } } }
     let(:default) { Object.new }
 
     context 'find item middle' do
-      subject { described_class.navigate(source, [:a, :b]) }
-      it { is_expected.to eq(c: [:d, :e]) }
+      subject { described_class.navigate(source, %i[a b]) }
+      it { is_expected.to eq(c: %i[d e]) }
     end
 
     context 'find item leaf' do
-      subject { described_class.navigate(source, [:a, :b, :c]) }
-      it { is_expected.to eq([:d, :e]) }
+      subject { described_class.navigate(source, %i[a b c]) }
+      it { is_expected.to eq(%i[d e]) }
     end
 
     context 'item does not exist' do
-      subject { described_class.navigate(source, [:d]) }
+      subject { described_class.navigate(source, %i[d]) }
       it { is_expected.to be nil }
     end
 
     context 'returns default' do
-      subject { described_class.navigate(source, [:d], default) }
+      subject { described_class.navigate(source, %i[d], default) }
       it { is_expected.to eq default }
     end
   end

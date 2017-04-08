@@ -30,7 +30,7 @@ describe Puppet::Type.type(:gcompute_address) do
   end
 
   context 'common parameters' do
-    [:project, :credential].each do |param|
+    %i[project credential].each do |param|
       it "should have '#{param}' parameter" do
         expect(described_class.attrtype(param)).to eq :param
       end
@@ -38,14 +38,14 @@ describe Puppet::Type.type(:gcompute_address) do
   end
 
   context 'object properties' do
-    [
-      :address,
-      :creation_timestamp,
-      :description,
-      :id,
-      :name,
-      :region,
-      :users
+    %i[
+      address
+      creation_timestamp
+      description
+      id
+      name
+      region
+      users
     ].each do |prop|
       it "should have '#{prop}' property" do
         expect(described_class.attrtype(prop)).to eq :property
@@ -63,14 +63,14 @@ describe Puppet::Type.type(:gcompute_address) do
           id: 34_392_013_944,
           name: 'test name#15 data',
           region: 'test region#15 data',
-          users: %w(ss tt)
+          users: %w[ss tt]
         )
       end.not_to raise_error
     end
   end
 
   context 'ensure' do
-    [:present, :absent].each do |value|
+    %i[present absent].each do |value|
       it "should support '#{value}' to ensure" do
         expect do
           described_class.new(ensure: value,

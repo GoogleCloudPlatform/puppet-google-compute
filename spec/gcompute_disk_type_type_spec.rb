@@ -30,7 +30,7 @@ describe Puppet::Type.type(:gcompute_disk_type) do
   end
 
   context 'common parameters' do
-    [:project, :credential].each do |param|
+    %i[project credential].each do |param|
       it "should have '#{param}' parameter" do
         expect(described_class.attrtype(param)).to eq :param
       end
@@ -38,18 +38,18 @@ describe Puppet::Type.type(:gcompute_disk_type) do
   end
 
   context 'object properties' do
-    [
-      :creation_timestamp,
-      :default_disk_size_gb,
-      :deprecated_deleted,
-      :deprecated_deprecated,
-      :deprecated_obsolete,
-      :deprecated_replacement,
-      :deprecated_state,
-      :description,
-      :id,
-      :name,
-      :valid_disk_size
+    %i[
+      creation_timestamp
+      default_disk_size_gb
+      deprecated_deleted
+      deprecated_deprecated
+      deprecated_obsolete
+      deprecated_replacement
+      deprecated_state
+      description
+      id
+      name
+      valid_disk_size
     ].each do |prop|
       it "should have '#{prop}' property" do
         expect(described_class.attrtype(prop)).to eq :property

@@ -31,29 +31,29 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 .define_singleton_method(:fetch) { |_resource| cred }
   end
 
-  A_PROJECT_DATA = %w(
+  A_PROJECT_DATA = %w[
     test\ project#0\ data
     test\ project#1\ data
     test\ project#2\ data
     test\ project#3\ data
     test\ project#4\ data
-  ).freeze
+  ].freeze
 
-  A_REGION_DATA = %w(
+  A_REGION_DATA = %w[
     test\ region#0\ data
     test\ region#1\ data
     test\ region#2\ data
     test\ region#3\ data
     test\ region#4\ data
-  ).freeze
+  ].freeze
 
-  A_NAME_DATA = %w(
+  A_NAME_DATA = %w[
     test\ name#0\ data
     test\ name#1\ data
     test\ name#2\ data
     test\ name#3\ data
     test\ name#4\ data
-  ).freeze
+  ].freeze
 
   it '#instances' do
     expect { described_class.instances }.to raise_error(StandardError,
@@ -152,7 +152,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
             it { is_expected.to have_attributes(id: 2_149_500_871) }
             it { is_expected.to have_attributes(name: 'title0') }
             it { is_expected.to have_attributes(region: 'test region#0 data') }
-            it { is_expected.to have_attributes(users: %w(ww xx yy zz)) }
+            it { is_expected.to have_attributes(users: %w[ww xx yy zz]) }
           end
 
           context 'Gcompute_address[title1]' do
@@ -176,7 +176,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
             it { is_expected.to have_attributes(id: 4_299_001_743) }
             it { is_expected.to have_attributes(name: 'title1') }
             it { is_expected.to have_attributes(region: 'test region#1 data') }
-            it { is_expected.to have_attributes(users: %w(uu vv)) }
+            it { is_expected.to have_attributes(users: %w[uu vv]) }
           end
 
           context 'Gcompute_address[title2]' do
@@ -200,7 +200,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
             it { is_expected.to have_attributes(id: 6_448_502_614) }
             it { is_expected.to have_attributes(name: 'title2') }
             it { is_expected.to have_attributes(region: 'test region#2 data') }
-            it { is_expected.to have_attributes(users: %w(ss tt uu vv)) }
+            it { is_expected.to have_attributes(users: %w[ss tt uu vv]) }
           end
         end
         context 'title != name' do
@@ -268,7 +268,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
             it { is_expected.to have_attributes(id: 2_149_500_871) }
             it { is_expected.to have_attributes(name: 'test name#0 data') }
             it { is_expected.to have_attributes(region: 'test region#0 data') }
-            it { is_expected.to have_attributes(users: %w(ww xx yy zz)) }
+            it { is_expected.to have_attributes(users: %w[ww xx yy zz]) }
           end
 
           context 'Gcompute_address[title1]' do
@@ -292,7 +292,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
             it { is_expected.to have_attributes(id: 4_299_001_743) }
             it { is_expected.to have_attributes(name: 'test name#1 data') }
             it { is_expected.to have_attributes(region: 'test region#1 data') }
-            it { is_expected.to have_attributes(users: %w(uu vv)) }
+            it { is_expected.to have_attributes(users: %w[uu vv]) }
           end
 
           context 'Gcompute_address[title2]' do
@@ -316,7 +316,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
             it { is_expected.to have_attributes(id: 6_448_502_614) }
             it { is_expected.to have_attributes(name: 'test name#2 data') }
             it { is_expected.to have_attributes(region: 'test region#2 data') }
-            it { is_expected.to have_attributes(users: %w(ss tt uu vv)) }
+            it { is_expected.to have_attributes(users: %w[ss tt uu vv]) }
           end
         end
       end
@@ -597,8 +597,10 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
 
     expect(Google::Request::Get).to receive(:new)
       .with(self_link(uri_data(id).merge(data)),
-            instance_of(Google::FakeCredential))
-      .and_return(request)
+            instance_of(Google::FakeCredential)) do |args|
+      debug ">> GET #{args}"
+      request
+    end
   end
 
   def http_success(body)
@@ -615,8 +617,11 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     allow(request).to receive(:send).and_return(http_success(body))
 
     expect(Google::Request::Get).to receive(:new)
-      .with(self_link(uri_data(id)), instance_of(Google::FakeCredential))
-      .and_return(request)
+      .with(self_link(uri_data(id)),
+            instance_of(Google::FakeCredential)) do |args|
+      debug ">> GET <async> #{args}"
+      request
+    end
   end
 
   def expect_network_get_failed(id, data = {})
@@ -625,8 +630,10 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
 
     expect(Google::Request::Get).to receive(:new)
       .with(self_link(uri_data(id).merge(data)),
-            instance_of(Google::FakeCredential))
-      .and_return(request)
+            instance_of(Google::FakeCredential)) do |args|
+      debug ">> GET [failed] #{args}"
+      request
+    end
   end
 
   def http_failed_object_missing
@@ -644,8 +651,10 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     expect(Google::Request::Post).to receive(:new)
       .with(collection(uri_data(id).merge(data)),
             instance_of(Google::FakeCredential),
-            'application/json', expected_body.to_json)
-      .and_return(request)
+            'application/json', expected_body.to_json) do |args|
+      debug ">> POST #{args} = body(#{body})"
+      request
+    end
   end
 
   def expect_network_delete(id, name = nil)
@@ -659,8 +668,11 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     allow(request).to receive(:send).and_return(http_success(body))
 
     expect(Google::Request::Delete).to receive(:new)
-      .with(self_link(delete_data), instance_of(Google::FakeCredential))
-      .and_return(request)
+      .with(self_link(delete_data),
+            instance_of(Google::FakeCredential)) do |args|
+      debug ">> DELETE #{args}"
+      request
+    end
   end
 
   def load_network_result(file)
@@ -670,6 +682,10 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     data = YAML.safe_load(File.read(results))
     raise "Invalid network results #{results}" unless data.class <= Hash
     data
+  end
+
+  def debug(message)
+    puts(message) if ENV['RSPEC_DEBUG']
   end
 
   def create_type(id)

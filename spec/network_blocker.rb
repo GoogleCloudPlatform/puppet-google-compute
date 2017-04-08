@@ -23,8 +23,15 @@ module Google
 
     ALLOWED_TEST_URI = URI.parse('https://www.unreachable-test-host.com/blah')
 
+    attr_reader :allowed_test_hosts
     attr_reader :allowed_request
     attr_reader :canned_response
+
+    def initialize
+      @allowed_test_hosts = [
+        { host: ALLOWED_TEST_URI.host, port: ALLOWED_TEST_URI.port }
+      ]
+    end
 
     def allow_get(uri, code, type, body)
       @allowed_request = { uri: uri }
@@ -75,20 +82,19 @@ end
 module Net
   class HTTP
     define_method(:initialize) do |*args|
-      unless args[0] == Google::NetworkBlocker::ALLOWED_TEST_URI.host
-        raise IOError,
-              "#{self}.#{__method__}: Network traffic is blocked during tests."
+      blocker = Google::NetworkBlocker.instance
+      unless blocker.allowed_test_hosts.map { |h| h[:host] }.include?(args[0])
+        raise IOError, [self, __method__, ':',
+                        'Network traffic is blocked during tests', ':',
+                        args[0]].join(' ')
       end
     end
 
     instance_methods.each do |m|
-      unless [
-        :get, :copy, :delete, :finish, :get, :get2, :head, :head2,
-        :lock, :mkcol, :move, :options, :patch, :post, :post2, :propfind,
-        :proppatch, :put, :put2, :request, :request_get, :request_head,
-        :request_post, :request_put, :send, :send_request, :start,
-        :trace, :unlock
-      ].include?(m)
+      unless %i[get copy delete finish get get2 head head2 lock mkcol move
+                options patch post post2 propfind proppatch put put2 request
+                request_get request_head request_post request_put send
+                send_request start trace unlock].include?(m)
         next
       end
 
