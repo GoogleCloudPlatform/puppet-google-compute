@@ -203,6 +203,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
             it { is_expected.to have_attributes(users: %w[ss tt uu vv]) }
           end
         end
+
         context 'title != name' do
           before do
             allow(Time).to receive(:now).and_return(
@@ -378,8 +379,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 credential  => 'cred0'
               }
               MANIFEST
-            ).catalog.resource('Gcompute_address[title0]')
-              .provider.ensure
+            ).catalog.resource('Gcompute_address[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }

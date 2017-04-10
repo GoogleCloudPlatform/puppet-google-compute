@@ -60,6 +60,7 @@ puppet-codegen:
   * examples/network~convert_to_custom.pp
   * examples/network~custom.pp
   * examples/network~legacy.pp
+  * examples/region.pp
   * Gemfile
   * lib/google/hash_utils.rb
   * lib/google/property/array.rb
@@ -70,7 +71,9 @@ puppet-codegen:
   * lib/google/property/string.rb
   * lib/google/property/time.rb
   * lib/google/request/base.rb
+  * lib/google/request/delete.rb
   * lib/google/request/get.rb
+  * lib/google/request/post.rb
   * lib/google/string_utils.rb
   * lib/puppet/provider/gcompute_address/google.rb
   * lib/puppet/provider/gcompute_disk_type/google.rb
@@ -126,7 +129,9 @@ puppet-codegen:
   * spec/hash_utils_spec.rb
   * spec/network_blocker.rb
   * spec/network_blocker_spec.rb
+  * spec/request_delete_spec.rb
   * spec/request_get_spec.rb
+  * spec/request_post_spec.rb
   * spec/spec_helper.rb
   * spec/string_utils_spec.rb
 

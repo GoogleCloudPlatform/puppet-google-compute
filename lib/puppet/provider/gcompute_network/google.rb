@@ -294,12 +294,13 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     auto_change = @dirty[:auto_create_subnetworks]
     raise 'Cannot convert a network from Custom back to Auto' \
       if auto_change[:from] == false && auto_change[:to] == true
-    # TODO(nelsonjr): Enable converting from Auto => Custom via call to special
-    # method URL. See tracking work item:
+    # TODO(nelsonjr): Enable converting from Auto => Custom via call to
+    # special method URL. See tracking work item:
     # https://bugzilla.graphite.cloudnativeapp.com/show_bug.cgi?id=174
     raise [
       'Conversion from Auto to Custom not implemented yet.',
-      'See https://bugzilla.graphite.cloudnativeapp.com/show_bug.cgi?id=174',
+      'See', ['https://bugzilla.graphite.cloudnativeapp.com',
+              'show_bug.cgi?id=174'].join('/'),
       'for more details'
     ].join(' ')
   end

@@ -78,8 +78,7 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
       description: Google::Property::String.parse(fetch['description']),
       id: Google::Property::Integer.parse(fetch['id']),
       name: Google::Property::String.parse(fetch['name']),
-      valid_disk_size:
-        Google::Property::String.parse(fetch['validDiskSize'])
+      valid_disk_size: Google::Property::String.parse(fetch['validDiskSize'])
     )
     result.instance_variable_set(:@fetched, fetch)
     result

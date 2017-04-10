@@ -213,6 +213,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
             end
           end
         end
+
         context 'title != name' do
           before do
             allow(Time).to receive(:now).and_return(
@@ -408,8 +409,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 credential              => 'cred0'
               }
               MANIFEST
-            ).catalog.resource('Gcompute_network[title0]')
-              .provider.ensure
+            ).catalog.resource('Gcompute_network[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }

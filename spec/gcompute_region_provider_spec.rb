@@ -237,6 +237,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
             it { is_expected.to have_attributes(zones: %w[oo pp qq rr]) }
           end
         end
+
         context 'title != name' do
           before do
             allow(Time).to receive(:now).and_return(
@@ -447,8 +448,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
                 credential => 'cred0'
               }
               MANIFEST
-            ).catalog.resource('Gcompute_region[title0]')
-              .provider.ensure
+            ).catalog.resource('Gcompute_region[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }
