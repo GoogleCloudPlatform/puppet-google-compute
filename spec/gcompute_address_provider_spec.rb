@@ -26,7 +26,7 @@ require 'spec_helper'
 
 describe Puppet::Type.type(:gcompute_address).provider(:google) do
   before(:all) do
-    cred = Google::FakeCredential.new
+    cred = Google::FakeAuthorization.new
     Puppet::Type.type(:gauth_credential)
                 .define_singleton_method(:fetch) { |_resource| cred }
   end
@@ -597,7 +597,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
 
     expect(Google::Request::Get).to receive(:new)
       .with(self_link(uri_data(id).merge(data)),
-            instance_of(Google::FakeCredential)) do |args|
+            instance_of(Google::FakeAuthorization)) do |args|
       debug ">> GET #{args}"
       request
     end
@@ -618,7 +618,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
 
     expect(Google::Request::Get).to receive(:new)
       .with(self_link(uri_data(id)),
-            instance_of(Google::FakeCredential)) do |args|
+            instance_of(Google::FakeAuthorization)) do |args|
       debug ">> GET <async> #{args}"
       request
     end
@@ -630,7 +630,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
 
     expect(Google::Request::Get).to receive(:new)
       .with(self_link(uri_data(id).merge(data)),
-            instance_of(Google::FakeCredential)) do |args|
+            instance_of(Google::FakeAuthorization)) do |args|
       debug ">> GET [failed] #{args}"
       request
     end
@@ -650,7 +650,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
 
     expect(Google::Request::Post).to receive(:new)
       .with(collection(uri_data(id).merge(data)),
-            instance_of(Google::FakeCredential),
+            instance_of(Google::FakeAuthorization),
             'application/json', expected_body.to_json) do |args|
       debug ">> POST #{args} = body(#{body})"
       request
@@ -669,7 +669,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
 
     expect(Google::Request::Delete).to receive(:new)
       .with(self_link(delete_data),
-            instance_of(Google::FakeCredential)) do |args|
+            instance_of(Google::FakeAuthorization)) do |args|
       debug ">> DELETE #{args}"
       request
     end

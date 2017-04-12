@@ -52,7 +52,7 @@ require 'network_blocker'
 files = []
 files << 'spec/copyright.rb'
 files << 'spec/copyright_spec.rb'
-files << 'spec/fake_cred.rb'
+files << 'spec/fake_auth.rb'
 files << File.join('lib', '**', '*.rb')
 
 # Require all files so we can track them via code coverage

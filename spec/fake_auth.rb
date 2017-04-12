@@ -23,10 +23,10 @@
 # ----------------------------------------------------------------------------
 
 module Google
-  # A dummy credential that responds to the same authorize interface as a
-  # gauth_credential. Useful for testing code without the need to take a
+  # A dummy authorization handler that responds to the same authorize interface
+  # as a gauth_credential. Useful for testing code without the need to take a
   # dependency on the real resource provider.
-  class FakeCredential
+  class FakeAuthorization
     def authorize(request)
       request
     end

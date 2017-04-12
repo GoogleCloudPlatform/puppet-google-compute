@@ -26,7 +26,7 @@ require 'spec_helper'
 
 describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
   before(:all) do
-    cred = Google::FakeCredential.new
+    cred = Google::FakeAuthorization.new
     Puppet::Type.type(:gauth_credential)
                 .define_singleton_method(:fetch) { |_resource| cred }
   end
@@ -59,6 +59,7 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
     expect { described_class.instances }.to raise_error(StandardError,
                                                         /not supported/)
   end
+
   context 'resource exists' do
     context 'no changes == no action' do
       # TODO(nelsonjr): Implement new test format.
@@ -118,7 +119,7 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
 
     expect(Google::Request::Get).to receive(:new)
       .with(self_link(uri_data(id).merge(data)),
-            instance_of(Google::FakeCredential)) do |args|
+            instance_of(Google::FakeAuthorization)) do |args|
       debug ">> GET #{args}"
       request
     end
@@ -137,7 +138,7 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
 
     expect(Google::Request::Get).to receive(:new)
       .with(self_link(uri_data(id).merge(data)),
-            instance_of(Google::FakeCredential)) do |args|
+            instance_of(Google::FakeAuthorization)) do |args|
       debug ">> GET [failed] #{args}"
       request
     end
