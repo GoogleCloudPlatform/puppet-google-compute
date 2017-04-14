@@ -61,23 +61,51 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
   end
 
   context 'resource exists' do
+    # Ensure ignore: resource exists, no change
     context 'no changes == no action' do
-      # TODO(nelsonjr): Implement new test format.
+      # Ensure ignore: resource exists, no change, no name, pass
+      context 'title == name (pass)' do
+        # TODO(nelsonjr): Implement new test format.
+      end
+
+      # Ensure ignore: resource exists, no change, has name, pass
+      context 'title != name (pass)' do
+        # TODO(nelsonjr): Implement new test format.
+      end
     end
 
-    context 'changes == failure' do
-      # TODO(nelsonjr): Implement new test format.
-      subject { -> { raise '[placeholder] This should fail.' } }
+    # Ensure ignore: resource exists, changes
+    context 'changes == action' do
+      # Ensure ignore: resource exists, changes, no name, fail
+      context 'title == name (fail)' do
+        # TODO(nelsonjr): Implement new test format.
+        subject { -> { raise '[placeholder] This should fail.' } }
+        it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+      end
 
-      it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+      # Ensure ignore: resource exists, changes, has name, fail
+      context 'title != name (fail)' do
+        # TODO(nelsonjr): Implement new test format.
+        subject { -> { raise '[placeholder] This should fail.' } }
+        it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+      end
     end
   end
 
-  context 'resource does not exist == failure' do
-    # TODO(nelsonjr): Implement new test format.
-    subject { -> { raise '[placeholder] This should fail.' } }
+  context 'resource missing' do
+    # Ensure ignore: resource missing, ignore, no name, fail
+    context 'title == name (fail)' do
+      # TODO(nelsonjr): Implement new test format.
+      subject { -> { raise '[placeholder] This should fail.' } }
+      it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+    end
 
-    it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+    # Ensure ignore: resource missing, ignore, has name, fail
+    context 'title != name (fail)' do
+      # TODO(nelsonjr): Implement new test format.
+      subject { -> { raise '[placeholder] This should fail.' } }
+      it { is_expected.to raise_error(RuntimeError, /placeholder/) }
+    end
   end
 
   context '#flush' do
@@ -86,21 +114,17 @@ describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
         name: 'my-name'
       ).provider
     end
-
     context 'no-op' do
       it { subject.flush }
     end
-
     context 'modified object' do
       before do
         subject.dirty :some_property, 'current', 'newvalue'
       end
-
       context 'no-op if created' do
         before { subject.instance_variable_set(:@created, true) }
         it { expect { subject.flush }.not_to raise_error }
       end
-
       context 'no-op if deleted' do
         before { subject.instance_variable_set(:@deleted, true) }
         it { expect { subject.flush }.not_to raise_error }
