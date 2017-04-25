@@ -84,7 +84,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
                                            fetch_auth(@resource),
                                            'application/json',
                                            resource_to_request)
-    wait_for_operation create_req.send
+    wait_for_operation create_req.send, @resource
     @property_hash[:ensure] = :present
   end
 
@@ -93,7 +93,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     @deleted = true
     delete_req = Google::Request::Delete.new(self_link(@resource),
                                              fetch_auth(@resource))
-    wait_for_operation delete_req.send
+    wait_for_operation delete_req.send, @resource
     @property_hash[:ensure] = :absent
   end
 
@@ -257,29 +257,30 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     )
   end
 
-  def wait_for_operation(response)
+  def wait_for_operation(response, resource)
     op_result = return_if_object(response, 'compute#operation')
-    status = Google::HashUtils.navigate(op_result, %w[status])
+    status = ::Google::HashUtils.navigate(op_result, %w[status])
     fetch_resource(
-      @resource,
-      URI.parse(Google::HashUtils.navigate(wait_for_completion(status,
-                                                               op_result),
-                                           %w[targetLink])),
+      resource,
+      URI.parse(::Google::HashUtils.navigate(wait_for_completion(status,
+                                                                 op_result,
+                                                                 resource),
+                                             %w[targetLink])),
       'compute#network'
     )
   end
 
-  def wait_for_completion(status, op_result)
-    op_id = Google::HashUtils.navigate(op_result, %w[name])
-    op_uri = async_op_url(@resource, op_id: op_id)
+  def wait_for_completion(status, op_result, resource)
+    op_id = ::Google::HashUtils.navigate(op_result, %w[name])
+    op_uri = async_op_url(resource, op_id: op_id)
     while status != 'DONE'
       debug("Waiting for completion of operation #{op_id}")
       raise_if_errors op_result, %w[error errors], 'message'
       sleep 1.0
       raise "Invalid result '#{status}' on gcompute_network." \
         unless %w[PENDING RUNNING DONE].include?(status)
-      op_result = fetch_resource(@resource, op_uri, 'compute#operation')
-      status = Google::HashUtils.navigate(op_result, %w[status])
+      op_result = fetch_resource(resource, op_uri, 'compute#operation')
+      status = ::Google::HashUtils.navigate(op_result, %w[status])
     end
     op_result
   end
