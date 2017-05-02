@@ -52,9 +52,13 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
   end
 
   def self.present(name, fetch)
-    result = new(
-      title: name,
-      ensure: :present,
+    result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+    result.instance_variable_set(:@fetched, fetch)
+    result
+  end
+
+  def self.fetch_to_hash(fetch)
+    {
       address: Google::Property::String.parse(fetch['address']),
       creation_timestamp:
         Google::Property::Time.parse(fetch['creationTimestamp']),
@@ -63,9 +67,7 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
       name: Google::Property::String.parse(fetch['name']),
       region: Google::Property::String.parse(fetch['region']),
       users: Google::Property::Array.parse(fetch['users'])
-    )
-    result.instance_variable_set(:@fetched, fetch)
-    result
+    }
   end
 
   def exists?

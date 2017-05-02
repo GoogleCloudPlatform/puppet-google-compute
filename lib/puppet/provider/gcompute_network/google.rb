@@ -51,11 +51,14 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     end
   end
 
-  # rubocop:disable Metrics/MethodLength
   def self.present(name, fetch)
-    result = new(
-      title: name,
-      ensure: :present,
+    result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+    result.instance_variable_set(:@fetched, fetch)
+    result
+  end
+
+  def self.fetch_to_hash(fetch)
+    {
       description: Google::Property::String.parse(fetch['description']),
       gateway_ipv4: Google::Property::String.parse(fetch['gatewayIPv4']),
       id: Google::Property::Integer.parse(fetch['id']),
@@ -66,11 +69,8 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
         Google::Property::Boolean.parse(fetch['autoCreateSubnetworks']),
       creation_timestamp:
         Google::Property::Time.parse(fetch['creationTimestamp'])
-    )
-    result.instance_variable_set(:@fetched, fetch)
-    result
+    }
   end
-  # rubocop:enable Metrics/MethodLength
 
   def exists?
     debug("exists? #{@property_hash[:ensure] == :present}")

@@ -51,11 +51,15 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
     end
   end
 
-  # rubocop:disable Metrics/MethodLength
   def self.present(name, fetch)
-    result = new(
-      title: name,
-      ensure: :present,
+    result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+    result.instance_variable_set(:@fetched, fetch)
+    result
+  end
+
+  # rubocop:disable Metrics/MethodLength
+  def self.fetch_to_hash(fetch)
+    {
       creation_timestamp:
         Google::Property::Time.parse(fetch['creationTimestamp']),
       deprecated_deleted: Google::Property::Time.parse(
@@ -77,9 +81,7 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
       id: Google::Property::Integer.parse(fetch['id']),
       name: Google::Property::String.parse(fetch['name']),
       zones: Google::Property::Array.parse(fetch['zones'])
-    )
-    result.instance_variable_set(:@fetched, fetch)
-    result
+    }
   end
   # rubocop:enable Metrics/MethodLength
 
