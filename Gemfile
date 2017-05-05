@@ -26,7 +26,7 @@ source 'https://rubygems.org'
 
 group :test do
   gem 'metadata-json-lint'
-  gem 'puppet', ENV['PUPPET_GEM_VERSION'] || '~> 4.2.0'
+  gem 'puppet', ENV['PUPPET_GEM_VERSION'] || '>= 4.2.0'
   gem 'puppet-lint'
   gem 'puppet-lint-unquoted_string-check'
   gem 'puppet-syntax'

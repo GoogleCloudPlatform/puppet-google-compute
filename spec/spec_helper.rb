@@ -79,6 +79,36 @@ require 'rspec-puppet'
 RSpec.configure do |c|
   c.include PuppetSpec::Compiler
   c.include PuppetSpec::Files
+
+  Puppet::Test::TestHelper.initialize
+
+  c.before :all do
+    Puppet::Test::TestHelper.before_all_tests
+  end
+
+  c.after :all do
+    Puppet::Test::TestHelper.after_all_tests
+  end
+
+  c.before :each do
+    base = PuppetSpec::Files.tmpdir('tmp_settings')
+    Puppet[:vardir] = File.join(base, 'var')
+    Puppet[:confdir] = File.join(base, 'etc')
+    Puppet[:codedir] = File.join(base, 'code')
+    Puppet[:logdir] = '$vardir/log'
+    Puppet[:rundir] = '$vardir/run'
+    Puppet[:hiera_config] = File.join(base, 'hiera')
+
+    FileUtils.mkdir_p Puppet[:statedir]
+
+    Puppet::Test::TestHelper.before_each_test
+  end
+
+  c.after :each do
+    Puppet::Test::TestHelper.after_each_test
+    Dir.stub(:entries)
+    PuppetSpec::Files.cleanup
+  end
 end
 
 #----------------------------------------------------------

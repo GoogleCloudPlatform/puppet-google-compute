@@ -15,7 +15,7 @@ GEM
       locale
     hiera (3.3.1)
     json (2.0.3)
-    json_pure (2.0.3)
+    json_pure (1.8.6)
     locale (2.1.2)
     metaclass (0.0.4)
     metadata-json-lint (1.1.0)
@@ -27,10 +27,12 @@ GEM
     parser (2.4.0.0)
       ast (~> 2.2)
     powerpack (0.1.1)
-    puppet (4.2.3)
+    puppet (4.10.0)
       facter (> 2.0, < 4)
+      gettext-setup (>= 0.10, < 1)
       hiera (>= 2.0, < 4)
-      json_pure
+      json_pure (~> 1.8)
+      locale (~> 2.1)
     puppet-lint (2.1.1)
     puppet-lint-unquoted_string-check (0.3.0)
       puppet-lint (>= 1.0, < 3.0)
@@ -81,7 +83,7 @@ PLATFORMS
 
 DEPENDENCIES
   metadata-json-lint
-  puppet (~> 4.2.0)
+  puppet (>= 4.2.0)
   puppet-lint
   puppet-lint-unquoted_string-check
   puppet-syntax
