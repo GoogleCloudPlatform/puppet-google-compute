@@ -180,7 +180,7 @@ TODO(nelsonjr): Add documentation
 
 ##### `id`
 
-  Unique identifier for the resource; defined by the server.
+  The unique identifier for the resource.
 
 ##### `ipv4_range`
 

@@ -83,9 +83,7 @@ Puppet::Type.newtype(:gcompute_network) do
   end
 
   newproperty(:id, parent: Google::Property::Integer) do
-    desc <<-EOT
-      Unique identifier for the resource; defined by the server. (output only)
-    EOT
+    desc 'The unique identifier for the resource. (output only)'
   end
 
   newproperty(:ipv4_range, parent: Google::Property::String) do
