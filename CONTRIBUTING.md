@@ -74,6 +74,7 @@ puppet-codegen:
   * lib/google/request/delete.rb
   * lib/google/request/get.rb
   * lib/google/request/post.rb
+  * lib/google/request/put.rb
   * lib/google/string_utils.rb
   * lib/puppet/provider/gcompute_address/google.rb
   * lib/puppet/provider/gcompute_disk_type/google.rb

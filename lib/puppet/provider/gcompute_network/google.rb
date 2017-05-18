@@ -24,8 +24,9 @@
 
 require 'google/hash_utils'
 require 'google/request/get'
-require 'google/request/post'
 require 'google/request/delete'
+require 'google/request/post'
+require 'google/request/put'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_network).provide(:google) do

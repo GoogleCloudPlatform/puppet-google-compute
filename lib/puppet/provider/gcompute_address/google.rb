@@ -24,8 +24,9 @@
 
 require 'google/hash_utils'
 require 'google/request/get'
-require 'google/request/post'
 require 'google/request/delete'
+require 'google/request/post'
+require 'google/request/put'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_address).provide(:google) do
@@ -99,7 +100,11 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    raise 'Saving not implemented yet.'
+    update_req = Google::Request::Put.new(self_link(@resource),
+                                          fetch_auth(@resource),
+                                          'application/json',
+                                          resource_to_request)
+    @fetched = wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)
