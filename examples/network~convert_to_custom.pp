@@ -22,8 +22,31 @@
 #
 # ----------------------------------------------------------------------------
 
+# Defines a credential to be used when communicating with Google Cloud
+# Platform. The title of this credential is then used as the 'credential'
+# parameter in the gdns_managed_zone type.
+#
+# For more information on the gauth_credential parameters and providers please
+# refer to its detailed documentation at:
+#
+# TODO(nelsonjr): Add link to documentation on Puppet Forge / Github
+# ________________________
+#
+# For the sake of this example we set the parameter 'path' to point to the file
+# that contains your credential in JSON format. And for convenience this example
+# allows a variable named $cred_path to be provided to it. If running from the
+# command line you can pass it via Facter:
+#
+#   FACTER_cred_path=/path/to/my/cred.json \
+#       puppet apply examples/examples/network~convert_to_custom.pp.pp
+#
+# For convenience you optionally can add it to your ~/.bash_profile (or the
+# respective .profile settings) environment:
+#
+#   export FACTER_cred_path=/path/to/my/cred.json
+#
 gauth_credential { 'mycred':
-  path     => '/home/nelsonjr/my_account.json',
+  path     => $cred_path, # e.g. '/home/nelsonjr/my_account.json'
   provider => serviceaccount,
   scopes   => [
     'https://www.googleapis.com/auth/compute',
