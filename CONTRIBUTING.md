@@ -144,6 +144,9 @@ central location:
 
   * Gemfile.lock
   * LICENSE
+  * spec/bundle.rb
+  * spec/data/poor_example.pp
+  * spec/puppetlint_spec.rb
 
 Please do *not* edit them directly as they will be clobbered when
 this repository is regenerated from its templated sources.

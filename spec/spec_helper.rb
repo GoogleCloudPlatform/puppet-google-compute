@@ -50,6 +50,7 @@ require 'network_blocker'
 # Auto require files
 
 files = []
+files << 'spec/bundle.rb'
 files << 'spec/copyright.rb'
 files << 'spec/copyright_spec.rb'
 files << 'spec/fake_auth.rb'
