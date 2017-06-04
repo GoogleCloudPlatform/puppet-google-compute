@@ -729,8 +729,8 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
     end
   end
 
-  def expect_network_delete(id, name = nil)
-    delete_data = uri_data(id)
+  def expect_network_delete(id, name = nil, data = {})
+    delete_data = uri_data(id).merge(data)
     delete_data[:name] = name unless name.nil?
     body = { kind: 'compute#region' }.to_json
 

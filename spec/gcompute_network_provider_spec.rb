@@ -416,7 +416,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 'autoCreateSubnetworks' => true
               },
               name: 'title0'
-            expect_network_get_async 1
+            expect_network_get_async 1, name: 'title0'
           end
 
           subject do
@@ -569,7 +569,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
           before(:each) do
             expect_network_get_success 1, name: 'title0'
             expect_network_delete 1, 'title0'
-            expect_network_get_async 1
+            expect_network_get_async 1, name: 'title0'
           end
 
           subject do
@@ -682,14 +682,14 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
     response
   end
 
-  def expect_network_get_async(id)
+  def expect_network_get_async(id, data = {})
     body = { kind: 'compute#network' }.to_json
 
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
     expect(Google::Request::Get).to receive(:new)
-      .with(self_link(uri_data(id)),
+      .with(self_link(uri_data(id).merge(data)),
             instance_of(Google::FakeAuthorization)) do |args|
       debug ">> GET <async> #{args}"
       request
@@ -715,7 +715,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
   def expect_network_create(id, expected_body, data = {})
     body = { kind: 'compute#operation',
              status: 'DONE',
-             targetLink: self_link(uri_data(id)) }.to_json
+             targetLink: self_link(uri_data(id).merge(data)) }.to_json
 
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
@@ -729,12 +729,12 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
     end
   end
 
-  def expect_network_delete(id, name = nil)
-    delete_data = uri_data(id)
+  def expect_network_delete(id, name = nil, data = {})
+    delete_data = uri_data(id).merge(data)
     delete_data[:name] = name unless name.nil?
     body = { kind: 'compute#operation',
              status: 'DONE',
-             targetLink: self_link(uri_data(id)) }.to_json
+             targetLink: self_link(delete_data) }.to_json
 
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
