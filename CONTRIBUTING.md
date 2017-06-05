@@ -119,13 +119,9 @@ puppet-codegen:
   * spec/data/network/gcompute_region/success3~title.yaml
   * spec/fake_auth.rb
   * spec/gcompute_address_provider_spec.rb
-  * spec/gcompute_address_type_spec.rb
   * spec/gcompute_disk_type_provider_spec.rb
-  * spec/gcompute_disk_type_type_spec.rb
   * spec/gcompute_network_provider_spec.rb
-  * spec/gcompute_network_type_spec.rb
   * spec/gcompute_region_provider_spec.rb
-  * spec/gcompute_region_type_spec.rb
   * spec/google_property_base_spec.rb
   * spec/hash_utils_spec.rb
   * spec/network_blocker.rb
