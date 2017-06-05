@@ -72,7 +72,7 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
       name: Google::Property::String.parse(fetch['name']),
       region: Google::Property::String.parse(fetch['region']),
       users: Google::Property::Array.parse(fetch['users'])
-    }
+    }.reject { |_, v| v.nil? }
   end
 
   def exists?
@@ -136,13 +136,13 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
   end
 
   def resource_to_request
-    request = Google::HashUtils.camelize_keys(
+    request = {
       kind: 'compute#address',
       address: @resource[:address],
       description: @resource[:description],
       name: @resource[:name],
       region: @resource[:region]
-    ).reject { |_, v| v.nil? }
+    }.reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json
   end
@@ -245,6 +245,7 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
 
   def wait_for_operation(response, resource)
     op_result = return_if_object(response, 'compute#operation')
+    return if op_result.nil?
     status = ::Google::HashUtils.navigate(op_result, %w[status])
     fetch_resource(
       resource,

@@ -75,7 +75,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
         Google::Property::Boolean.parse(fetch['autoCreateSubnetworks']),
       creation_timestamp:
         Google::Property::Time.parse(fetch['creationTimestamp'])
-    }
+    }.reject { |_, v| v.nil? }
   end
 
   def exists?
@@ -151,14 +151,14 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
   end
 
   def resource_to_request
-    request = Google::HashUtils.camelize_keys(
+    request = {
       kind: 'compute#network',
       description: @resource[:description],
       gatewayIPv4: @resource[:gateway_ipv4],
       IPv4Range: @resource[:ipv4_range],
       name: @resource[:name],
       autoCreateSubnetworks: @resource[:auto_create_subnetworks]
-    ).reject { |_, v| v.nil? }
+    }.reject { |_, v| v.nil? }
 
     # Convert boolean symbols into JSON compatible value.
     request = request.inject({}) { |h, (k, v)| h.merge(k => sym_to_bool(v)) }
@@ -265,6 +265,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
 
   def wait_for_operation(response, resource)
     op_result = return_if_object(response, 'compute#operation')
+    return if op_result.nil?
     status = ::Google::HashUtils.navigate(op_result, %w[status])
     fetch_resource(
       resource,

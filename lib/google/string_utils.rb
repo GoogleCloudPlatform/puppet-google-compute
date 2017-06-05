@@ -15,8 +15,17 @@ module Google
   # Helper class to process and mutate strings.
   class StringUtils
     # Converts string from underscore to camel case
-    def self.camelize(source)
-      source.gsub(/_(.)/, &:upcase).delete('_')
+    def self.camelize(source, style = :lower)
+      camelized = source.gsub(/_(.)/, &:upcase).delete('_')
+      case style
+      when :lower
+        camelized[0] = camelized[0].downcase
+      when :upper
+        camelized[0] = camelized[0].upcase
+      else
+        raise "Unknown camel case style: #{style}"
+      end
+      camelized
     end
 
     # Converts string from camel case to underscore

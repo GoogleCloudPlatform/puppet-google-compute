@@ -88,7 +88,7 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
       id: Google::Property::Integer.parse(fetch['id']),
       name: Google::Property::String.parse(fetch['name']),
       valid_disk_size: Google::Property::String.parse(fetch['validDiskSize'])
-    }
+    }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength
 
@@ -134,9 +134,9 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
   # rubocop:enable Metrics/MethodLength
 
   def resource_to_request
-    request = Google::HashUtils.camelize_keys(
+    request = {
       kind: 'compute#diskType'
-    ).reject { |_, v| v.nil? }
+    }.reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json
   end

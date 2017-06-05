@@ -87,7 +87,7 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
       id: Google::Property::Integer.parse(fetch['id']),
       name: Google::Property::String.parse(fetch['name']),
       zones: Google::Property::Array.parse(fetch['zones'])
-    }
+    }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength
 
@@ -151,10 +151,10 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
   end
 
   def resource_to_request
-    request = Google::HashUtils.camelize_keys(
+    request = {
       kind: 'compute#region',
       name: @resource[:name]
-    ).reject { |_, v| v.nil? }
+    }.reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json
   end
