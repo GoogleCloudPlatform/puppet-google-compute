@@ -23,8 +23,13 @@
 # ----------------------------------------------------------------------------
 
 require 'google/hash_utils'
-require 'google/request/get'
+require 'google/property/array'
+require 'google/property/enum'
+require 'google/property/integer'
+require 'google/property/string'
+require 'google/property/time'
 require 'google/request/delete'
+require 'google/request/get'
 require 'google/request/post'
 require 'google/request/put'
 require 'puppet'

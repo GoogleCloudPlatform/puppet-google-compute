@@ -748,6 +748,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
   def load_network_result(file)
     results = File.join(File.dirname(__FILE__), 'data', 'network',
                         'gcompute_region', file)
+    debug("Loading result file: #{results}")
     raise "Network result data file #{results}" unless File.exist?(results)
     data = YAML.safe_load(File.read(results))
     raise "Invalid network results #{results}" unless data.class <= Hash
