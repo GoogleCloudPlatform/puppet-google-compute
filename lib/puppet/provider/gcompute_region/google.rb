@@ -103,7 +103,7 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
                                            fetch_auth(@resource),
                                            'application/json',
                                            resource_to_request)
-    return_if_object create_req.send, 'compute#region'
+    @fetched = return_if_object create_req.send, 'compute#region'
     @property_hash[:ensure] = :present
   end
 
