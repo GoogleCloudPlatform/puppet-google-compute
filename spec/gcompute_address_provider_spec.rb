@@ -40,11 +40,11 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
   ].freeze
 
   A_REGION_DATA = %w[
-    test\ region#0\ data
-    test\ region#1\ data
-    test\ region#2\ data
-    test\ region#3\ data
-    test\ region#4\ data
+    resource(region,0)
+    resource(region,1)
+    resource(region,2)
+    resource(region,3)
+    resource(region,4)
   ].freeze
 
   A_NAME_DATA = %w[
@@ -72,19 +72,46 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               allow(Time).to receive(:now).and_return(
                 Time.new(2017, 1, 2, 3, 4, 5)
               )
-              expect_network_get_success 1, name: 'title0'
-              expect_network_get_success 2, name: 'title1'
-              expect_network_get_success 3, name: 'title2'
+              expect_network_get_success 1, name: 'title0',
+                                            region: 'test name#0 data'
+              expect_network_get_success 2, name: 'title1',
+                                            region: 'test name#1 data'
+              expect_network_get_success 3, name: 'title2',
+                                            region: 'test name#2 data'
+              expect_network_get_success_region 1
+              expect_network_get_success_region 2
+              expect_network_get_success_region 3
             end
 
             let(:catalog) do
               apply_compiled_manifest(
                 <<-MANIFEST
+                gcompute_region { 'resource(region,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0'
+                }
+
+                gcompute_region { 'resource(region,1)':
+                  ensure     => present,
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1'
+                }
+
+                gcompute_region { 'resource(region,2)':
+                  ensure     => present,
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2'
+                }
+
                 gcompute_address { 'title0':
                   ensure      => present,
                   address     => 'test address#0 data',
                   description => 'test description#0 data',
-                  region      => 'test region#0 data',
+                  region      => 'resource(region,0)',
                   project     => 'test project#0 data',
                   credential  => 'cred0'
                 }
@@ -92,7 +119,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                   ensure      => present,
                   address     => 'test address#1 data',
                   description => 'test description#1 data',
-                  region      => 'test region#1 data',
+                  region      => 'resource(region,1)',
                   project     => 'test project#1 data',
                   credential  => 'cred1'
                 }
@@ -100,7 +127,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                   ensure      => present,
                   address     => 'test address#2 data',
                   description => 'test description#2 data',
-                  region      => 'test region#2 data',
+                  region      => 'resource(region,2)',
                   project     => 'test project#2 data',
                   credential  => 'cred2'
                 }
@@ -129,7 +156,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
               it do
-                is_expected.to have_attributes(region: 'test region#0 data')
+                is_expected.to have_attributes(region: 'resource(region,0)')
               end
               it { is_expected.to have_attributes(users: %w[ww xx yy zz]) }
             end
@@ -155,7 +182,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
               it do
-                is_expected.to have_attributes(region: 'test region#1 data')
+                is_expected.to have_attributes(region: 'resource(region,1)')
               end
               it { is_expected.to have_attributes(users: %w[uu vv]) }
             end
@@ -181,7 +208,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
               it do
-                is_expected.to have_attributes(region: 'test region#2 data')
+                is_expected.to have_attributes(region: 'resource(region,2)')
               end
               it { is_expected.to have_attributes(users: %w[ss tt uu vv]) }
             end
@@ -203,20 +230,44 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               allow(Time).to receive(:now).and_return(
                 Time.new(2017, 1, 2, 3, 4, 5)
               )
-              expect_network_get_success 1
-              expect_network_get_success 2
-              expect_network_get_success 3
+              expect_network_get_success 1, region: 'test name#0 data'
+              expect_network_get_success 2, region: 'test name#1 data'
+              expect_network_get_success 3, region: 'test name#2 data'
+              expect_network_get_success_region 1
+              expect_network_get_success_region 2
+              expect_network_get_success_region 3
             end
 
             let(:catalog) do
               apply_compiled_manifest(
                 <<-MANIFEST
+                gcompute_region { 'resource(region,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0'
+                }
+
+                gcompute_region { 'resource(region,1)':
+                  ensure     => present,
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1'
+                }
+
+                gcompute_region { 'resource(region,2)':
+                  ensure     => present,
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2'
+                }
+
                 gcompute_address { 'title0':
                   ensure      => present,
                   address     => 'test address#0 data',
                   description => 'test description#0 data',
                   name        => 'test name#0 data',
-                  region      => 'test region#0 data',
+                  region      => 'resource(region,0)',
                   project     => 'test project#0 data',
                   credential  => 'cred0'
                 }
@@ -225,7 +276,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                   address     => 'test address#1 data',
                   description => 'test description#1 data',
                   name        => 'test name#1 data',
-                  region      => 'test region#1 data',
+                  region      => 'resource(region,1)',
                   project     => 'test project#1 data',
                   credential  => 'cred1'
                 }
@@ -234,7 +285,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                   address     => 'test address#2 data',
                   description => 'test description#2 data',
                   name        => 'test name#2 data',
-                  region      => 'test region#2 data',
+                  region      => 'resource(region,2)',
                   project     => 'test project#2 data',
                   credential  => 'cred2'
                 }
@@ -263,7 +314,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               it do
-                is_expected.to have_attributes(region: 'test region#0 data')
+                is_expected.to have_attributes(region: 'resource(region,0)')
               end
               it { is_expected.to have_attributes(users: %w[ww xx yy zz]) }
             end
@@ -289,7 +340,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               it do
-                is_expected.to have_attributes(region: 'test region#1 data')
+                is_expected.to have_attributes(region: 'resource(region,1)')
               end
               it { is_expected.to have_attributes(users: %w[uu vv]) }
             end
@@ -315,7 +366,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               it do
-                is_expected.to have_attributes(region: 'test region#2 data')
+                is_expected.to have_attributes(region: 'resource(region,2)')
               end
               it { is_expected.to have_attributes(users: %w[ss tt uu vv]) }
             end
@@ -370,7 +421,8 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         # Ensure present: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1, name: 'title0'
+            expect_network_get_failed 1, name: 'title0',
+                                         region: 'test name#0 data'
             expect_network_create \
               1,
               {
@@ -378,20 +430,30 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 'address' => 'test address#0 data',
                 'description' => 'test description#0 data',
                 'name' => 'title0',
-                'region' => 'test region#0 data'
+                'region' => 'test name#0 data'
               },
-              name: 'title0'
-            expect_network_get_async 1, name: 'title0'
+              name: 'title0',
+              region: 'test name#0 data'
+            expect_network_get_async 1, name: 'title0',
+                                        region: 'test name#0 data'
+            expect_network_get_success_region 1, region: 'test name#0 data'
           end
 
           subject do
             apply_compiled_manifest(
               <<-MANIFEST
+              gcompute_region { 'resource(region,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0'
+              }
+
               gcompute_address { 'title0':
                 ensure      => present,
                 address     => 'test address#0 data',
                 description => 'test description#0 data',
-                region      => 'test region#0 data',
+                region      => 'resource(region,0)',
                 project     => 'test project#0 data',
                 credential  => 'cred0'
               }
@@ -415,26 +477,37 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         # Ensure present: resource missing, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            expect_network_get_failed 1
+            expect_network_get_failed 1, region: 'test name#0 data'
             expect_network_create \
               1,
-              'kind' => 'compute#address',
-              'address' => 'test address#0 data',
-              'description' => 'test description#0 data',
-              'name' => 'test name#0 data',
-              'region' => 'test region#0 data'
-            expect_network_get_async 1
+              {
+                'kind' => 'compute#address',
+                'address' => 'test address#0 data',
+                'description' => 'test description#0 data',
+                'name' => 'test name#0 data',
+                'region' => 'test name#0 data'
+              },
+              region: 'test name#0 data'
+            expect_network_get_async 1, region: 'test name#0 data'
+            expect_network_get_success_region 1, region: 'test name#0 data'
           end
 
           subject do
             apply_compiled_manifest(
               <<-MANIFEST
+              gcompute_region { 'resource(region,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0'
+              }
+
               gcompute_address { 'title0':
                 ensure      => present,
                 address     => 'test address#0 data',
                 description => 'test description#0 data',
                 name        => 'test name#0 data',
-                region      => 'test region#0 data',
+                region      => 'resource(region,0)',
                 project     => 'test project#0 data',
                 credential  => 'cred0'
               }
@@ -462,15 +535,24 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         # Ensure absent: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1, name: 'title0'
+            expect_network_get_failed 1, name: 'title0',
+                                         region: 'test name#0 data'
+            expect_network_get_success_region 1, region: 'test name#0 data'
           end
 
           subject do
             apply_compiled_manifest(
               <<-MANIFEST
+              gcompute_region { 'resource(region,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0'
+              }
+
               gcompute_address { 'title0':
                 ensure     => absent,
-                region     => 'test region#0 data',
+                region     => 'resource(region,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0'
               }
@@ -495,16 +577,24 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         # Ensure absent: resource missing, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            expect_network_get_failed 1
+            expect_network_get_failed 1, region: 'test name#0 data'
+            expect_network_get_success_region 1, region: 'test name#0 data'
           end
 
           subject do
             apply_compiled_manifest(
               <<-MANIFEST
+              gcompute_region { 'resource(region,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0'
+              }
+
               gcompute_address { 'title0':
                 ensure     => absent,
                 name       => 'test name#0 data',
-                region     => 'test region#0 data',
+                region     => 'resource(region,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0'
               }
@@ -531,17 +621,27 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         # Ensure absent: resource exists, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_success 1, name: 'title0'
-            expect_network_delete 1, 'title0'
-            expect_network_get_async 1, name: 'title0'
+            expect_network_get_success 1, name: 'title0',
+                                          region: 'test name#0 data'
+            expect_network_delete 1, 'title0', region: 'test name#0 data'
+            expect_network_get_async 1, name: 'title0',
+                                        region: 'test name#0 data'
+            expect_network_get_success_region 1, region: 'test name#0 data'
           end
 
           subject do
             apply_compiled_manifest(
               <<-MANIFEST
+              gcompute_region { 'resource(region,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0'
+              }
+
               gcompute_address { 'title0':
                 ensure     => absent,
-                region     => 'test region#0 data',
+                region     => 'resource(region,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0'
               }
@@ -566,18 +666,26 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         # Ensure absent: resource exists, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            expect_network_get_success 1
-            expect_network_delete 1
-            expect_network_get_async 1
+            expect_network_get_success 1, region: 'test name#0 data'
+            expect_network_delete 1, nil, region: 'test name#0 data'
+            expect_network_get_async 1, region: 'test name#0 data'
+            expect_network_get_success_region 1, region: 'test name#0 data'
           end
 
           subject do
             apply_compiled_manifest(
               <<-MANIFEST
+              gcompute_region { 'resource(region,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0'
+              }
+
               gcompute_address { 'title0':
                 ensure     => absent,
                 name       => 'test name#0 data',
-                region     => 'test region#0 data',
+                region     => 'resource(region,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0'
               }
@@ -723,8 +831,49 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     data
   end
 
+  def expect_network_get_success_region(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_region("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    expect(Google::Request::Get).to receive(:new)
+      .with(self_link_region(uri_data(id).merge(data)),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_region(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_region', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  def self_link_region(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_region(
+        'projects/{{project}}/regions/{{name}}',
+        data
+      )
+    )
+  end
+
   def debug(message)
     puts(message) if ENV['RSPEC_DEBUG']
+  end
+
+  def expand_variables_region(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .expand_variables(template, data, ext_dat)
   end
 
   def create_type(id)

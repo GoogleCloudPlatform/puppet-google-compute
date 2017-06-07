@@ -126,8 +126,7 @@ TODO(nelsonjr): Add documentation
 
 ##### `region`
 
-  URL of the region where the regional address resides.
-  This field is not applicable to global addresses.
+  A reference to Region resource
 
 ##### `users`
 

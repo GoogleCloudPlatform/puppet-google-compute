@@ -23,6 +23,7 @@
 # ----------------------------------------------------------------------------
 
 require 'google/compute/property/integer'
+require 'google/compute/property/resourceref'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
@@ -71,7 +72,7 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
         Google::Compute::Property::String.parse(fetch['description']),
       id: Google::Compute::Property::Integer.parse(fetch['id']),
       name: Google::Compute::Property::String.parse(fetch['name']),
-      region: Google::Compute::Property::String.parse(fetch['region']),
+      region: Google::Compute::Property::ResourceRef.parse(fetch['region']),
       users: Google::Compute::Property::StringArray.parse(fetch['users'])
     }.reject { |_, v| v.nil? }
   end
@@ -123,6 +124,9 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
   private
 
   def self.resource_to_hash(resource)
+    region = Puppet::Type.type(:gcompute_region)
+                         .fetch(resource[:region])
+                         .exports[:name]
     {
       project: resource[:project],
       name: resource[:name],
@@ -131,18 +135,22 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
       creation_timestamp: resource[:creation_timestamp],
       description: resource[:description],
       id: resource[:id],
-      region: resource[:region],
+      region: region,
       users: resource[:users]
     }.reject { |_, v| v.nil? }
   end
 
   def resource_to_request
+    region = Puppet::Type.type(:gcompute_region)
+                         .fetch(resource[:region])
+                         .exports[:name]
+
     request = {
       kind: 'compute#address',
       address: @resource[:address],
       description: @resource[:description],
       name: @resource[:name],
-      region: @resource[:region]
+      region: region
     }.reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json

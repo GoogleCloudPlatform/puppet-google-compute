@@ -700,6 +700,25 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
     end
   end
 
+  context '#exports' do
+    context 'exports all properties' do
+      let(:resource1) { create_type 1 }
+      before do
+        expect_network_get_success 1
+        described_class.prefetch(title0: resource1)
+      end
+
+      subject { resource1.exports }
+
+      let(:expected_results) do
+        {
+          name: 'test name#0 data'
+        }
+      end
+      it { is_expected.to eq(expected_results) }
+    end
+  end
+
   private
 
   def expect_network_get_success(id, data = {})

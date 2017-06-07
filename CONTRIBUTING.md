@@ -76,10 +76,12 @@ puppet-codegen:
   * lib/google/compute/property/enum.rb
   * lib/google/compute/property/firewall_allowed.rb
   * lib/google/compute/property/integer.rb
+  * lib/google/compute/property/resourceref.rb
   * lib/google/compute/property/string.rb
   * lib/google/compute/property/string_array.rb
   * lib/google/compute/property/time.rb
   * lib/google/hash_utils.rb
+  * lib/google/object_store.rb
   * lib/google/request/base.rb
   * lib/google/request/delete.rb
   * lib/google/request/get.rb

@@ -23,6 +23,7 @@
 # ----------------------------------------------------------------------------
 
 require 'google/compute/property/integer'
+require 'google/compute/property/resourceref'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
@@ -87,11 +88,8 @@ Puppet::Type.newtype(:gcompute_address) do
     desc 'Name of the resource.'
   end
 
-  newproperty(:region, parent: Google::Compute::Property::String) do
-    desc <<-EOT
-      URL of the region where the regional address resides. This field is not
-      applicable to global addresses.
-    EOT
+  newproperty(:region, parent: Google::Compute::Property::ResourceRef) do
+    desc 'A reference to Region resource'
   end
 
   newproperty(:users, parent: Google::Compute::Property::StringArray) do

@@ -27,6 +27,7 @@ require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_region) do
@@ -120,5 +121,17 @@ Puppet::Type.newtype(:gcompute_region) do
 
   newproperty(:zones, parent: Google::Compute::Property::StringArray) do
     desc 'List of zones within the region (output only)'
+  end
+
+  def self.fetch(title)
+    Google::ObjectStore.instance[:gcompute_region].each do |entry|
+      return entry if entry.title == title
+    end
+    raise ArgumentError, "gcompute_region[#{title}] required"
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end

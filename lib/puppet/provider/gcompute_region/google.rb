@@ -28,6 +28,7 @@ require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
 require 'google/hash_utils'
+require 'google/object_store'
 require 'google/request/delete'
 require 'google/request/get'
 require 'google/request/post'
@@ -54,6 +55,7 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
       fetch = fetch_resource(resource, self_link(resource),
                              'compute#region')
       resource.provider = present(name, fetch) unless fetch.nil?
+      Google::ObjectStore.instance.add(:gcompute_region, resource)
     end
   end
 
@@ -129,6 +131,12 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
     @dirty[field] = {
       from: from,
       to: to
+    }
+  end
+
+  def exports
+    {
+      name: @fetched['name']
     }
   end
 
