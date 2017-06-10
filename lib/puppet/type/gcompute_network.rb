@@ -22,11 +22,11 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/boolean'
+require 'google/compute/property/integer'
+require 'google/compute/property/string'
 require 'google/compute/property/string_array'
-require 'google/property/boolean'
-require 'google/property/integer'
-require 'google/property/string'
-require 'google/property/time'
+require 'google/compute/property/time'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_network) do
@@ -67,14 +67,14 @@ Puppet::Type.newtype(:gcompute_network) do
     desc 'The name of the Network.'
   end
 
-  newproperty(:description, parent: Google::Property::String) do
+  newproperty(:description, parent: Google::Compute::Property::String) do
     desc <<-EOT
       An optional description of this resource. Provide this property when you
       create the resource.
     EOT
   end
 
-  newproperty(:gateway_ipv4, parent: Google::Property::String) do
+  newproperty(:gateway_ipv4, parent: Google::Compute::Property::String) do
     desc <<-EOT
       A gateway address for default routing to other networks. This value is
       read only and is selected by the Google Compute Engine, typically as the
@@ -82,11 +82,11 @@ Puppet::Type.newtype(:gcompute_network) do
     EOT
   end
 
-  newproperty(:id, parent: Google::Property::Integer) do
+  newproperty(:id, parent: Google::Compute::Property::Integer) do
     desc 'The unique identifier for the resource. (output only)'
   end
 
-  newproperty(:ipv4_range, parent: Google::Property::String) do
+  newproperty(:ipv4_range, parent: Google::Compute::Property::String) do
     desc <<-EOT
       The range of internal addresses that are legal on this network. This
       range is a CIDR specification, for example: 192.168.0.0/16. Provided by
@@ -94,7 +94,7 @@ Puppet::Type.newtype(:gcompute_network) do
     EOT
   end
 
-  newproperty(:name, parent: Google::Property::String) do
+  newproperty(:name, parent: Google::Compute::Property::String) do
     desc <<-EOT
       Name of the resource. Provided by the client when the resource is
       created. The name must be 1-63 characters long, and comply with RFC1035.
@@ -113,7 +113,8 @@ Puppet::Type.newtype(:gcompute_network) do
     EOT
   end
 
-  newproperty(:auto_create_subnetworks, parent: Google::Property::Boolean) do
+  newproperty(:auto_create_subnetworks,
+              parent: Google::Compute::Property::Boolean) do
     desc <<-EOT
       When set to true, the network is created in "auto subnet mode". When set
       to false, the network is in "custom subnet mode". In "auto subnet mode",
@@ -124,7 +125,7 @@ Puppet::Type.newtype(:gcompute_network) do
     newvalue(:false)
   end
 
-  newproperty(:creation_timestamp, parent: Google::Property::Time) do
+  newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
     desc 'Creation timestamp in RFC3339 text format. (output only)'
   end
 end

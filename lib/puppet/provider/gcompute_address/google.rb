@@ -22,11 +22,11 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/integer'
+require 'google/compute/property/string'
 require 'google/compute/property/string_array'
+require 'google/compute/property/time'
 require 'google/hash_utils'
-require 'google/property/integer'
-require 'google/property/string'
-require 'google/property/time'
 require 'google/request/delete'
 require 'google/request/get'
 require 'google/request/post'
@@ -64,13 +64,14 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
 
   def self.fetch_to_hash(fetch)
     {
-      address: Google::Property::String.parse(fetch['address']),
+      address: Google::Compute::Property::String.parse(fetch['address']),
       creation_timestamp:
-        Google::Property::Time.parse(fetch['creationTimestamp']),
-      description: Google::Property::String.parse(fetch['description']),
-      id: Google::Property::Integer.parse(fetch['id']),
-      name: Google::Property::String.parse(fetch['name']),
-      region: Google::Property::String.parse(fetch['region']),
+        Google::Compute::Property::Time.parse(fetch['creationTimestamp']),
+      description:
+        Google::Compute::Property::String.parse(fetch['description']),
+      id: Google::Compute::Property::Integer.parse(fetch['id']),
+      name: Google::Compute::Property::String.parse(fetch['name']),
+      region: Google::Compute::Property::String.parse(fetch['region']),
       users: Google::Compute::Property::StringArray.parse(fetch['users'])
     }.reject { |_, v| v.nil? }
   end

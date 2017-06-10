@@ -62,15 +62,15 @@ puppet-codegen:
   * examples/network~legacy.pp
   * examples/region.pp
   * Gemfile
+  * lib/google/compute/property/array.rb
+  * lib/google/compute/property/base.rb
+  * lib/google/compute/property/boolean.rb
+  * lib/google/compute/property/enum.rb
+  * lib/google/compute/property/integer.rb
+  * lib/google/compute/property/string.rb
   * lib/google/compute/property/string_array.rb
+  * lib/google/compute/property/time.rb
   * lib/google/hash_utils.rb
-  * lib/google/property/array.rb
-  * lib/google/property/base.rb
-  * lib/google/property/boolean.rb
-  * lib/google/property/enum.rb
-  * lib/google/property/integer.rb
-  * lib/google/property/string.rb
-  * lib/google/property/time.rb
   * lib/google/request/base.rb
   * lib/google/request/delete.rb
   * lib/google/request/get.rb
@@ -123,7 +123,6 @@ puppet-codegen:
   * spec/gcompute_disk_type_provider_spec.rb
   * spec/gcompute_network_provider_spec.rb
   * spec/gcompute_region_provider_spec.rb
-  * spec/google_property_base_spec.rb
   * spec/hash_utils_spec.rb
   * spec/network_blocker.rb
   * spec/network_blocker_spec.rb

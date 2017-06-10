@@ -22,11 +22,11 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/enum'
+require 'google/compute/property/integer'
+require 'google/compute/property/string'
 require 'google/compute/property/string_array'
-require 'google/property/enum'
-require 'google/property/integer'
-require 'google/property/string'
-require 'google/property/time'
+require 'google/compute/property/time'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_region) do
@@ -57,32 +57,34 @@ Puppet::Type.newtype(:gcompute_region) do
     desc 'The name of the Region.'
   end
 
-  newproperty(:creation_timestamp, parent: Google::Property::Time) do
+  newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
     desc 'Creation timestamp in RFC3339 text format. (output only)'
   end
 
-  newproperty(:deprecated_deleted, parent: Google::Property::Time) do
+  newproperty(:deprecated_deleted, parent: Google::Compute::Property::Time) do
     desc <<-EOT
       An optional RFC3339 timestamp on or after which the deprecation state of
       this resource will be changed to DELETED. (output only)
     EOT
   end
 
-  newproperty(:deprecated_deprecated, parent: Google::Property::Time) do
+  newproperty(:deprecated_deprecated,
+              parent: Google::Compute::Property::Time) do
     desc <<-EOT
       An optional RFC3339 timestamp on or after which the deprecation state of
       this resource will be changed to DEPRECATED. (output only)
     EOT
   end
 
-  newproperty(:deprecated_obsolete, parent: Google::Property::Time) do
+  newproperty(:deprecated_obsolete, parent: Google::Compute::Property::Time) do
     desc <<-EOT
       An optional RFC3339 timestamp on or after which the deprecation state of
       this resource will be changed to OBSOLETE. (output only)
     EOT
   end
 
-  newproperty(:deprecated_replacement, parent: Google::Property::String) do
+  newproperty(:deprecated_replacement,
+              parent: Google::Compute::Property::String) do
     desc <<-EOT
       The URL of the suggested replacement for a deprecated resource. The
       suggested replacement resource must be the same kind of resource as the
@@ -90,7 +92,7 @@ Puppet::Type.newtype(:gcompute_region) do
     EOT
   end
 
-  newproperty(:deprecated_state, parent: Google::Property::Enum) do
+  newproperty(:deprecated_state, parent: Google::Compute::Property::Enum) do
     desc <<-EOT
       The deprecation state of this resource. This can be DEPRECATED, OBSOLETE,
       or DELETED. Operations which create a new resource using a DEPRECATED
@@ -104,15 +106,15 @@ Puppet::Type.newtype(:gcompute_region) do
     newvalue(:DELETED)
   end
 
-  newproperty(:description, parent: Google::Property::String) do
+  newproperty(:description, parent: Google::Compute::Property::String) do
     desc 'An optional description of this resource. (output only)'
   end
 
-  newproperty(:id, parent: Google::Property::Integer) do
+  newproperty(:id, parent: Google::Compute::Property::Integer) do
     desc 'The unique identifier for the resource. (output only)'
   end
 
-  newproperty(:name, parent: Google::Property::String) do
+  newproperty(:name, parent: Google::Compute::Property::String) do
     desc 'Name of the resource.'
   end
 

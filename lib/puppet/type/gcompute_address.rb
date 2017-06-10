@@ -22,10 +22,10 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/integer'
+require 'google/compute/property/string'
 require 'google/compute/property/string_array'
-require 'google/property/integer'
-require 'google/property/string'
-require 'google/property/time'
+require 'google/compute/property/time'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_address) do
@@ -64,30 +64,30 @@ Puppet::Type.newtype(:gcompute_address) do
     desc 'The name of the Address.'
   end
 
-  newproperty(:address, parent: Google::Property::String) do
+  newproperty(:address, parent: Google::Compute::Property::String) do
     desc <<-EOT
       The static external IP address represented by this resource. Only IPv4 is
       supported.
     EOT
   end
 
-  newproperty(:creation_timestamp, parent: Google::Property::Time) do
+  newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
     desc 'Creation timestamp in RFC3339 text format. (output only)'
   end
 
-  newproperty(:description, parent: Google::Property::String) do
+  newproperty(:description, parent: Google::Compute::Property::String) do
     desc 'An optional description of this resource.'
   end
 
-  newproperty(:id, parent: Google::Property::Integer) do
+  newproperty(:id, parent: Google::Compute::Property::Integer) do
     desc 'The unique identifier for the resource. (output only)'
   end
 
-  newproperty(:name, parent: Google::Property::String) do
+  newproperty(:name, parent: Google::Compute::Property::String) do
     desc 'Name of the resource.'
   end
 
-  newproperty(:region, parent: Google::Property::String) do
+  newproperty(:region, parent: Google::Compute::Property::String) do
     desc <<-EOT
       URL of the region where the regional address resides. This field is not
       applicable to global addresses.

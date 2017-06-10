@@ -22,27 +22,36 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'google/property/base'
+require 'google/compute/property/base'
 
 module Google
-  module Property
-    # A Puppet property that holds a string
-    class Boolean < Google::Property::Base
-      def self.parse(value)
-        value
-      end
+  module Compute
+    module Property
+      # A Puppet property that can compare its values
+      class Array < Google::Compute::Property::Base
+        # Sets Google::Property::Array to match all elements, not any.
+        def self.match_all_array
+          self.array_matching = :all
+        end
 
-      def insync?(is)
-        test_is = Puppet::Coercion.boolean(is)
-        test_should = Puppet::Coercion.boolean(should)
-        debug("insync? #{name}: '#{test_is}' == '#{test_should}'")
-        insync = false
-        insync = true if test_is == :absent && test_should == :absent
-        insync = (test_is == test_should) \
-          unless test_is == :absent || test_should == :absent
-        debug("insync? #{name}: '#{test_is}' == '#{test_should}': #{insync}")
-        resource.provider.dirty name, is, should unless insync
-        insync
+        # When the user specifies an array for a property Puppet by default
+        # ensures that at least 1 of the values match. This is useful when you
+        # have various options and any match is good, e.g. various possible file
+        # sources, say from Corp or Internet.
+        #
+        # However our arrays require that all values match so we define the
+        # array_matching = :all to instruct Puppet to do this. This could have
+        # been specified in the Puppet::Type, but putting it here makes it
+        # simpler to not "forget" to define it.
+        match_all_array
+
+        def match_all?
+          true
+        end
+
+        def self.parse(value)
+          value
+        end
       end
     end
   end

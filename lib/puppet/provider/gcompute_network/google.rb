@@ -22,12 +22,12 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/boolean'
+require 'google/compute/property/integer'
+require 'google/compute/property/string'
 require 'google/compute/property/string_array'
+require 'google/compute/property/time'
 require 'google/hash_utils'
-require 'google/property/boolean'
-require 'google/property/integer'
-require 'google/property/string'
-require 'google/property/time'
 require 'google/request/delete'
 require 'google/request/get'
 require 'google/request/post'
@@ -63,21 +63,26 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     result
   end
 
+  # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch)
     {
-      description: Google::Property::String.parse(fetch['description']),
-      gateway_ipv4: Google::Property::String.parse(fetch['gatewayIPv4']),
-      id: Google::Property::Integer.parse(fetch['id']),
-      ipv4_range: Google::Property::String.parse(fetch['IPv4Range']),
-      name: Google::Property::String.parse(fetch['name']),
+      description:
+        Google::Compute::Property::String.parse(fetch['description']),
+      gateway_ipv4:
+        Google::Compute::Property::String.parse(fetch['gatewayIPv4']),
+      id: Google::Compute::Property::Integer.parse(fetch['id']),
+      ipv4_range: Google::Compute::Property::String.parse(fetch['IPv4Range']),
+      name: Google::Compute::Property::String.parse(fetch['name']),
       subnetworks:
         Google::Compute::Property::StringArray.parse(fetch['subnetworks']),
-      auto_create_subnetworks:
-        Google::Property::Boolean.parse(fetch['autoCreateSubnetworks']),
+      auto_create_subnetworks: Google::Compute::Property::Boolean.parse(
+        fetch['autoCreateSubnetworks']
+      ),
       creation_timestamp:
-        Google::Property::Time.parse(fetch['creationTimestamp'])
+        Google::Compute::Property::Time.parse(fetch['creationTimestamp'])
     }.reject { |_, v| v.nil? }
   end
+  # rubocop:enable Metrics/MethodLength
 
   def exists?
     debug("exists? #{@property_hash[:ensure] == :present}")

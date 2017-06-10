@@ -22,13 +22,13 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'google/property/array'
+require 'google/compute/property/array'
 
 module Google
   module Compute
     module Property
       # A Puppet property that can compare its values
-      class StringArray < Google::Property::Array
+      class StringArray < Google::Compute::Property::Array
         def unsafe_munge(value)
           validate value
           value
@@ -40,7 +40,7 @@ module Google
         end
 
         def self.validate(value)
-          return if value.nil? || value.is_a?(String)
+          return if value.nil? || value.is_a?(::String)
           unless value.is_a? ::Array
             raise "Expected string but found #{value.class} instead: #{value}"
           end

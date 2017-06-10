@@ -22,11 +22,17 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'spec_helper'
+require 'google/compute/property/base'
 
-describe Google::Property::Base do
-  # TODO(nelsonjr): Test all our properties after following up with Puppet.
-  # We need a way to instantiate the property with a value, as if Puppet had
-  # loaded on a type, so we can exercise the insync?, validate and other
-  # methods.
+module Google
+  module Compute
+    module Property
+      # A Puppet property that holds a string
+      class String < Google::Compute::Property::Base
+        def self.parse(value)
+          value
+        end
+      end
+    end
+  end
 end

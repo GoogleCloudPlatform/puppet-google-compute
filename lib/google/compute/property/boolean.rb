@@ -22,20 +22,29 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'puppet/property'
+require 'google/compute/property/base'
 
 module Google
-  module Property
-    # A Puppet property that can compare its values
-    class Base < Puppet::Property
-      def insync?(is)
-        debug("insync? #{name}: '#{is}' == '#{should}'")
-        insync = false
-        insync = true if is == :absent && should == :absent
-        insync = (is == should) unless is == :absent || should == :absent
-        debug("insync? #{name}: '#{is}' == '#{should}': #{insync}")
-        resource.provider.dirty name, is, should unless insync
-        insync
+  module Compute
+    module Property
+      # A Puppet property that holds a string
+      class Boolean < Google::Compute::Property::Base
+        def self.parse(value)
+          value
+        end
+
+        def insync?(is)
+          test_is = Puppet::Coercion.boolean(is)
+          test_should = Puppet::Coercion.boolean(should)
+          debug("insync? #{name}: '#{test_is}' == '#{test_should}'")
+          insync = false
+          insync = true if test_is == :absent && test_should == :absent
+          insync = (test_is == test_should) \
+            unless test_is == :absent || test_should == :absent
+          debug("insync? #{name}: '#{test_is}' == '#{test_should}': #{insync}")
+          resource.provider.dirty name, is, should unless insync
+          insync
+        end
       end
     end
   end

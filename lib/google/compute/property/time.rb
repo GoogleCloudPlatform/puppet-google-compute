@@ -22,18 +22,20 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'google/property/base'
+require 'google/compute/property/base'
 
 module Google
-  module Property
-    # A Puppet property that holds an integer
-    class Integer < Google::Property::Base
-      def unsafe_munge(value)
-        value.to_i
-      end
+  module Compute
+    module Property
+      # A Puppet property that holds a date & time value
+      class Time < Google::Compute::Property::Base
+        def unsafe_munge(value)
+          value
+        end
 
-      def self.parse(value)
-        value.to_i
+        def self.parse(value)
+          value
+        end
       end
     end
   end

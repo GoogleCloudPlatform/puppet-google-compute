@@ -22,12 +22,12 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/enum'
+require 'google/compute/property/integer'
+require 'google/compute/property/string'
 require 'google/compute/property/string_array'
+require 'google/compute/property/time'
 require 'google/hash_utils'
-require 'google/property/enum'
-require 'google/property/integer'
-require 'google/property/string'
-require 'google/property/time'
 require 'google/request/delete'
 require 'google/request/get'
 require 'google/request/post'
@@ -67,25 +67,26 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
   def self.fetch_to_hash(fetch)
     {
       creation_timestamp:
-        Google::Property::Time.parse(fetch['creationTimestamp']),
-      deprecated_deleted: Google::Property::Time.parse(
+        Google::Compute::Property::Time.parse(fetch['creationTimestamp']),
+      deprecated_deleted: Google::Compute::Property::Time.parse(
         Google::HashUtils.navigate(fetch, %w[deprecated deleted])
       ),
-      deprecated_deprecated: Google::Property::Time.parse(
+      deprecated_deprecated: Google::Compute::Property::Time.parse(
         Google::HashUtils.navigate(fetch, %w[deprecated deprecated])
       ),
-      deprecated_obsolete: Google::Property::Time.parse(
+      deprecated_obsolete: Google::Compute::Property::Time.parse(
         Google::HashUtils.navigate(fetch, %w[deprecated obsolete])
       ),
-      deprecated_replacement: Google::Property::String.parse(
+      deprecated_replacement: Google::Compute::Property::String.parse(
         Google::HashUtils.navigate(fetch, %w[deprecated replacement])
       ),
-      deprecated_state: Google::Property::Enum.parse(
+      deprecated_state: Google::Compute::Property::Enum.parse(
         Google::HashUtils.navigate(fetch, %w[deprecated state])
       ),
-      description: Google::Property::String.parse(fetch['description']),
-      id: Google::Property::Integer.parse(fetch['id']),
-      name: Google::Property::String.parse(fetch['name']),
+      description:
+        Google::Compute::Property::String.parse(fetch['description']),
+      id: Google::Compute::Property::Integer.parse(fetch['id']),
+      name: Google::Compute::Property::String.parse(fetch['name']),
       zones: Google::Compute::Property::StringArray.parse(fetch['zones'])
     }.reject { |_, v| v.nil? }
   end
