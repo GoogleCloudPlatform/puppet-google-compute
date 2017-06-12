@@ -22,8 +22,8 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/string_array'
 require 'google/hash_utils'
-require 'google/property/array'
 require 'google/property/enum'
 require 'google/property/integer'
 require 'google/property/string'
@@ -86,7 +86,7 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
       description: Google::Property::String.parse(fetch['description']),
       id: Google::Property::Integer.parse(fetch['id']),
       name: Google::Property::String.parse(fetch['name']),
-      zones: Google::Property::Array.parse(fetch['zones'])
+      zones: Google::Compute::Property::StringArray.parse(fetch['zones'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength

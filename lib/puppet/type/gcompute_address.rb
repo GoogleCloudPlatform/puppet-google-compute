@@ -22,7 +22,7 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'google/property/array'
+require 'google/compute/property/string_array'
 require 'google/property/integer'
 require 'google/property/string'
 require 'google/property/time'
@@ -94,7 +94,7 @@ Puppet::Type.newtype(:gcompute_address) do
     EOT
   end
 
-  newproperty(:users, parent: Google::Property::Array) do
+  newproperty(:users, parent: Google::Compute::Property::StringArray) do
     desc 'The URLs of the resources that are using this address. (output only)'
   end
 end

@@ -124,13 +124,13 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
               it { is_expected.to have_attributes(name: 'title0') }
               it { is_expected.to have_attributes(subnetworks: %w[ll mm nn]) }
               it do
-                is_expected
-                  .to have_attributes(auto_create_subnetworks: true)
+                is_expected.to have_attributes(auto_create_subnetworks: true)
               end
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2045-05-23T12:08:10+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2045-05-23T12:08:10+00:00'
+                  )
               end
             end
 
@@ -154,17 +154,16 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
               end
               it { is_expected.to have_attributes(name: 'title1') }
               it do
-                is_expected
-                  .to have_attributes(subnetworks: %w[ww xx yy zz])
+                is_expected.to have_attributes(subnetworks: %w[ww xx yy zz])
+              end
+              it do
+                is_expected.to have_attributes(auto_create_subnetworks: false)
               end
               it do
                 is_expected
-                  .to have_attributes(auto_create_subnetworks: false)
-              end
-              it do
-                is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2120-10-14T00:16:21+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2120-10-14T00:16:21+00:00'
+                  )
               end
             end
 
@@ -189,13 +188,13 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
               it { is_expected.to have_attributes(name: 'title2') }
               it { is_expected.to have_attributes(subnetworks: %w[mm nn]) }
               it do
-                is_expected
-                  .to have_attributes(auto_create_subnetworks: true)
+                is_expected.to have_attributes(auto_create_subnetworks: true)
               end
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2196-03-05T12:24:32+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2196-03-05T12:24:32+00:00'
+                  )
               end
             end
           end
@@ -279,13 +278,13 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               it { is_expected.to have_attributes(subnetworks: %w[ll mm nn]) }
               it do
-                is_expected
-                  .to have_attributes(auto_create_subnetworks: true)
+                is_expected.to have_attributes(auto_create_subnetworks: true)
               end
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2045-05-23T12:08:10+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2045-05-23T12:08:10+00:00'
+                  )
               end
             end
 
@@ -309,17 +308,16 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
               end
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               it do
-                is_expected
-                  .to have_attributes(subnetworks: %w[ww xx yy zz])
+                is_expected.to have_attributes(subnetworks: %w[ww xx yy zz])
+              end
+              it do
+                is_expected.to have_attributes(auto_create_subnetworks: false)
               end
               it do
                 is_expected
-                  .to have_attributes(auto_create_subnetworks: false)
-              end
-              it do
-                is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2120-10-14T00:16:21+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2120-10-14T00:16:21+00:00'
+                  )
               end
             end
 
@@ -344,13 +342,13 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               it { is_expected.to have_attributes(subnetworks: %w[mm nn]) }
               it do
-                is_expected
-                  .to have_attributes(auto_create_subnetworks: true)
+                is_expected.to have_attributes(auto_create_subnetworks: true)
               end
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2196-03-05T12:24:32+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2196-03-05T12:24:32+00:00'
+                  )
               end
             end
           end

@@ -114,13 +114,13 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               end
 
               it do
-                is_expected
-                  .to have_attributes(address: 'test address#0 data')
+                is_expected.to have_attributes(address: 'test address#0 data')
               end
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2045-05-23T12:08:10+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2045-05-23T12:08:10+00:00'
+                  )
               end
               it do
                 is_expected
@@ -129,8 +129,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
               it do
-                is_expected
-                  .to have_attributes(region: 'test region#0 data')
+                is_expected.to have_attributes(region: 'test region#0 data')
               end
               it { is_expected.to have_attributes(users: %w[ww xx yy zz]) }
             end
@@ -141,13 +140,13 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               end
 
               it do
-                is_expected
-                  .to have_attributes(address: 'test address#1 data')
+                is_expected.to have_attributes(address: 'test address#1 data')
               end
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2120-10-14T00:16:21+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2120-10-14T00:16:21+00:00'
+                  )
               end
               it do
                 is_expected
@@ -156,8 +155,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
               it do
-                is_expected
-                  .to have_attributes(region: 'test region#1 data')
+                is_expected.to have_attributes(region: 'test region#1 data')
               end
               it { is_expected.to have_attributes(users: %w[uu vv]) }
             end
@@ -168,13 +166,13 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               end
 
               it do
-                is_expected
-                  .to have_attributes(address: 'test address#2 data')
+                is_expected.to have_attributes(address: 'test address#2 data')
               end
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2196-03-05T12:24:32+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2196-03-05T12:24:32+00:00'
+                  )
               end
               it do
                 is_expected
@@ -183,8 +181,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
               it do
-                is_expected
-                  .to have_attributes(region: 'test region#2 data')
+                is_expected.to have_attributes(region: 'test region#2 data')
               end
               it { is_expected.to have_attributes(users: %w[ss tt uu vv]) }
             end
@@ -251,13 +248,13 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               end
 
               it do
-                is_expected
-                  .to have_attributes(address: 'test address#0 data')
+                is_expected.to have_attributes(address: 'test address#0 data')
               end
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2045-05-23T12:08:10+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2045-05-23T12:08:10+00:00'
+                  )
               end
               it do
                 is_expected
@@ -266,8 +263,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               it do
-                is_expected
-                  .to have_attributes(region: 'test region#0 data')
+                is_expected.to have_attributes(region: 'test region#0 data')
               end
               it { is_expected.to have_attributes(users: %w[ww xx yy zz]) }
             end
@@ -278,13 +274,13 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               end
 
               it do
-                is_expected
-                  .to have_attributes(address: 'test address#1 data')
+                is_expected.to have_attributes(address: 'test address#1 data')
               end
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2120-10-14T00:16:21+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2120-10-14T00:16:21+00:00'
+                  )
               end
               it do
                 is_expected
@@ -293,8 +289,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               it do
-                is_expected
-                  .to have_attributes(region: 'test region#1 data')
+                is_expected.to have_attributes(region: 'test region#1 data')
               end
               it { is_expected.to have_attributes(users: %w[uu vv]) }
             end
@@ -305,13 +300,13 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               end
 
               it do
-                is_expected
-                  .to have_attributes(address: 'test address#2 data')
+                is_expected.to have_attributes(address: 'test address#2 data')
               end
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2196-03-05T12:24:32+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2196-03-05T12:24:32+00:00'
+                  )
               end
               it do
                 is_expected
@@ -320,8 +315,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               it do
-                is_expected
-                  .to have_attributes(region: 'test region#2 data')
+                is_expected.to have_attributes(region: 'test region#2 data')
               end
               it { is_expected.to have_attributes(users: %w[ss tt uu vv]) }
             end

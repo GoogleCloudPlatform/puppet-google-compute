@@ -22,7 +22,7 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'google/property/array'
+require 'google/compute/property/string_array'
 require 'google/property/boolean'
 require 'google/property/integer'
 require 'google/property/string'
@@ -106,7 +106,7 @@ Puppet::Type.newtype(:gcompute_network) do
     EOT
   end
 
-  newproperty(:subnetworks, parent: Google::Property::Array) do
+  newproperty(:subnetworks, parent: Google::Compute::Property::StringArray) do
     desc <<-EOT
       Server-defined fully-qualified URLs for all subnetworks in this network.
       (output only)

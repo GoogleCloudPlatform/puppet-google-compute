@@ -62,6 +62,7 @@ puppet-codegen:
   * examples/network~legacy.pp
   * examples/region.pp
   * Gemfile
+  * lib/google/compute/property/string_array.rb
   * lib/google/hash_utils.rb
   * lib/google/property/array.rb
   * lib/google/property/base.rb

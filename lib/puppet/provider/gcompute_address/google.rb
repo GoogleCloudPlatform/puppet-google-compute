@@ -22,8 +22,8 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/string_array'
 require 'google/hash_utils'
-require 'google/property/array'
 require 'google/property/integer'
 require 'google/property/string'
 require 'google/property/time'
@@ -71,7 +71,7 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
       id: Google::Property::Integer.parse(fetch['id']),
       name: Google::Property::String.parse(fetch['name']),
       region: Google::Property::String.parse(fetch['region']),
-      users: Google::Property::Array.parse(fetch['users'])
+      users: Google::Compute::Property::StringArray.parse(fetch['users'])
     }.reject { |_, v| v.nil? }
   end
 

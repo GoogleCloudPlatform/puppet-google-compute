@@ -22,7 +22,7 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'google/property/array'
+require 'google/compute/property/string_array'
 require 'google/property/enum'
 require 'google/property/integer'
 require 'google/property/string'
@@ -116,7 +116,7 @@ Puppet::Type.newtype(:gcompute_region) do
     desc 'Name of the resource.'
   end
 
-  newproperty(:zones, parent: Google::Property::Array) do
+  newproperty(:zones, parent: Google::Compute::Property::StringArray) do
     desc 'List of zones within the region (output only)'
   end
 end

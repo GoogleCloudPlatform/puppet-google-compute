@@ -22,8 +22,8 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/string_array'
 require 'google/hash_utils'
-require 'google/property/array'
 require 'google/property/boolean'
 require 'google/property/integer'
 require 'google/property/string'
@@ -70,7 +70,8 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
       id: Google::Property::Integer.parse(fetch['id']),
       ipv4_range: Google::Property::String.parse(fetch['IPv4Range']),
       name: Google::Property::String.parse(fetch['name']),
-      subnetworks: Google::Property::Array.parse(fetch['subnetworks']),
+      subnetworks:
+        Google::Compute::Property::StringArray.parse(fetch['subnetworks']),
       auto_create_subnetworks:
         Google::Property::Boolean.parse(fetch['autoCreateSubnetworks']),
       creation_timestamp:

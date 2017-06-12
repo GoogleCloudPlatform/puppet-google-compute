@@ -98,32 +98,36 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2045-05-23T12:08:10+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2045-05-23T12:08:10+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_deleted:
-                    '2023-11-07T16:45:28+00:00')
+                  .to have_attributes(
+                    deprecated_deleted: '2023-11-07T16:45:28+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_deprecated:
-                    '2054-11-19T12:29:05+00:00')
+                  .to have_attributes(
+                    deprecated_deprecated: '2054-11-19T12:29:05+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_obsolete:
-                    '2008-04-08T00:34:16+00:00')
+                  .to have_attributes(
+                    deprecated_obsolete: '2008-04-08T00:34:16+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_replacement:
-                    'test deprecated_replacement#0 data')
+                  .to have_attributes(
+                    deprecated_replacement: 'test deprecated_replacement#0 data'
+                  )
               end
               it do
-                is_expected
-                  .to have_attributes(deprecated_state: 'DEPRECATED')
+                is_expected.to have_attributes(deprecated_state: 'DEPRECATED')
               end
               it do
                 is_expected
@@ -141,32 +145,36 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2120-10-14T00:16:21+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2120-10-14T00:16:21+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_deleted:
-                    '2077-09-13T09:30:57+00:00')
+                  .to have_attributes(
+                    deprecated_deleted: '2077-09-13T09:30:57+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_deprecated:
-                    '2139-10-09T00:58:11+00:00')
+                  .to have_attributes(
+                    deprecated_deprecated: '2139-10-09T00:58:11+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_obsolete:
-                    '2046-07-15T01:08:32+00:00')
+                  .to have_attributes(
+                    deprecated_obsolete: '2046-07-15T01:08:32+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_replacement:
-                    'test deprecated_replacement#1 data')
+                  .to have_attributes(
+                    deprecated_replacement: 'test deprecated_replacement#1 data'
+                  )
               end
               it do
-                is_expected
-                  .to have_attributes(deprecated_state: 'OBSOLETE')
+                is_expected.to have_attributes(deprecated_state: 'OBSOLETE')
               end
               it do
                 is_expected
@@ -184,28 +192,33 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2196-03-05T12:24:32+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2196-03-05T12:24:32+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_deleted:
-                    '2131-07-22T02:16:25+00:00')
+                  .to have_attributes(
+                    deprecated_deleted: '2131-07-22T02:16:25+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_deprecated:
-                    '2224-08-27T13:27:16+00:00')
+                  .to have_attributes(
+                    deprecated_deprecated: '2224-08-27T13:27:16+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_obsolete:
-                    '2084-10-20T01:42:48+00:00')
+                  .to have_attributes(
+                    deprecated_obsolete: '2084-10-20T01:42:48+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_replacement:
-                    'test deprecated_replacement#2 data')
+                  .to have_attributes(
+                    deprecated_replacement: 'test deprecated_replacement#2 data'
+                  )
               end
               it { is_expected.to have_attributes(deprecated_state: 'DELETED') }
               it do
@@ -271,32 +284,36 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2045-05-23T12:08:10+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2045-05-23T12:08:10+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_deleted:
-                    '2023-11-07T16:45:28+00:00')
+                  .to have_attributes(
+                    deprecated_deleted: '2023-11-07T16:45:28+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_deprecated:
-                    '2054-11-19T12:29:05+00:00')
+                  .to have_attributes(
+                    deprecated_deprecated: '2054-11-19T12:29:05+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_obsolete:
-                    '2008-04-08T00:34:16+00:00')
+                  .to have_attributes(
+                    deprecated_obsolete: '2008-04-08T00:34:16+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_replacement:
-                    'test deprecated_replacement#0 data')
+                  .to have_attributes(
+                    deprecated_replacement: 'test deprecated_replacement#0 data'
+                  )
               end
               it do
-                is_expected
-                  .to have_attributes(deprecated_state: 'DEPRECATED')
+                is_expected.to have_attributes(deprecated_state: 'DEPRECATED')
               end
               it do
                 is_expected
@@ -314,32 +331,36 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2120-10-14T00:16:21+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2120-10-14T00:16:21+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_deleted:
-                    '2077-09-13T09:30:57+00:00')
+                  .to have_attributes(
+                    deprecated_deleted: '2077-09-13T09:30:57+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_deprecated:
-                    '2139-10-09T00:58:11+00:00')
+                  .to have_attributes(
+                    deprecated_deprecated: '2139-10-09T00:58:11+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_obsolete:
-                    '2046-07-15T01:08:32+00:00')
+                  .to have_attributes(
+                    deprecated_obsolete: '2046-07-15T01:08:32+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_replacement:
-                    'test deprecated_replacement#1 data')
+                  .to have_attributes(
+                    deprecated_replacement: 'test deprecated_replacement#1 data'
+                  )
               end
               it do
-                is_expected
-                  .to have_attributes(deprecated_state: 'OBSOLETE')
+                is_expected.to have_attributes(deprecated_state: 'OBSOLETE')
               end
               it do
                 is_expected
@@ -357,28 +378,33 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(creation_timestamp:
-                    '2196-03-05T12:24:32+00:00')
+                  .to have_attributes(
+                    creation_timestamp: '2196-03-05T12:24:32+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_deleted:
-                    '2131-07-22T02:16:25+00:00')
+                  .to have_attributes(
+                    deprecated_deleted: '2131-07-22T02:16:25+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_deprecated:
-                    '2224-08-27T13:27:16+00:00')
+                  .to have_attributes(
+                    deprecated_deprecated: '2224-08-27T13:27:16+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_obsolete:
-                    '2084-10-20T01:42:48+00:00')
+                  .to have_attributes(
+                    deprecated_obsolete: '2084-10-20T01:42:48+00:00'
+                  )
               end
               it do
                 is_expected
-                  .to have_attributes(deprecated_replacement:
-                    'test deprecated_replacement#2 data')
+                  .to have_attributes(
+                    deprecated_replacement: 'test deprecated_replacement#2 data'
+                  )
               end
               it { is_expected.to have_attributes(deprecated_state: 'DELETED') }
               it do

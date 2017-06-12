@@ -22,34 +22,30 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'google/property/base'
+require 'google/property/array'
 
 module Google
-  module Property
-    # A Puppet property that can compare its values
-    class Array < Google::Property::Base
-      # Sets Google::Property::Array to match all elements, not any.
-      def self.match_all_array
-        self.array_matching = :all
-      end
+  module Compute
+    module Property
+      # A Puppet property that can compare its values
+      class StringArray < Google::Property::Array
+        def unsafe_munge(value)
+          validate value
+          value
+        end
 
-      # When the user specifies an array for a property Puppet by default
-      # ensures that at least 1 of the values match. This is useful when you
-      # have various options and any match is good, e.g. various possible file
-      # sources, say from Corp or Internet.
-      #
-      # However our arrays require that all values match so we define the
-      # array_matching = :all to instruct Puppet to do this. This could have
-      # been specified in the Puppet::Type, but putting it here makes it simpler
-      # to not "forget" to define it.
-      match_all_array
+        def self.parse(value)
+          validate value
+          value
+        end
 
-      def match_all?
-        true
-      end
-
-      def self.parse(value)
-        value
+        def self.validate(value)
+          return if value.nil? || value.is_a?(String)
+          unless value.is_a? ::Array
+            raise "Expected string but found #{value.class} instead: #{value}"
+          end
+          value.each { |v| validate v }
+        end
       end
     end
   end
