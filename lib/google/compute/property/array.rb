@@ -29,7 +29,7 @@ module Google
     module Property
       # A Puppet property that can compare its values
       class Array < Google::Compute::Property::Base
-        # Sets Google::Property::Array to match all elements, not any.
+        # Sets Google::Compute::Property::Array to match all elements, not any.
         def self.match_all_array
           self.array_matching = :all
         end
