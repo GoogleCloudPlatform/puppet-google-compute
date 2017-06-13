@@ -54,8 +54,11 @@ puppet-codegen:
   * CONTRIBUTING.md
   * examples/address.pp
   * examples/delete_address.pp
+  * examples/delete_firewall.pp
   * examples/delete_network.pp
   * examples/disk_type.pp
+  * examples/firewall.pp
+  * examples/firewall~change1.pp
   * examples/network~auto.pp
   * examples/network~convert_to_custom.pp
   * examples/network~custom.pp
@@ -66,6 +69,7 @@ puppet-codegen:
   * lib/google/compute/property/base.rb
   * lib/google/compute/property/boolean.rb
   * lib/google/compute/property/enum.rb
+  * lib/google/compute/property/firewall_allowed.rb
   * lib/google/compute/property/integer.rb
   * lib/google/compute/property/string.rb
   * lib/google/compute/property/string_array.rb
@@ -79,10 +83,12 @@ puppet-codegen:
   * lib/google/string_utils.rb
   * lib/puppet/provider/gcompute_address/google.rb
   * lib/puppet/provider/gcompute_disk_type/google.rb
+  * lib/puppet/provider/gcompute_firewall/google.rb
   * lib/puppet/provider/gcompute_network/google.rb
   * lib/puppet/provider/gcompute_region/google.rb
   * lib/puppet/type/gcompute_address.rb
   * lib/puppet/type/gcompute_disk_type.rb
+  * lib/puppet/type/gcompute_firewall.rb
   * lib/puppet/type/gcompute_network.rb
   * lib/puppet/type/gcompute_region.rb
   * metadata.json
@@ -106,6 +112,12 @@ puppet-codegen:
   * spec/data/network/gcompute_disk_type/success2~title.yaml
   * spec/data/network/gcompute_disk_type/success3~name.yaml
   * spec/data/network/gcompute_disk_type/success3~title.yaml
+  * spec/data/network/gcompute_firewall/success1~name.yaml
+  * spec/data/network/gcompute_firewall/success1~title.yaml
+  * spec/data/network/gcompute_firewall/success2~name.yaml
+  * spec/data/network/gcompute_firewall/success2~title.yaml
+  * spec/data/network/gcompute_firewall/success3~name.yaml
+  * spec/data/network/gcompute_firewall/success3~title.yaml
   * spec/data/network/gcompute_network/success1~name.yaml
   * spec/data/network/gcompute_network/success1~title.yaml
   * spec/data/network/gcompute_network/success2~name.yaml
@@ -121,6 +133,7 @@ puppet-codegen:
   * spec/fake_auth.rb
   * spec/gcompute_address_provider_spec.rb
   * spec/gcompute_disk_type_provider_spec.rb
+  * spec/gcompute_firewall_provider_spec.rb
   * spec/gcompute_network_provider_spec.rb
   * spec/gcompute_region_provider_spec.rb
   * spec/hash_utils_spec.rb
