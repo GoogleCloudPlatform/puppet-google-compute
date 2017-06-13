@@ -54,7 +54,6 @@ gauth_credential { 'mycred':
 }
 
 gcompute_disk_type { 'pd-standard':
-  ensure               => present,
   default_disk_size_gb => 500,
   deprecated_deleted   => undef, # undef = not deprecated
   zone                 => 'us-central1-a',
