@@ -22,6 +22,10 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/network/delete'
+require 'google/compute/network/get'
+require 'google/compute/network/post'
+require 'google/compute/network/put'
 require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/string'
@@ -29,10 +33,6 @@ require 'google/compute/property/string_array'
 require 'google/compute/property/time'
 require 'google/hash_utils'
 require 'google/object_store'
-require 'google/request/delete'
-require 'google/request/get'
-require 'google/request/post'
-require 'google/request/put'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_region).provide(:google) do
@@ -102,10 +102,10 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
   def create
     debug('create')
     @created = true
-    create_req = Google::Request::Post.new(collection(@resource),
-                                           fetch_auth(@resource),
-                                           'application/json',
-                                           resource_to_request)
+    create_req = Google::Compute::Network::Post.new(collection(@resource),
+                                                    fetch_auth(@resource),
+                                                    'application/json',
+                                                    resource_to_request)
     @fetched = return_if_object create_req.send, 'compute#region'
     @property_hash[:ensure] = :present
   end
@@ -113,8 +113,8 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
   def destroy
     debug('destroy')
     @deleted = true
-    delete_req = Google::Request::Delete.new(self_link(@resource),
-                                             fetch_auth(@resource))
+    delete_req = Google::Compute::Network::Delete.new(self_link(@resource),
+                                                      fetch_auth(@resource))
     return_if_object delete_req.send, 'compute#region'
     @property_hash[:ensure] = :absent
   end
@@ -247,8 +247,9 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
   end
 
   def self.fetch_resource(resource, self_link, kind)
-    get_request = ::Google::Request::Get.new(self_link,
-                                             fetch_auth(resource))
+    get_request = ::Google::Compute::Network::Get.new(
+      self_link, fetch_auth(resource)
+    )
     return_if_object get_request.send, kind
   end
 

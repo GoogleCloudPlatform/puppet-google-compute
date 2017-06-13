@@ -15,7 +15,7 @@ require 'spec_helper'
 
 TEST_URI = URI.parse('https://google.com')
 
-describe Google::NetworkBlocker do
+describe Google::Compute::NetworkBlocker do
   let(:uri) { described_class::ALLOWED_TEST_URI }
 
   context '#allow_get' do

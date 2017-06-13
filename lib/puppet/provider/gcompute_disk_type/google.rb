@@ -22,15 +22,15 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/network/delete'
+require 'google/compute/network/get'
+require 'google/compute/network/post'
+require 'google/compute/network/put'
 require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
 require 'google/hash_utils'
-require 'google/request/delete'
-require 'google/request/get'
-require 'google/request/post'
-require 'google/request/put'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_disk_type).provide(:google) do
@@ -229,8 +229,9 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
   end
 
   def self.fetch_resource(resource, self_link, kind)
-    get_request = ::Google::Request::Get.new(self_link,
-                                             fetch_auth(resource))
+    get_request = ::Google::Compute::Network::Get.new(
+      self_link, fetch_auth(resource)
+    )
     return_if_object get_request.send, kind
   end
 

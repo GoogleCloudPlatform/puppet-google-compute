@@ -22,6 +22,10 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/network/delete'
+require 'google/compute/network/get'
+require 'google/compute/network/post'
+require 'google/compute/network/put'
 require 'google/compute/property/disk_disk_encryption_key'
 require 'google/compute/property/disk_source_image_encryption_key'
 require 'google/compute/property/disk_source_snapshot_encryption_key'
@@ -30,10 +34,6 @@ require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
 require 'google/hash_utils'
-require 'google/request/delete'
-require 'google/request/get'
-require 'google/request/post'
-require 'google/request/put'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_disk).provide(:google) do
@@ -96,10 +96,10 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
   def create
     debug('create')
     @created = true
-    create_req = Google::Request::Post.new(collection(@resource),
-                                           fetch_auth(@resource),
-                                           'application/json',
-                                           resource_to_request)
+    create_req = Google::Compute::Network::Post.new(collection(@resource),
+                                                    fetch_auth(@resource),
+                                                    'application/json',
+                                                    resource_to_request)
     @fetched = wait_for_operation create_req.send, @resource
     @property_hash[:ensure] = :present
   end
@@ -107,8 +107,8 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
   def destroy
     debug('destroy')
     @deleted = true
-    delete_req = Google::Request::Delete.new(self_link(@resource),
-                                             fetch_auth(@resource))
+    delete_req = Google::Compute::Network::Delete.new(self_link(@resource),
+                                                      fetch_auth(@resource))
     wait_for_operation delete_req.send, @resource
     @property_hash[:ensure] = :absent
   end
@@ -300,8 +300,9 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
   end
 
   def self.fetch_resource(resource, self_link, kind)
-    get_request = ::Google::Request::Get.new(self_link,
-                                             fetch_auth(resource))
+    get_request = ::Google::Compute::Network::Get.new(
+      self_link, fetch_auth(resource)
+    )
     return_if_object get_request.send, kind
   end
 

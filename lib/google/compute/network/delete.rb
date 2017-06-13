@@ -11,11 +11,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'google/request/base'
+require 'google/compute/network/base'
+
 module Google
-  module Request
-    # A wrapper class for a Get Request
-    class Get < Google::Request::Base
+  module Compute
+    module Network
+      # A wrapper class for a Get Request
+      class Delete < Google::Compute::Network::Base
+      end
     end
   end
 end

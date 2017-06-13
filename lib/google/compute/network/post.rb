@@ -11,11 +11,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'google/request/base'
+require 'google/compute/network/base'
+
 module Google
-  module Request
-    # A wrapper class for a Get Request
-    class Delete < Google::Request::Base
+  module Compute
+    module Network
+      # A wrapper class for a Post Request
+      class Post < Google::Compute::Network::Base
+        def initialize(link, cred, type, body)
+          super(link, cred)
+          @type = type
+          @body = body
+        end
+
+        def transport(request)
+          request.content_type = @type
+          request.body = @body
+          puts "network(#{request}: body(#{@body}))" \
+            unless ENV['DEBUG_HTTP_VERBOSE'].nil?
+          super(request)
+        end
+      end
     end
   end
 end

@@ -20,9 +20,9 @@ class TestCred
   end
 end
 
-describe Google::Request::Post do
+describe Google::Compute::Network::Put do
   let(:credential) { TestCred.new }
-  let(:uri_in) { Google::NetworkBlocker::ALLOWED_TEST_URI }
+  let(:uri_in) { Google::Compute::NetworkBlocker::ALLOWED_TEST_URI }
   let(:uri_out) { URI.parse('https://somewhere.else.com/some/path') }
   let(:type_in) { 'application/myapp-request' }
   let(:type_out) { 'application/myapp-response' }
@@ -31,7 +31,7 @@ describe Google::Request::Post do
 
   context 'successful request' do
     before(:each) do
-      Google::NetworkBlocker.instance.allow_post(
+      Google::Compute::NetworkBlocker.instance.allow_put(
         uri_in: uri_in, type_in: type_in, body_in: body_in,
         code: 200, uri_out: uri_out, type_out: type_out, body_out: body_out
       )
@@ -47,7 +47,7 @@ describe Google::Request::Post do
   end
 
   context 'failed request' do
-    before(:each) { Google::NetworkBlocker.instance.deny(uri_in) }
+    before(:each) { Google::Compute::NetworkBlocker.instance.deny(uri_in) }
 
     subject { described_class.new(uri_in, credential, type_in, body_in).send }
 

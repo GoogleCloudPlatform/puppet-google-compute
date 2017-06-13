@@ -15,63 +15,70 @@ require 'net/http'
 require 'singleton'
 
 module Google
-  # A helper class to block access to the network during tests, while providing
-  # a whitelist escape for the Google::Request::* classes to test themselves,
-  # also without accessing the network.
-  class NetworkBlocker
-    include Singleton
+  module Compute
+    # A helper class to block access to the network during tests, while
+    # providing a whitelist escape for the
+    # Google::Compute::Network::* classes to test themselves, also
+    # without accessing the network.
+    class NetworkBlocker
+      include Singleton
 
-    ALLOWED_TEST_URI = URI.parse('https://www.unreachable-test-host.com/blah')
+      ALLOWED_TEST_URI = URI.parse('https://www.unreachable-test-host.com/blah')
 
-    attr_reader :allowed_test_hosts
-    attr_reader :allowed_request
-    attr_reader :canned_response
+      attr_reader :allowed_test_hosts
+      attr_reader :allowed_request
+      attr_reader :canned_response
 
-    def initialize
-      @allowed_test_hosts = [
-        { host: ALLOWED_TEST_URI.host, port: ALLOWED_TEST_URI.port }
-      ]
-    end
-
-    def allow_get(uri, code, type, body)
-      @allowed_request = { uri: uri }
-      @canned_response = response(uri, code, type, body)
-    end
-
-    def allow_delete(uri)
-      @allowed_request = { uri: uri }
-      @canned_response = Net::HTTPNoContent.new(1.0, 204, 'No Content')
-    end
-
-    def allow_post(args)
-      @allowed_request = {
-        uri: args[:uri_in],
-        type: args[:type_in],
-        body: args[:body_in]
-      }
-      @canned_response = response(args[:uri_out], args[:code], args[:type_out],
-                                  args[:body_out])
-    end
-
-    def deny(uri, code = 404)
-      case code
-      when 404
-        @allowed_request = { uri: uri }
-        @canned_response = Net::HTTPNotFound.new(1.0, 404, 'Not Found')
-      else
-        raise ArgumentError, "Unknown error code #{code}"
+      def initialize
+        @allowed_test_hosts = [
+          { host: ALLOWED_TEST_URI.host, port: ALLOWED_TEST_URI.port }
+        ]
       end
-    end
 
-    private
+      def allow_get(uri, code, type, body)
+        @allowed_request = { uri: uri }
+        @canned_response = response(uri, code, type, body)
+      end
 
-    def response(uri, code, type, body)
-      response = Net::HTTPOK.new(1.0, code, 'OK')
-      response.uri = uri
-      response.content_type = type
-      response.body = body
-      response.instance_variable_set(:@read, true)
-      response
+      def allow_delete(uri)
+        @allowed_request = { uri: uri }
+        @canned_response = Net::HTTPNoContent.new(1.0, 204, 'No Content')
+      end
+
+      def allow_post(args)
+        @allowed_request = {
+          uri: args[:uri_in],
+          type: args[:type_in],
+          body: args[:body_in]
+        }
+        @canned_response = response(args[:uri_out], args[:code],
+                                    args[:type_out], args[:body_out])
+      end
+
+      def allow_put(args)
+        allow_post(args) # PUT uses same interface as POST
+      end
+
+      def deny(uri, code = 404)
+        case code
+        when 404
+          @allowed_request = { uri: uri }
+          @canned_response = Net::HTTPNotFound.new(1.0, 404, 'Not Found')
+        else
+          raise ArgumentError, "Unknown error code #{code}"
+        end
+      end
+
+      private
+
+      def response(uri, code, type, body)
+        response = Net::HTTPOK.new(1.0, code, 'OK')
+        response.uri = uri
+        response.content_type = type
+        response.body = body
+        response.instance_variable_set(:@read, true)
+        response
+      end
     end
   end
 end
@@ -82,7 +89,7 @@ end
 module Net
   class HTTP
     define_method(:initialize) do |*args|
-      blocker = Google::NetworkBlocker.instance
+      blocker = Google::Compute::NetworkBlocker.instance
       unless blocker.allowed_test_hosts.map { |h| h[:host] }.include?(args[0])
         raise IOError, [self, __method__, ':',
                         'Network traffic is blocked during tests', ':',
@@ -101,7 +108,7 @@ module Net
       define_method(m) do |*args|
         request_allowed = true
 
-        blocker = Google::NetworkBlocker.instance
+        blocker = Google::Compute::NetworkBlocker.instance
         if !args.empty? && args[0].is_a?(Net::HTTPGenericRequest)
           allow_terms = blocker.allowed_request
           allow_terms.keys.each do |key|

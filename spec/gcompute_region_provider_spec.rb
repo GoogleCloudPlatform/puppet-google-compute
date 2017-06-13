@@ -728,7 +728,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
-    expect(Google::Request::Get).to receive(:new)
+    expect(Google::Compute::Network::Get).to receive(:new)
       .with(self_link(uri_data(id).merge(data)),
             instance_of(Google::FakeAuthorization)) do |args|
       debug ">> GET #{args}"
@@ -747,7 +747,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
     request = double('request')
     allow(request).to receive(:send).and_return(http_failed_object_missing)
 
-    expect(Google::Request::Get).to receive(:new)
+    expect(Google::Compute::Network::Get).to receive(:new)
       .with(self_link(uri_data(id).merge(data)),
             instance_of(Google::FakeAuthorization)) do |args|
       debug ">> GET [failed] #{args}"
@@ -765,7 +765,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
-    expect(Google::Request::Post).to receive(:new)
+    expect(Google::Compute::Network::Post).to receive(:new)
       .with(collection(uri_data(id).merge(data)),
             instance_of(Google::FakeAuthorization),
             'application/json', expected_body.to_json) do |args|
@@ -782,7 +782,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
-    expect(Google::Request::Delete).to receive(:new)
+    expect(Google::Compute::Network::Delete).to receive(:new)
       .with(self_link(delete_data),
             instance_of(Google::FakeAuthorization)) do |args|
       debug ">> DELETE #{args}"
