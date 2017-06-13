@@ -30,6 +30,7 @@ module Google
 
         def send
           request = @cred.authorize(builder.new(@link))
+          request['User-Agent'] = generate_user_agent
           transport(request).request(request)
         end
 
@@ -43,6 +44,17 @@ module Google
           transport.set_debug_output $stderr \
             unless ENV['GOOGLE_HTTP_DEBUG'].nil?
           transport
+        end
+
+        private
+
+        def generate_user_agent
+          # TODO(nelsonjr): Check how to fetch module version.
+          version = '1.0.0'
+          [
+            "GooglePuppetCompute/#{version} (Graphite)",
+            Puppet[:http_user_agent]
+          ].join(' ')
         end
       end
     end
