@@ -30,3 +30,43 @@ region: 'test region#1 data'
 description: 'test description#1 data'
 address: 'test address#1 data'
 creationTimestamp: '2120-10-14T00:16:21+00:00'
+allowed:
+  - ip_protocol: 'test ip_protocol#1 data'
+    ports:
+      - qq
+      - rr
+  - ip_protocol: 'test ip_protocol#2 data'
+    ports:
+      - mm
+      - nn
+  - ip_protocol: 'test ip_protocol#3 data'
+    ports:
+      - ii
+      - jj
+  - ip_protocol: 'test ip_protocol#4 data'
+    ports:
+      - ff
+      - gg
+      - hh
+  - ip_protocol: 'test ip_protocol#5 data'
+    ports:
+      - bb
+      - cc
+      - dd
+sourceRanges:
+  - ii
+  - jj
+  - kk
+  - ll
+sourceTags:
+  - ss
+  - tt
+  - uu
+  - vv
+targetTags:
+  - oo
+  - pp
+  - qq
+  - rr
+selfLink: 'https://www.googleapis.com/compute/v1/projects/test project#1 data/global/firewalls/test name#1 data'
+network: 'test network#1 data'
