@@ -52,7 +52,7 @@ module Google
           # TODO(nelsonjr): Check how to fetch module version.
           version = '1.0.0'
           [
-            "GooglePuppetCompute/#{version} (Graphite)",
+            "GooglePuppetCompute/#{version}",
             Puppet[:http_user_agent]
           ].join(' ')
         end
