@@ -28,7 +28,7 @@ module Google
           request.content_type = @type
           request.body = @body
           puts "network(#{request}: body(#{@body}))" \
-            unless ENV['DEBUG_HTTP_VERBOSE'].nil?
+            unless ENV['GOOGLE_HTTP_VERBOSE'].nil?
           super(request)
         end
       end

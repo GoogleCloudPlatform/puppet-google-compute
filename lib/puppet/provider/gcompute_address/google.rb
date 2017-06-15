@@ -165,7 +165,7 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
   end
 
   def debug(message)
-    puts("DEBUG: #{message}") if ENV['DEBUG_HTTP_VERBOSE']
+    puts("DEBUG: #{message}") if ENV['PUPPET_HTTP_VERBOSE']
     super(message)
   end
 
