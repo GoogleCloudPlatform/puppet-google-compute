@@ -22,7 +22,6 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'google/compute/property/array'
 require 'puppet/property'
 
 module Google
