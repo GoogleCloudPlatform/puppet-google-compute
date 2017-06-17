@@ -91,9 +91,16 @@ module Net
     define_method(:initialize) do |*args|
       blocker = Google::Compute::NetworkBlocker.instance
       unless blocker.allowed_test_hosts.map { |h| h[:host] }.include?(args[0])
-        raise IOError, [self, __method__, ':',
-                        'Network traffic is blocked during tests', ':',
-                        args[0]].join(' ')
+        message = [self, __method__, ':',
+                   'Network traffic is blocked during tests', ':',
+                   args[0]].join(' ')
+        if ENV['RSPEC_DEBUG']
+          module_dir = File.expand_path('..', File.dirname(__FILE__))
+          puts [message,
+                caller.select { |c| c.include?(module_dir) }.join("\n")
+                      .gsub(/^/, '  ')].join("\n")
+        end
+        raise IOError, message
       end
     end
 
