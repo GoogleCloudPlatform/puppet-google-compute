@@ -32,7 +32,7 @@ puppet module install google-gcompute
 ### Credentials
 
 All Google Cloud Platform modules use an unified authentication mechanism,
-provided by the [`google-gauth`][] cookbook. Don't worry, it is automatically
+provided by the [`google-gauth`][] module. Don't worry, it is automatically
 installed when you install this module.
 
 ```puppet

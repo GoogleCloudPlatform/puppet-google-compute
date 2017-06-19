@@ -23,7 +23,7 @@ context 'check examples with puppet-lint' do
   it { is_expected.to be_zero }
 end
 
-context 'ensure puppet-lint recognizes bad recipes' do
+context 'ensure puppet-lint recognizes bad manifests' do
   let(:poor_example) { "#{File.dirname(__FILE__)}/data/poor_example.pp" }
 
   let(:command) { ['puppet-lint', '--fail-on-warnings', poor_example] }
