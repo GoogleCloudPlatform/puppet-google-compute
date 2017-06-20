@@ -96,9 +96,8 @@ module Net
                    args[0]].join(' ')
         if ENV['RSPEC_DEBUG']
           module_dir = File.expand_path('..', File.dirname(__FILE__))
-          puts [message,
-                caller.select { |c| c.include?(module_dir) }.join("\n")
-                      .gsub(/^/, '  ')].join("\n")
+          puts [message, caller.select { |c| c.include?(module_dir) }
+            .join("\n").gsub(/^/, '  ')].join("\n")
         end
         raise IOError, message
       end
