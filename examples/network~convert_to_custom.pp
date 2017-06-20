@@ -38,7 +38,7 @@
 # command line you can pass it via Facter:
 #
 #   FACTER_cred_path=/path/to/my/cred.json \
-#       puppet apply examples/examples/network~convert_to_custom.pp.pp
+#       puppet apply examples/network~convert_to_custom.pp
 #
 # For convenience you optionally can add it to your ~/.bash_profile (or the
 # respective .profile settings) environment:

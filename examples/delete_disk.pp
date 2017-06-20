@@ -38,7 +38,7 @@
 # command line you can pass it via Facter:
 #
 #   FACTER_cred_path=/path/to/my/cred.json \
-#       puppet apply examples/examples/delete_disk.pp.pp
+#       puppet apply examples/delete_disk.pp
 #
 # For convenience you optionally can add it to your ~/.bash_profile (or the
 # respective .profile settings) environment:
