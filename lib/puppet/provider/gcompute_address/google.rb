@@ -68,14 +68,14 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
 
   def self.fetch_to_hash(fetch)
     {
-      address: Google::Compute::Property::String.parse(fetch['address']),
+      address: Google::Compute::Property::String.api_munge(fetch['address']),
       creation_timestamp:
-        Google::Compute::Property::Time.parse(fetch['creationTimestamp']),
+        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       description:
-        Google::Compute::Property::String.parse(fetch['description']),
-      id: Google::Compute::Property::Integer.parse(fetch['id']),
-      name: Google::Compute::Property::String.parse(fetch['name']),
-      users: Google::Compute::Property::StringArray.parse(fetch['users'])
+        Google::Compute::Property::String.api_munge(fetch['description']),
+      id: Google::Compute::Property::Integer.api_munge(fetch['id']),
+      name: Google::Compute::Property::String.api_munge(fetch['name']),
+      users: Google::Compute::Property::StringArray.api_munge(fetch['users'])
     }.reject { |_, v| v.nil? }
   end
 

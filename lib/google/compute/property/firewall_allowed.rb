@@ -38,13 +38,6 @@ module Google
         attr_reader :ip_protocol
         attr_reader :ports
 
-        def initialize(args)
-          @ip_protocol = Google::Compute::Property::String.parse(
-            args['ip_protocol'] || args['IPProtocol']
-          )
-          @ports = Google::Compute::Property::StringArray.parse(args['ports'])
-        end
-
         def to_json(_arg = nil)
           {
             'IPProtocol' => ip_protocol,
@@ -60,8 +53,7 @@ module Google
         end
 
         def ==(other)
-          return false if other == :absent
-          return false if other.class != self.class
+          return false unless other.is_a? FirewallAllowed
           return false if ip_protocol != other.ip_protocol
           return false if ports != other.ports
           true
@@ -75,31 +67,76 @@ module Google
           0
         end
       end
+
+      # Manages a FirewallAllowed nested object
+      # Data is coming from the GCP API
+      class FirewallAllowedApi < FirewallAllowed
+        def initialize(args)
+          @ip_protocol = Google::Compute::Property::String.api_munge(
+            args['ip_protocol'] || args['IPProtocol']
+          )
+          @ports = Google::Compute::Property::StringArray.api_munge(
+            args['ports']
+          )
+        end
+      end
+
+      # Manages a FirewallAllowed nested object
+      # Data is coming from the Puppet manifest
+      class FirewallAllowedCatalog < FirewallAllowed
+        def initialize(args)
+          @ip_protocol = Google::Compute::Property::String.unsafe_munge(
+            args['ip_protocol'] || args['IPProtocol']
+          )
+          @ports = Google::Compute::Property::StringArray.unsafe_munge(
+            args['ports']
+          )
+        end
+      end
     end
 
     module Property
       # A class to manage input to allowed for firewall.
       class FirewallAllowed < Puppet::Property
+        # Used for parsing Puppet catalog
         def unsafe_munge(value)
-          self.class.parse(value)
+          self.class.unsafe_munge(value)
         end
 
-        def self.parse(value)
+        # Used for parsing Puppet catalog
+        def self.unsafe_munge(value)
           return if value.nil?
-          Data::FirewallAllowed.new(value)
+          Data::FirewallAllowedCatalog.new(value)
+        end
+
+        # Used for parsing GCP API responses
+        def self.api_munge(value)
+          return if value.nil?
+          Data::FirewallAllowedApi.new(value)
         end
       end
 
       # A Puppet property that holds an integer
       class FirewallAllowedArray < Google::Compute::Property::Array
+        # Used for parsing Puppet catalog
         def unsafe_munge(value)
-          self.class.parse(value)
+          self.class.unsafe_munge(value)
         end
 
-        def self.parse(value)
+        # Used for parsing Puppet catalog
+        def self.unsafe_munge(value)
           return if value.nil?
-          return FirewallAllowed.parse(value) unless value.is_a?(::Array)
-          value.map { |v| FirewallAllowed.parse(v) }
+          return FirewallAllowed.unsafe_munge(value) \
+            unless value.is_a?(::Array)
+          value.map { |v| FirewallAllowed.unsafe_munge(v) }
+        end
+
+        # Used for parsing GCP API responses
+        def self.api_munge(value)
+          return if value.nil?
+          return FirewallAllowed.api_munge(value) \
+            unless value.is_a?(::Array)
+          value.map { |v| FirewallAllowed.api_munge(v) }
         end
       end
     end

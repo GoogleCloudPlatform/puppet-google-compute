@@ -72,21 +72,22 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
   def self.fetch_to_hash(fetch)
     {
       creation_timestamp:
-        Google::Compute::Property::Time.parse(fetch['creationTimestamp']),
+        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       description:
-        Google::Compute::Property::String.parse(fetch['description']),
-      id: Google::Compute::Property::Integer.parse(fetch['id']),
+        Google::Compute::Property::String.api_munge(fetch['description']),
+      id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       last_attach_timestamp:
-        Google::Compute::Property::Time.parse(fetch['lastAttachTimestamp']),
+        Google::Compute::Property::Time.api_munge(fetch['lastAttachTimestamp']),
       last_detach_timestamp:
-        Google::Compute::Property::Time.parse(fetch['lastDetachTimestamp']),
-      licenses: Google::Compute::Property::StringArray.parse(fetch['licenses']),
-      name: Google::Compute::Property::String.parse(fetch['name']),
-      size_gb: Google::Compute::Property::Integer.parse(fetch['sizeGb']),
+        Google::Compute::Property::Time.api_munge(fetch['lastDetachTimestamp']),
+      licenses:
+        Google::Compute::Property::StringArray.api_munge(fetch['licenses']),
+      name: Google::Compute::Property::String.api_munge(fetch['name']),
+      size_gb: Google::Compute::Property::Integer.api_munge(fetch['sizeGb']),
       source_image:
-        Google::Compute::Property::String.parse(fetch['sourceImage']),
-      type: Google::Compute::Property::String.parse(fetch['type']),
-      users: Google::Compute::Property::StringArray.parse(fetch['users'])
+        Google::Compute::Property::String.api_munge(fetch['sourceImage']),
+      type: Google::Compute::Property::String.api_munge(fetch['type']),
+      users: Google::Compute::Property::StringArray.api_munge(fetch['users'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength

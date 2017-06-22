@@ -32,7 +32,7 @@ module Google
     module Property
       # A Puppet property that represents a ResourceRef
       class ResourceRef < Google::Compute::Property::Base
-        def self.parse(value)
+        def self.api_munge(value)
           value
         end
       end

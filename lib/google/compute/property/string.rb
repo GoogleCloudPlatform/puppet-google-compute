@@ -32,8 +32,16 @@ module Google
     module Property
       # A Puppet property that holds a string
       class String < Google::Compute::Property::Base
-        def self.parse(value)
+        def self.api_munge(value)
           value
+        end
+
+        def self.unsafe_munge(value)
+          value
+        end
+
+        def unsafe_munge(value)
+          self.class.unsafe_munge(value)
         end
       end
     end

@@ -52,7 +52,7 @@ module Google
           true
         end
 
-        def self.parse(value)
+        def self.api_munge(value)
           value
         end
       end

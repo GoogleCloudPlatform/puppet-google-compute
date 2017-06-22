@@ -37,13 +37,6 @@ module Google
         attr_reader :raw_key
         attr_reader :sha256
 
-        def initialize(args)
-          @raw_key = Google::Compute::Property::String.parse(
-            args['raw_key'] || args['rawKey']
-          )
-          @sha256 = Google::Compute::Property::String.parse(args['sha256'])
-        end
-
         def to_json(_arg = nil)
           {
             'rawKey' => raw_key,
@@ -59,8 +52,7 @@ module Google
         end
 
         def ==(other)
-          return false if other == :absent
-          return false if other.class != self.class
+          return false unless other.is_a? DiskSourSnapEncrKey
           return false if raw_key != other.raw_key
           return false if sha256 != other.sha256
           true
@@ -74,18 +66,50 @@ module Google
           0
         end
       end
+
+      # Manages a DiskSourSnapEncrKey nested object
+      # Data is coming from the GCP API
+      class DiskSourSnapEncrKeyApi < DiskSourSnapEncrKey
+        def initialize(args)
+          @raw_key = Google::Compute::Property::String.api_munge(
+            args['raw_key'] || args['rawKey']
+          )
+          @sha256 = Google::Compute::Property::String.api_munge(args['sha256'])
+        end
+      end
+
+      # Manages a DiskSourSnapEncrKey nested object
+      # Data is coming from the Puppet manifest
+      class DiskSourSnapEncrKeyCatalog < DiskSourSnapEncrKey
+        def initialize(args)
+          @raw_key = Google::Compute::Property::String.unsafe_munge(
+            args['raw_key'] || args['rawKey']
+          )
+          @sha256 = Google::Compute::Property::String.unsafe_munge(
+            args['sha256']
+          )
+        end
+      end
     end
 
     module Property
       # A class to manage input to source_snapshot_encryption_key for disk.
       class DiskSourSnapEncrKey < Puppet::Property
+        # Used for parsing Puppet catalog
         def unsafe_munge(value)
-          self.class.parse(value)
+          self.class.unsafe_munge(value)
         end
 
-        def self.parse(value)
+        # Used for parsing Puppet catalog
+        def self.unsafe_munge(value)
           return if value.nil?
-          Data::DiskSourSnapEncrKey.new(value)
+          Data::DiskSourSnapEncrKeyCatalog.new(value)
+        end
+
+        # Used for parsing GCP API responses
+        def self.api_munge(value)
+          return if value.nil?
+          Data::DiskSourSnapEncrKeyApi.new(value)
         end
       end
     end

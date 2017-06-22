@@ -69,21 +69,22 @@ Puppet::Type.type(:gcompute_firewall).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch)
     {
-      allowed:
-        Google::Compute::Property::FirewallAllowedArray.parse(fetch['allowed']),
+      allowed: Google::Compute::Property::FirewallAllowedArray.api_munge(
+        fetch['allowed']
+      ),
       creation_timestamp:
-        Google::Compute::Property::Time.parse(fetch['creationTimestamp']),
+        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       description:
-        Google::Compute::Property::String.parse(fetch['description']),
-      id: Google::Compute::Property::Integer.parse(fetch['id']),
-      name: Google::Compute::Property::String.parse(fetch['name']),
-      network: Google::Compute::Property::String.parse(fetch['network']),
+        Google::Compute::Property::String.api_munge(fetch['description']),
+      id: Google::Compute::Property::Integer.api_munge(fetch['id']),
+      name: Google::Compute::Property::String.api_munge(fetch['name']),
+      network: Google::Compute::Property::String.api_munge(fetch['network']),
       source_ranges:
-        Google::Compute::Property::StringArray.parse(fetch['sourceRanges']),
+        Google::Compute::Property::StringArray.api_munge(fetch['sourceRanges']),
       source_tags:
-        Google::Compute::Property::StringArray.parse(fetch['sourceTags']),
+        Google::Compute::Property::StringArray.api_munge(fetch['sourceTags']),
       target_tags:
-        Google::Compute::Property::StringArray.parse(fetch['targetTags'])
+        Google::Compute::Property::StringArray.api_munge(fetch['targetTags'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength

@@ -72,27 +72,27 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
   def self.fetch_to_hash(fetch)
     {
       creation_timestamp:
-        Google::Compute::Property::Time.parse(fetch['creationTimestamp']),
-      deprecated_deleted: Google::Compute::Property::Time.parse(
+        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      deprecated_deleted: Google::Compute::Property::Time.api_munge(
         Google::HashUtils.navigate(fetch, %w[deprecated deleted])
       ),
-      deprecated_deprecated: Google::Compute::Property::Time.parse(
+      deprecated_deprecated: Google::Compute::Property::Time.api_munge(
         Google::HashUtils.navigate(fetch, %w[deprecated deprecated])
       ),
-      deprecated_obsolete: Google::Compute::Property::Time.parse(
+      deprecated_obsolete: Google::Compute::Property::Time.api_munge(
         Google::HashUtils.navigate(fetch, %w[deprecated obsolete])
       ),
-      deprecated_replacement: Google::Compute::Property::String.parse(
+      deprecated_replacement: Google::Compute::Property::String.api_munge(
         Google::HashUtils.navigate(fetch, %w[deprecated replacement])
       ),
-      deprecated_state: Google::Compute::Property::Enum.parse(
+      deprecated_state: Google::Compute::Property::Enum.api_munge(
         Google::HashUtils.navigate(fetch, %w[deprecated state])
       ),
       description:
-        Google::Compute::Property::String.parse(fetch['description']),
-      id: Google::Compute::Property::Integer.parse(fetch['id']),
-      name: Google::Compute::Property::String.parse(fetch['name']),
-      zones: Google::Compute::Property::StringArray.parse(fetch['zones'])
+        Google::Compute::Property::String.api_munge(fetch['description']),
+      id: Google::Compute::Property::Integer.api_munge(fetch['id']),
+      name: Google::Compute::Property::String.api_munge(fetch['name']),
+      zones: Google::Compute::Property::StringArray.api_munge(fetch['zones'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength

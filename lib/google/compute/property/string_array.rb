@@ -32,12 +32,16 @@ module Google
     module Property
       # A Puppet property that can compare its values
       class StringArray < Google::Compute::Property::Array
-        def unsafe_munge(value)
+        def self.unsafe_munge(value)
           validate value
           value
         end
 
-        def self.parse(value)
+        def unsafe_munge(value)
+          self.class.unsafe_munge(value)
+        end
+
+        def self.api_munge(value)
           validate value
           value
         end
