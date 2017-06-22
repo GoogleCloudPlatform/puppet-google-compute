@@ -50,6 +50,10 @@ Puppet::Type.newtype(:gcompute_address) do
     [self[:credential]]
   end
 
+  autorequire(:gcompute_region) do
+    [self[:region]]
+  end
+
   ensurable
 
   newparam :credential do
@@ -66,6 +70,10 @@ Puppet::Type.newtype(:gcompute_address) do
   newparam(:name, namevar: true) do
     # TODO(nelsona): Make this description to match the key of the object.
     desc 'The name of the Address.'
+  end
+
+  newparam(:region, parent: Google::Compute::Property::ResourceRef) do
+    desc 'A reference to Region resource'
   end
 
   newproperty(:address, parent: Google::Compute::Property::String) do
@@ -89,10 +97,6 @@ Puppet::Type.newtype(:gcompute_address) do
 
   newproperty(:name, parent: Google::Compute::Property::String) do
     desc 'Name of the resource.'
-  end
-
-  newproperty(:region, parent: Google::Compute::Property::ResourceRef) do
-    desc 'A reference to Region resource'
   end
 
   newproperty(:users, parent: Google::Compute::Property::StringArray) do

@@ -158,9 +158,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
-              it do
-                is_expected.to have_attributes(region: 'resource(region,0)')
-              end
               it { is_expected.to have_attributes(users: %w[ww xx yy zz]) }
             end
 
@@ -184,9 +181,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
-              it do
-                is_expected.to have_attributes(region: 'resource(region,1)')
-              end
               it { is_expected.to have_attributes(users: %w[uu vv]) }
             end
 
@@ -210,9 +204,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
-              it do
-                is_expected.to have_attributes(region: 'resource(region,2)')
-              end
               it { is_expected.to have_attributes(users: %w[ss tt uu vv]) }
             end
           end
@@ -316,9 +307,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
-              it do
-                is_expected.to have_attributes(region: 'resource(region,0)')
-              end
               it { is_expected.to have_attributes(users: %w[ww xx yy zz]) }
             end
 
@@ -342,9 +330,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
-              it do
-                is_expected.to have_attributes(region: 'resource(region,1)')
-              end
               it { is_expected.to have_attributes(users: %w[uu vv]) }
             end
 
@@ -368,9 +353,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
-              it do
-                is_expected.to have_attributes(region: 'resource(region,2)')
-              end
               it { is_expected.to have_attributes(users: %w[ss tt uu vv]) }
             end
           end
@@ -432,8 +414,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 'kind' => 'compute#address',
                 'address' => 'test address#0 data',
                 'description' => 'test description#0 data',
-                'name' => 'title0',
-                'region' => 'test name#0 data'
+                'name' => 'title0'
               },
               name: 'title0',
               region: 'test name#0 data'
@@ -487,8 +468,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 'kind' => 'compute#address',
                 'address' => 'test address#0 data',
                 'description' => 'test description#0 data',
-                'name' => 'test name#0 data',
-                'region' => 'test name#0 data'
+                'name' => 'test name#0 data'
               },
               region: 'test name#0 data'
             expect_network_get_async 1, region: 'test name#0 data'
