@@ -54,8 +54,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#network')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#network')
       resource.provider = present(name, fetch) unless fetch.nil?
     end
   end
@@ -226,7 +225,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     result = JSON.parse(response.body)
     raise_if_errors result, %w[error errors], 'message'
     raise "Bad response: #{response}" unless response.is_a?(Net::HTTPOK)
-    raise "Incorrect result: #{result['kind']} (expecting #{kind})" \
+    raise "Incorrect result: #{result['kind']} (expected '#{kind}')" \
       unless result['kind'] == kind
     result
   end

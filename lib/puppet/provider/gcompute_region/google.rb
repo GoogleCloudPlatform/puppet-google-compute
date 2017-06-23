@@ -55,8 +55,7 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#region')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#region')
       resource.provider = present(name, fetch) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_region, resource)
     end
@@ -220,7 +219,7 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
     result = JSON.parse(response.body)
     raise_if_errors result, %w[error errors], 'message'
     raise "Bad response: #{response}" unless response.is_a?(Net::HTTPOK)
-    raise "Incorrect result: #{result['kind']} (expecting #{kind})" \
+    raise "Incorrect result: #{result['kind']} (expected '#{kind}')" \
       unless result['kind'] == kind
     result
   end
