@@ -50,6 +50,16 @@
       "operatingsystemrelease": [
         "13"
       ]
+    },
+    {
+      "operatingsystem": "Windows Server",
+      "operatingsystemrelease": [
+        "2008 R2",
+        "2012 R2",
+        "2012 R2 Core",
+        "2016 R2",
+        "2016 R2 Core"
+      ]
     }
   ],
   "dependencies": [

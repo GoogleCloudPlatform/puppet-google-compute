@@ -914,6 +914,7 @@ This module has been tested on:
 * Ubuntu 12.04, 14.04, 16.04, 16.10
 * SLES 11-sp4, 12-sp2
 * openSUSE 13
+* Windows Server 2008 R2, 2012 R2, 2012 R2 Core, 2016 R2, 2016 R2 Core
 
 Testing on other platforms has been minimal and cannot be guaranteed.
 
