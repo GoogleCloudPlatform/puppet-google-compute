@@ -126,13 +126,6 @@ Puppet::Type.newtype(:gcompute_region) do
     desc 'List of zones within the region (output only)'
   end
 
-  def self.fetch(title)
-    Google::ObjectStore.instance[:gcompute_region].each do |entry|
-      return entry if entry.title == title
-    end
-    raise ArgumentError, "gcompute_region[#{title}] required"
-  end
-
   # Returns all properties that a provider can export to other resources
   def exports
     provider.exports

@@ -26,7 +26,7 @@
 # ----------------------------------------------------------------------------
 
 require 'google/compute/property/integer'
-require 'google/compute/property/resourceref'
+require 'google/compute/property/region_name'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
@@ -51,7 +51,7 @@ Puppet::Type.newtype(:gcompute_address) do
   end
 
   autorequire(:gcompute_region) do
-    [self[:region]]
+    self[:region].autorequires
   end
 
   ensurable
@@ -72,7 +72,7 @@ Puppet::Type.newtype(:gcompute_address) do
     desc 'The name of the Address.'
   end
 
-  newparam(:region, parent: Google::Compute::Property::ResourceRef) do
+  newparam(:region, parent: Google::Compute::Property::RegionNameRef) do
     desc 'A reference to Region resource'
   end
 

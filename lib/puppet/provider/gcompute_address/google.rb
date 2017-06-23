@@ -30,7 +30,7 @@ require 'google/compute/network/get'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
 require 'google/compute/property/integer'
-require 'google/compute/property/resourceref'
+require 'google/compute/property/region_name'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
@@ -125,9 +125,6 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
   private
 
   def self.resource_to_hash(resource)
-    region = Puppet::Type.type(:gcompute_region)
-                         .fetch(resource[:region])
-                         .exports[:name]
     {
       project: resource[:project],
       name: resource[:name],
@@ -137,7 +134,7 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
       description: resource[:description],
       id: resource[:id],
       users: resource[:users],
-      region: region
+      region: resource[:region]
     }.reject { |_, v| v.nil? }
   end
 

@@ -117,7 +117,7 @@ puppet-codegen:
   * lib/google/compute/property/enum.rb
   * lib/google/compute/property/firewall_allowed.rb
   * lib/google/compute/property/integer.rb
-  * lib/google/compute/property/resourceref.rb
+  * lib/google/compute/property/region_name.rb
   * lib/google/compute/property/string.rb
   * lib/google/compute/property/string_array.rb
   * lib/google/compute/property/time.rb
