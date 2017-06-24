@@ -556,7 +556,19 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                 'licenses' => %w[ww xx],
                 'name' => 'title0',
                 'sizeGb' => 2_858_499_398,
-                'sourceImage' => 'test source_image#0 data'
+                'sourceImage' => 'test source_image#0 data',
+                'diskEncryptionKey' => {
+                  'rawKey' => 'test raw_key#0 data',
+                  'sha256' => 'test sha256#0 data'
+                },
+                'sourceImageEncryptionKey' => {
+                  'rawKey' => 'test raw_key#0 data',
+                  'sha256' => 'test sha256#0 data'
+                },
+                'sourceSnapshotEncryptionKey' => {
+                  'rawKey' => 'test raw_key#0 data',
+                  'sha256' => 'test sha256#0 data'
+                }
               },
               name: 'title0'
             expect_network_get_async 1, name: 'title0'
@@ -616,7 +628,19 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               'licenses' => %w[ww xx],
               'name' => 'test name#0 data',
               'sizeGb' => 2_858_499_398,
-              'sourceImage' => 'test source_image#0 data'
+              'sourceImage' => 'test source_image#0 data',
+              'diskEncryptionKey' => {
+                'rawKey' => 'test raw_key#0 data',
+                'sha256' => 'test sha256#0 data'
+              },
+              'sourceImageEncryptionKey' => {
+                'rawKey' => 'test raw_key#0 data',
+                'sha256' => 'test sha256#0 data'
+              },
+              'sourceSnapshotEncryptionKey' => {
+                'rawKey' => 'test raw_key#0 data',
+                'sha256' => 'test sha256#0 data'
+              }
             expect_network_get_async 1
           end
 

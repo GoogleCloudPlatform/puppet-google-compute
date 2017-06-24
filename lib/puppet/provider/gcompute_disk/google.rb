@@ -167,7 +167,10 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
       licenses: @resource[:licenses],
       name: @resource[:name],
       sizeGb: @resource[:size_gb],
-      sourceImage: @resource[:source_image]
+      sourceImage: @resource[:source_image],
+      diskEncryptionKey: @resource[:disk_encryption_key],
+      sourceImageEncryptionKey: @resource[:source_image_encryption_key],
+      sourceSnapshotEncryptionKey: @resource[:source_snapshot_encryption_key]
     }.reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json
