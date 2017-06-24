@@ -64,19 +64,11 @@
   ],
   "dependencies": [
     {
-      "name": "puppet",
-      "version_requirement": ">= 3.7.2 < 5.0.0"
-    },
-    {
       "name": "google-gauth",
       "version_requirement": "< 0.2.0"
     }
   ],
   "requirements": [
-    {
-      "name": "puppet",
-      "version_requirement": ">= 3.7.2 < 5.0.0"
-    },
     {
       "name": "google-gauth",
       "version_requirement": "< 0.2.0"
