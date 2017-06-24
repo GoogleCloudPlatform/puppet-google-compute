@@ -71,9 +71,7 @@ module Google
       # Data is coming from the GCP API
       class DiskSourImagEncrKeyApi < DiskSourImagEncrKey
         def initialize(args)
-          @raw_key = Google::Compute::Property::String.api_munge(
-            args['raw_key'] || args['rawKey']
-          )
+          @raw_key = Google::Compute::Property::String.api_munge(args['rawKey'])
           @sha256 = Google::Compute::Property::String.api_munge(args['sha256'])
         end
       end
@@ -82,12 +80,10 @@ module Google
       # Data is coming from the Puppet manifest
       class DiskSourImagEncrKeyCatalog < DiskSourImagEncrKey
         def initialize(args)
-          @raw_key = Google::Compute::Property::String.unsafe_munge(
-            args['raw_key'] || args['rawKey']
-          )
-          @sha256 = Google::Compute::Property::String.unsafe_munge(
-            args['sha256']
-          )
+          @raw_key =
+            Google::Compute::Property::String.unsafe_munge(args['raw_key'])
+          @sha256 =
+            Google::Compute::Property::String.unsafe_munge(args['sha256'])
         end
       end
     end
