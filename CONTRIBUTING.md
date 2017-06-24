@@ -141,6 +141,7 @@ puppet-codegen:
   * metadata.json
   * README.md
   * spec/.rubocop.yml
+  * spec/bundle.rb
   * spec/copyright.rb
   * spec/copyright_spec.rb
   * spec/data/copyright_bad1.rb
@@ -204,6 +205,7 @@ puppet-codegen:
   * spec/network_get_spec.rb
   * spec/network_post_spec.rb
   * spec/network_put_spec.rb
+  * spec/puppetlint_spec.rb
   * spec/spec_helper.rb
   * spec/string_utils_spec.rb
 
@@ -212,9 +214,7 @@ central location:
 
   * Gemfile.lock
   * LICENSE
-  * spec/bundle.rb
   * spec/data/poor_example.pp
-  * spec/puppetlint_spec.rb
 
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
 [rubocop]: https://rubocop.readthedocs.io/en/latest/
