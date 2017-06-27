@@ -150,6 +150,21 @@ gcompute_http_health_check { 'my-app-http-hc':
 
 ```
 
+#### `gcompute_https_health_check`
+
+```puppet
+gcompute_https_health_check { 'my-app-https-hc':
+  ensure              => present,
+  healthy_threshold   => 10,
+  port                => 8080,
+  timeout_sec         => 2,
+  unhealthy_threshold => 5,
+  project             => 'google.com:graphite-playground',
+  credential          => 'mycred',
+}
+
+```
+
 #### `gcompute_network`
 
 ```puppet
@@ -257,6 +272,9 @@ gcompute_region { 'us-west1':
 * [`gcompute_http_health_check`][]:
     An HttpHealthCheck resource. This resource defines a template for how
     individual VMs should be checked for health, via HTTP.
+* [`gcompute_https_health_check`][]:
+    An HttpsHealthCheck resource. This resource defines a template for how
+    individual VMs should be checked for health, via HTTPS.
 * [`gcompute_network`][]:
     Represents a Network resource.
     Your Cloud Platform Console project can contain multiple networks, and
@@ -838,6 +856,89 @@ gcompute_http_health_check { 'my-app-http-hc':
   The unique identifier for the resource. This identifier is defined by
   the server.
 
+#### `gcompute_https_health_check`
+
+An HttpsHealthCheck resource. This resource defines a template for how
+individual VMs should be checked for health, via HTTPS.
+
+
+#### Example
+
+```puppet
+gcompute_https_health_check { 'my-app-https-hc':
+  ensure              => present,
+  healthy_threshold   => 10,
+  port                => 8080,
+  timeout_sec         => 2,
+  unhealthy_threshold => 5,
+  project             => 'google.com:graphite-playground',
+  credential          => 'mycred',
+}
+
+```
+
+##### `check_interval_sec`
+
+  How often (in seconds) to send a health check. The default value is 5
+  seconds.
+
+##### `description`
+
+  An optional description of this resource. Provide this property when
+  you create the resource.
+
+##### `healthy_threshold`
+
+  A so-far unhealthy instance will be marked healthy after this many
+  consecutive successes. The default value is 2.
+
+##### `host`
+
+  The value of the host header in the HTTPS health check request. If
+  left empty (default value), the public IP on behalf of which this
+  health check is performed will be used.
+
+##### `name`
+
+  Name of the resource. Provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035.  Specifically, the name must be 1-63 characters long and
+  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  the first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the
+  last character, which cannot be a dash.
+
+##### `port`
+
+  The TCP port number for the HTTPS health check request.
+  The default value is 80.
+
+##### `request_path`
+
+  The request path of the HTTPS health check request.
+  The default value is /.
+
+##### `timeout_sec`
+
+  How long (in seconds) to wait before claiming failure.
+  The default value is 5 seconds.  It is invalid for timeoutSec to have
+  greater value than checkIntervalSec.
+
+##### `unhealthy_threshold`
+
+  A so-far healthy instance will be marked unhealthy after this many
+  consecutive failures. The default value is 2.
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource. This identifier is defined by
+  the server.
+
 #### `gcompute_network`
 
 Represents a Network resource.
@@ -1078,5 +1179,6 @@ Variable                | Side Effect
 [`gcompute_firewall`]: #gcompute_firewall
 [`gcompute_global_address`]: #gcompute_global_address
 [`gcompute_http_health_check`]: #gcompute_http_health_check
+[`gcompute_https_health_check`]: #gcompute_https_health_check
 [`gcompute_network`]: #gcompute_network
 [`gcompute_region`]: #gcompute_region
