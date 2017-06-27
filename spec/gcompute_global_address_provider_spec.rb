@@ -79,19 +79,19 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
                   ensure      => present,
                   description => 'test description#0 data',
                   project     => 'test project#0 data',
-                  credential  => 'cred0'
+                  credential  => 'cred0',
                 }
                 gcompute_global_address { 'title1':
                   ensure      => present,
                   description => 'test description#1 data',
                   project     => 'test project#1 data',
-                  credential  => 'cred1'
+                  credential  => 'cred1',
                 }
                 gcompute_global_address { 'title2':
                   ensure      => present,
                   description => 'test description#2 data',
                   project     => 'test project#2 data',
-                  credential  => 'cred2'
+                  credential  => 'cred2',
                 }
                 MANIFEST
               ).catalog
@@ -202,21 +202,21 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
                   description => 'test description#0 data',
                   name        => 'test name#0 data',
                   project     => 'test project#0 data',
-                  credential  => 'cred0'
+                  credential  => 'cred0',
                 }
                 gcompute_global_address { 'title1':
                   ensure      => present,
                   description => 'test description#1 data',
                   name        => 'test name#1 data',
                   project     => 'test project#1 data',
-                  credential  => 'cred1'
+                  credential  => 'cred1',
                 }
                 gcompute_global_address { 'title2':
                   ensure      => present,
                   description => 'test description#2 data',
                   name        => 'test name#2 data',
                   project     => 'test project#2 data',
-                  credential  => 'cred2'
+                  credential  => 'cred2',
                 }
                 MANIFEST
               ).catalog
@@ -366,7 +366,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
                 ensure      => present,
                 description => 'test description#0 data',
                 project     => 'test project#0 data',
-                credential  => 'cred0'
+                credential  => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_global_address[title0]').provider
@@ -406,7 +406,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
                 description => 'test description#0 data',
                 name        => 'test name#0 data',
                 project     => 'test project#0 data',
-                credential  => 'cred0'
+                credential  => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_global_address[title0]').provider
@@ -442,7 +442,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               gcompute_global_address { 'title0':
                 ensure     => absent,
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
             MANIFEST
             ).catalog.resource('Gcompute_global_address[title0]')
@@ -475,7 +475,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
                 ensure     => absent,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
             MANIFEST
             ).catalog.resource('Gcompute_global_address[title0]')
@@ -511,7 +511,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               gcompute_global_address { 'title0':
                 ensure     => absent,
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_global_address[title0]')
@@ -546,7 +546,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
                 ensure     => absent,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_global_address[title0]')

@@ -78,17 +78,17 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
                 gcompute_region { 'title0':
                   ensure     => present,
                   project    => 'test project#0 data',
-                  credential => 'cred0'
+                  credential => 'cred0',
                 }
                 gcompute_region { 'title1':
                   ensure     => present,
                   project    => 'test project#1 data',
-                  credential => 'cred1'
+                  credential => 'cred1',
                 }
                 gcompute_region { 'title2':
                   ensure     => present,
                   project    => 'test project#2 data',
-                  credential => 'cred2'
+                  credential => 'cred2',
                 }
                 MANIFEST
               ).catalog
@@ -262,19 +262,19 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
                   ensure     => present,
                   name       => 'test name#0 data',
                   project    => 'test project#0 data',
-                  credential => 'cred0'
+                  credential => 'cred0',
                 }
                 gcompute_region { 'title1':
                   ensure     => present,
                   name       => 'test name#1 data',
                   project    => 'test project#1 data',
-                  credential => 'cred1'
+                  credential => 'cred1',
                 }
                 gcompute_region { 'title2':
                   ensure     => present,
                   name       => 'test name#2 data',
                   project    => 'test project#2 data',
-                  credential => 'cred2'
+                  credential => 'cred2',
                 }
                 MANIFEST
               ).catalog
@@ -485,7 +485,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
               gcompute_region { 'title0':
                 ensure     => present,
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_region[title0]').provider.ensure
@@ -521,7 +521,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
                 ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_region[title0]').provider.ensure
@@ -556,7 +556,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
               gcompute_region { 'title0':
                 ensure     => absent,
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
             MANIFEST
             ).catalog.resource('Gcompute_region[title0]')
@@ -589,7 +589,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
                 ensure     => absent,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
             MANIFEST
             ).catalog.resource('Gcompute_region[title0]')
@@ -624,7 +624,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
               gcompute_region { 'title0':
                 ensure     => absent,
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_region[title0]')
@@ -658,7 +658,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
                 ensure     => absent,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_region[title0]')

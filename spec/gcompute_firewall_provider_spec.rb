@@ -89,7 +89,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                     {
                       ip_protocol => 'test ip_protocol#2 data',
                       ports       => ['mm', 'nn'],
-                    }
+                    },
                   ],
                   description   => 'test description#0 data',
                   network       => 'test network#0 data',
@@ -97,7 +97,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   source_tags   => ['vv', 'ww', 'xx', 'yy', 'zz'],
                   target_tags   => ['tt', 'uu', 'vv', 'ww', 'xx'],
                   project       => 'test project#0 data',
-                  credential    => 'cred0'
+                  credential    => 'cred0',
                 }
                 gcompute_firewall { 'title1':
                   ensure        => present,
@@ -121,7 +121,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                     {
                       ip_protocol => 'test ip_protocol#5 data',
                       ports       => ['bb', 'cc', 'dd'],
-                    }
+                    },
                   ],
                   description   => 'test description#1 data',
                   network       => 'test network#1 data',
@@ -129,7 +129,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   source_tags   => ['ss', 'tt', 'uu', 'vv'],
                   target_tags   => ['oo', 'pp', 'qq', 'rr'],
                   project       => 'test project#1 data',
-                  credential    => 'cred1'
+                  credential    => 'cred1',
                 }
                 gcompute_firewall { 'title2':
                   ensure        => present,
@@ -145,7 +145,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                     {
                       ip_protocol => 'test ip_protocol#4 data',
                       ports       => ['ff', 'gg', 'hh'],
-                    }
+                    },
                   ],
                   description   => 'test description#2 data',
                   network       => 'test network#2 data',
@@ -153,7 +153,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   source_tags   => ['qq', 'rr', 'ss', 'tt'],
                   target_tags   => ['jj', 'kk', 'll'],
                   project       => 'test project#2 data',
-                  credential    => 'cred2'
+                  credential    => 'cred2',
                 }
                 MANIFEST
               ).catalog
@@ -300,7 +300,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                     {
                       ip_protocol => 'test ip_protocol#2 data',
                       ports       => ['mm', 'nn'],
-                    }
+                    },
                   ],
                   description   => 'test description#0 data',
                   name          => 'test name#0 data',
@@ -309,7 +309,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   source_tags   => ['vv', 'ww', 'xx', 'yy', 'zz'],
                   target_tags   => ['tt', 'uu', 'vv', 'ww', 'xx'],
                   project       => 'test project#0 data',
-                  credential    => 'cred0'
+                  credential    => 'cred0',
                 }
                 gcompute_firewall { 'title1':
                   ensure        => present,
@@ -333,7 +333,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                     {
                       ip_protocol => 'test ip_protocol#5 data',
                       ports       => ['bb', 'cc', 'dd'],
-                    }
+                    },
                   ],
                   description   => 'test description#1 data',
                   name          => 'test name#1 data',
@@ -342,7 +342,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   source_tags   => ['ss', 'tt', 'uu', 'vv'],
                   target_tags   => ['oo', 'pp', 'qq', 'rr'],
                   project       => 'test project#1 data',
-                  credential    => 'cred1'
+                  credential    => 'cred1',
                 }
                 gcompute_firewall { 'title2':
                   ensure        => present,
@@ -358,7 +358,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                     {
                       ip_protocol => 'test ip_protocol#4 data',
                       ports       => ['ff', 'gg', 'hh'],
-                    }
+                    },
                   ],
                   description   => 'test description#2 data',
                   name          => 'test name#2 data',
@@ -367,7 +367,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   source_tags   => ['qq', 'rr', 'ss', 'tt'],
                   target_tags   => ['jj', 'kk', 'll'],
                   project       => 'test project#2 data',
-                  credential    => 'cred2'
+                  credential    => 'cred2',
                 }
                 MANIFEST
               ).catalog
@@ -572,7 +572,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   {
                     ip_protocol => 'test ip_protocol#2 data',
                     ports       => ['mm', 'nn'],
-                  }
+                  },
                 ],
                 description   => 'test description#0 data',
                 network       => 'test network#0 data',
@@ -580,7 +580,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 source_tags   => ['vv', 'ww', 'xx', 'yy', 'zz'],
                 target_tags   => ['tt', 'uu', 'vv', 'ww', 'xx'],
                 project       => 'test project#0 data',
-                credential    => 'cred0'
+                credential    => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_firewall[title0]').provider.ensure
@@ -646,7 +646,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   {
                     ip_protocol => 'test ip_protocol#2 data',
                     ports       => ['mm', 'nn'],
-                  }
+                  },
                 ],
                 description   => 'test description#0 data',
                 name          => 'test name#0 data',
@@ -655,7 +655,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 source_tags   => ['vv', 'ww', 'xx', 'yy', 'zz'],
                 target_tags   => ['tt', 'uu', 'vv', 'ww', 'xx'],
                 project       => 'test project#0 data',
-                credential    => 'cred0'
+                credential    => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_firewall[title0]').provider.ensure
@@ -690,7 +690,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               gcompute_firewall { 'title0':
                 ensure     => absent,
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
             MANIFEST
             ).catalog.resource('Gcompute_firewall[title0]')
@@ -723,7 +723,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 ensure     => absent,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
             MANIFEST
             ).catalog.resource('Gcompute_firewall[title0]')
@@ -759,7 +759,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               gcompute_firewall { 'title0':
                 ensure     => absent,
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_firewall[title0]')
@@ -794,7 +794,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 ensure     => absent,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_firewall[title0]')

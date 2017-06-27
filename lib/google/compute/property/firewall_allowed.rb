@@ -42,29 +42,42 @@ module Google
           {
             'IPProtocol' => ip_protocol,
             'ports' => ports
-          }.to_json
+          }.reject { |_k, v| v.nil? }.to_json
         end
 
         def to_s
           {
-            ip_protocol: ip_protocol,
-            ports: ports
+            ip_protocol: ip_protocol.to_s,
+            ports: ports.to_s
           }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)
           return false unless other.is_a? FirewallAllowed
-          return false if ip_protocol != other.ip_protocol
-          return false if ports != other.ports
+          compare_fields(other).each do |compare|
+            next if compare[:self].nil? || compare[:other].nil?
+            return false if compare[:self] != compare[:other]
+          end
           true
         end
 
         def <=>(other)
-          result = ip_protocol.<=>(other.ip_protocol)
-          return result unless result.zero?
-          result = ports.<=>(other.ports)
-          return result unless result.zero?
+          return false unless other.is_a? FirewallAllowed
+          compare_fields(other).each do |compare|
+            next if compare[:self].nil? || compare[:other].nil?
+            result = compare[:self] <=> compare[:other]
+            return result unless result.zero?
+          end
           0
+        end
+
+        private
+
+        def compare_fields(other)
+          [
+            { self: ip_protocol, other: other.ip_protocol },
+            { self: ports, other: other.ports }
+          ]
         end
       end
 

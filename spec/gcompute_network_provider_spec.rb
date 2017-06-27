@@ -82,7 +82,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   gateway_ipv4            => 'test gateway_ipv4#0 data',
                   ipv4_range              => 'test ipv4_range#0 data',
                   project                 => 'test project#0 data',
-                  credential              => 'cred0'
+                  credential              => 'cred0',
                 }
                 gcompute_network { 'title1':
                   ensure                  => present,
@@ -91,7 +91,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   gateway_ipv4            => 'test gateway_ipv4#1 data',
                   ipv4_range              => 'test ipv4_range#1 data',
                   project                 => 'test project#1 data',
-                  credential              => 'cred1'
+                  credential              => 'cred1',
                 }
                 gcompute_network { 'title2':
                   ensure                  => present,
@@ -100,7 +100,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   gateway_ipv4            => 'test gateway_ipv4#2 data',
                   ipv4_range              => 'test ipv4_range#2 data',
                   project                 => 'test project#2 data',
-                  credential              => 'cred2'
+                  credential              => 'cred2',
                 }
                 MANIFEST
               ).catalog
@@ -234,7 +234,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   ipv4_range              => 'test ipv4_range#0 data',
                   name                    => 'test name#0 data',
                   project                 => 'test project#0 data',
-                  credential              => 'cred0'
+                  credential              => 'cred0',
                 }
                 gcompute_network { 'title1':
                   ensure                  => present,
@@ -244,7 +244,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   ipv4_range              => 'test ipv4_range#1 data',
                   name                    => 'test name#1 data',
                   project                 => 'test project#1 data',
-                  credential              => 'cred1'
+                  credential              => 'cred1',
                 }
                 gcompute_network { 'title2':
                   ensure                  => present,
@@ -254,7 +254,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   ipv4_range              => 'test ipv4_range#2 data',
                   name                    => 'test name#2 data',
                   project                 => 'test project#2 data',
-                  credential              => 'cred2'
+                  credential              => 'cred2',
                 }
                 MANIFEST
               ).catalog
@@ -430,7 +430,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 gateway_ipv4            => 'test gateway_ipv4#0 data',
                 ipv4_range              => 'test ipv4_range#0 data',
                 project                 => 'test project#0 data',
-                credential              => 'cred0'
+                credential              => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_network[title0]').provider.ensure
@@ -475,7 +475,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 ipv4_range              => 'test ipv4_range#0 data',
                 name                    => 'test name#0 data',
                 project                 => 'test project#0 data',
-                credential              => 'cred0'
+                credential              => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_network[title0]').provider.ensure
@@ -510,7 +510,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
               gcompute_network { 'title0':
                 ensure     => absent,
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
             MANIFEST
             ).catalog.resource('Gcompute_network[title0]')
@@ -543,7 +543,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 ensure     => absent,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
             MANIFEST
             ).catalog.resource('Gcompute_network[title0]')
@@ -579,7 +579,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
               gcompute_network { 'title0':
                 ensure     => absent,
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_network[title0]')
@@ -614,7 +614,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 ensure     => absent,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_network[title0]')

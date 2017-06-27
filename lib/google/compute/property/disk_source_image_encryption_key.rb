@@ -41,29 +41,42 @@ module Google
           {
             'rawKey' => raw_key,
             'sha256' => sha256
-          }.to_json
+          }.reject { |_k, v| v.nil? }.to_json
         end
 
         def to_s
           {
-            raw_key: raw_key,
-            sha256: sha256
+            raw_key: raw_key.to_s,
+            sha256: sha256.to_s
           }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)
           return false unless other.is_a? DiskSourImagEncrKey
-          return false if raw_key != other.raw_key
-          return false if sha256 != other.sha256
+          compare_fields(other).each do |compare|
+            next if compare[:self].nil? || compare[:other].nil?
+            return false if compare[:self] != compare[:other]
+          end
           true
         end
 
         def <=>(other)
-          result = raw_key.<=>(other.raw_key)
-          return result unless result.zero?
-          result = sha256.<=>(other.sha256)
-          return result unless result.zero?
+          return false unless other.is_a? DiskSourImagEncrKey
+          compare_fields(other).each do |compare|
+            next if compare[:self].nil? || compare[:other].nil?
+            result = compare[:self] <=> compare[:other]
+            return result unless result.zero?
+          end
           0
+        end
+
+        private
+
+        def compare_fields(other)
+          [
+            { self: raw_key, other: other.raw_key },
+            { self: sha256, other: other.sha256 }
+          ]
         end
       end
 

@@ -97,15 +97,14 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     raw_key => 'test raw_key#0 data',
                     sha256  => 'test sha256#0 data',
                   },
-                  source_snapshot                =>
-                  'test source_snapshot#0 data',
+                  source_snapshot                => 'test source_snapshot#0 data',
                   source_snapshot_encryption_key => {
                     raw_key => 'test raw_key#0 data',
                     sha256  => 'test sha256#0 data',
                   },
                   zone                           => 'test zone#0 data',
                   project                        => 'test project#0 data',
-                  credential                     => 'cred0'
+                  credential                     => 'cred0',
                 }
                 gcompute_disk { 'title1':
                   ensure                         => present,
@@ -121,15 +120,14 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     raw_key => 'test raw_key#1 data',
                     sha256  => 'test sha256#1 data',
                   },
-                  source_snapshot                =>
-                  'test source_snapshot#1 data',
+                  source_snapshot                => 'test source_snapshot#1 data',
                   source_snapshot_encryption_key => {
                     raw_key => 'test raw_key#1 data',
                     sha256  => 'test sha256#1 data',
                   },
                   zone                           => 'test zone#1 data',
                   project                        => 'test project#1 data',
-                  credential                     => 'cred1'
+                  credential                     => 'cred1',
                 }
                 gcompute_disk { 'title2':
                   ensure                         => present,
@@ -145,15 +143,14 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     raw_key => 'test raw_key#2 data',
                     sha256  => 'test sha256#2 data',
                   },
-                  source_snapshot                =>
-                  'test source_snapshot#2 data',
+                  source_snapshot                => 'test source_snapshot#2 data',
                   source_snapshot_encryption_key => {
                     raw_key => 'test raw_key#2 data',
                     sha256  => 'test sha256#2 data',
                   },
                   zone                           => 'test zone#2 data',
                   project                        => 'test project#2 data',
-                  credential                     => 'cred2'
+                  credential                     => 'cred2',
                 }
                 MANIFEST
               ).catalog
@@ -316,15 +313,14 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     raw_key => 'test raw_key#0 data',
                     sha256  => 'test sha256#0 data',
                   },
-                  source_snapshot                =>
-                  'test source_snapshot#0 data',
+                  source_snapshot                => 'test source_snapshot#0 data',
                   source_snapshot_encryption_key => {
                     raw_key => 'test raw_key#0 data',
                     sha256  => 'test sha256#0 data',
                   },
                   zone                           => 'test zone#0 data',
                   project                        => 'test project#0 data',
-                  credential                     => 'cred0'
+                  credential                     => 'cred0',
                 }
                 gcompute_disk { 'title1':
                   ensure                         => present,
@@ -341,15 +337,14 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     raw_key => 'test raw_key#1 data',
                     sha256  => 'test sha256#1 data',
                   },
-                  source_snapshot                =>
-                  'test source_snapshot#1 data',
+                  source_snapshot                => 'test source_snapshot#1 data',
                   source_snapshot_encryption_key => {
                     raw_key => 'test raw_key#1 data',
                     sha256  => 'test sha256#1 data',
                   },
                   zone                           => 'test zone#1 data',
                   project                        => 'test project#1 data',
-                  credential                     => 'cred1'
+                  credential                     => 'cred1',
                 }
                 gcompute_disk { 'title2':
                   ensure                         => present,
@@ -366,15 +361,14 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     raw_key => 'test raw_key#2 data',
                     sha256  => 'test sha256#2 data',
                   },
-                  source_snapshot                =>
-                  'test source_snapshot#2 data',
+                  source_snapshot                => 'test source_snapshot#2 data',
                   source_snapshot_encryption_key => {
                     raw_key => 'test raw_key#2 data',
                     sha256  => 'test sha256#2 data',
                   },
                   zone                           => 'test zone#2 data',
                   project                        => 'test project#2 data',
-                  credential                     => 'cred2'
+                  credential                     => 'cred2',
                 }
                 MANIFEST
               ).catalog
@@ -598,7 +592,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                 },
                 zone                           => 'test zone#0 data',
                 project                        => 'test project#0 data',
-                credential                     => 'cred0'
+                credential                     => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_disk[title0]').provider.ensure
@@ -669,7 +663,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                 },
                 zone                           => 'test zone#0 data',
                 project                        => 'test project#0 data',
-                credential                     => 'cred0'
+                credential                     => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_disk[title0]').provider.ensure
@@ -705,7 +699,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                 ensure     => absent,
                 zone       => 'test zone#0 data',
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
             MANIFEST
             ).catalog.resource('Gcompute_disk[title0]')
@@ -739,7 +733,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                 name       => 'test name#0 data',
                 zone       => 'test zone#0 data',
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
             MANIFEST
             ).catalog.resource('Gcompute_disk[title0]')
@@ -776,7 +770,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                 ensure     => absent,
                 zone       => 'test zone#0 data',
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_disk[title0]')
@@ -812,7 +806,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                 name       => 'test name#0 data',
                 zone       => 'test zone#0 data',
                 project    => 'test project#0 data',
-                credential => 'cred0'
+                credential => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_disk[title0]')
