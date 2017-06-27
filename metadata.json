@@ -4,9 +4,9 @@
   "author": "Google",
   "summary": "A Puppet module to manage Google Compute Engine resources",
   "license": "Apache-2.0",
-  "source": "https://github.com/googlecloudplatform/puppet-google-compute",
-  "project_page": "https://github.com/googlecloudplatform/puppet-google-compute",
-  "issues_url": "https://github.com/googlecloudplatform/puppet-google-compute/issues",
+  "source": "https://github.com/GoogleCloudPlatform/puppet-google-compute.git",
+  "project_page": "https://github.com/GoogleCloudPlatform/puppet-google-compute/blob/master/README.md",
+  "issues_url": "https://github.com/GoogleCloudPlatform/puppet-google-compute/issues",
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",

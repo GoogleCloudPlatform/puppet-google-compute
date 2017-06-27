@@ -1,4 +1,4 @@
-# Google Compute Engine
+# Google Compute Engine Puppet Module
 
 #### Table of Contents
 
