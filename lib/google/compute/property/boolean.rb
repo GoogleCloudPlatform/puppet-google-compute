@@ -33,6 +33,7 @@ module Google
       # A Puppet property that holds a string
       class Boolean < Google::Compute::Property::Base
         def self.unsafe_munge(value)
+          return if value.nil?
           value
         end
 
@@ -41,6 +42,7 @@ module Google
         end
 
         def self.api_munge(value)
+          return if value.nil?
           value
         end
 

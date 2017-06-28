@@ -33,6 +33,9 @@ module Google
       # A Puppet property that holds a date & time value
       class Time < Google::Compute::Property::Base
         def self.unsafe_munge(value)
+          return if value.nil?
+          # TODO(nelsonjr): Treat this value (once again) as time. Change was
+          # lost along the way. Look at all other types for similar conversions.
           value
         end
 
@@ -41,6 +44,9 @@ module Google
         end
 
         def self.api_munge(value)
+          return if value.nil?
+          # TODO(nelsonjr): Treat this value (once again) as time. Change was
+          # lost along the way. Look at all other types for similar conversions.
           value
         end
       end

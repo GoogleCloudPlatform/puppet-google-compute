@@ -33,6 +33,7 @@ module Google
       # A Puppet property that holds an integer
       class Integer < Google::Compute::Property::Base
         def self.unsafe_munge(value)
+          return if value.nil?
           value.to_i
         end
 
@@ -41,6 +42,7 @@ module Google
         end
 
         def self.api_munge(value)
+          return if value.nil?
           value.to_i
         end
       end
