@@ -165,6 +165,26 @@ gcompute_https_health_check { 'my-app-https-hc':
 
 ```
 
+#### `gcompute_health_check`
+
+```puppet
+gcompute_health_check { 'my-app-tcp-hc':
+  ensure              => present,
+  type                => 'TCP',
+  tcp_health_check    => {
+    port_name => 'service-health',
+    request   => 'ping',
+    response  => 'pong',
+  },
+  healthy_threshold   => 10,
+  timeout_sec         => 2,
+  unhealthy_threshold => 5,
+  project             => 'google.com:graphite-playground',
+  credential          => 'mycred',
+}
+
+```
+
 #### `gcompute_network`
 
 ```puppet
@@ -275,6 +295,10 @@ gcompute_region { 'us-west1':
 * [`gcompute_https_health_check`][]:
     An HttpsHealthCheck resource. This resource defines a template for how
     individual VMs should be checked for health, via HTTPS.
+* [`gcompute_health_check`][]:
+    An HealthCheck resource. This resource defines a template for how
+    individual virtual machines should be checked for health, via one of
+    the supported protocols.
 * [`gcompute_network`][]:
     Represents a Network resource.
     Your Cloud Platform Console project can contain multiple networks, and
@@ -939,6 +963,99 @@ gcompute_https_health_check { 'my-app-https-hc':
   The unique identifier for the resource. This identifier is defined by
   the server.
 
+#### `gcompute_health_check`
+
+An HealthCheck resource. This resource defines a template for how individual virtual machines should be checked for health, via one of the supported protocols.
+
+#### Example
+
+```puppet
+gcompute_health_check { 'my-app-tcp-hc':
+  ensure              => present,
+  type                => 'TCP',
+  tcp_health_check    => {
+    port_name => 'service-health',
+    request   => 'ping',
+    response  => 'pong',
+  },
+  healthy_threshold   => 10,
+  timeout_sec         => 2,
+  unhealthy_threshold => 5,
+  project             => 'google.com:graphite-playground',
+  credential          => 'mycred',
+}
+
+```
+
+##### `check_interval_sec`
+
+  How often (in seconds) to send a health check. The default value is 5
+  seconds.
+
+##### `description`
+
+  An optional description of this resource. Provide this property when
+  you create the resource.
+
+##### `healthy_threshold`
+
+  A so-far unhealthy instance will be marked healthy after this many
+  consecutive successes. The default value is 2.
+
+##### `name`
+
+  Name of the resource. Provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035.  Specifically, the name must be 1-63 characters long and
+  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  the first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the
+  last character, which cannot be a dash.
+
+##### `timeout_sec`
+
+  How long (in seconds) to wait before claiming failure.
+  The default value is 5 seconds.  It is invalid for timeoutSec to have
+  greater value than checkIntervalSec.
+
+##### `unhealthy_threshold`
+
+  A so-far healthy instance will be marked unhealthy after this many
+  consecutive failures. The default value is 2.
+
+##### `type`
+
+  Specifies the type of the healthCheck, either TCP, SSL, HTTP or
+  HTTPS. If not specified, the default is TCP. Exactly one of the
+  protocol-specific health check field must be specified, which must
+  match type field.
+
+##### `http_health_check`
+
+  A nested object resource
+
+##### `https_health_check`
+
+  A nested object resource
+
+##### `tcp_health_check`
+
+  A nested object resource
+
+##### `ssl_health_check`
+
+  A nested object resource
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource. This identifier is defined by
+  the server.
+
 #### `gcompute_network`
 
 Represents a Network resource.
@@ -1180,5 +1297,6 @@ Variable                | Side Effect
 [`gcompute_global_address`]: #gcompute_global_address
 [`gcompute_http_health_check`]: #gcompute_http_health_check
 [`gcompute_https_health_check`]: #gcompute_https_health_check
+[`gcompute_health_check`]: #gcompute_health_check
 [`gcompute_network`]: #gcompute_network
 [`gcompute_region`]: #gcompute_region
