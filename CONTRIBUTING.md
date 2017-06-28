@@ -87,7 +87,9 @@ puppet-codegen:
   * .rubocop.yml
   * CONTRIBUTING.md
   * examples/address.pp
+  * examples/backend_bucket.pp
   * examples/delete_address.pp
+  * examples/delete_backend_bucket.pp
   * examples/delete_disk.pp
   * examples/delete_firewall.pp
   * examples/delete_global_address.pp
@@ -137,6 +139,7 @@ puppet-codegen:
   * lib/google/object_store.rb
   * lib/google/string_utils.rb
   * lib/puppet/provider/gcompute_address/google.rb
+  * lib/puppet/provider/gcompute_backend_bucket/google.rb
   * lib/puppet/provider/gcompute_disk/google.rb
   * lib/puppet/provider/gcompute_disk_type/google.rb
   * lib/puppet/provider/gcompute_firewall/google.rb
@@ -148,6 +151,7 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_region/google.rb
   * lib/puppet/provider/gcompute_ssl_certificate/google.rb
   * lib/puppet/type/gcompute_address.rb
+  * lib/puppet/type/gcompute_backend_bucket.rb
   * lib/puppet/type/gcompute_disk.rb
   * lib/puppet/type/gcompute_disk_type.rb
   * lib/puppet/type/gcompute_firewall.rb
@@ -174,6 +178,12 @@ puppet-codegen:
   * spec/data/network/gcompute_address/success2~title.yaml
   * spec/data/network/gcompute_address/success3~name.yaml
   * spec/data/network/gcompute_address/success3~title.yaml
+  * spec/data/network/gcompute_backend_bucket/success1~name.yaml
+  * spec/data/network/gcompute_backend_bucket/success1~title.yaml
+  * spec/data/network/gcompute_backend_bucket/success2~name.yaml
+  * spec/data/network/gcompute_backend_bucket/success2~title.yaml
+  * spec/data/network/gcompute_backend_bucket/success3~name.yaml
+  * spec/data/network/gcompute_backend_bucket/success3~title.yaml
   * spec/data/network/gcompute_disk/success1~name.yaml
   * spec/data/network/gcompute_disk/success1~title.yaml
   * spec/data/network/gcompute_disk/success2~name.yaml
@@ -236,6 +246,7 @@ puppet-codegen:
   * spec/data/network/gcompute_ssl_certificate/success3~title.yaml
   * spec/fake_auth.rb
   * spec/gcompute_address_provider_spec.rb
+  * spec/gcompute_backend_bucket_provider_spec.rb
   * spec/gcompute_disk_provider_spec.rb
   * spec/gcompute_disk_type_provider_spec.rb
   * spec/gcompute_firewall_provider_spec.rb
