@@ -233,6 +233,47 @@ gcompute_region { 'us-west1':
 
 ```
 
+#### `gcompute_ssl_certificate`
+
+```puppet
+# *******
+# WARNING: This manifest is for example purposes only. It is *not* advisable to
+# have the key embedded like this because if you check this file into source
+# control you are publishing the private key to whomever can access the source
+# code.
+# *******
+
+gcompute_ssl_certificate { 'sample-certificate':
+  ensure      => present,
+  description => 'A certificate for test purposes only.',
+  project     => 'google.com:graphite-playground',
+  credential  => 'mycred',
+  certificate => '-----BEGIN CERTIFICATE-----
+MIICqjCCAk+gAwIBAgIJAIuJ+0352Kq4MAoGCCqGSM49BAMCMIGwMQswCQYDVQQG
+EwJVUzETMBEGA1UECAwKV2FzaGluZ3RvbjERMA8GA1UEBwwIS2lya2xhbmQxFTAT
+BgNVBAoMDEdvb2dsZSwgSW5jLjEeMBwGA1UECwwVR29vZ2xlIENsb3VkIFBsYXRm
+b3JtMR8wHQYDVQQDDBZ3d3cubXktc2VjdXJlLXNpdGUuY29tMSEwHwYJKoZIhvcN
+AQkBFhJuZWxzb25hQGdvb2dsZS5jb20wHhcNMTcwNjI4MDQ1NjI2WhcNMjcwNjI2
+MDQ1NjI2WjCBsDELMAkGA1UEBhMCVVMxEzARBgNVBAgMCldhc2hpbmd0b24xETAP
+BgNVBAcMCEtpcmtsYW5kMRUwEwYDVQQKDAxHb29nbGUsIEluYy4xHjAcBgNVBAsM
+FUdvb2dsZSBDbG91ZCBQbGF0Zm9ybTEfMB0GA1UEAwwWd3d3Lm15LXNlY3VyZS1z
+aXRlLmNvbTEhMB8GCSqGSIb3DQEJARYSbmVsc29uYUBnb29nbGUuY29tMFkwEwYH
+KoZIzj0CAQYIKoZIzj0DAQcDQgAEHGzpcRJ4XzfBJCCPMQeXQpTXwlblimODQCuQ
+4mzkzTv0dXyB750fOGN02HtkpBOZzzvUARTR10JQoSe2/5PIwaNQME4wHQYDVR0O
+BBYEFKIQC3A2SDpxcdfn0YLKineDNq/BMB8GA1UdIwQYMBaAFKIQC3A2SDpxcdfn
+0YLKineDNq/BMAwGA1UdEwQFMAMBAf8wCgYIKoZIzj0EAwIDSQAwRgIhALs4vy+O
+M3jcqgA4fSW/oKw6UJxp+M6a+nGMX+UJR3YgAiEAvvl39QRVAiv84hdoCuyON0lJ
+zqGNhIPGq2ULqXKK8BY=
+-----END CERTIFICATE-----',
+  private_key => '-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIObtRo8tkUqoMjeHhsOh2ouPpXCgBcP+EDxZCB/tws15oAoGCCqGSM49
+AwEHoUQDQgAEHGzpcRJ4XzfBJCCPMQeXQpTXwlblimODQCuQ4mzkzTv0dXyB750f
+OGN02HtkpBOZzzvUARTR10JQoSe2/5PIwQ==
+-----END EC PRIVATE KEY-----',
+}
+
+```
+
 
 ## Reference
 
@@ -322,6 +363,11 @@ gcompute_region { 'us-west1':
     Represents a Region resource. A region is a specific geographical
     location where you can run your resources. Each region has one or more
     zones
+* [`gcompute_ssl_certificate`][]:
+    An SslCertificate resource. This resource provides a mechanism to
+    upload
+    an SSL key and certificate to the load balancer to serve secure
+    connections from the user.
 
 ### About output only properties
 
@@ -1222,6 +1268,87 @@ gcompute_region { 'us-west1':
 * `zones`: Output only.
   List of zones within the region
 
+#### `gcompute_ssl_certificate`
+
+An SslCertificate resource. This resource provides a mechanism to upload
+an SSL key and certificate to the load balancer to serve secure
+connections from the user.
+
+
+#### Example
+
+```puppet
+# *******
+# WARNING: This manifest is for example purposes only. It is *not* advisable to
+# have the key embedded like this because if you check this file into source
+# control you are publishing the private key to whomever can access the source
+# code.
+# *******
+
+gcompute_ssl_certificate { 'sample-certificate':
+  ensure      => present,
+  description => 'A certificate for test purposes only.',
+  project     => 'google.com:graphite-playground',
+  credential  => 'mycred',
+  certificate => '-----BEGIN CERTIFICATE-----
+MIICqjCCAk+gAwIBAgIJAIuJ+0352Kq4MAoGCCqGSM49BAMCMIGwMQswCQYDVQQG
+EwJVUzETMBEGA1UECAwKV2FzaGluZ3RvbjERMA8GA1UEBwwIS2lya2xhbmQxFTAT
+BgNVBAoMDEdvb2dsZSwgSW5jLjEeMBwGA1UECwwVR29vZ2xlIENsb3VkIFBsYXRm
+b3JtMR8wHQYDVQQDDBZ3d3cubXktc2VjdXJlLXNpdGUuY29tMSEwHwYJKoZIhvcN
+AQkBFhJuZWxzb25hQGdvb2dsZS5jb20wHhcNMTcwNjI4MDQ1NjI2WhcNMjcwNjI2
+MDQ1NjI2WjCBsDELMAkGA1UEBhMCVVMxEzARBgNVBAgMCldhc2hpbmd0b24xETAP
+BgNVBAcMCEtpcmtsYW5kMRUwEwYDVQQKDAxHb29nbGUsIEluYy4xHjAcBgNVBAsM
+FUdvb2dsZSBDbG91ZCBQbGF0Zm9ybTEfMB0GA1UEAwwWd3d3Lm15LXNlY3VyZS1z
+aXRlLmNvbTEhMB8GCSqGSIb3DQEJARYSbmVsc29uYUBnb29nbGUuY29tMFkwEwYH
+KoZIzj0CAQYIKoZIzj0DAQcDQgAEHGzpcRJ4XzfBJCCPMQeXQpTXwlblimODQCuQ
+4mzkzTv0dXyB750fOGN02HtkpBOZzzvUARTR10JQoSe2/5PIwaNQME4wHQYDVR0O
+BBYEFKIQC3A2SDpxcdfn0YLKineDNq/BMB8GA1UdIwQYMBaAFKIQC3A2SDpxcdfn
+0YLKineDNq/BMAwGA1UdEwQFMAMBAf8wCgYIKoZIzj0EAwIDSQAwRgIhALs4vy+O
+M3jcqgA4fSW/oKw6UJxp+M6a+nGMX+UJR3YgAiEAvvl39QRVAiv84hdoCuyON0lJ
+zqGNhIPGq2ULqXKK8BY=
+-----END CERTIFICATE-----',
+  private_key => '-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEIObtRo8tkUqoMjeHhsOh2ouPpXCgBcP+EDxZCB/tws15oAoGCCqGSM49
+AwEHoUQDQgAEHGzpcRJ4XzfBJCCPMQeXQpTXwlblimODQCuQ4mzkzTv0dXyB750f
+OGN02HtkpBOZzzvUARTR10JQoSe2/5PIwQ==
+-----END EC PRIVATE KEY-----',
+}
+
+```
+
+##### `certificate`
+
+  The certificate in PEM format.
+  The certificate chain must be no greater than 5 certs long.
+  The chain must include at least one intermediate cert.
+
+##### `description`
+
+  An optional description of this resource.
+
+##### `name`
+
+  Name of the resource. Provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035. Specifically, the name must be 1-63 characters long and match
+  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the last
+  character, which cannot be a dash.
+
+##### `private_key`
+
+  The private key in PEM format.
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource.
+
 
 ## Limitations
 
@@ -1300,3 +1427,4 @@ Variable                | Side Effect
 [`gcompute_health_check`]: #gcompute_health_check
 [`gcompute_network`]: #gcompute_network
 [`gcompute_region`]: #gcompute_region
+[`gcompute_ssl_certificate`]: #gcompute_ssl_certificate
