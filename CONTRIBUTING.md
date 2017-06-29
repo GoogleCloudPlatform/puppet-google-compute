@@ -97,6 +97,7 @@ puppet-codegen:
   * examples/delete_http_health_check.pp
   * examples/delete_https_health_check.pp
   * examples/delete_network.pp
+  * examples/delete_route.pp
   * examples/delete_ssl_certificate.pp
   * examples/delete_subnetwork.pp
   * examples/disk.pp
@@ -112,6 +113,7 @@ puppet-codegen:
   * examples/network~custom.pp
   * examples/network~legacy.pp
   * examples/region.pp
+  * examples/route.pp
   * examples/ssl_certificate.pp
   * examples/subnetwork.pp
   * Gemfile
@@ -152,6 +154,7 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_https_health_check/google.rb
   * lib/puppet/provider/gcompute_network/google.rb
   * lib/puppet/provider/gcompute_region/google.rb
+  * lib/puppet/provider/gcompute_route/google.rb
   * lib/puppet/provider/gcompute_ssl_certificate/google.rb
   * lib/puppet/provider/gcompute_subnetwork/google.rb
   * lib/puppet/type/gcompute_address.rb
@@ -165,6 +168,7 @@ puppet-codegen:
   * lib/puppet/type/gcompute_https_health_check.rb
   * lib/puppet/type/gcompute_network.rb
   * lib/puppet/type/gcompute_region.rb
+  * lib/puppet/type/gcompute_route.rb
   * lib/puppet/type/gcompute_ssl_certificate.rb
   * lib/puppet/type/gcompute_subnetwork.rb
   * metadata.json
@@ -243,6 +247,12 @@ puppet-codegen:
   * spec/data/network/gcompute_region/success2~title.yaml
   * spec/data/network/gcompute_region/success3~name.yaml
   * spec/data/network/gcompute_region/success3~title.yaml
+  * spec/data/network/gcompute_route/success1~name.yaml
+  * spec/data/network/gcompute_route/success1~title.yaml
+  * spec/data/network/gcompute_route/success2~name.yaml
+  * spec/data/network/gcompute_route/success2~title.yaml
+  * spec/data/network/gcompute_route/success3~name.yaml
+  * spec/data/network/gcompute_route/success3~title.yaml
   * spec/data/network/gcompute_ssl_certificate/success1~name.yaml
   * spec/data/network/gcompute_ssl_certificate/success1~title.yaml
   * spec/data/network/gcompute_ssl_certificate/success2~name.yaml
@@ -267,6 +277,7 @@ puppet-codegen:
   * spec/gcompute_https_health_check_provider_spec.rb
   * spec/gcompute_network_provider_spec.rb
   * spec/gcompute_region_provider_spec.rb
+  * spec/gcompute_route_provider_spec.rb
   * spec/gcompute_ssl_certificate_provider_spec.rb
   * spec/gcompute_subnetwork_provider_spec.rb
   * spec/hash_utils_spec.rb
