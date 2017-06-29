@@ -31,14 +31,14 @@ require 'google/compute/network/post'
 require 'google/compute/network/put'
 require 'google/compute/property/boolean'
 require 'google/compute/property/integer'
+require 'google/compute/property/network_selflink'
+require 'google/compute/property/region_name'
 require 'google/compute/property/string'
-require 'google/compute/property/string_array'
 require 'google/compute/property/time'
 require 'google/hash_utils'
-require 'google/object_store'
 require 'puppet'
 
-Puppet::Type.type(:gcompute_network).provide(:google) do
+Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
   mk_resource_methods
 
   def self.instances
@@ -55,39 +55,37 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource), 'compute#network')
-      resource.provider = present(name, fetch) unless fetch.nil?
-      Google::ObjectStore.instance.add(:gcompute_network, resource)
+      fetch = fetch_resource(resource, self_link(resource),
+                             'compute#subnetwork')
+      resource.provider = present(name, fetch, resource) unless fetch.nil?
     end
   end
 
-  def self.present(name, fetch)
-    result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+  def self.present(name, fetch, resource)
+    result = new(
+      { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
+    )
     result.instance_variable_set(:@fetched, fetch)
     result
   end
 
-  # rubocop:disable Metrics/MethodLength
-  def self.fetch_to_hash(fetch)
+  def self.fetch_to_hash(fetch, resource)
     {
+      creation_timestamp:
+        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       description:
         Google::Compute::Property::String.api_munge(fetch['description']),
-      gateway_ipv4:
-        Google::Compute::Property::String.api_munge(fetch['gatewayIPv4']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      ipv4_range:
-        Google::Compute::Property::String.api_munge(fetch['IPv4Range']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      subnetworks:
-        Google::Compute::Property::StringArray.api_munge(fetch['subnetworks']),
-      auto_create_subnetworks: Google::Compute::Property::Boolean.api_munge(
-        fetch['autoCreateSubnetworks']
+      private_ip_google_access: Google::Compute::Property::Boolean.api_munge(
+        fetch['privateIpGoogleAccess']
       ),
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp'])
+      gateway_address: resource[:gateway_address],
+      ip_cidr_range: resource[:ip_cidr_range],
+      network: resource[:network],
+      region: resource[:region]
     }.reject { |_, v| v.nil? }
   end
-  # rubocop:enable Metrics/MethodLength
 
   def exists?
     debug("exists? #{@property_hash[:ensure] == :present}")
@@ -118,11 +116,11 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    unless @dirty.keys == [:auto_create_subnetworks]
-      raise ['Network specification mismatch and cannot be edited.',
-             'The only allowed change is from Auto to Custom type.'].join(' ')
-    end
-    handle_auto_to_custom_change
+    update_req = Google::Compute::Network::Put.new(self_link(@resource),
+                                                   fetch_auth(@resource),
+                                                   'application/json',
+                                                   resource_to_request)
+    @fetched = wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)
@@ -130,12 +128,6 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     @dirty[field] = {
       from: from,
       to: to
-    }
-  end
-
-  def exports
-    {
-      self_link: @fetched['selfLink']
     }
   end
 
@@ -156,25 +148,28 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     {
       project: resource[:project],
       name: resource[:name],
-      kind: 'compute#network',
+      kind: 'compute#subnetwork',
+      creation_timestamp: resource[:creation_timestamp],
       description: resource[:description],
-      gateway_ipv4: resource[:gateway_ipv4],
+      gateway_address: resource[:gateway_address],
       id: resource[:id],
-      ipv4_range: resource[:ipv4_range],
-      subnetworks: resource[:subnetworks],
-      auto_create_subnetworks: resource[:auto_create_subnetworks],
-      creation_timestamp: resource[:creation_timestamp]
+      ip_cidr_range: resource[:ip_cidr_range],
+      network: resource[:network],
+      private_ip_google_access: resource[:private_ip_google_access],
+      region: resource[:region]
     }.reject { |_, v| v.nil? }
   end
 
   def resource_to_request
     request = {
-      kind: 'compute#network',
+      kind: 'compute#subnetwork',
       description: @resource[:description],
-      gatewayIPv4: @resource[:gateway_ipv4],
-      IPv4Range: @resource[:ipv4_range],
+      gatewayAddress: @resource[:gateway_address],
+      ipCidrRange: @resource[:ip_cidr_range],
       name: @resource[:name],
-      autoCreateSubnetworks: @resource[:auto_create_subnetworks]
+      network: @resource[:network],
+      privateIpGoogleAccess: @resource[:private_ip_google_access],
+      region: @resource[:region]
     }.reject { |_, v| v.nil? }
 
     # Convert boolean symbols into JSON compatible value.
@@ -201,7 +196,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/global/networks',
+        'projects/{{project}}/regions/{{region}}/subnetworks',
         data
       )
     )
@@ -215,7 +210,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/global/networks/{{name}}',
+        'projects/{{project}}/regions/{{region}}/subnetworks/{{name}}',
         data
       )
     )
@@ -274,7 +269,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/global/operations/{{op_id}}',
+        'projects/{{project}}/regions/{{region}}/operations/{{op_id}}',
         data, extra_data
       )
     )
@@ -290,7 +285,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
                                                                  op_result,
                                                                  resource),
                                              %w[targetLink])),
-      'compute#network'
+      'compute#subnetwork'
     )
   end
 
@@ -301,7 +296,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
       debug("Waiting for completion of operation #{op_id}")
       raise_if_errors op_result, %w[error errors], 'message'
       sleep 1.0
-      raise "Invalid result '#{status}' on gcompute_network." \
+      raise "Invalid result '#{status}' on gcompute_subnetwork." \
         unless %w[PENDING RUNNING DONE].include?(status)
       op_result = fetch_resource(resource, op_uri, 'compute#operation')
       status = ::Google::HashUtils.navigate(op_result, %w[status])
@@ -311,23 +306,6 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
 
   def raise_if_errors(response, err_path, msg_field)
     self.class.raise_if_errors(response, err_path, msg_field)
-  end
-
-  def handle_auto_to_custom_change
-    # We allow changing the auto_create_subnetworks from true => false
-    # (which will make the network going from Auto to Custom)
-    auto_change = @dirty[:auto_create_subnetworks]
-    raise 'Cannot convert a network from Custom back to Auto' \
-      if auto_change[:from] == false && auto_change[:to] == true
-    # TODO(nelsonjr): Enable converting from Auto => Custom via call to
-    # special method URL. See tracking work item:
-    # https://bugzilla.graphite.cloudnativeapp.com/show_bug.cgi?id=174
-    raise [
-      'Conversion from Auto to Custom not implemented yet.',
-      'See', ['https://bugzilla.graphite.cloudnativeapp.com',
-              'show_bug.cgi?id=174'].join('/'),
-      'for more details'
-    ].join(' ')
   end
 
   def self.fetch_resource(resource, self_link, kind)

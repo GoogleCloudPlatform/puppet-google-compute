@@ -33,7 +33,7 @@ name: 'test name#2 data'
 description: 'test description#2 data'
 IPv4Range: 'test ipv4_range#2 data'
 gatewayIPv4: 'test gateway_ipv4#2 data'
-selfLink: https://www.googleapis.com/compute/v1/projects/google.com:graphite-playground/global/networks/default
+selfLink: selflink(resource(network,2))
 autoCreateSubnetworks: true
 subnetworks:
   - mm

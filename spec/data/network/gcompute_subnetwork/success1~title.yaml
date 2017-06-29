@@ -26,17 +26,13 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: compute#network
-id: 4299001743
-creationTimestamp: '2120-10-14T00:16:21+00:00'
-name: 'test name#1 data'
-description: 'test description#1 data'
-IPv4Range: 'test ipv4_range#1 data'
-gatewayIPv4: 'test gateway_ipv4#1 data'
-selfLink: selflink(resource(network,1))
-autoCreateSubnetworks: false
-subnetworks:
-  - ww
-  - xx
-  - yy
-  - zz
+kind: 'compute#subnetwork'
+creationTimestamp: '2045-05-23T12:08:10+00:00'
+description: 'test description#0 data'
+gatewayAddress: 'test gateway_address#0 data'
+id: 2149500871
+ipCidrRange: 'test ip_cidr_range#0 data'
+name: 'title0'
+network: 'selflink(resource(network,0))'
+privateIpGoogleAccess: true
+region: 'test name#0 data'

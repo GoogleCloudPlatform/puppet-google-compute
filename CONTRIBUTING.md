@@ -98,6 +98,7 @@ puppet-codegen:
   * examples/delete_https_health_check.pp
   * examples/delete_network.pp
   * examples/delete_ssl_certificate.pp
+  * examples/delete_subnetwork.pp
   * examples/disk.pp
   * examples/disk_type.pp
   * examples/firewall.pp
@@ -112,6 +113,7 @@ puppet-codegen:
   * examples/network~legacy.pp
   * examples/region.pp
   * examples/ssl_certificate.pp
+  * examples/subnetwork.pp
   * Gemfile
   * lib/google/compute/network/base.rb
   * lib/google/compute/network/delete.rb
@@ -131,6 +133,7 @@ puppet-codegen:
   * lib/google/compute/property/healthcheck_ssl_health_check.rb
   * lib/google/compute/property/healthcheck_tcp_health_check.rb
   * lib/google/compute/property/integer.rb
+  * lib/google/compute/property/network_selflink.rb
   * lib/google/compute/property/region_name.rb
   * lib/google/compute/property/string.rb
   * lib/google/compute/property/string_array.rb
@@ -150,6 +153,7 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_network/google.rb
   * lib/puppet/provider/gcompute_region/google.rb
   * lib/puppet/provider/gcompute_ssl_certificate/google.rb
+  * lib/puppet/provider/gcompute_subnetwork/google.rb
   * lib/puppet/type/gcompute_address.rb
   * lib/puppet/type/gcompute_backend_bucket.rb
   * lib/puppet/type/gcompute_disk.rb
@@ -162,6 +166,7 @@ puppet-codegen:
   * lib/puppet/type/gcompute_network.rb
   * lib/puppet/type/gcompute_region.rb
   * lib/puppet/type/gcompute_ssl_certificate.rb
+  * lib/puppet/type/gcompute_subnetwork.rb
   * metadata.json
   * README.md
   * spec/.rubocop.yml
@@ -244,6 +249,12 @@ puppet-codegen:
   * spec/data/network/gcompute_ssl_certificate/success2~title.yaml
   * spec/data/network/gcompute_ssl_certificate/success3~name.yaml
   * spec/data/network/gcompute_ssl_certificate/success3~title.yaml
+  * spec/data/network/gcompute_subnetwork/success1~name.yaml
+  * spec/data/network/gcompute_subnetwork/success1~title.yaml
+  * spec/data/network/gcompute_subnetwork/success2~name.yaml
+  * spec/data/network/gcompute_subnetwork/success2~title.yaml
+  * spec/data/network/gcompute_subnetwork/success3~name.yaml
+  * spec/data/network/gcompute_subnetwork/success3~title.yaml
   * spec/fake_auth.rb
   * spec/gcompute_address_provider_spec.rb
   * spec/gcompute_backend_bucket_provider_spec.rb
@@ -257,6 +268,7 @@ puppet-codegen:
   * spec/gcompute_network_provider_spec.rb
   * spec/gcompute_region_provider_spec.rb
   * spec/gcompute_ssl_certificate_provider_spec.rb
+  * spec/gcompute_subnetwork_provider_spec.rb
   * spec/hash_utils_spec.rb
   * spec/network_blocker.rb
   * spec/network_blocker_spec.rb

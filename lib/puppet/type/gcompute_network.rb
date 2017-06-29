@@ -30,6 +30,7 @@ require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_network) do
@@ -130,5 +131,10 @@ Puppet::Type.newtype(:gcompute_network) do
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
     desc 'Creation timestamp in RFC3339 text format. (output only)'
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end
