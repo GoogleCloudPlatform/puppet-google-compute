@@ -199,6 +199,16 @@ gcompute_health_check { 'my-app-tcp-hc':
 
 ```
 
+#### `gcompute_license`
+
+```puppet
+gcompute_license { 'test-license':
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+```
+
 #### `gcompute_network`
 
 ```puppet
@@ -398,6 +408,11 @@ gcompute_subnetwork { 'servers':
     An HealthCheck resource. This resource defines a template for how
     individual virtual machines should be checked for health, via one of
     the supported protocols.
+* [`gcompute_license`][]:
+    A License resource represents a software license. Licenses are used to
+    track software usage in images, persistent disks, snapshots, and
+    virtual
+    machine instances.
 * [`gcompute_network`][]:
     Represents a Network resource.
     Your Cloud Platform Console project can contain multiple networks, and
@@ -1267,6 +1282,34 @@ gcompute_health_check { 'my-app-tcp-hc':
   The unique identifier for the resource. This identifier is defined by
   the server.
 
+#### `gcompute_license`
+
+A License resource represents a software license. Licenses are used to
+track software usage in images, persistent disks, snapshots, and virtual
+machine instances.
+
+
+#### Example
+
+```puppet
+gcompute_license { 'test-license':
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+```
+
+
+##### Output-only properties
+
+* `name`: Output only.
+  Name of the resource. The name is 1-63 characters long
+  and complies with RFC1035.
+
+* `charges_use_fee`: Output only.
+  If true, the customer will be charged license fee for
+  running software that contains this license on an instance.
+
 #### `gcompute_network`
 
 Represents a Network resource.
@@ -1787,6 +1830,7 @@ Variable                | Side Effect
 [`gcompute_http_health_check`]: #gcompute_http_health_check
 [`gcompute_https_health_check`]: #gcompute_https_health_check
 [`gcompute_health_check`]: #gcompute_health_check
+[`gcompute_license`]: #gcompute_license
 [`gcompute_network`]: #gcompute_network
 [`gcompute_region`]: #gcompute_region
 [`gcompute_route`]: #gcompute_route

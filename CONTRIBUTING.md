@@ -108,6 +108,7 @@ puppet-codegen:
   * examples/health_check.pp
   * examples/http_health_check.pp
   * examples/https_health_check.pp
+  * examples/license.pp
   * examples/network~auto.pp
   * examples/network~convert_to_custom.pp
   * examples/network~custom.pp
@@ -152,6 +153,7 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_health_check/google.rb
   * lib/puppet/provider/gcompute_http_health_check/google.rb
   * lib/puppet/provider/gcompute_https_health_check/google.rb
+  * lib/puppet/provider/gcompute_license/google.rb
   * lib/puppet/provider/gcompute_network/google.rb
   * lib/puppet/provider/gcompute_region/google.rb
   * lib/puppet/provider/gcompute_route/google.rb
@@ -166,6 +168,7 @@ puppet-codegen:
   * lib/puppet/type/gcompute_health_check.rb
   * lib/puppet/type/gcompute_http_health_check.rb
   * lib/puppet/type/gcompute_https_health_check.rb
+  * lib/puppet/type/gcompute_license.rb
   * lib/puppet/type/gcompute_network.rb
   * lib/puppet/type/gcompute_region.rb
   * lib/puppet/type/gcompute_route.rb
@@ -275,6 +278,7 @@ puppet-codegen:
   * spec/gcompute_health_check_provider_spec.rb
   * spec/gcompute_http_health_check_provider_spec.rb
   * spec/gcompute_https_health_check_provider_spec.rb
+  * spec/gcompute_license_provider_spec.rb
   * spec/gcompute_network_provider_spec.rb
   * spec/gcompute_region_provider_spec.rb
   * spec/gcompute_route_provider_spec.rb
