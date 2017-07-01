@@ -564,9 +564,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
             expect_network_get_async 1,
                                      name: 'title0',
                                      network: 'selflink(resource(network,0))'
-            expect_network_get_success_network \
-              1,
-              network: 'selflink(resource(network,0))'
+            expect_network_get_success_network 1
           end
 
           subject do
@@ -630,9 +628,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               },
               network: 'selflink(resource(network,0))'
             expect_network_get_async 1, network: 'selflink(resource(network,0))'
-            expect_network_get_success_network \
-              1,
-              network: 'selflink(resource(network,0))'
+            expect_network_get_success_network 1
           end
 
           subject do
@@ -683,24 +679,12 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
         # Ensure absent: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      name: 'title0',
-                                      network: 'selflink(resource(network,0))'
-            expect_network_get_success_network \
-              1,
-              network: 'selflink(resource(network,0))'
+            expect_network_get_failed 1, name: 'title0'
           end
 
           subject do
             apply_compiled_manifest(
               <<-MANIFEST
-              gcompute_network { 'resource(network,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
-              }
-
               gcompute_route { 'title0':
                 ensure     => absent,
                 project    => 'test project#0 data',
@@ -727,23 +711,12 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
         # Ensure absent: resource missing, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      network: 'selflink(resource(network,0))'
-            expect_network_get_success_network \
-              1,
-              network: 'selflink(resource(network,0))'
+            expect_network_get_failed 1
           end
 
           subject do
             apply_compiled_manifest(
               <<-MANIFEST
-              gcompute_network { 'resource(network,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
-              }
-
               gcompute_route { 'title0':
                 ensure     => absent,
                 name       => 'test name#0 data',
@@ -773,30 +746,14 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
         # Ensure absent: resource exists, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_success 1,
-                                       name: 'title0',
-                                       network: 'selflink(resource(network,0))'
-            expect_network_delete 1,
-                                  'title0',
-                                  network: 'selflink(resource(network,0))'
-            expect_network_get_async 1,
-                                     name: 'title0',
-                                     network: 'selflink(resource(network,0))'
-            expect_network_get_success_network \
-              1,
-              network: 'selflink(resource(network,0))'
+            expect_network_get_success 1, name: 'title0'
+            expect_network_delete 1, 'title0'
+            expect_network_get_async 1, name: 'title0'
           end
 
           subject do
             apply_compiled_manifest(
               <<-MANIFEST
-              gcompute_network { 'resource(network,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
-              }
-
               gcompute_route { 'title0':
                 ensure     => absent,
                 project    => 'test project#0 data',
@@ -823,27 +780,14 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
         # Ensure absent: resource exists, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            expect_network_get_success 1,
-                                       network: 'selflink(resource(network,0))'
-            expect_network_delete 1,
-                                  nil,
-                                  network: 'selflink(resource(network,0))'
-            expect_network_get_async 1, network: 'selflink(resource(network,0))'
-            expect_network_get_success_network \
-              1,
-              network: 'selflink(resource(network,0))'
+            expect_network_get_success 1
+            expect_network_delete 1
+            expect_network_get_async 1
           end
 
           subject do
             apply_compiled_manifest(
               <<-MANIFEST
-              gcompute_network { 'resource(network,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
-              }
-
               gcompute_route { 'title0':
                 ensure     => absent,
                 name       => 'test name#0 data',
