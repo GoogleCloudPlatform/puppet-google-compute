@@ -136,10 +136,11 @@ describe Puppet::Type.type(:gcompute_license).provider(:google) do
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
+    debug_network "!! GET #{self_link(uri_data(id).merge(data))}"
     expect(Google::Compute::Network::Get).to receive(:new)
       .with(self_link(uri_data(id).merge(data)),
             instance_of(Google::FakeAuthorization)) do |args|
-      debug ">> GET #{args}"
+      debug_network ">> GET #{args}"
       request
     end
   end
@@ -155,10 +156,11 @@ describe Puppet::Type.type(:gcompute_license).provider(:google) do
     request = double('request')
     allow(request).to receive(:send).and_return(http_failed_object_missing)
 
+    debug_network "!! #{self_link(uri_data(id).merge(data))}"
     expect(Google::Compute::Network::Get).to receive(:new)
       .with(self_link(uri_data(id).merge(data)),
             instance_of(Google::FakeAuthorization)) do |args|
-      debug ">> GET [failed] #{args}"
+      debug_network ">> GET [failed] #{args}"
       request
     end
   end
@@ -179,6 +181,11 @@ describe Puppet::Type.type(:gcompute_license).provider(:google) do
 
   def debug(message)
     puts(message) if ENV['RSPEC_DEBUG']
+  end
+
+  def debug_network(message)
+    puts("Network #{message}") \
+      if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
   end
 
   def create_type(id)

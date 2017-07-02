@@ -1972,9 +1972,17 @@ variables to increase verbose output:
 
 Variable                | Side Effect
 ------------------------|---------------------------------------------------
-`RSPEC_DEBUG=1`         | Prints debug related to the tests being run.
+`PUPPET_HTTP_VERBOSE=1` | Prints network access information by Puppet provier.
+`PUPPET_HTTP_DEBUG=1`   | Prints the payload of network calls being made.
 `GOOGLE_HTTP_VERBOSE=1` | Prints debug related to the network calls being made.
 `GOOGLE_HTTP_DEBUG=1`   | Prints the payload of network calls being made.
+
+During test runs (using [rspec][]) you can also set:
+
+Variable                | Side Effect
+------------------------|---------------------------------------------------
+`RSPEC_DEBUG=1`         | Prints debug related to the tests being run.
+`RSPEC_HTTP_VERBOSE=1`  | Prints network expectations and access.
 
 [CONTRIBUTING.md]: CONTRIBUTING.md
 [`google-gauth`]: https://github.com/GoogleCloudPlatform/puppet-google-auth
