@@ -35,6 +35,7 @@ lastDetachTimestamp: '1986-08-30T10:54:51+00:00'
 licenses:
   - ww
   - xx
+selfLink: 'selflink(resource(disk,0))'
 sizeGb: 2858499398
 sourceImage: 'test source_image#0 data'
 sourceImageId: 'test source_image_id#0 data'

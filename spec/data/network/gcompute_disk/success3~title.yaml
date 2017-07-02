@@ -36,6 +36,7 @@ licenses:
   - tt
   - uu
   - vv
+selfLink: 'selflink(resource(disk,2))'
 sizeGb: 8575498196
 sourceImage: 'test source_image#2 data'
 sourceImageId: 'test source_image_id#2 data'
