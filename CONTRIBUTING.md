@@ -314,6 +314,7 @@ puppet-codegen:
   * spec/puppetlint_spec.rb
   * spec/spec_helper.rb
   * spec/string_utils_spec.rb
+  * spec/test_constants.rb
 
 The list below contains all the files that were automatically sourced from a
 central location:

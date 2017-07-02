@@ -56,6 +56,7 @@ files = []
 files << 'spec/bundle.rb'
 files << 'spec/copyright.rb'
 files << 'spec/fake_auth.rb'
+files << 'spec/test_constants.rb'
 files << File.join('lib', '**', '*.rb')
 
 # Require all files so we can track them via code coverage

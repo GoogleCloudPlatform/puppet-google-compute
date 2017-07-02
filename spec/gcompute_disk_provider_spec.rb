@@ -34,30 +34,6 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                 .define_singleton_method(:fetch) { |_resource| cred }
   end
 
-  D_PROJECT_DATA = %w[
-    test\ project#0\ data
-    test\ project#1\ data
-    test\ project#2\ data
-    test\ project#3\ data
-    test\ project#4\ data
-  ].freeze
-
-  D_ZONE_DATA = %w[
-    test\ zone#0\ data
-    test\ zone#1\ data
-    test\ zone#2\ data
-    test\ zone#3\ data
-    test\ zone#4\ data
-  ].freeze
-
-  D_NAME_DATA = %w[
-    test\ name#0\ data
-    test\ name#1\ data
-    test\ name#2\ data
-    test\ name#3\ data
-    test\ name#4\ data
-  ].freeze
-
   it '#instances' do
     expect { described_class.instances }.to raise_error(StandardError,
                                                         /not supported/)
@@ -991,9 +967,12 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
       ensure: :present,
       title: "title#{id - 1}",
       credential: "cred#{id - 1}",
-      project: D_PROJECT_DATA[(id - 1) % D_PROJECT_DATA.size],
-      zone: D_ZONE_DATA[(id - 1) % D_ZONE_DATA.size],
-      name: D_NAME_DATA[(id - 1) % D_NAME_DATA.size]
+      project: GoogleTests::Constants::D_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::D_PROJECT_DATA.size],
+      zone: GoogleTests::Constants::D_ZONE_DATA[(id - 1) \
+        % GoogleTests::Constants::D_ZONE_DATA.size],
+      name: GoogleTests::Constants::D_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::D_NAME_DATA.size]
     )
   end
 
@@ -1025,9 +1004,12 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
   # Creates variable test data to comply with self_link URI parameters
   def uri_data(id)
     {
-      project: D_PROJECT_DATA[(id - 1) % D_PROJECT_DATA.size],
-      zone: D_ZONE_DATA[(id - 1) % D_ZONE_DATA.size],
-      name: D_NAME_DATA[(id - 1) % D_NAME_DATA.size]
+      project: GoogleTests::Constants::D_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::D_PROJECT_DATA.size],
+      zone: GoogleTests::Constants::D_ZONE_DATA[(id - 1) \
+        % GoogleTests::Constants::D_ZONE_DATA.size],
+      name: GoogleTests::Constants::D_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::D_NAME_DATA.size]
     }
   end
 end

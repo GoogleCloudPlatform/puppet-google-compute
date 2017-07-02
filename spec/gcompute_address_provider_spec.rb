@@ -34,30 +34,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 .define_singleton_method(:fetch) { |_resource| cred }
   end
 
-  A_PROJECT_DATA = %w[
-    test\ project#0\ data
-    test\ project#1\ data
-    test\ project#2\ data
-    test\ project#3\ data
-    test\ project#4\ data
-  ].freeze
-
-  A_REGION_DATA = %w[
-    test\ name#0\ data
-    test\ name#1\ data
-    test\ name#2\ data
-    test\ name#3\ data
-    test\ name#4\ data
-  ].freeze
-
-  A_NAME_DATA = %w[
-    test\ name#0\ data
-    test\ name#1\ data
-    test\ name#2\ data
-    test\ name#3\ data
-    test\ name#4\ data
-  ].freeze
-
   it '#instances' do
     expect { described_class.instances }.to raise_error(StandardError,
                                                         /not supported/)
@@ -863,8 +839,10 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
   # Only used for gcompute_region objects
   def uri_data_region(id)
     {
-      project: R_PROJECT_DATA[(id - 1) % R_PROJECT_DATA.size],
-      name: R_NAME_DATA[(id - 1) % R_NAME_DATA.size]
+      project: GoogleTests::Constants::R_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::R_PROJECT_DATA.size],
+      name: GoogleTests::Constants::R_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::R_NAME_DATA.size]
     }
   end
 
@@ -897,9 +875,12 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
       ensure: :present,
       title: "title#{id - 1}",
       credential: "cred#{id - 1}",
-      project: A_PROJECT_DATA[(id - 1) % A_PROJECT_DATA.size],
-      region: A_REGION_DATA[(id - 1) % A_REGION_DATA.size],
-      name: A_NAME_DATA[(id - 1) % A_NAME_DATA.size]
+      project: GoogleTests::Constants::A_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::A_PROJECT_DATA.size],
+      region: GoogleTests::Constants::A_REGION_DATA[(id - 1) \
+        % GoogleTests::Constants::A_REGION_DATA.size],
+      name: GoogleTests::Constants::A_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::A_NAME_DATA.size]
     )
   end
 
@@ -931,9 +912,12 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
   # Creates variable test data to comply with self_link URI parameters
   def uri_data(id)
     {
-      project: A_PROJECT_DATA[(id - 1) % A_PROJECT_DATA.size],
-      region: A_REGION_DATA[(id - 1) % A_REGION_DATA.size],
-      name: A_NAME_DATA[(id - 1) % A_NAME_DATA.size]
+      project: GoogleTests::Constants::A_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::A_PROJECT_DATA.size],
+      region: GoogleTests::Constants::A_REGION_DATA[(id - 1) \
+        % GoogleTests::Constants::A_REGION_DATA.size],
+      name: GoogleTests::Constants::A_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::A_NAME_DATA.size]
     }
   end
 end
