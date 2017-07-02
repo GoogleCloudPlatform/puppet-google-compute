@@ -285,6 +285,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   project            => 'test project#0 data',
                   credential         => 'cred0',
                 }
+
                 gcompute_instance { 'title1':
                   ensure             => present,
                   can_ip_forward     => false,
@@ -412,6 +413,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   project            => 'test project#1 data',
                   credential         => 'cred1',
                 }
+
                 gcompute_instance { 'title2':
                   ensure             => present,
                   can_ip_forward     => true,
@@ -963,6 +965,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   project            => 'test project#0 data',
                   credential         => 'cred0',
                 }
+
                 gcompute_instance { 'title1':
                   ensure             => present,
                   can_ip_forward     => false,
@@ -1091,6 +1094,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   project            => 'test project#1 data',
                   credential         => 'cred1',
                 }
+
                 gcompute_instance { 'title2':
                   ensure             => present,
                   can_ip_forward     => true,
@@ -2196,7 +2200,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_instance[title0]')
               .provider.ensure
           end
@@ -2230,7 +2234,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_instance[title0]')
               .provider.ensure
           end

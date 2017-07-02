@@ -84,6 +84,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   project                 => 'test project#0 data',
                   credential              => 'cred0',
                 }
+
                 gcompute_network { 'title1':
                   ensure                  => present,
                   auto_create_subnetworks => false,
@@ -93,6 +94,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   project                 => 'test project#1 data',
                   credential              => 'cred1',
                 }
+
                 gcompute_network { 'title2':
                   ensure                  => present,
                   auto_create_subnetworks => true,
@@ -236,6 +238,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   project                 => 'test project#0 data',
                   credential              => 'cred0',
                 }
+
                 gcompute_network { 'title1':
                   ensure                  => present,
                   auto_create_subnetworks => false,
@@ -246,6 +249,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   project                 => 'test project#1 data',
                   credential              => 'cred1',
                 }
+
                 gcompute_network { 'title2':
                   ensure                  => present,
                   auto_create_subnetworks => true,
@@ -512,7 +516,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_network[title0]')
               .provider.ensure
           end
@@ -545,7 +549,7 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_network[title0]')
               .provider.ensure
           end

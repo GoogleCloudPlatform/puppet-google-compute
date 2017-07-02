@@ -99,6 +99,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   project       => 'test project#0 data',
                   credential    => 'cred0',
                 }
+
                 gcompute_firewall { 'title1':
                   ensure        => present,
                   allowed       => [
@@ -131,6 +132,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   project       => 'test project#1 data',
                   credential    => 'cred1',
                 }
+
                 gcompute_firewall { 'title2':
                   ensure        => present,
                   allowed       => [
@@ -311,6 +313,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   project       => 'test project#0 data',
                   credential    => 'cred0',
                 }
+
                 gcompute_firewall { 'title1':
                   ensure        => present,
                   allowed       => [
@@ -344,6 +347,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   project       => 'test project#1 data',
                   credential    => 'cred1',
                 }
+
                 gcompute_firewall { 'title2':
                   ensure        => present,
                   allowed       => [
@@ -692,7 +696,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_firewall[title0]')
               .provider.ensure
           end
@@ -725,7 +729,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_firewall[title0]')
               .provider.ensure
           end

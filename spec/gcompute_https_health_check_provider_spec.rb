@@ -88,6 +88,7 @@ describe Puppet::Type.type(:gcompute_https_health_check).provider(:google) do
                   project             => 'test project#0 data',
                   credential          => 'cred0',
                 }
+
                 gcompute_https_health_check { 'title1':
                   ensure              => present,
                   check_interval_sec  => 484080649,
@@ -101,6 +102,7 @@ describe Puppet::Type.type(:gcompute_https_health_check).provider(:google) do
                   project             => 'test project#1 data',
                   credential          => 'cred1',
                 }
+
                 gcompute_https_health_check { 'title2':
                   ensure              => present,
                   check_interval_sec  => 726120974,
@@ -265,6 +267,7 @@ describe Puppet::Type.type(:gcompute_https_health_check).provider(:google) do
                   project             => 'test project#0 data',
                   credential          => 'cred0',
                 }
+
                 gcompute_https_health_check { 'title1':
                   ensure              => present,
                   check_interval_sec  => 484080649,
@@ -279,6 +282,7 @@ describe Puppet::Type.type(:gcompute_https_health_check).provider(:google) do
                   project             => 'test project#1 data',
                   credential          => 'cred1',
                 }
+
                 gcompute_https_health_check { 'title2':
                   ensure              => present,
                   check_interval_sec  => 726120974,
@@ -580,7 +584,7 @@ describe Puppet::Type.type(:gcompute_https_health_check).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_https_health_check[title0]')
               .provider.ensure
           end
@@ -613,7 +617,7 @@ describe Puppet::Type.type(:gcompute_https_health_check).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_https_health_check[title0]')
               .provider.ensure
           end

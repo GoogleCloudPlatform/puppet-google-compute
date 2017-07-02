@@ -121,6 +121,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                   project     => 'test project#0 data',
                   credential  => 'cred0',
                 }
+
                 gcompute_address { 'title1':
                   ensure      => present,
                   address     => 'test address#1 data',
@@ -129,6 +130,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                   project     => 'test project#1 data',
                   credential  => 'cred1',
                 }
+
                 gcompute_address { 'title2':
                   ensure      => present,
                   address     => 'test address#2 data',
@@ -268,6 +270,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                   project     => 'test project#0 data',
                   credential  => 'cred0',
                 }
+
                 gcompute_address { 'title1':
                   ensure      => present,
                   address     => 'test address#1 data',
@@ -277,6 +280,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                   project     => 'test project#1 data',
                   credential  => 'cred1',
                 }
+
                 gcompute_address { 'title2':
                   ensure      => present,
                   address     => 'test address#2 data',
@@ -543,7 +547,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_address[title0]')
               .provider.ensure
           end
@@ -585,7 +589,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_address[title0]')
               .provider.ensure
           end

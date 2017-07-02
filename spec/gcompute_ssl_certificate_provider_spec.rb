@@ -83,6 +83,7 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
                   project     => 'test project#0 data',
                   credential  => 'cred0',
                 }
+
                 gcompute_ssl_certificate { 'title1':
                   ensure      => present,
                   certificate => 'test certificate#1 data',
@@ -91,6 +92,7 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
                   project     => 'test project#1 data',
                   credential  => 'cred1',
                 }
+
                 gcompute_ssl_certificate { 'title2':
                   ensure      => present,
                   certificate => 'test certificate#2 data',
@@ -218,6 +220,7 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
                   project     => 'test project#0 data',
                   credential  => 'cred0',
                 }
+
                 gcompute_ssl_certificate { 'title1':
                   ensure      => present,
                   certificate => 'test certificate#1 data',
@@ -227,6 +230,7 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
                   project     => 'test project#1 data',
                   credential  => 'cred1',
                 }
+
                 gcompute_ssl_certificate { 'title2':
                   ensure      => present,
                   certificate => 'test certificate#2 data',
@@ -476,7 +480,7 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_ssl_certificate[title0]')
               .provider.ensure
           end
@@ -509,7 +513,7 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_ssl_certificate[title0]')
               .provider.ensure
           end

@@ -121,6 +121,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                   project             => 'test project#0 data',
                   credential          => 'cred0',
                 }
+
                 gcompute_route { 'title1':
                   ensure              => present,
                   dest_range          => 'test dest_range#1 data',
@@ -134,6 +135,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                   project             => 'test project#1 data',
                   credential          => 'cred1',
                 }
+
                 gcompute_route { 'title2':
                   ensure              => present,
                   dest_range          => 'test dest_range#2 data',
@@ -340,6 +342,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                   project             => 'test project#0 data',
                   credential          => 'cred0',
                 }
+
                 gcompute_route { 'title1':
                   ensure              => present,
                   dest_range          => 'test dest_range#1 data',
@@ -354,6 +357,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                   project             => 'test project#1 data',
                   credential          => 'cred1',
                 }
+
                 gcompute_route { 'title2':
                   ensure              => present,
                   dest_range          => 'test dest_range#2 data',
@@ -690,7 +694,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_route[title0]')
               .provider.ensure
           end
@@ -723,7 +727,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_route[title0]')
               .provider.ensure
           end

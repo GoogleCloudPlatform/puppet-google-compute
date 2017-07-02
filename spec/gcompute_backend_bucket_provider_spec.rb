@@ -84,6 +84,7 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                   project     => 'test project#0 data',
                   credential  => 'cred0',
                 }
+
                 gcompute_backend_bucket { 'title1':
                   ensure      => present,
                   bucket_name => 'test bucket_name#1 data',
@@ -93,6 +94,7 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                   project     => 'test project#1 data',
                   credential  => 'cred1',
                 }
+
                 gcompute_backend_bucket { 'title2':
                   ensure      => present,
                   bucket_name => 'test bucket_name#2 data',
@@ -213,6 +215,7 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                   project     => 'test project#0 data',
                   credential  => 'cred0',
                 }
+
                 gcompute_backend_bucket { 'title1':
                   ensure      => present,
                   bucket_name => 'test bucket_name#1 data',
@@ -223,6 +226,7 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                   project     => 'test project#1 data',
                   credential  => 'cred1',
                 }
+
                 gcompute_backend_bucket { 'title2':
                   ensure      => present,
                   bucket_name => 'test bucket_name#2 data',
@@ -468,7 +472,7 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_backend_bucket[title0]')
               .provider.ensure
           end
@@ -501,7 +505,7 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_backend_bucket[title0]')
               .provider.ensure
           end

@@ -106,6 +106,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                   project                        => 'test project#0 data',
                   credential                     => 'cred0',
                 }
+
                 gcompute_disk { 'title1':
                   ensure                         => present,
                   description                    => 'test description#1 data',
@@ -129,6 +130,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                   project                        => 'test project#1 data',
                   credential                     => 'cred1',
                 }
+
                 gcompute_disk { 'title2':
                   ensure                         => present,
                   description                    => 'test description#2 data',
@@ -322,6 +324,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                   project                        => 'test project#0 data',
                   credential                     => 'cred0',
                 }
+
                 gcompute_disk { 'title1':
                   ensure                         => present,
                   description                    => 'test description#1 data',
@@ -346,6 +349,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                   project                        => 'test project#1 data',
                   credential                     => 'cred1',
                 }
+
                 gcompute_disk { 'title2':
                   ensure                         => present,
                   description                    => 'test description#2 data',
@@ -701,7 +705,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_disk[title0]')
               .provider.ensure
           end
@@ -735,7 +739,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_disk[title0]')
               .provider.ensure
           end

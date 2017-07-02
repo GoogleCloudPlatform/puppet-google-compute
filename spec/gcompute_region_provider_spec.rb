@@ -80,11 +80,13 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
                   project    => 'test project#0 data',
                   credential => 'cred0',
                 }
+
                 gcompute_region { 'title1':
                   ensure     => present,
                   project    => 'test project#1 data',
                   credential => 'cred1',
                 }
+
                 gcompute_region { 'title2':
                   ensure     => present,
                   project    => 'test project#2 data',
@@ -264,12 +266,14 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
                   project    => 'test project#0 data',
                   credential => 'cred0',
                 }
+
                 gcompute_region { 'title1':
                   ensure     => present,
                   name       => 'test name#1 data',
                   project    => 'test project#1 data',
                   credential => 'cred1',
                 }
+
                 gcompute_region { 'title2':
                   ensure     => present,
                   name       => 'test name#2 data',
@@ -558,7 +562,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_region[title0]')
               .provider.ensure
           end
@@ -591,7 +595,7 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
-            MANIFEST
+              MANIFEST
             ).catalog.resource('Gcompute_region[title0]')
               .provider.ensure
           end
