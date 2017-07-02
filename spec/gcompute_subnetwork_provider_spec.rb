@@ -1069,13 +1069,14 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
     body = load_network_result_network("success#{id}~" \
                                                            "#{id_data}.yaml")
            .to_json
+    uri = uri_data_network(id).merge(data)
 
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
     debug_network "!! GET #{self_link_network(uri_data(id).merge(data))}"
     expect(Google::Compute::Network::Get).to receive(:new)
-      .with(self_link_network(uri_data(id).merge(data)),
+      .with(self_link_network(uri),
             instance_of(Google::FakeAuthorization)) do |args|
       debug_network ">> GET #{args}"
       request
@@ -1089,6 +1090,15 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
     data = YAML.safe_load(File.read(results))
     raise "Invalid network results #{results}" unless data.class <= Hash
     data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_network objects
+  def uri_data_network(id)
+    {
+      project: N_PROJECT_DATA[(id - 1) % N_PROJECT_DATA.size],
+      name: N_NAME_DATA[(id - 1) % N_NAME_DATA.size]
+    }
   end
 
   def self_link_network(data)
@@ -1106,13 +1116,14 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
     body = load_network_result_region("success#{id}~" \
                                                            "#{id_data}.yaml")
            .to_json
+    uri = uri_data_region(id).merge(data)
 
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
     debug_network "!! GET #{self_link_region(uri_data(id).merge(data))}"
     expect(Google::Compute::Network::Get).to receive(:new)
-      .with(self_link_region(uri_data(id).merge(data)),
+      .with(self_link_region(uri),
             instance_of(Google::FakeAuthorization)) do |args|
       debug_network ">> GET #{args}"
       request
@@ -1126,6 +1137,15 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
     data = YAML.safe_load(File.read(results))
     raise "Invalid network results #{results}" unless data.class <= Hash
     data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_region objects
+  def uri_data_region(id)
+    {
+      project: R_PROJECT_DATA[(id - 1) % R_PROJECT_DATA.size],
+      name: R_NAME_DATA[(id - 1) % R_NAME_DATA.size]
+    }
   end
 
   def self_link_region(data)
