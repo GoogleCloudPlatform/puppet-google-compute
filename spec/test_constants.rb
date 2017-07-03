@@ -73,6 +73,24 @@ module GoogleTests
       'test name#4 data'
     ].freeze
 
+    # Constants for: BackendService.project
+    BS_PROJECT_DATA = [
+      'test project#0 data',
+      'test project#1 data',
+      'test project#2 data',
+      'test project#3 data',
+      'test project#4 data'
+    ].freeze
+
+    # Constants for: BackendService.name
+    BS_NAME_DATA = [
+      'test name#0 data',
+      'test name#1 data',
+      'test name#2 data',
+      'test name#3 data',
+      'test name#4 data'
+    ].freeze
+
     # Constants for: DiskType.project
     DT_PROJECT_DATA = [
       'test project#0 data',

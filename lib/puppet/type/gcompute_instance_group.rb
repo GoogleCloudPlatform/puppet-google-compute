@@ -32,6 +32,7 @@ require 'google/compute/property/region_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/subnetwork_selflink'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_instance_group) do
@@ -112,5 +113,10 @@ Puppet::Type.newtype(:gcompute_instance_group) do
   newproperty(:subnetwork,
               parent: Google::Compute::Property::SubneSelfLinkRef) do
     desc 'A reference to Subnetwork resource'
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end

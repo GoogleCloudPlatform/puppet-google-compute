@@ -25,8 +25,27 @@
 #
 # ----------------------------------------------------------------------------
 
----
-kind: 'compute#instanceGroup'
-creationTimestamp: '2045-05-23T12:08:10+00:00'
-id: 2149500871
-selfLink: selflink(resource(instance_group,0))
+require 'google/compute/property/base'
+
+module Google
+  module Compute
+    module Property
+      # A Puppet property that holds a double
+      class Double < Google::Compute::Property::Base
+        def self.unsafe_munge(value)
+          return if value.nil?
+          value.to_f
+        end
+
+        def unsafe_munge(value)
+          self.class.unsafe_munge(value)
+        end
+
+        def self.api_munge(value)
+          return if value.nil?
+          value.to_f
+        end
+      end
+    end
+  end
+end

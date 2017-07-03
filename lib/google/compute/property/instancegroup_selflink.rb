@@ -32,12 +32,12 @@ module Google
   module Compute
     module Data
       # Base class for ResourceRefs
-      # Imports self_link from subnetwork
-      class SubneSelfLinkRef
+      # Imports self_link from instance_group
+      class InstGrouSelfLinkRef
         include Comparable
 
         def ==(other)
-          return false unless other.is_a? SubneSelfLinkRef
+          return false unless other.is_a? InstGrouSelfLinkRef
           return false if resource != other.resource
           true
         end
@@ -49,7 +49,7 @@ module Google
 
       # A class to fetch the resource value from a referenced block
       # Will return the value exported from a different Puppet resource
-      class SubneSelfLinkRefCatalog < SubneSelfLinkRef
+      class InstGrouSelfLinkRefCatalog < InstGrouSelfLinkRef
         def initialize(title)
           @title = title
         end
@@ -69,16 +69,16 @@ module Google
         end
 
         def resource
-          Google::ObjectStore.instance[:gcompute_subnetwork].each do |entry|
+          Google::ObjectStore.instance[:gcompute_instance_group].each do |entry|
             return entry.exports[:self_link] if entry.title == @title
           end
-          raise ArgumentError, "gcompute_subnetwork[#{@title}] required"
+          raise ArgumentError, "gcompute_instance_group[#{@title}] required"
         end
       end
 
       # A class to manage a JSON blob from GCP API
       # Will immediately return value from JSON blob without changes
-      class SubneSelfLinkRefApi < SubneSelfLinkRef
+      class InstGrouSelfLinkRefApi < InstGrouSelfLinkRef
         attr_reader :resource
 
         def initialize(resource)
@@ -96,8 +96,8 @@ module Google
     end
 
     module Property
-      # A class to manage fetching self_link from a subnetwork
-      class SubneSelfLinkRef < Puppet::Property
+      # A class to manage fetching self_link from a instance_group
+      class InstGrouSelfLinkRef < Puppet::Property
         # Used for catalog values
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -105,13 +105,13 @@ module Google
 
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::SubneSelfLinkRefCatalog.new(value)
+          Data::InstGrouSelfLinkRefCatalog.new(value)
         end
 
         # Used for fetched JSON values
         def self.api_munge(value)
           return if value.nil?
-          Data::SubneSelfLinkRefApi.new(value)
+          Data::InstGrouSelfLinkRefApi.new(value)
         end
       end
     end

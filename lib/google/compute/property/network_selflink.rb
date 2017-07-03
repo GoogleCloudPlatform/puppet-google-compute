@@ -64,6 +64,7 @@ module Google
         end
 
         def to_json(_arg = nil)
+          return if resource.nil?
           resource.to_json
         end
 

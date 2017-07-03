@@ -26,7 +26,7 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#instanceGroup'
-creationTimestamp: '2045-05-23T12:08:10+00:00'
-id: 2149500871
-selfLink: selflink(resource(instance_group,0))
+kind: 'compute#backendService'
+creationTimestamp: '2120-10-14T00:16:21+00:00'
+enableCDN: false
+id: 4299001743

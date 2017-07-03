@@ -83,6 +83,28 @@ gcompute_backend_bucket { 'be-bucket-connection':
 
 ```
 
+#### `gcompute_backend_service`
+
+```puppet
+# Backend Service requires various other services to be setup beforehand. Please
+# make sure they are defined as well:
+#   - gcompute_instance_group { ... }
+#   - Health check
+gcompute_backend_service { 'my-app-backend':
+  ensure        => present,
+  backends      => [
+    { group => 'my-puppet-masters' },
+  ],
+  enable_cdn    => true,
+  health_checks => [
+    $my_health_check,
+  ],
+  project       => 'google.com:graphite-playground',
+  credential    => 'mycred',
+}
+
+```
+
 #### `gcompute_disk_type`
 
 ```puppet
@@ -238,8 +260,8 @@ gcompute_instance { 'instance-test':
 #### `gcompute_instance_group`
 
 ```puppet
-# Instance group equires a network, so define them in your manifest:
-#   - gcompute_network { 'my-network': ensure => presnet }
+# Instance group requires a network, so define them in your manifest:
+#   - gcompute_network { 'my-network': ensure => present }
 gcompute_instance_group { 'my-puppet-masters':
   ensure      => present,
   named_ports => [
@@ -409,6 +431,10 @@ gcompute_subnetwork { 'servers':
     static content to a Cloud Storage bucket and requests for dynamic
     content
     a virtual machine instance.
+* [`gcompute_backend_service`][]:
+    Creates a BackendService resource in the specified project using the
+    data
+    included in the request.
 * [`gcompute_disk_type`][]:
     Represents a DiskType resource. A DiskType resource represents the type
     of disk to use, such as a pd-ssd or pd-standard. To reference a disk
@@ -687,6 +713,122 @@ gcompute_backend_bucket { 'be-bucket-connection':
 
 * `creation_timestamp`: Output only.
   Creation timestamp in RFC3339 text format.
+
+#### `gcompute_backend_service`
+
+Creates a BackendService resource in the specified project using the data
+included in the request.
+
+
+#### Example
+
+```puppet
+# Backend Service requires various other services to be setup beforehand. Please
+# make sure they are defined as well:
+#   - gcompute_instance_group { ... }
+#   - Health check
+gcompute_backend_service { 'my-app-backend':
+  ensure        => present,
+  backends      => [
+    { group => 'my-puppet-masters' },
+  ],
+  enable_cdn    => true,
+  health_checks => [
+    $my_health_check,
+  ],
+  project       => 'google.com:graphite-playground',
+  credential    => 'mycred',
+}
+
+```
+
+##### `affinity_cookie_ttl_sec`
+
+  Lifetime of cookies in seconds if session_affinity is
+  GENERATED_COOKIE. If set to 0, the cookie is non-persistent and lasts
+  only until the end of the browser session (or equivalent). The
+  maximum allowed value for TTL is one day.
+  When the load balancing scheme is INTERNAL, this field is not used.
+
+##### `backends`
+
+  The list of backends that serve this BackendService.
+
+##### `cdn_policy`
+
+  Cloud CDN configuration for this BackendService.
+
+##### `connection_draining`
+
+  Settings for connection draining
+
+##### `description`
+
+  An optional description of this resource.
+
+##### `enable_cdn`
+
+  If true, enable Cloud CDN for this BackendService.
+  When the load balancing scheme is INTERNAL, this field is not used.
+
+##### `health_checks`
+
+  The list of URLs to the HttpHealthCheck or HttpsHealthCheck resource
+  for health checking this BackendService. Currently at most one health
+  check can be specified, and a health check is required.
+  For internal load balancing, a URL to a HealthCheck resource must be
+  specified instead.
+
+##### `name`
+
+  Name of the resource. Provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035. Specifically, the name must be 1-63 characters long and match
+  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the last
+  character, which cannot be a dash.
+
+##### `port_name`
+
+  Name of backend port. The same name should appear in the instance
+  groups referenced by this service. Required when the load balancing
+  scheme is EXTERNAL.
+  When the load balancing scheme is INTERNAL, this field is not used.
+
+##### `protocol`
+
+  The protocol this BackendService uses to communicate with backends.
+  Possible values are HTTP, HTTPS, TCP, and SSL. The default is HTTP.
+  For internal load balancing, the possible values are TCP and UDP, and
+  the default is TCP.
+
+##### `region`
+
+  A reference to Region resource
+
+##### `session_affinity`
+
+  Type of session affinity to use. The default is NONE.
+  When the load balancing scheme is EXTERNAL, can be NONE, CLIENT_IP, or
+  GENERATED_COOKIE.
+  When the load balancing scheme is INTERNAL, can be NONE, CLIENT_IP,
+  CLIENT_IP_PROTO, or CLIENT_IP_PORT_PROTO.
+  When the protocol is UDP, this field is not used.
+
+##### `timeout_sec`
+
+  How many seconds to wait for the backend before considering it a
+  failed request. Default is 30 seconds. Valid range is [1, 86400].
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource.
 
 #### `gcompute_disk_type`
 
@@ -1509,8 +1651,8 @@ and add instances to an instance group manually.
 #### Example
 
 ```puppet
-# Instance group equires a network, so define them in your manifest:
-#   - gcompute_network { 'my-network': ensure => presnet }
+# Instance group requires a network, so define them in your manifest:
+#   - gcompute_network { 'my-network': ensure => present }
 gcompute_instance_group { 'my-puppet-masters':
   ensure      => present,
   named_ports => [
@@ -2093,6 +2235,7 @@ Variable                | Side Effect
 [rubocop]: https://rubocop.readthedocs.io/en/latest/
 [`gcompute_address`]: #gcompute_address
 [`gcompute_backend_bucket`]: #gcompute_backend_bucket
+[`gcompute_backend_service`]: #gcompute_backend_service
 [`gcompute_disk_type`]: #gcompute_disk_type
 [`gcompute_disk`]: #gcompute_disk
 [`gcompute_firewall`]: #gcompute_firewall

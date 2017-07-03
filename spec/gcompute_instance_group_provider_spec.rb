@@ -1160,6 +1160,25 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
     end
   end
 
+  context '#exports' do
+    context 'exports all properties' do
+      let(:resource1) { create_type 1 }
+      before do
+        expect_network_get_success 1
+        described_class.prefetch(title0: resource1)
+      end
+
+      subject { resource1.exports }
+
+      let(:expected_results) do
+        {
+          self_link: 'selflink(resource(instance_group,0))'
+        }
+      end
+      it { is_expected.to eq(expected_results) }
+    end
+  end
+
   private
 
   def expect_network_get_success(id, data = {})
@@ -1278,7 +1297,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
-    debug_network "!! GET #{self_link_network(uri_data(id).merge(data))}"
+    debug_network "!! GET #{uri}"
     expect(Google::Compute::Network::Get).to receive(:new)
       .with(self_link_network(uri),
             instance_of(Google::FakeAuthorization)) do |args|
@@ -1327,7 +1346,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
-    debug_network "!! GET #{self_link_region(uri_data(id).merge(data))}"
+    debug_network "!! GET #{uri}"
     expect(Google::Compute::Network::Get).to receive(:new)
       .with(self_link_region(uri),
             instance_of(Google::FakeAuthorization)) do |args|
@@ -1376,7 +1395,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
-    debug_network "!! GET #{self_link_subnetwork(uri_data(id).merge(data))}"
+    debug_network "!! GET #{uri}"
     expect(Google::Compute::Network::Get).to receive(:new)
       .with(self_link_subnetwork(uri),
             instance_of(Google::FakeAuthorization)) do |args|

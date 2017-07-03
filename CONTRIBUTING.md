@@ -88,8 +88,10 @@ puppet-codegen:
   * CONTRIBUTING.md
   * examples/address.pp
   * examples/backend_bucket.pp
+  * examples/backend_service.pp
   * examples/delete_address.pp
   * examples/delete_backend_bucket.pp
+  * examples/delete_backend_service.pp
   * examples/delete_disk.pp
   * examples/delete_firewall.pp
   * examples/delete_global_address.pp
@@ -128,12 +130,17 @@ puppet-codegen:
   * lib/google/compute/network/post.rb
   * lib/google/compute/network/put.rb
   * lib/google/compute/property/array.rb
+  * lib/google/compute/property/backendservice_backends.rb
+  * lib/google/compute/property/backendservice_cache_key_policy.rb
+  * lib/google/compute/property/backendservice_cdn_policy.rb
+  * lib/google/compute/property/backendservice_connection_draining.rb
   * lib/google/compute/property/base.rb
   * lib/google/compute/property/boolean.rb
   * lib/google/compute/property/disk_disk_encryption_key.rb
   * lib/google/compute/property/disk_selflink.rb
   * lib/google/compute/property/disk_source_image_encryption_key.rb
   * lib/google/compute/property/disk_source_snapshot_encryption_key.rb
+  * lib/google/compute/property/double.rb
   * lib/google/compute/property/enum.rb
   * lib/google/compute/property/firewall_allowed.rb
   * lib/google/compute/property/healthcheck_http_health_check.rb
@@ -149,6 +156,7 @@ puppet-codegen:
   * lib/google/compute/property/instance_service_accounts.rb
   * lib/google/compute/property/instance_tags.rb
   * lib/google/compute/property/instancegroup_named_ports.rb
+  * lib/google/compute/property/instancegroup_selflink.rb
   * lib/google/compute/property/integer.rb
   * lib/google/compute/property/network_selflink.rb
   * lib/google/compute/property/region_name.rb
@@ -162,6 +170,7 @@ puppet-codegen:
   * lib/google/string_utils.rb
   * lib/puppet/provider/gcompute_address/google.rb
   * lib/puppet/provider/gcompute_backend_bucket/google.rb
+  * lib/puppet/provider/gcompute_backend_service/google.rb
   * lib/puppet/provider/gcompute_disk/google.rb
   * lib/puppet/provider/gcompute_disk_type/google.rb
   * lib/puppet/provider/gcompute_firewall/google.rb
@@ -179,6 +188,7 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_subnetwork/google.rb
   * lib/puppet/type/gcompute_address.rb
   * lib/puppet/type/gcompute_backend_bucket.rb
+  * lib/puppet/type/gcompute_backend_service.rb
   * lib/puppet/type/gcompute_disk.rb
   * lib/puppet/type/gcompute_disk_type.rb
   * lib/puppet/type/gcompute_firewall.rb
@@ -216,6 +226,12 @@ puppet-codegen:
   * spec/data/network/gcompute_backend_bucket/success2~title.yaml
   * spec/data/network/gcompute_backend_bucket/success3~name.yaml
   * spec/data/network/gcompute_backend_bucket/success3~title.yaml
+  * spec/data/network/gcompute_backend_service/success1~name.yaml
+  * spec/data/network/gcompute_backend_service/success1~title.yaml
+  * spec/data/network/gcompute_backend_service/success2~name.yaml
+  * spec/data/network/gcompute_backend_service/success2~title.yaml
+  * spec/data/network/gcompute_backend_service/success3~name.yaml
+  * spec/data/network/gcompute_backend_service/success3~title.yaml
   * spec/data/network/gcompute_disk/success1~name.yaml
   * spec/data/network/gcompute_disk/success1~title.yaml
   * spec/data/network/gcompute_disk/success2~name.yaml
@@ -303,6 +319,7 @@ puppet-codegen:
   * spec/fake_auth.rb
   * spec/gcompute_address_provider_spec.rb
   * spec/gcompute_backend_bucket_provider_spec.rb
+  * spec/gcompute_backend_service_provider_spec.rb
   * spec/gcompute_disk_provider_spec.rb
   * spec/gcompute_disk_type_provider_spec.rb
   * spec/gcompute_firewall_provider_spec.rb

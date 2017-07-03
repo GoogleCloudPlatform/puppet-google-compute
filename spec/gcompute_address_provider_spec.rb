@@ -817,7 +817,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
-    debug_network "!! GET #{self_link_region(uri_data(id).merge(data))}"
+    debug_network "!! GET #{uri}"
     expect(Google::Compute::Network::Get).to receive(:new)
       .with(self_link_region(uri),
             instance_of(Google::FakeAuthorization)) do |args|

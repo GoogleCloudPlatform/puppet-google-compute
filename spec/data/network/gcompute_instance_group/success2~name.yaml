@@ -29,3 +29,4 @@
 kind: 'compute#instanceGroup'
 creationTimestamp: '2120-10-14T00:16:21+00:00'
 id: 4299001743
+selfLink: selflink(resource(instance_group,1))

@@ -29,18 +29,23 @@ require 'google/compute/network/delete'
 require 'google/compute/network/get'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
-require 'google/compute/property/instancegroup_named_ports'
+require 'google/compute/property/backendservice_backends'
+require 'google/compute/property/backendservice_cache_key_policy'
+require 'google/compute/property/backendservice_cdn_policy'
+require 'google/compute/property/backendservice_connection_draining'
+require 'google/compute/property/boolean'
+require 'google/compute/property/double'
+require 'google/compute/property/enum'
+require 'google/compute/property/instancegroup_selflink'
 require 'google/compute/property/integer'
-require 'google/compute/property/network_selflink'
 require 'google/compute/property/region_selflink'
 require 'google/compute/property/string'
-require 'google/compute/property/subnetwork_selflink'
+require 'google/compute/property/string_array'
 require 'google/compute/property/time'
 require 'google/hash_utils'
-require 'google/object_store'
 require 'puppet'
 
-Puppet::Type.type(:gcompute_instance_group).provide(:google) do
+Puppet::Type.type(:gcompute_backend_service).provide(:google) do
   mk_resource_methods
 
   def self.instances
@@ -58,9 +63,8 @@ Puppet::Type.type(:gcompute_instance_group).provide(:google) do
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource),
-                             'compute#instanceGroup')
+                             'compute#backendService')
       resource.provider = present(name, fetch) unless fetch.nil?
-      Google::ObjectStore.instance.add(:gcompute_instance_group, resource)
     end
   end
 
@@ -70,29 +74,46 @@ Puppet::Type.type(:gcompute_instance_group).provide(:google) do
     result
   end
 
+  # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch)
     {
+      affinity_cookie_ttl_sec: Google::Compute::Property::Integer.api_munge(
+        fetch['affinityCookieTtlSec']
+      ),
+      backends:
+        Google::Compute::Property::BackendServiceBackendArray.api_munge(
+          fetch['backends']
+        ),
+      cdn_policy: Google::Compute::Property::BackeServiCdnPolic.api_munge(
+        fetch['cdnPolicy']
+      ),
+      connection_draining:
+        Google::Compute::Property::BackeServiConneDrain.api_munge(
+          fetch['connectionDraining']
+        ),
       creation_timestamp:
         Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       description:
         Google::Compute::Property::String.api_munge(fetch['description']),
+      enable_cdn:
+        Google::Compute::Property::Boolean.api_munge(fetch['enableCDN']),
+      health_checks:
+        Google::Compute::Property::StringArray.api_munge(fetch['healthChecks']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      named_ports:
-        Google::Compute::Property::InstaGroupNamedPortsArray.api_munge(
-          fetch['namedPorts']
-        ),
-      network:
-        Google::Compute::Property::NetwoSelfLinkRef.api_munge(fetch['network']),
+      port_name: Google::Compute::Property::String.api_munge(fetch['portName']),
+      protocol: Google::Compute::Property::Enum.api_munge(fetch['protocol']),
       region:
         Google::Compute::Property::RegioSelfLinkRef.api_munge(fetch['region']),
-      subnetwork: Google::Compute::Property::SubneSelfLinkRef.api_munge(
-        fetch['subnetwork']
-      )
+      session_affinity:
+        Google::Compute::Property::Enum.api_munge(fetch['sessionAffinity']),
+      timeout_sec:
+        Google::Compute::Property::Integer.api_munge(fetch['timeoutSec'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def exists?
     debug("exists? #{@property_hash[:ensure] == :present}")
@@ -123,7 +144,11 @@ Puppet::Type.type(:gcompute_instance_group).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    raise 'InstanceGroup cannot be edited.'
+    update_req = Google::Compute::Network::Put.new(self_link(@resource),
+                                                   fetch_auth(@resource),
+                                                   'application/json',
+                                                   resource_to_request)
+    @fetched = wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)
@@ -134,43 +159,75 @@ Puppet::Type.type(:gcompute_instance_group).provide(:google) do
     }
   end
 
-  def exports
-    {
-      self_link: @fetched['selfLink']
-    }
-  end
-
   private
 
+  # Hashes have :true or :false which to_json converts to strings
+  def sym_to_bool(value)
+    if value == :true
+      true
+    elsif value == :false
+      false
+    else
+      value
+    end
+  end
+
+  # rubocop:disable Metrics/MethodLength
   def self.resource_to_hash(resource)
     {
       project: resource[:project],
       name: resource[:name],
-      kind: 'compute#instanceGroup',
+      kind: 'compute#backendService',
+      affinity_cookie_ttl_sec: resource[:affinity_cookie_ttl_sec],
+      backends: resource[:backends],
+      cdn_policy: resource[:cdn_policy],
+      connection_draining: resource[:connection_draining],
       creation_timestamp: resource[:creation_timestamp],
       description: resource[:description],
+      enable_cdn: resource[:enable_cdn],
+      health_checks: resource[:health_checks],
       id: resource[:id],
-      named_ports: resource[:named_ports],
-      network: resource[:network],
+      port_name: resource[:port_name],
+      protocol: resource[:protocol],
       region: resource[:region],
-      subnetwork: resource[:subnetwork],
-      zone: resource[:zone]
+      session_affinity: resource[:session_affinity],
+      timeout_sec: resource[:timeout_sec]
     }.reject { |_, v| v.nil? }
   end
+  # rubocop:enable Metrics/MethodLength
 
+  # rubocop:disable Metrics/MethodLength
   def resource_to_request
     request = {
-      kind: 'compute#instanceGroup',
+      kind: 'compute#backendService',
+      affinityCookieTtlSec: @resource[:affinity_cookie_ttl_sec],
+      backends: @resource[:backends],
+      cdnPolicy: @resource[:cdn_policy],
+      connectionDraining: @resource[:connection_draining],
       description: @resource[:description],
+      enableCDN: @resource[:enable_cdn],
+      healthChecks: @resource[:health_checks],
       name: @resource[:name],
-      namedPorts: @resource[:named_ports],
-      network: @resource[:network],
+      portName: @resource[:port_name],
+      protocol: @resource[:protocol],
       region: @resource[:region],
-      subnetwork: @resource[:subnetwork]
+      sessionAffinity: @resource[:session_affinity],
+      timeoutSec: @resource[:timeout_sec]
     }.reject { |_, v| v.nil? }
+
+    # Convert boolean symbols into JSON compatible value.
+    request = request.inject({}) { |h, (k, v)| h.merge(k => sym_to_bool(v)) }
+
+    unless @fetched.nil?
+      # Convert to pure JSON
+      request = JSON.parse(request.to_json)
+      request['fingerprint'] = @fetched['fingerprint']
+    end
+
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json
   end
+  # rubocop:enable Metrics/MethodLength
 
   def fetch_auth(resource)
     self.class.fetch_auth(resource)
@@ -189,7 +246,7 @@ Puppet::Type.type(:gcompute_instance_group).provide(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/zones/{{zone}}/instanceGroups',
+        'projects/{{project}}/global/backendServices',
         data
       )
     )
@@ -203,7 +260,7 @@ Puppet::Type.type(:gcompute_instance_group).provide(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/zones/{{zone}}/instanceGroups/{{name}}',
+        'projects/{{project}}/global/backendServices/{{name}}',
         data
       )
     )
@@ -262,7 +319,7 @@ Puppet::Type.type(:gcompute_instance_group).provide(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/zones/{{zone}}/operations/{{op_id}}',
+        'projects/{{project}}/global/operations/{{op_id}}',
         data, extra_data
       )
     )
@@ -278,7 +335,7 @@ Puppet::Type.type(:gcompute_instance_group).provide(:google) do
                                                                  op_result,
                                                                  resource),
                                              %w[targetLink])),
-      'compute#instanceGroup'
+      'compute#backendService'
     )
   end
 
@@ -289,7 +346,7 @@ Puppet::Type.type(:gcompute_instance_group).provide(:google) do
       debug("Waiting for completion of operation #{op_id}")
       raise_if_errors op_result, %w[error errors], 'message'
       sleep 1.0
-      raise "Invalid result '#{status}' on gcompute_instance_group." \
+      raise "Invalid result '#{status}' on gcompute_backend_service." \
         unless %w[PENDING RUNNING DONE].include?(status)
       op_result = fetch_resource(resource, op_uri, 'compute#operation')
       status = ::Google::HashUtils.navigate(op_result, %w[status])
