@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
+describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
   before(:all) do
     cred = Google::FakeAuthorization.new
     Puppet::Type.type(:gauth_credential)
@@ -55,23 +55,32 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 1,
                 name: 'title0',
                 network: 'selflink(resource(network,0))',
-                region: 'test name#0 data'
+                region: 'selflink(resource(region,0))',
+                subnetwork: 'selflink(resource(subnetwork,0))'
               expect_network_get_success \
                 2,
                 name: 'title1',
                 network: 'selflink(resource(network,1))',
-                region: 'test name#1 data'
+                region: 'selflink(resource(region,1))',
+                subnetwork: 'selflink(resource(subnetwork,1))'
               expect_network_get_success \
                 3,
                 name: 'title2',
                 network: 'selflink(resource(network,2))',
-                region: 'test name#2 data'
+                region: 'selflink(resource(region,2))',
+                subnetwork: 'selflink(resource(subnetwork,2))'
               expect_network_get_success_network 1
               expect_network_get_success_region 1
+              expect_network_get_success_subnetwork 1,
+                                                    region: 'test name#0 data'
               expect_network_get_success_network 2
               expect_network_get_success_region 2
+              expect_network_get_success_subnetwork 2,
+                                                    region: 'test name#1 data'
               expect_network_get_success_network 3
               expect_network_get_success_region 3
+              expect_network_get_success_subnetwork 3,
+                                                    region: 'test name#2 data'
             end
 
             let(:catalog) do
@@ -91,6 +100,14 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                   credential => 'cred0',
                 }
 
+                gcompute_subnetwork { 'resource(subnetwork,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  region     => 'resource(region,0)',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
                 gcompute_network { 'resource(network,1)':
                   ensure     => present,
                   name       => 'test name#1 data',
@@ -101,6 +118,14 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 gcompute_region { 'resource(region,1)':
                   ensure     => present,
                   name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_subnetwork { 'resource(subnetwork,1)':
+                  ensure     => present,
+                  name       => 'test name#1 data',
+                  region     => 'resource(region,1)',
                   project    => 'test project#1 data',
                   credential => 'cred1',
                 }
@@ -119,48 +144,119 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                   credential => 'cred2',
                 }
 
-                gcompute_subnetwork { 'title0':
-                  ensure                   => present,
-                  description              => 'test description#0 data',
-                  gateway_address          => 'test gateway_address#0 data',
-                  ip_cidr_range            => 'test ip_cidr_range#0 data',
-                  network                  => 'resource(network,0)',
-                  private_ip_google_access => true,
-                  region                   => 'resource(region,0)',
-                  project                  => 'test project#0 data',
-                  credential               => 'cred0',
+                gcompute_subnetwork { 'resource(subnetwork,2)':
+                  ensure     => present,
+                  name       => 'test name#2 data',
+                  region     => 'resource(region,2)',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
                 }
 
-                gcompute_subnetwork { 'title1':
-                  ensure                   => present,
-                  description              => 'test description#1 data',
-                  gateway_address          => 'test gateway_address#1 data',
-                  ip_cidr_range            => 'test ip_cidr_range#1 data',
-                  network                  => 'resource(network,1)',
-                  private_ip_google_access => false,
-                  region                   => 'resource(region,1)',
-                  project                  => 'test project#1 data',
-                  credential               => 'cred1',
+                gcompute_instance_group { 'title0':
+                  ensure      => present,
+                  description => 'test description#0 data',
+                  named_ports => [
+                    {
+                      name => 'test name#0 data',
+                      port => 759512136,
+                    },
+                    {
+                      name => 'test name#1 data',
+                      port => 1519024273,
+                    },
+                    {
+                      name => 'test name#2 data',
+                      port => 2278536410,
+                    },
+                    {
+                      name => 'test name#3 data',
+                      port => 3038048546,
+                    },
+                    {
+                      name => 'test name#4 data',
+                      port => 3797560683,
+                    },
+                  ],
+                  network     => 'resource(network,0)',
+                  region      => 'resource(region,0)',
+                  subnetwork  => 'resource(subnetwork,0)',
+                  zone        => 'test zone#0 data',
+                  project     => 'test project#0 data',
+                  credential  => 'cred0',
                 }
 
-                gcompute_subnetwork { 'title2':
-                  ensure                   => present,
-                  description              => 'test description#2 data',
-                  gateway_address          => 'test gateway_address#2 data',
-                  ip_cidr_range            => 'test ip_cidr_range#2 data',
-                  network                  => 'resource(network,2)',
-                  private_ip_google_access => true,
-                  region                   => 'resource(region,2)',
-                  project                  => 'test project#2 data',
-                  credential               => 'cred2',
+                gcompute_instance_group { 'title1':
+                  ensure      => present,
+                  description => 'test description#1 data',
+                  named_ports => [
+                    {
+                      name => 'test name#1 data',
+                      port => 1519024273,
+                    },
+                    {
+                      name => 'test name#2 data',
+                      port => 2278536410,
+                    },
+                    {
+                      name => 'test name#3 data',
+                      port => 3038048546,
+                    },
+                    {
+                      name => 'test name#4 data',
+                      port => 3797560683,
+                    },
+                    {
+                      name => 'test name#5 data',
+                      port => 4557072820,
+                    },
+                  ],
+                  network     => 'resource(network,1)',
+                  region      => 'resource(region,1)',
+                  subnetwork  => 'resource(subnetwork,1)',
+                  zone        => 'test zone#1 data',
+                  project     => 'test project#1 data',
+                  credential  => 'cred1',
+                }
+
+                gcompute_instance_group { 'title2':
+                  ensure      => present,
+                  description => 'test description#2 data',
+                  named_ports => [
+                    {
+                      name => 'test name#2 data',
+                      port => 2278536410,
+                    },
+                    {
+                      name => 'test name#3 data',
+                      port => 3038048546,
+                    },
+                    {
+                      name => 'test name#4 data',
+                      port => 3797560683,
+                    },
+                    {
+                      name => 'test name#5 data',
+                      port => 4557072820,
+                    },
+                    {
+                      name => 'test name#6 data',
+                      port => 5316584956,
+                    },
+                  ],
+                  network     => 'resource(network,2)',
+                  region      => 'resource(region,2)',
+                  subnetwork  => 'resource(subnetwork,2)',
+                  zone        => 'test zone#2 data',
+                  project     => 'test project#2 data',
+                  credential  => 'cred2',
                 }
                 MANIFEST
               ).catalog
             end
 
-            context 'Gcompute_subnetwork[title0]' do
+            context 'Gcompute_instance_group[title0]' do
               subject do
-                catalog.resource('Gcompute_subnetwork[title0]').provider
+                catalog.resource('Gcompute_instance_group[title0]').provider
               end
 
               it do
@@ -173,36 +269,29 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 is_expected
                   .to have_attributes(description: 'test description#0 data')
               end
-              it do
-                is_expected
-                  .to have_attributes(
-                    gateway_address: 'test gateway_address#0 data'
-                  )
-              end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
-              it do
-                is_expected
-                  .to have_attributes(
-                    ip_cidr_range: 'test ip_cidr_range#0 data'
-                  )
-              end
               it { is_expected.to have_attributes(name: 'title0') }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'namedPorts' do
+              #   # Add test code here
+              # end
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(private_ip_google_access: true)
-              end
               # TODO(alexstephen): Implement resourceref test.
               # it 'region' do
               #   # Add test code here
               # end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'subnetwork' do
+              #   # Add test code here
+              # end
             end
 
-            context 'Gcompute_subnetwork[title1]' do
+            context 'Gcompute_instance_group[title1]' do
               subject do
-                catalog.resource('Gcompute_subnetwork[title1]').provider
+                catalog.resource('Gcompute_instance_group[title1]').provider
               end
 
               it do
@@ -215,36 +304,29 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 is_expected
                   .to have_attributes(description: 'test description#1 data')
               end
-              it do
-                is_expected
-                  .to have_attributes(
-                    gateway_address: 'test gateway_address#1 data'
-                  )
-              end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
-              it do
-                is_expected
-                  .to have_attributes(
-                    ip_cidr_range: 'test ip_cidr_range#1 data'
-                  )
-              end
               it { is_expected.to have_attributes(name: 'title1') }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'namedPorts' do
+              #   # Add test code here
+              # end
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(private_ip_google_access: false)
-              end
               # TODO(alexstephen): Implement resourceref test.
               # it 'region' do
               #   # Add test code here
               # end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'subnetwork' do
+              #   # Add test code here
+              # end
             end
 
-            context 'Gcompute_subnetwork[title2]' do
+            context 'Gcompute_instance_group[title2]' do
               subject do
-                catalog.resource('Gcompute_subnetwork[title2]').provider
+                catalog.resource('Gcompute_instance_group[title2]').provider
               end
 
               it do
@@ -257,29 +339,22 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 is_expected
                   .to have_attributes(description: 'test description#2 data')
               end
-              it do
-                is_expected
-                  .to have_attributes(
-                    gateway_address: 'test gateway_address#2 data'
-                  )
-              end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
-              it do
-                is_expected
-                  .to have_attributes(
-                    ip_cidr_range: 'test ip_cidr_range#2 data'
-                  )
-              end
               it { is_expected.to have_attributes(name: 'title2') }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'namedPorts' do
+              #   # Add test code here
+              # end
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(private_ip_google_access: true)
-              end
               # TODO(alexstephen): Implement resourceref test.
               # it 'region' do
+              #   # Add test code here
+              # end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'subnetwork' do
               #   # Add test code here
               # end
             end
@@ -304,21 +379,30 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               expect_network_get_success \
                 1,
                 network: 'selflink(resource(network,0))',
-                region: 'test name#0 data'
+                region: 'selflink(resource(region,0))',
+                subnetwork: 'selflink(resource(subnetwork,0))'
               expect_network_get_success \
                 2,
                 network: 'selflink(resource(network,1))',
-                region: 'test name#1 data'
+                region: 'selflink(resource(region,1))',
+                subnetwork: 'selflink(resource(subnetwork,1))'
               expect_network_get_success \
                 3,
                 network: 'selflink(resource(network,2))',
-                region: 'test name#2 data'
+                region: 'selflink(resource(region,2))',
+                subnetwork: 'selflink(resource(subnetwork,2))'
               expect_network_get_success_network 1
               expect_network_get_success_region 1
+              expect_network_get_success_subnetwork 1,
+                                                    region: 'test name#0 data'
               expect_network_get_success_network 2
               expect_network_get_success_region 2
+              expect_network_get_success_subnetwork 2,
+                                                    region: 'test name#1 data'
               expect_network_get_success_network 3
               expect_network_get_success_region 3
+              expect_network_get_success_subnetwork 3,
+                                                    region: 'test name#2 data'
             end
 
             let(:catalog) do
@@ -338,6 +422,14 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                   credential => 'cred0',
                 }
 
+                gcompute_subnetwork { 'resource(subnetwork,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  region     => 'resource(region,0)',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
                 gcompute_network { 'resource(network,1)':
                   ensure     => present,
                   name       => 'test name#1 data',
@@ -348,6 +440,14 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 gcompute_region { 'resource(region,1)':
                   ensure     => present,
                   name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_subnetwork { 'resource(subnetwork,1)':
+                  ensure     => present,
+                  name       => 'test name#1 data',
+                  region     => 'resource(region,1)',
                   project    => 'test project#1 data',
                   credential => 'cred1',
                 }
@@ -366,51 +466,122 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                   credential => 'cred2',
                 }
 
-                gcompute_subnetwork { 'title0':
-                  ensure                   => present,
-                  description              => 'test description#0 data',
-                  gateway_address          => 'test gateway_address#0 data',
-                  ip_cidr_range            => 'test ip_cidr_range#0 data',
-                  name                     => 'test name#0 data',
-                  network                  => 'resource(network,0)',
-                  private_ip_google_access => true,
-                  region                   => 'resource(region,0)',
-                  project                  => 'test project#0 data',
-                  credential               => 'cred0',
+                gcompute_subnetwork { 'resource(subnetwork,2)':
+                  ensure     => present,
+                  name       => 'test name#2 data',
+                  region     => 'resource(region,2)',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
                 }
 
-                gcompute_subnetwork { 'title1':
-                  ensure                   => present,
-                  description              => 'test description#1 data',
-                  gateway_address          => 'test gateway_address#1 data',
-                  ip_cidr_range            => 'test ip_cidr_range#1 data',
-                  name                     => 'test name#1 data',
-                  network                  => 'resource(network,1)',
-                  private_ip_google_access => false,
-                  region                   => 'resource(region,1)',
-                  project                  => 'test project#1 data',
-                  credential               => 'cred1',
+                gcompute_instance_group { 'title0':
+                  ensure      => present,
+                  description => 'test description#0 data',
+                  name        => 'test name#0 data',
+                  named_ports => [
+                    {
+                      name => 'test name#0 data',
+                      port => 759512136,
+                    },
+                    {
+                      name => 'test name#1 data',
+                      port => 1519024273,
+                    },
+                    {
+                      name => 'test name#2 data',
+                      port => 2278536410,
+                    },
+                    {
+                      name => 'test name#3 data',
+                      port => 3038048546,
+                    },
+                    {
+                      name => 'test name#4 data',
+                      port => 3797560683,
+                    },
+                  ],
+                  network     => 'resource(network,0)',
+                  region      => 'resource(region,0)',
+                  subnetwork  => 'resource(subnetwork,0)',
+                  zone        => 'test zone#0 data',
+                  project     => 'test project#0 data',
+                  credential  => 'cred0',
                 }
 
-                gcompute_subnetwork { 'title2':
-                  ensure                   => present,
-                  description              => 'test description#2 data',
-                  gateway_address          => 'test gateway_address#2 data',
-                  ip_cidr_range            => 'test ip_cidr_range#2 data',
-                  name                     => 'test name#2 data',
-                  network                  => 'resource(network,2)',
-                  private_ip_google_access => true,
-                  region                   => 'resource(region,2)',
-                  project                  => 'test project#2 data',
-                  credential               => 'cred2',
+                gcompute_instance_group { 'title1':
+                  ensure      => present,
+                  description => 'test description#1 data',
+                  name        => 'test name#1 data',
+                  named_ports => [
+                    {
+                      name => 'test name#1 data',
+                      port => 1519024273,
+                    },
+                    {
+                      name => 'test name#2 data',
+                      port => 2278536410,
+                    },
+                    {
+                      name => 'test name#3 data',
+                      port => 3038048546,
+                    },
+                    {
+                      name => 'test name#4 data',
+                      port => 3797560683,
+                    },
+                    {
+                      name => 'test name#5 data',
+                      port => 4557072820,
+                    },
+                  ],
+                  network     => 'resource(network,1)',
+                  region      => 'resource(region,1)',
+                  subnetwork  => 'resource(subnetwork,1)',
+                  zone        => 'test zone#1 data',
+                  project     => 'test project#1 data',
+                  credential  => 'cred1',
+                }
+
+                gcompute_instance_group { 'title2':
+                  ensure      => present,
+                  description => 'test description#2 data',
+                  name        => 'test name#2 data',
+                  named_ports => [
+                    {
+                      name => 'test name#2 data',
+                      port => 2278536410,
+                    },
+                    {
+                      name => 'test name#3 data',
+                      port => 3038048546,
+                    },
+                    {
+                      name => 'test name#4 data',
+                      port => 3797560683,
+                    },
+                    {
+                      name => 'test name#5 data',
+                      port => 4557072820,
+                    },
+                    {
+                      name => 'test name#6 data',
+                      port => 5316584956,
+                    },
+                  ],
+                  network     => 'resource(network,2)',
+                  region      => 'resource(region,2)',
+                  subnetwork  => 'resource(subnetwork,2)',
+                  zone        => 'test zone#2 data',
+                  project     => 'test project#2 data',
+                  credential  => 'cred2',
                 }
                 MANIFEST
               ).catalog
             end
 
-            context 'Gcompute_subnetwork[title0]' do
+            context 'Gcompute_instance_group[title0]' do
               subject do
-                catalog.resource('Gcompute_subnetwork[title0]').provider
+                catalog.resource('Gcompute_instance_group[title0]').provider
               end
 
               it do
@@ -423,36 +594,29 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 is_expected
                   .to have_attributes(description: 'test description#0 data')
               end
-              it do
-                is_expected
-                  .to have_attributes(
-                    gateway_address: 'test gateway_address#0 data'
-                  )
-              end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
-              it do
-                is_expected
-                  .to have_attributes(
-                    ip_cidr_range: 'test ip_cidr_range#0 data'
-                  )
-              end
               it { is_expected.to have_attributes(name: 'test name#0 data') }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'namedPorts' do
+              #   # Add test code here
+              # end
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(private_ip_google_access: true)
-              end
               # TODO(alexstephen): Implement resourceref test.
               # it 'region' do
               #   # Add test code here
               # end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'subnetwork' do
+              #   # Add test code here
+              # end
             end
 
-            context 'Gcompute_subnetwork[title1]' do
+            context 'Gcompute_instance_group[title1]' do
               subject do
-                catalog.resource('Gcompute_subnetwork[title1]').provider
+                catalog.resource('Gcompute_instance_group[title1]').provider
               end
 
               it do
@@ -465,36 +629,29 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 is_expected
                   .to have_attributes(description: 'test description#1 data')
               end
-              it do
-                is_expected
-                  .to have_attributes(
-                    gateway_address: 'test gateway_address#1 data'
-                  )
-              end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
-              it do
-                is_expected
-                  .to have_attributes(
-                    ip_cidr_range: 'test ip_cidr_range#1 data'
-                  )
-              end
               it { is_expected.to have_attributes(name: 'test name#1 data') }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'namedPorts' do
+              #   # Add test code here
+              # end
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(private_ip_google_access: false)
-              end
               # TODO(alexstephen): Implement resourceref test.
               # it 'region' do
               #   # Add test code here
               # end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'subnetwork' do
+              #   # Add test code here
+              # end
             end
 
-            context 'Gcompute_subnetwork[title2]' do
+            context 'Gcompute_instance_group[title2]' do
               subject do
-                catalog.resource('Gcompute_subnetwork[title2]').provider
+                catalog.resource('Gcompute_instance_group[title2]').provider
               end
 
               it do
@@ -507,29 +664,22 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 is_expected
                   .to have_attributes(description: 'test description#2 data')
               end
-              it do
-                is_expected
-                  .to have_attributes(
-                    gateway_address: 'test gateway_address#2 data'
-                  )
-              end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
-              it do
-                is_expected
-                  .to have_attributes(
-                    ip_cidr_range: 'test ip_cidr_range#2 data'
-                  )
-              end
               it { is_expected.to have_attributes(name: 'test name#2 data') }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'namedPorts' do
+              #   # Add test code here
+              # end
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(private_ip_google_access: true)
-              end
               # TODO(alexstephen): Implement resourceref test.
               # it 'region' do
+              #   # Add test code here
+              # end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'subnetwork' do
               #   # Add test code here
               # end
             end
@@ -584,31 +734,57 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
         # Ensure present: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      name: 'title0',
-                                      network: 'selflink(resource(network,0))',
-                                      region: 'test name#0 data'
+            expect_network_get_failed \
+              1,
+              name: 'title0',
+              network: 'selflink(resource(network,0))',
+              region: 'selflink(resource(region,0))',
+              subnetwork: 'selflink(resource(subnetwork,0))'
             expect_network_create \
               1,
               {
-                'kind' => 'compute#subnetwork',
+                'kind' => 'compute#instanceGroup',
                 'description' => 'test description#0 data',
-                'gatewayAddress' => 'test gateway_address#0 data',
-                'ipCidrRange' => 'test ip_cidr_range#0 data',
                 'name' => 'title0',
+                'namedPorts' => [
+                  {
+                    'name' => 'test name#0 data',
+                    'port' => 759_512_136
+                  },
+                  {
+                    'name' => 'test name#1 data',
+                    'port' => 1_519_024_273
+                  },
+                  {
+                    'name' => 'test name#2 data',
+                    'port' => 2_278_536_410
+                  },
+                  {
+                    'name' => 'test name#3 data',
+                    'port' => 3_038_048_546
+                  },
+                  {
+                    'name' => 'test name#4 data',
+                    'port' => 3_797_560_683
+                  }
+                ],
                 'network' => 'selflink(resource(network,0))',
-                'privateIpGoogleAccess' => true,
-                'region' => 'test name#0 data'
+                'region' => 'selflink(resource(region,0))',
+                'subnetwork' => 'selflink(resource(subnetwork,0))'
               },
               name: 'title0',
               network: 'selflink(resource(network,0))',
-              region: 'test name#0 data'
-            expect_network_get_async 1,
-                                     name: 'title0',
-                                     network: 'selflink(resource(network,0))',
-                                     region: 'test name#0 data'
+              region: 'selflink(resource(region,0))',
+              subnetwork: 'selflink(resource(subnetwork,0))'
+            expect_network_get_async \
+              1,
+              name: 'title0',
+              network: 'selflink(resource(network,0))',
+              region: 'selflink(resource(region,0))',
+              subnetwork: 'selflink(resource(subnetwork,0))'
             expect_network_get_success_network 1
             expect_network_get_success_region 1
+            expect_network_get_success_subnetwork 1, region: 'test name#0 data'
           end
 
           subject do
@@ -628,19 +804,49 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 credential => 'cred0',
               }
 
-              gcompute_subnetwork { 'title0':
-                ensure                   => present,
-                description              => 'test description#0 data',
-                gateway_address          => 'test gateway_address#0 data',
-                ip_cidr_range            => 'test ip_cidr_range#0 data',
-                network                  => 'resource(network,0)',
-                private_ip_google_access => true,
-                region                   => 'resource(region,0)',
-                project                  => 'test project#0 data',
-                credential               => 'cred0',
+              gcompute_subnetwork { 'resource(subnetwork,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                region     => 'resource(region,0)',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_instance_group { 'title0':
+                ensure      => present,
+                description => 'test description#0 data',
+                named_ports => [
+                  {
+                    name => 'test name#0 data',
+                    port => 759512136,
+                  },
+                  {
+                    name => 'test name#1 data',
+                    port => 1519024273,
+                  },
+                  {
+                    name => 'test name#2 data',
+                    port => 2278536410,
+                  },
+                  {
+                    name => 'test name#3 data',
+                    port => 3038048546,
+                  },
+                  {
+                    name => 'test name#4 data',
+                    port => 3797560683,
+                  },
+                ],
+                network     => 'resource(network,0)',
+                region      => 'resource(region,0)',
+                subnetwork  => 'resource(subnetwork,0)',
+                zone        => 'test zone#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_subnetwork[title0]').provider.ensure
+            ).catalog.resource('Gcompute_instance_group[title0]').provider
+              .ensure
           end
 
           it { is_expected.to eq :present }
@@ -659,28 +865,54 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
         # Ensure present: resource missing, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      network: 'selflink(resource(network,0))',
-                                      region: 'test name#0 data'
+            expect_network_get_failed \
+              1,
+              network: 'selflink(resource(network,0))',
+              region: 'selflink(resource(region,0))',
+              subnetwork: 'selflink(resource(subnetwork,0))'
             expect_network_create \
               1,
               {
-                'kind' => 'compute#subnetwork',
+                'kind' => 'compute#instanceGroup',
                 'description' => 'test description#0 data',
-                'gatewayAddress' => 'test gateway_address#0 data',
-                'ipCidrRange' => 'test ip_cidr_range#0 data',
                 'name' => 'test name#0 data',
+                'namedPorts' => [
+                  {
+                    'name' => 'test name#0 data',
+                    'port' => 759_512_136
+                  },
+                  {
+                    'name' => 'test name#1 data',
+                    'port' => 1_519_024_273
+                  },
+                  {
+                    'name' => 'test name#2 data',
+                    'port' => 2_278_536_410
+                  },
+                  {
+                    'name' => 'test name#3 data',
+                    'port' => 3_038_048_546
+                  },
+                  {
+                    'name' => 'test name#4 data',
+                    'port' => 3_797_560_683
+                  }
+                ],
                 'network' => 'selflink(resource(network,0))',
-                'privateIpGoogleAccess' => true,
-                'region' => 'test name#0 data'
+                'region' => 'selflink(resource(region,0))',
+                'subnetwork' => 'selflink(resource(subnetwork,0))'
               },
               network: 'selflink(resource(network,0))',
-              region: 'test name#0 data'
-            expect_network_get_async 1,
-                                     network: 'selflink(resource(network,0))',
-                                     region: 'test name#0 data'
+              region: 'selflink(resource(region,0))',
+              subnetwork: 'selflink(resource(subnetwork,0))'
+            expect_network_get_async \
+              1,
+              network: 'selflink(resource(network,0))',
+              region: 'selflink(resource(region,0))',
+              subnetwork: 'selflink(resource(subnetwork,0))'
             expect_network_get_success_network 1
             expect_network_get_success_region 1
+            expect_network_get_success_subnetwork 1, region: 'test name#0 data'
           end
 
           subject do
@@ -700,20 +932,50 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 credential => 'cred0',
               }
 
-              gcompute_subnetwork { 'title0':
-                ensure                   => present,
-                description              => 'test description#0 data',
-                gateway_address          => 'test gateway_address#0 data',
-                ip_cidr_range            => 'test ip_cidr_range#0 data',
-                name                     => 'test name#0 data',
-                network                  => 'resource(network,0)',
-                private_ip_google_access => true,
-                region                   => 'resource(region,0)',
-                project                  => 'test project#0 data',
-                credential               => 'cred0',
+              gcompute_subnetwork { 'resource(subnetwork,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                region     => 'resource(region,0)',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_instance_group { 'title0':
+                ensure      => present,
+                description => 'test description#0 data',
+                name        => 'test name#0 data',
+                named_ports => [
+                  {
+                    name => 'test name#0 data',
+                    port => 759512136,
+                  },
+                  {
+                    name => 'test name#1 data',
+                    port => 1519024273,
+                  },
+                  {
+                    name => 'test name#2 data',
+                    port => 2278536410,
+                  },
+                  {
+                    name => 'test name#3 data',
+                    port => 3038048546,
+                  },
+                  {
+                    name => 'test name#4 data',
+                    port => 3797560683,
+                  },
+                ],
+                network     => 'resource(network,0)',
+                region      => 'resource(region,0)',
+                subnetwork  => 'resource(subnetwork,0)',
+                zone        => 'test zone#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_subnetwork[title0]').provider.ensure
+            ).catalog.resource('Gcompute_instance_group[title0]').provider
+              .ensure
           end
 
           it { is_expected.to eq :present }
@@ -737,27 +999,19 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
         context 'title == name (pass)' do
           before(:each) do
             expect_network_get_failed 1, name: 'title0'
-            expect_network_get_success_region 1
           end
 
           subject do
             apply_compiled_manifest(
               <<-MANIFEST
-              gcompute_region { 'resource(region,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
-              }
-
-              gcompute_subnetwork { 'title0':
+              gcompute_instance_group { 'title0':
                 ensure     => absent,
-                region     => 'resource(region,0)',
+                zone       => 'test zone#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_subnetwork[title0]')
+            ).catalog.resource('Gcompute_instance_group[title0]')
               .provider.ensure
           end
 
@@ -778,28 +1032,20 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
         context 'title != name (pass)' do
           before(:each) do
             expect_network_get_failed 1
-            expect_network_get_success_region 1
           end
 
           subject do
             apply_compiled_manifest(
               <<-MANIFEST
-              gcompute_region { 'resource(region,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
-              }
-
-              gcompute_subnetwork { 'title0':
+              gcompute_instance_group { 'title0':
                 ensure     => absent,
                 name       => 'test name#0 data',
-                region     => 'resource(region,0)',
+                zone       => 'test zone#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_subnetwork[title0]')
+            ).catalog.resource('Gcompute_instance_group[title0]')
               .provider.ensure
           end
 
@@ -822,31 +1068,21 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
         context 'title == name (pass)' do
           before(:each) do
             expect_network_get_success 1, name: 'title0'
-            expect_network_delete 1, 'title0', region: 'test name#0 data'
-            expect_network_get_async 1,
-                                     name: 'title0',
-                                     region: 'test name#0 data'
-            expect_network_get_success_region 1
+            expect_network_delete 1, 'title0'
+            expect_network_get_async 1, name: 'title0'
           end
 
           subject do
             apply_compiled_manifest(
               <<-MANIFEST
-              gcompute_region { 'resource(region,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
-              }
-
-              gcompute_subnetwork { 'title0':
+              gcompute_instance_group { 'title0':
                 ensure     => absent,
-                region     => 'resource(region,0)',
+                zone       => 'test zone#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_subnetwork[title0]')
+            ).catalog.resource('Gcompute_instance_group[title0]')
               .provider.ensure
           end
 
@@ -867,30 +1103,22 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
         context 'title != name (pass)' do
           before(:each) do
             expect_network_get_success 1
-            expect_network_delete 1, nil, region: 'test name#0 data'
-            expect_network_get_async 1, region: 'test name#0 data'
-            expect_network_get_success_region 1
+            expect_network_delete 1
+            expect_network_get_async 1
           end
 
           subject do
             apply_compiled_manifest(
               <<-MANIFEST
-              gcompute_region { 'resource(region,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
-              }
-
-              gcompute_subnetwork { 'title0':
+              gcompute_instance_group { 'title0':
                 ensure     => absent,
                 name       => 'test name#0 data',
-                region     => 'resource(region,0)',
+                zone       => 'test zone#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_subnetwork[title0]')
+            ).catalog.resource('Gcompute_instance_group[title0]')
               .provider.ensure
           end
 
@@ -909,7 +1137,7 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
 
   context '#flush' do
     subject do
-      Puppet::Type.type(:gcompute_subnetwork).new(
+      Puppet::Type.type(:gcompute_instance_group).new(
         ensure: :present,
         name: 'my-name'
       ).provider
@@ -929,26 +1157,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
         before { subject.instance_variable_set(:@deleted, true) }
         it { expect { subject.flush }.not_to raise_error }
       end
-    end
-  end
-
-  context '#exports' do
-    context 'exports all properties' do
-      let(:resource1) { create_type 1 }
-      before do
-        prefetch_region
-        expect_network_get_success 1
-        described_class.prefetch(title0: resource1)
-      end
-
-      subject { resource1.exports }
-
-      let(:expected_results) do
-        {
-          self_link: 'selflink(resource(subnetwork,0))'
-        }
-      end
-      it { is_expected.to eq(expected_results) }
     end
   end
 
@@ -978,7 +1186,7 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
   end
 
   def expect_network_get_async(id, data = {})
-    body = { kind: 'compute#subnetwork' }.to_json
+    body = { kind: 'compute#instanceGroup' }.to_json
 
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
@@ -1052,7 +1260,7 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
 
   def load_network_result(file)
     results = File.join(File.dirname(__FILE__), 'data', 'network',
-                        'gcompute_subnetwork', file)
+                        'gcompute_instance_group', file)
     debug("Loading result file: #{results}")
     raise "Network result data file #{results}" unless File.exist?(results)
     data = YAML.safe_load(File.read(results))
@@ -1158,17 +1366,55 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
     )
   end
 
-  # Creates and prefetch type so exports can be resolved without network access.
-  def prefetch_region
-    expect_network_get_success_region 1
+  def expect_network_get_success_subnetwork(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_subnetwork("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_subnetwork(id).merge(data)
 
-    resource = Puppet::Type.type(:gcompute_region).new(
-      project: 'test project#0 data',
-      name: 'test name#0 data'
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{self_link_subnetwork(uri_data(id).merge(data))}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_subnetwork(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_subnetwork(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_subnetwork', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_subnetwork objects
+  def uri_data_subnetwork(id)
+    {
+      project: GoogleTests::Constants::S_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::S_PROJECT_DATA.size],
+      region: GoogleTests::Constants::S_REGION_DATA[(id - 1) \
+        % GoogleTests::Constants::S_REGION_DATA.size],
+      name: GoogleTests::Constants::S_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::S_NAME_DATA.size]
+    }
+  end
+
+  def self_link_subnetwork(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_subnetwork(
+        'projects/{{project}}/regions/{{region}}/subnetworks/{{name}}',
+        data
+      )
     )
-
-    Puppet::Type.type(:gcompute_region).provider(:google)
-                .prefetch(resource: resource)
   end
 
   def debug(message)
@@ -1190,22 +1436,27 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 .expand_variables(template, data, ext_dat)
   end
 
+  def expand_variables_subnetwork(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_subnetwork).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
   def create_type(id)
-    Puppet::Type.type(:gcompute_subnetwork).new(
+    Puppet::Type.type(:gcompute_instance_group).new(
       ensure: :present,
       title: "title#{id - 1}",
       credential: "cred#{id - 1}",
-      project: GoogleTests::Constants::S_PROJECT_DATA[(id - 1) \
-        % GoogleTests::Constants::S_PROJECT_DATA.size],
-      region: GoogleTests::Constants::S_REGION_DATA[(id - 1) \
-        % GoogleTests::Constants::S_REGION_DATA.size],
-      name: GoogleTests::Constants::S_NAME_DATA[(id - 1) \
-        % GoogleTests::Constants::S_NAME_DATA.size]
+      project: GoogleTests::Constants::IG_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::IG_PROJECT_DATA.size],
+      zone: GoogleTests::Constants::IG_ZONE_DATA[(id - 1) \
+        % GoogleTests::Constants::IG_ZONE_DATA.size],
+      name: GoogleTests::Constants::IG_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::IG_NAME_DATA.size]
     )
   end
 
   def expand_variables(template, data, extra_data = {})
-    Puppet::Type.type(:gcompute_subnetwork).provider(:google)
+    Puppet::Type.type(:gcompute_instance_group).provider(:google)
                 .expand_variables(template, data, extra_data)
   end
 
@@ -1213,7 +1464,7 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/regions/{{region}}/subnetworks',
+        'projects/{{project}}/zones/{{zone}}/instanceGroups',
         data
       )
     )
@@ -1223,7 +1474,7 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/regions/{{region}}/subnetworks/{{name}}',
+        'projects/{{project}}/zones/{{zone}}/instanceGroups/{{name}}',
         data
       )
     )
@@ -1232,12 +1483,12 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
   # Creates variable test data to comply with self_link URI parameters
   def uri_data(id)
     {
-      project: GoogleTests::Constants::S_PROJECT_DATA[(id - 1) \
-        % GoogleTests::Constants::S_PROJECT_DATA.size],
-      region: GoogleTests::Constants::S_REGION_DATA[(id - 1) \
-        % GoogleTests::Constants::S_REGION_DATA.size],
-      name: GoogleTests::Constants::S_NAME_DATA[(id - 1) \
-        % GoogleTests::Constants::S_NAME_DATA.size]
+      project: GoogleTests::Constants::IG_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::IG_PROJECT_DATA.size],
+      zone: GoogleTests::Constants::IG_ZONE_DATA[(id - 1) \
+        % GoogleTests::Constants::IG_ZONE_DATA.size],
+      name: GoogleTests::Constants::IG_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::IG_NAME_DATA.size]
     }
   end
 end

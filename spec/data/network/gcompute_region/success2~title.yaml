@@ -42,3 +42,4 @@ zones:
   - rr
   - ss
   - tt
+selfLink: 'selflink(resource(region,1))'

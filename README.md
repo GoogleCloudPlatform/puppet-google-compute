@@ -235,6 +235,27 @@ gcompute_instance { 'instance-test':
 
 ```
 
+#### `gcompute_instance_group`
+
+```puppet
+# Instance group equires a network, so define them in your manifest:
+#   - gcompute_network { 'my-network': ensure => presnet }
+gcompute_instance_group { 'my-puppet-masters':
+  ensure      => present,
+  named_ports => [
+    {
+      name => 'puppet',
+      port => 8140,
+    },
+  ],
+  network     => 'my-network',
+  zone        => 'us-central1-a',
+  project     => 'google.com:graphite-playground',
+  credential  => 'mycred',
+}
+
+```
+
 #### `gcompute_network`
 
 ```puppet
@@ -442,6 +463,13 @@ gcompute_subnetwork { 'servers':
 * [`gcompute_instance`][]:
     An instance is a virtual machine (VM) hosted on Google's
     infrastructure.
+* [`gcompute_instance_group`][]:
+    Represents an Instance Group resource. Instance groups are self-managed
+    and can contain identical or different instances. Instance groups do
+    not
+    use an instance template. Unlike managed instance groups, you must
+    create
+    and add instances to an instance group manually.
 * [`gcompute_network`][]:
     Represents a Network resource.
     Your Cloud Platform Console project can contain multiple networks, and
@@ -1470,6 +1498,80 @@ Required.  URL of the zone where the disk type resides.
 * `status_message`: Output only.
   An optional, human-readable explanation of the status.
 
+#### `gcompute_instance_group`
+
+Represents an Instance Group resource. Instance groups are self-managed
+and can contain identical or different instances. Instance groups do not
+use an instance template. Unlike managed instance groups, you must create
+and add instances to an instance group manually.
+
+
+#### Example
+
+```puppet
+# Instance group equires a network, so define them in your manifest:
+#   - gcompute_network { 'my-network': ensure => presnet }
+gcompute_instance_group { 'my-puppet-masters':
+  ensure      => present,
+  named_ports => [
+    {
+      name => 'puppet',
+      port => 8140,
+    },
+  ],
+  network     => 'my-network',
+  zone        => 'us-central1-a',
+  project     => 'google.com:graphite-playground',
+  credential  => 'mycred',
+}
+
+```
+
+##### `description`
+
+  An optional description of this resource. Provide this property when
+  you create the resource.
+
+##### `name`
+
+  The name of the instance group.
+  The name must be 1-63 characters long, and comply with RFC1035.
+
+##### `named_ports`
+
+  Assigns a name to a port number.
+  For example: {name: "http", port: 80}.
+  This allows the system to reference ports by the assigned name
+  instead of a port number. Named ports can also contain multiple
+  ports.
+  For example: [{name: "http", port: 80},{name: "http", port: 8080}]
+  Named ports apply to all instances in this instance group.
+
+##### `network`
+
+  A reference to Network resource
+
+##### `region`
+
+  A reference to Region resource
+
+##### `subnetwork`
+
+  A reference to Subnetwork resource
+
+##### `zone`
+
+Required.  URL of the zone where the autoscaler resides.
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  A unique identifier for this instance group.
+
 #### `gcompute_network`
 
 Represents a Network resource.
@@ -2000,6 +2102,7 @@ Variable                | Side Effect
 [`gcompute_health_check`]: #gcompute_health_check
 [`gcompute_license`]: #gcompute_license
 [`gcompute_instance`]: #gcompute_instance
+[`gcompute_instance_group`]: #gcompute_instance_group
 [`gcompute_network`]: #gcompute_network
 [`gcompute_region`]: #gcompute_region
 [`gcompute_route`]: #gcompute_route

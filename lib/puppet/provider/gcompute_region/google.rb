@@ -138,7 +138,8 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
 
   def exports
     {
-      name: resource[:name]
+      name: resource[:name],
+      self_link: @fetched['selfLink']
     }
   end
 

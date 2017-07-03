@@ -248,6 +248,33 @@ module GoogleTests
       'test name#4 data'
     ].freeze
 
+    # Constants for: InstanceGroup.project
+    IG_PROJECT_DATA = [
+      'test project#0 data',
+      'test project#1 data',
+      'test project#2 data',
+      'test project#3 data',
+      'test project#4 data'
+    ].freeze
+
+    # Constants for: InstanceGroup.zone
+    IG_ZONE_DATA = [
+      'test zone#0 data',
+      'test zone#1 data',
+      'test zone#2 data',
+      'test zone#3 data',
+      'test zone#4 data'
+    ].freeze
+
+    # Constants for: InstanceGroup.name
+    IG_NAME_DATA = [
+      'test name#0 data',
+      'test name#1 data',
+      'test name#2 data',
+      'test name#3 data',
+      'test name#4 data'
+    ].freeze
+
     # Constants for: Network.project
     N_PROJECT_DATA = [
       'test project#0 data',

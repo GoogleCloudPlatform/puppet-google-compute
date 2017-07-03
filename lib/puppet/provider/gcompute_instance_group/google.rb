@@ -29,17 +29,17 @@ require 'google/compute/network/delete'
 require 'google/compute/network/get'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
-require 'google/compute/property/boolean'
+require 'google/compute/property/instancegroup_named_ports'
 require 'google/compute/property/integer'
 require 'google/compute/property/network_selflink'
-require 'google/compute/property/region_name'
+require 'google/compute/property/region_selflink'
 require 'google/compute/property/string'
+require 'google/compute/property/subnetwork_selflink'
 require 'google/compute/property/time'
 require 'google/hash_utils'
-require 'google/object_store'
 require 'puppet'
 
-Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
+Puppet::Type.type(:gcompute_instance_group).provide(:google) do
   mk_resource_methods
 
   def self.instances
@@ -57,21 +57,19 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource),
-                             'compute#subnetwork')
-      resource.provider = present(name, fetch, resource) unless fetch.nil?
-      Google::ObjectStore.instance.add(:gcompute_subnetwork, resource)
+                             'compute#instanceGroup')
+      resource.provider = present(name, fetch) unless fetch.nil?
     end
   end
 
-  def self.present(name, fetch, resource)
-    result = new(
-      { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
-    )
+  def self.present(name, fetch)
+    result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
     result.instance_variable_set(:@fetched, fetch)
     result
   end
 
-  def self.fetch_to_hash(fetch, resource)
+  # rubocop:disable Metrics/MethodLength
+  def self.fetch_to_hash(fetch)
     {
       creation_timestamp:
         Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
@@ -79,15 +77,20 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
         Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      private_ip_google_access: Google::Compute::Property::Boolean.api_munge(
-        fetch['privateIpGoogleAccess']
-      ),
-      gateway_address: resource[:gateway_address],
-      ip_cidr_range: resource[:ip_cidr_range],
-      network: resource[:network],
-      region: resource[:region]
+      named_ports:
+        Google::Compute::Property::InstaGroupNamedPortsArray.api_munge(
+          fetch['namedPorts']
+        ),
+      network:
+        Google::Compute::Property::NetwoSelfLinkRef.api_munge(fetch['network']),
+      region:
+        Google::Compute::Property::RegioSelfLinkRef.api_munge(fetch['region']),
+      subnetwork: Google::Compute::Property::SubneSelfLinkRef.api_munge(
+        fetch['subnetwork']
+      )
     }.reject { |_, v| v.nil? }
   end
+  # rubocop:enable Metrics/MethodLength
 
   def exists?
     debug("exists? #{@property_hash[:ensure] == :present}")
@@ -118,11 +121,7 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    update_req = Google::Compute::Network::Put.new(self_link(@resource),
-                                                   fetch_auth(@resource),
-                                                   'application/json',
-                                                   resource_to_request)
-    @fetched = wait_for_operation update_req.send, @resource
+    raise 'InstanceGroup cannot be edited.'
   end
 
   def dirty(field, from, to)
@@ -133,56 +132,34 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
     }
   end
 
-  def exports
-    {
-      self_link: @fetched['selfLink']
-    }
-  end
-
   private
-
-  # Hashes have :true or :false which to_json converts to strings
-  def sym_to_bool(value)
-    if value == :true
-      true
-    elsif value == :false
-      false
-    else
-      value
-    end
-  end
 
   def self.resource_to_hash(resource)
     {
       project: resource[:project],
       name: resource[:name],
-      kind: 'compute#subnetwork',
+      kind: 'compute#instanceGroup',
       creation_timestamp: resource[:creation_timestamp],
       description: resource[:description],
-      gateway_address: resource[:gateway_address],
       id: resource[:id],
-      ip_cidr_range: resource[:ip_cidr_range],
+      named_ports: resource[:named_ports],
       network: resource[:network],
-      private_ip_google_access: resource[:private_ip_google_access],
-      region: resource[:region]
+      region: resource[:region],
+      subnetwork: resource[:subnetwork],
+      zone: resource[:zone]
     }.reject { |_, v| v.nil? }
   end
 
   def resource_to_request
     request = {
-      kind: 'compute#subnetwork',
+      kind: 'compute#instanceGroup',
       description: @resource[:description],
-      gatewayAddress: @resource[:gateway_address],
-      ipCidrRange: @resource[:ip_cidr_range],
       name: @resource[:name],
+      namedPorts: @resource[:named_ports],
       network: @resource[:network],
-      privateIpGoogleAccess: @resource[:private_ip_google_access],
-      region: @resource[:region]
+      region: @resource[:region],
+      subnetwork: @resource[:subnetwork]
     }.reject { |_, v| v.nil? }
-
-    # Convert boolean symbols into JSON compatible value.
-    request = request.inject({}) { |h, (k, v)| h.merge(k => sym_to_bool(v)) }
-
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json
   end
@@ -204,7 +181,7 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/regions/{{region}}/subnetworks',
+        'projects/{{project}}/zones/{{zone}}/instanceGroups',
         data
       )
     )
@@ -218,7 +195,7 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/regions/{{region}}/subnetworks/{{name}}',
+        'projects/{{project}}/zones/{{zone}}/instanceGroups/{{name}}',
         data
       )
     )
@@ -277,7 +254,7 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/regions/{{region}}/operations/{{op_id}}',
+        'projects/{{project}}/zones/{{zone}}/operations/{{op_id}}',
         data, extra_data
       )
     )
@@ -293,7 +270,7 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
                                                                  op_result,
                                                                  resource),
                                              %w[targetLink])),
-      'compute#subnetwork'
+      'compute#instanceGroup'
     )
   end
 
@@ -304,7 +281,7 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
       debug("Waiting for completion of operation #{op_id}")
       raise_if_errors op_result, %w[error errors], 'message'
       sleep 1.0
-      raise "Invalid result '#{status}' on gcompute_subnetwork." \
+      raise "Invalid result '#{status}' on gcompute_instance_group." \
         unless %w[PENDING RUNNING DONE].include?(status)
       op_result = fetch_resource(resource, op_uri, 'compute#operation')
       status = ::Google::HashUtils.navigate(op_result, %w[status])

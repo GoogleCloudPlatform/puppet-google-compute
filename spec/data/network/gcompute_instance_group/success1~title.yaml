@@ -26,14 +26,6 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#subnetwork'
-creationTimestamp: '2120-10-14T00:16:21+00:00'
-description: 'test description#1 data'
-gatewayAddress: 'test gateway_address#1 data'
-id: 4299001743
-ipCidrRange: 'test ip_cidr_range#1 data'
-name: 'title1'
-network: 'selflink(resource(network,1))'
-privateIpGoogleAccess: false
-region: 'test name#1 data'
-selfLink: 'selflink(resource(subnetwork,1))'
+kind: 'compute#instanceGroup'
+id: 2149500871
+creationTimestamp: '2045-05-23T12:08:10+00:00'

@@ -703,7 +703,8 @@ describe Puppet::Type.type(:gcompute_region).provider(:google) do
 
       let(:expected_results) do
         {
-          name: 'test name#0 data'
+          name: 'test name#0 data',
+          self_link: 'selflink(resource(region,0))'
         }
       end
       it { is_expected.to eq(expected_results) }

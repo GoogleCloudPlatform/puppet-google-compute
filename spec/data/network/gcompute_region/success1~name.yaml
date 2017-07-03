@@ -41,3 +41,4 @@ project: 'test project#0 data'
 zones:
   - uu
   - vv
+selfLink: 'selflink(resource(region,0))'

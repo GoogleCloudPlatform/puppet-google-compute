@@ -31,6 +31,7 @@ require 'google/compute/property/network_selflink'
 require 'google/compute/property/region_name'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_subnetwork) do
@@ -138,5 +139,10 @@ Puppet::Type.newtype(:gcompute_subnetwork) do
 
   newproperty(:region, parent: Google::Compute::Property::RegionNameRef) do
     desc 'A reference to Region resource'
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end

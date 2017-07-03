@@ -36,3 +36,4 @@ name: 'title0'
 network: 'selflink(resource(network,0))'
 privateIpGoogleAccess: true
 region: 'test name#0 data'
+selfLink: 'selflink(resource(subnetwork,0))'
