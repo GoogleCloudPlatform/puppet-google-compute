@@ -98,6 +98,7 @@ puppet-codegen:
   * examples/delete_health_check.pp
   * examples/delete_http_health_check.pp
   * examples/delete_https_health_check.pp
+  * examples/delete_image.pp
   * examples/delete_instance.pp
   * examples/delete_instance_group.pp
   * examples/delete_network.pp
@@ -112,6 +113,7 @@ puppet-codegen:
   * examples/health_check.pp
   * examples/http_health_check.pp
   * examples/https_health_check.pp
+  * examples/image.pp
   * examples/instance.pp
   * examples/instance_group.pp
   * examples/license.pp
@@ -147,6 +149,11 @@ puppet-codegen:
   * lib/google/compute/property/healthcheck_https_health_check.rb
   * lib/google/compute/property/healthcheck_ssl_health_check.rb
   * lib/google/compute/property/healthcheck_tcp_health_check.rb
+  * lib/google/compute/property/image_deprecated.rb
+  * lib/google/compute/property/image_guest_os_features.rb
+  * lib/google/compute/property/image_image_encryption_key.rb
+  * lib/google/compute/property/image_raw_disk.rb
+  * lib/google/compute/property/image_source_disk_encryption_key.rb
   * lib/google/compute/property/instance_disk_encryption_key.rb
   * lib/google/compute/property/instance_disks.rb
   * lib/google/compute/property/instance_guest_accelerators.rb
@@ -178,6 +185,7 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_health_check/google.rb
   * lib/puppet/provider/gcompute_http_health_check/google.rb
   * lib/puppet/provider/gcompute_https_health_check/google.rb
+  * lib/puppet/provider/gcompute_image/google.rb
   * lib/puppet/provider/gcompute_instance/google.rb
   * lib/puppet/provider/gcompute_instance_group/google.rb
   * lib/puppet/provider/gcompute_license/google.rb
@@ -196,6 +204,7 @@ puppet-codegen:
   * lib/puppet/type/gcompute_health_check.rb
   * lib/puppet/type/gcompute_http_health_check.rb
   * lib/puppet/type/gcompute_https_health_check.rb
+  * lib/puppet/type/gcompute_image.rb
   * lib/puppet/type/gcompute_instance.rb
   * lib/puppet/type/gcompute_instance_group.rb
   * lib/puppet/type/gcompute_license.rb
@@ -274,6 +283,12 @@ puppet-codegen:
   * spec/data/network/gcompute_https_health_check/success2~title.yaml
   * spec/data/network/gcompute_https_health_check/success3~name.yaml
   * spec/data/network/gcompute_https_health_check/success3~title.yaml
+  * spec/data/network/gcompute_image/success1~name.yaml
+  * spec/data/network/gcompute_image/success1~title.yaml
+  * spec/data/network/gcompute_image/success2~name.yaml
+  * spec/data/network/gcompute_image/success2~title.yaml
+  * spec/data/network/gcompute_image/success3~name.yaml
+  * spec/data/network/gcompute_image/success3~title.yaml
   * spec/data/network/gcompute_instance/success1~name.yaml
   * spec/data/network/gcompute_instance/success1~title.yaml
   * spec/data/network/gcompute_instance/success2~name.yaml
@@ -327,6 +342,7 @@ puppet-codegen:
   * spec/gcompute_health_check_provider_spec.rb
   * spec/gcompute_http_health_check_provider_spec.rb
   * spec/gcompute_https_health_check_provider_spec.rb
+  * spec/gcompute_image_provider_spec.rb
   * spec/gcompute_instance_group_provider_spec.rb
   * spec/gcompute_instance_provider_spec.rb
   * spec/gcompute_license_provider_spec.rb

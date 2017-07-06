@@ -231,6 +231,19 @@ gcompute_license { 'test-license':
 
 ```
 
+#### `gcompute_image`
+
+```puppet
+# Tip: Be sure to include a valid gcompute_disk object
+gcompute_image { 'test-image':
+  ensure      => present,
+  source_disk => 'data-disk-1',
+  project     => 'google.com:graphite-playground',
+  credential  => 'mycred'
+}
+
+```
+
 #### `gcompute_instance`
 
 ```puppet
@@ -486,6 +499,22 @@ gcompute_subnetwork { 'servers':
     track software usage in images, persistent disks, snapshots, and
     virtual
     machine instances.
+* [`gcompute_image`][]:
+    Represents an Image resource.
+    Google Compute Engine uses operating system images to create the root
+    persistent disks for your instances. You specify an image when you
+    create
+    an instance. Images contain a boot loader, an operating system, and a
+    root file system. Linux operating system images are also capable of
+    running containers on Compute Engine.
+    Images can be either public or custom.
+    Public images are provided and maintained by Google, open-source
+    communities, and third-party vendors. By default, all projects have
+    access to these images and can use them to create instances.  Custom
+    images are available only to your project. You can create a custom
+    image
+    from root persistent disks and other images. Then, use the custom image
+    to create an instance.
 * [`gcompute_instance`][]:
     An instance is a virtual machine (VM) hosted on Google's
     infrastructure.
@@ -1509,6 +1538,133 @@ gcompute_license { 'test-license':
   If true, the customer will be charged license fee for
   running software that contains this license on an instance.
 
+#### `gcompute_image`
+
+Represents an Image resource.
+
+Google Compute Engine uses operating system images to create the root
+persistent disks for your instances. You specify an image when you create
+an instance. Images contain a boot loader, an operating system, and a
+root file system. Linux operating system images are also capable of
+running containers on Compute Engine.
+
+Images can be either public or custom.
+
+Public images are provided and maintained by Google, open-source
+communities, and third-party vendors. By default, all projects have
+access to these images and can use them to create instances.  Custom
+images are available only to your project. You can create a custom image
+from root persistent disks and other images. Then, use the custom image
+to create an instance.
+
+
+#### Example
+
+```puppet
+# Tip: Be sure to include a valid gcompute_disk object
+gcompute_image { 'test-image':
+  ensure      => present,
+  source_disk => 'data-disk-1',
+  project     => 'google.com:graphite-playground',
+  credential  => 'mycred'
+}
+
+```
+
+##### `deprecated`
+
+  The deprecation status associated with this image.
+
+##### `description`
+
+  An optional description of this resource. Provide this property when
+  you create the resource.
+
+##### `disk_size_gb`
+
+  Size of the image when restored onto a persistent disk (in GB).
+
+##### `family`
+
+  The name of the image family to which this image belongs. You can
+  create disks by specifying an image family instead of a specific
+  image name. The image family always returns its latest image that is
+  not deprecated. The name of the image family must comply with
+  RFC1035.
+
+##### `guest_os_features`
+
+  A list of features to enable on the guest OS. Applicable for
+  bootable images only. Currently, only one feature can be enabled,
+  VIRTIO_SCSI_MULTIQUEUE, which allows each virtual CPU to have its
+  own queue. For Windows images, you can only enable
+  VIRTIO_SCSI_MULTIQUEUE on images with driver version 1.2.0.1621 or
+  higher. Linux images with kernel versions 3.17 and higher will
+  support VIRTIO_SCSI_MULTIQUEUE.
+  For new Windows images, the server might also populate this field
+  with the value WINDOWS, to indicate that this is a Windows image.
+  This value is purely informational and does not enable or disable
+  any features.
+
+##### `image_encryption_key`
+
+  Encrypts the image using a customer-supplied encryption key.
+  After you encrypt an image with a customer-supplied key, you must
+  provide the same key if you use the image later (e.g. to create a
+  disk from the image)
+
+##### `licenses`
+
+  Any applicable license URI.
+
+##### `name`
+
+  Name of the resource; provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035. Specifically, the name must be 1-63 characters long and
+  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  the first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the
+  last character, which cannot be a dash.
+
+##### `raw_disk`
+
+  The parameters of the raw disk image.
+
+##### `source_disk`
+
+  A reference to Disk resource
+
+##### `source_disk_encryption_key`
+
+  The customer-supplied encryption key of the source disk. Required if
+  the source disk is protected by a customer-supplied encryption key.
+
+##### `source_disk_id`
+
+  The ID value of the disk used to create this image. This value may
+  be used to determine whether the image was taken from the current
+  or a previous instance of a given disk name.
+
+##### `source_type`
+
+  The type of the image used to create this disk. The default and
+  only value is RAW
+
+
+##### Output-only properties
+
+* `archive_size_bytes`: Output only.
+  Size of the image tar.gz archive stored in Google Cloud Storage (in
+  bytes).
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource. This identifier
+  is defined by the server.
+
 #### `gcompute_instance`
 
 An instance is a virtual machine (VM) hosted on Google's infrastructure.
@@ -2244,6 +2400,7 @@ Variable                | Side Effect
 [`gcompute_https_health_check`]: #gcompute_https_health_check
 [`gcompute_health_check`]: #gcompute_health_check
 [`gcompute_license`]: #gcompute_license
+[`gcompute_image`]: #gcompute_image
 [`gcompute_instance`]: #gcompute_instance
 [`gcompute_instance_group`]: #gcompute_instance_group
 [`gcompute_network`]: #gcompute_network
