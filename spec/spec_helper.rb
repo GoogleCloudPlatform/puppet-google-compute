@@ -84,6 +84,8 @@ RSpec.configure do |c|
   c.include PuppetSpec::Compiler
   c.include PuppetSpec::Files
 
+  c.filter_run_excluding broken: true
+
   Puppet::Test::TestHelper.initialize
 
   c.before :all do
