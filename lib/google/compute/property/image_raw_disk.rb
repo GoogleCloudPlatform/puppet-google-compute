@@ -48,10 +48,10 @@ module Google
 
         def to_s
           {
-            container_type: container_type.to_s,
-            sha1_checksum: sha1_checksum.to_s,
-            source: source.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            container_type: container_type,
+            sha1_checksum: sha1_checksum,
+            source: source
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

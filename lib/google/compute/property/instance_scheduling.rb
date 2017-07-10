@@ -48,10 +48,10 @@ module Google
 
         def to_s
           {
-            automatic_restart: automatic_restart.to_s,
-            on_host_maintenance: on_host_maintenance.to_s,
-            preemptible: preemptible.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            automatic_restart: automatic_restart,
+            on_host_maintenance: on_host_maintenance,
+            preemptible: preemptible
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

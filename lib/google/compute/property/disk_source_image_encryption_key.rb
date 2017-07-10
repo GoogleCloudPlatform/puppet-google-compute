@@ -46,9 +46,9 @@ module Google
 
         def to_s
           {
-            raw_key: raw_key.to_s,
-            sha256: sha256.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            raw_key: raw_key,
+            sha256: sha256
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

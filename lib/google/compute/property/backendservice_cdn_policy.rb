@@ -44,8 +44,8 @@ module Google
 
         def to_s
           {
-            cache_key_policy: cache_key_policy.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            cache_key_policy: cache_key_policy
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

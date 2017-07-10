@@ -47,9 +47,9 @@ module Google
 
         def to_s
           {
-            ip_protocol: ip_protocol.to_s,
-            ports: ports.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            ip_protocol: ip_protocol,
+            ports: ports
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

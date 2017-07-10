@@ -61,16 +61,16 @@ module Google
 
         def to_s
           {
-            balancing_mode: balancing_mode.to_s,
-            capacity_scaler: capacity_scaler.to_s,
-            description: description.to_s,
-            group: group.to_s,
-            max_connections: max_connections.to_s,
-            max_connections_per_instance: max_connections_per_instance.to_s,
-            max_rate: max_rate.to_s,
-            max_rate_per_instance: max_rate_per_instance.to_s,
-            max_utilization: max_utilization.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            balancing_mode: balancing_mode,
+            capacity_scaler: capacity_scaler,
+            description: description,
+            group: group,
+            max_connections: max_connections,
+            max_connections_per_instance: max_connections_per_instance,
+            max_rate: max_rate,
+            max_rate_per_instance: max_rate_per_instance,
+            max_utilization: max_utilization
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

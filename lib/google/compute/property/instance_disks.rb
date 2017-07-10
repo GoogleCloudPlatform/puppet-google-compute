@@ -57,14 +57,14 @@ module Google
 
         def to_s
           {
-            auto_delete: auto_delete.to_s,
-            boot: boot.to_s,
-            device_name: device_name.to_s,
-            disk_encryption_key: disk_encryption_key.to_s,
-            index: index.to_s,
-            source: source.to_s,
-            initialize_params: initialize_params.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            auto_delete: auto_delete,
+            boot: boot,
+            device_name: device_name,
+            disk_encryption_key: disk_encryption_key,
+            index: index,
+            source: source,
+            initialize_params: initialize_params
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

@@ -46,9 +46,9 @@ module Google
 
         def to_s
           {
-            fingerprint: fingerprint.to_s,
-            items: items.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            fingerprint: fingerprint,
+            items: items
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

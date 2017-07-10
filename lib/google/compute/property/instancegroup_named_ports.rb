@@ -47,9 +47,9 @@ module Google
 
         def to_s
           {
-            name: name.to_s,
-            port: port.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            name: name,
+            port: port
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

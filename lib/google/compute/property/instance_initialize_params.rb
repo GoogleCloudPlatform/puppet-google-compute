@@ -50,11 +50,11 @@ module Google
 
         def to_s
           {
-            disk_name: disk_name.to_s,
-            disk_size_gb: disk_size_gb.to_s,
-            disk_type: disk_type.to_s,
-            source_image: source_image.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            disk_name: disk_name,
+            disk_size_gb: disk_size_gb,
+            disk_type: disk_type,
+            source_image: source_image
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

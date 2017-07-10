@@ -47,9 +47,9 @@ module Google
 
         def to_s
           {
-            accelerator_count: accelerator_count.to_s,
-            accelerator_type: accelerator_type.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            accelerator_count: accelerator_count,
+            accelerator_type: accelerator_type
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

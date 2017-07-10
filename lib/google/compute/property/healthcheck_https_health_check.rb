@@ -52,12 +52,12 @@ module Google
 
         def to_s
           {
-            host: host.to_s,
-            request_path: request_path.to_s,
-            port: port.to_s,
-            port_name: port_name.to_s,
-            proxy_header: proxy_header.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            host: host,
+            request_path: request_path,
+            port: port,
+            port_name: port_name,
+            proxy_header: proxy_header
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

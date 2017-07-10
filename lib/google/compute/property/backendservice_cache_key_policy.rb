@@ -52,12 +52,12 @@ module Google
 
         def to_s
           {
-            include_host: include_host.to_s,
-            include_protocol: include_protocol.to_s,
-            include_query_string: include_query_string.to_s,
-            query_string_blacklist: query_string_blacklist.to_s,
-            query_string_whitelist: query_string_whitelist.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            include_host: include_host,
+            include_protocol: include_protocol,
+            include_query_string: include_query_string,
+            query_string_blacklist: query_string_blacklist,
+            query_string_whitelist: query_string_whitelist
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

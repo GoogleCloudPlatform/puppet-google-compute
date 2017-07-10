@@ -44,8 +44,8 @@ module Google
 
         def to_s
           {
-            draining_timeout_sec: draining_timeout_sec.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            draining_timeout_sec: draining_timeout_sec
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

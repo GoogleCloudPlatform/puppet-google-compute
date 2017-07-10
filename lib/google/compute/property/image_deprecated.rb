@@ -52,12 +52,12 @@ module Google
 
         def to_s
           {
-            deleted: deleted.to_s,
-            deprecated: deprecated.to_s,
-            obsolete: obsolete.to_s,
-            replacement: replacement.to_s,
-            state: state.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            deleted: deleted,
+            deprecated: deprecated,
+            obsolete: obsolete,
+            replacement: replacement,
+            state: state
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

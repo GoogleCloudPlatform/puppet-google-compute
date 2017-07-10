@@ -51,11 +51,11 @@ module Google
 
         def to_s
           {
-            name: name.to_s,
-            network: network.to_s,
-            network_ip: network_ip.to_s,
-            subnetwork: subnetwork.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            name: name,
+            network: network,
+            network_ip: network_ip,
+            subnetwork: subnetwork
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

@@ -45,8 +45,8 @@ module Google
 
         def to_s
           {
-            type: type.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            type: type
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)

@@ -47,9 +47,9 @@ module Google
 
         def to_s
           {
-            email: email.to_s,
-            scopes: scopes.to_s
-          }.map { |k, v| "#{k}: #{v}" }.join(', ')
+            email: email,
+            scopes: scopes
+          }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)
