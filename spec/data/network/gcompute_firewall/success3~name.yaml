@@ -26,39 +26,38 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#firewall'
+kind: compute#firewall
+name: test name#2 data
 id: 6448502614
-name: 'test name#2 data'
-region: 'test region#2 data'
-description: 'test description#2 data'
-address: 'test address#2 data'
-creationTimestamp: '2196-03-05T12:24:32+00:00'
 allowed:
-  - ip_protocol: 'test ip_protocol#2 data'
-    ports:
-      - mm
-      - nn
-  - ip_protocol: 'test ip_protocol#3 data'
-    ports:
-      - ii
-      - jj
-  - ip_protocol: 'test ip_protocol#4 data'
-    ports:
-      - ff
-      - gg
-      - hh
-sourceRanges:
+- IPProtocol: test ip_protocol#2 data
+  ports:
+  - mm
   - nn
-  - oo
-  - pp
-sourceTags:
-  - qq
-  - rr
-  - ss
-  - tt
-targetTags:
+- IPProtocol: test ip_protocol#3 data
+  ports:
+  - ii
   - jj
-  - kk
-  - ll
-selfLink: 'https://www.googleapis.com/compute/v1/projects/test project#2 data/global/firewalls/test name#2 data'
-network: 'test network#2 data'
+- IPProtocol: test ip_protocol#4 data
+  ports:
+  - ff
+  - gg
+  - hh
+creationTimestamp: '2196-03-05T12:24:32+00:00'
+description: test description#2 data
+network: test network#2 data
+project: "'test project#2 data'"
+sourceRanges:
+- nn
+- oo
+- pp
+sourceTags:
+- qq
+- rr
+- ss
+- tt
+targetTags:
+- jj
+- kk
+- ll
+selfLink: selflink(resource(firewall,2))

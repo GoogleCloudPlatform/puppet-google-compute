@@ -301,6 +301,12 @@ puppet-codegen:
   * spec/data/network/gcompute_instance_group/success2~title.yaml
   * spec/data/network/gcompute_instance_group/success3~name.yaml
   * spec/data/network/gcompute_instance_group/success3~title.yaml
+  * spec/data/network/gcompute_license/success1~name.yaml
+  * spec/data/network/gcompute_license/success1~title.yaml
+  * spec/data/network/gcompute_license/success2~name.yaml
+  * spec/data/network/gcompute_license/success2~title.yaml
+  * spec/data/network/gcompute_license/success3~name.yaml
+  * spec/data/network/gcompute_license/success3~title.yaml
   * spec/data/network/gcompute_network/success1~name.yaml
   * spec/data/network/gcompute_network/success1~title.yaml
   * spec/data/network/gcompute_network/success2~name.yaml

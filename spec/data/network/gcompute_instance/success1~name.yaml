@@ -26,116 +26,123 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#instance'
+kind: compute#instance
+name: test name#0 data
+id: 2149500871
 canIpForward: true
-cpuPlatform: 'test cpu_platform#0 data'
-creationTimestamp: 'test creation_timestamp#0 data'
+cpuPlatform: test cpu_platform#0 data
+creationTimestamp: test creation_timestamp#0 data
 disks:
-  - autoDelete: true
-    boot: true
-    deviceName: 'test device_name#0 data'
-    diskEncryptionKey:
-      rawKey: 'test raw_key#0 data'
-      rsaEncryptedKey: 'test rsa_encrypted_key#0 data'
-      sha256: 'test sha256#0 data'
-    index: 1_443_881_260
-    source: 'resource(source,0)'
-    initializeParams:
-      diskName: 'test disk_name#0 data'
-      diskSizeGb: 450_092_159
-      diskType: 734_221_916
-      sourceImage: 992_867_23
-  - autoDelete: false
-    boot: false
-    deviceName: 'test device_name#1 data'
-    diskEncryptionKey:
-      rawKey: 'test raw_key#1 data'
-      rsaEncryptedKey: 'test rsa_encrypted_key#1 data'
-      sha256: 'test sha256#1 data'
-    index: 2_887_762_520
-    source: 'resource(source,1)'
-    initializeParams:
-      diskName: 'test disk_name#1 data'
-      diskSizeGb: 900_184_319
-      diskType: 1_468_443_832
-      sourceImage: 1_985_734_469
-  - autoDelete: true
-    boot: true
-    deviceName: 'test device_name#2 data'
-    diskEncryptionKey:
-        rawKey: 'test raw_key#2 data'
-        rsaEncryptedKey: 'test rsa_encrypted_key#2 data'
-        sha256: 'test sha256#2 data'
-    index: 4_331_643_780
-    source: 'resource(source,2)'
-  - autoDelete: false
-    boot: false
-    deviceName: 'test device_name#3 data'
-    diskEncryptionKey:
-      rawKey: 'test raw_key#3 data'
-      rsaEncryptedKey: 'test rsa_encrypted_key#3 data'
-      sha256: 'test sha256#3 data'
-    index: 5_775_525_040
-    source: 'resource(source,3)'
-    initializeParams:
-      diskName: 'test disk_name#3 data'
-      diskSizeGb: 1_800_368_639
-      diskType: 2_936_887_664
-      sourceImage: 3_971_468_938
+- autoDelete: true
+  boot: true
+  deviceName: test device_name#0 data
+  diskEncryptionKey:
+    rawKey: test raw_key#0 data
+    rsaEncryptedKey: test rsa_encrypted_key#0 data
+    sha256: test sha256#0 data
+  index: 1443881260
+  source: selflink(resource(disk,0))
+  initializeParams:
+    diskName: test disk_name#0 data
+    diskSizeGb: 450092159
+    diskType: 734221916
+    sourceImage: 992867234
+- autoDelete: false
+  boot: false
+  deviceName: test device_name#1 data
+  diskEncryptionKey:
+    rawKey: test raw_key#1 data
+    rsaEncryptedKey: test rsa_encrypted_key#1 data
+    sha256: test sha256#1 data
+  index: 2887762520
+  source: selflink(resource(disk,1))
+  initializeParams:
+    diskName: test disk_name#1 data
+    diskSizeGb: 900184319
+    diskType: 1468443832
+    sourceImage: 1985734469
+- autoDelete: true
+  boot: true
+  deviceName: test device_name#2 data
+  diskEncryptionKey:
+    rawKey: test raw_key#2 data
+    rsaEncryptedKey: test rsa_encrypted_key#2 data
+    sha256: test sha256#2 data
+  index: 4331643780
+  source: selflink(resource(disk,2))
+  initializeParams:
+    diskName: test disk_name#2 data
+    diskSizeGb: 1350276479
+    diskType: 2202665748
+    sourceImage: 2978601703
+- autoDelete: false
+  boot: false
+  deviceName: test device_name#3 data
+  diskEncryptionKey:
+    rawKey: test raw_key#3 data
+    rsaEncryptedKey: test rsa_encrypted_key#3 data
+    sha256: test sha256#3 data
+  index: 5775525040
+  source: selflink(resource(disk,0))
+  initializeParams:
+    diskName: test disk_name#3 data
+    diskSizeGb: 1800368639
+    diskType: 2936887664
+    sourceImage: 3971468938
 guestAccelerators:
-  - acceleratorCount: 2_697_554_557
-    acceleratorType: 'test accelerator_type#0 data'
-  - acceleratorCount: 5_395_109_114
-    acceleratorType: 'test accelerator_type#1 data'
-  - acceleratorCount: 8_092_663_672
-    acceleratorType: 'test accelerator_type#2 data'
-  - acceleratorCount: 10_790_218_229
-    acceleratorType: 'test accelerator_type#3 data'
-id: 2_149_500_871
-labelFingerprint: 'test label_fingerprint#0 data'
-machineType: 'test machine_type#0 data'
-minCpuPlatform: 'test min_cpu_platform#0 data'
-name: 'test name#0 data'
+- acceleratorCount: 2697554557
+  acceleratorType: test accelerator_type#0 data
+- acceleratorCount: 5395109114
+  acceleratorType: test accelerator_type#1 data
+- acceleratorCount: 8092663672
+  acceleratorType: test accelerator_type#2 data
+- acceleratorCount: 10790218229
+  acceleratorType: test accelerator_type#3 data
+labelFingerprint: test label_fingerprint#0 data
+machineType: test machine_type#0 data
+minCpuPlatform: test min_cpu_platform#0 data
 networkInterfaces:
-  - name: 'test name#0 data'
-    network: 'resource(network,0)'
-    networkIP: 'test network_ip#0 data'
-    subnetwork: 'test subnetwork#0 data'
-  - name: 'test name#1 data'
-    network: 'resource(network,1)'
-    networkIP: 'test network_ip#1 data'
-    subnetwork: 'test subnetwork#1 data'
+- name: test name#0 data
+  network: selflink(resource(network,0))
+  networkIP: test network_ip#0 data
+  subnetwork: test subnetwork#0 data
+- name: test name#1 data
+  network: selflink(resource(network,1))
+  networkIP: test network_ip#1 data
+  subnetwork: test subnetwork#1 data
+project: "'test project#0 data'"
 scheduling:
   automaticRestart: true
-  onHostMaintenance: 'test on_host_maintenance#0 data'
+  onHostMaintenance: test on_host_maintenance#0 data
   preemptible: true
 serviceAccounts:
-  - email: true
-    scopes:
-    - rr
-    - ss
-    - tt
-    - uu
-    - vv
-  - email: false
-    scopes:
-      - ll
-      - mm
-      - nn
-      - oo
-      - pp
-  - email: true
-    scopes:
-      - ee
-      - ff
-      - gg
-      - hh
-status: 'test status#0 data'
-statusMessage: 'test status_message#0 data'
+- email: true
+  scopes:
+  - rr
+  - ss
+  - tt
+  - uu
+  - vv
+- email: false
+  scopes:
+  - ll
+  - mm
+  - nn
+  - oo
+  - pp
+- email: true
+  scopes:
+  - ee
+  - ff
+  - gg
+  - hh
+status: test status#0 data
+statusMessage: test status_message#0 data
 tags:
-  fingerprint: 'test fingerprint#0 data'
+  fingerprint: test fingerprint#0 data
   items:
-    - hh
-    - ii
-    - jj
-zone: 'test zone#0 data'
+  - hh
+  - ii
+  - jj
+zone: test zone#0 data
+selfLink: selflink(resource(instance,0))

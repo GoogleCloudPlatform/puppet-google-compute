@@ -26,39 +26,39 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#image'
+kind: compute#image
+name: title1
+id: 4299001743
 archiveSizeBytes: 4485652393
 creationTimestamp: '2120-10-14T00:16:21+00:00'
 deprecated:
-  deleted: 'test deleted#1 data'
-  deprecated: 'test deprecated#1 data'
-  obsolete: 'test obsolete#1 data'
-  replacement: 'test replacement#1 data'
-  state: 'OBSOLETE'
-description: 'test description#1 data'
+  deleted: '2137-07-31T19:03:40+00:00'
+  deprecated: '2151-02-27T04:41:13+00:00'
+  obsolete: '2094-12-29T01:29:01+00:00'
+  replacement: test replacement#1 data
+  state: OBSOLETE
+description: test description#1 data
 diskSizeGb: 900184319
-family: 'test family#1 data'
+family: test family#1 data
 guestOsFeatures:
-  - type: 'test type#1 data'
-  - type: 'test type#2 data'
-  - type: 'test type#3 data'
-id: 4299001743
-image: 'test image#1 data'
+- type: VIRTIO_SCSI_MULTIQUEUE
+- type: VIRTIO_SCSI_MULTIQUEUE
+- type: VIRTIO_SCSI_MULTIQUEUE
 imageEncryptionKey:
-  rawKey: 'test raw_key#1 data'
-  sha256: 'test sha256#1 data'
+  rawKey: test raw_key#1 data
+  sha256: test sha256#1 data
 licenses:
-  - 'uu'
-  - 'vv'
-name: 'title1'
+- uu
+- vv
+project: "'test project#1 data'"
 rawDisk:
-  containerType: 'test container_type#1 data'
-  sha1Checksum: 'test sha1_checksum#1 data'
-  source: 'test source#1 data'
-source: 'test source#1 data'
+  containerType: TAR
+  sha1Checksum: test sha1_checksum#1 data
+  source: test source#1 data
+sourceDisk: selflink(resource(disk,1))
 sourceDiskEncryptionKey:
-  rawKey: 'test raw_key#1 data'
-  sha256: 'test sha256#1 data'
-sourceDiskId: 'test source_disk_id#1 data'
-sourceType: 'RAW'
-status: 'PENDING'
+  rawKey: test raw_key#1 data
+  sha256: test sha256#1 data
+sourceDiskId: test source_disk_id#1 data
+sourceType: RAW
+selfLink: selflink(resource(image,1))

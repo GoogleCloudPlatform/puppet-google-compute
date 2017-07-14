@@ -26,14 +26,15 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#subnetwork'
-creationTimestamp: '2120-10-14T00:16:21+00:00'
-description: 'test description#1 data'
-gatewayAddress: 'test gateway_address#1 data'
+kind: compute#subnetwork
+name: title1
 id: 4299001743
-ipCidrRange: 'test ip_cidr_range#1 data'
-name: 'title1'
-network: 'selflink(resource(network,1))'
+creationTimestamp: '2120-10-14T00:16:21+00:00'
+description: test description#1 data
+gatewayAddress: test gateway_address#1 data
+ipCidrRange: test ip_cidr_range#1 data
+network: selflink(resource(network,1))
 privateIpGoogleAccess: false
-region: 'test name#1 data'
-selfLink: 'selflink(resource(subnetwork,1))'
+project: "'test project#1 data'"
+region: test name#1 data
+selfLink: selflink(resource(subnetwork,1))

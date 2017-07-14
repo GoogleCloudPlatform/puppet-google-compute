@@ -26,15 +26,17 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#httpsHealthCheck'
+kind: compute#httpsHealthCheck
+name: test name#1 data
 id: 4299001743
-name: 'test name#1 data'
 checkIntervalSec: 484080649
 creationTimestamp: '2120-10-14T00:16:21+00:00'
-description: 'test description#1 data'
+description: test description#1 data
 healthyThreshold: 591406512
-host: 'test host#1 data'
+host: test host#1 data
 port: 1519024273
-requestPath: 'test request_path#1 data'
+project: "'test project#1 data'"
+requestPath: test request_path#1 data
 timeoutSec: 5408063442
 unhealthyThreshold: 3209026038
+selfLink: selflink(resource(https_health_check,1))

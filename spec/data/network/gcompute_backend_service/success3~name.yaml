@@ -26,7 +26,57 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#backendService'
-creationTimestamp: '2196-03-05T12:24:32+00:00'
-enableCDN: true
+kind: compute#backendService
+name: test name#2 data
 id: 6448502614
+affinityCookieTtlSec: 4838198497
+backends:
+- balancingMode: CONNECTION
+  capacityScaler: '79867290.98'
+  description: test description#2 data
+  group: selflink(resource(instance_group,2))
+  maxConnections: 2472613258
+  maxConnectionsPerInstance: 8249457907
+  maxRate: 1201062638
+  maxRatePerInstance: '51760597.51'
+  maxUtilization: '32880640.39'
+- balancingMode: UTILIZATION
+  capacityScaler: '106489721.31'
+  description: test description#3 data
+  group: selflink(resource(instance_group,0))
+  maxConnections: 3296817678
+  maxConnectionsPerInstance: 10999277209
+  maxRate: 1601416850
+  maxRatePerInstance: '69014130.1'
+  maxUtilization: '43840853.86'
+cdnPolicy:
+  cacheKeyPolicy:
+    includeHost: true
+    includeProtocol: true
+    includeQueryString: true
+    queryStringBlacklist:
+    - xx
+    - yy
+    - zz
+    queryStringWhitelist:
+    - oo
+    - pp
+    - qq
+    - rr
+connectionDraining:
+  drainingTimeoutSec: 6015319313
+creationTimestamp: '2196-03-05T12:24:32+00:00'
+description: test description#2 data
+enableCDN: true
+healthChecks:
+- ee
+- ff
+- gg
+- hh
+portName: test port_name#2 data
+project: "'test project#2 data'"
+protocol: TCP
+region: selflink(resource(region,2))
+sessionAffinity: GENERATED_COOKIE
+timeoutSec: 8112095164
+selfLink: selflink(resource(backend_service,2))

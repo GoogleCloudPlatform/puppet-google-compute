@@ -26,18 +26,19 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#diskType'
+kind: compute#diskType
+name: title0
+id: 2149500871
 creationTimestamp: '2045-05-23T12:08:10+00:00'
-defaultDiskSizeGb: '2109438101'
+defaultDiskSizeGb: 2109438101
 deprecated:
   deleted: '2023-11-07T16:45:28+00:00'
   deprecated: '2054-11-19T12:29:05+00:00'
   obsolete: '2008-04-08T00:34:16+00:00'
-  replacement: 'test deprecated_replacement#0 data'
-  state: 'DEPRECATED'
-description: 'test description#0 data'
-id: 2149500871
-name: 'title0'
-project: 'test project#0 data'
-validDiskSize: 'test valid_disk_size#0 data'
-zone: 'test zone#0 data'
+  replacement: test deprecated_replacement#0 data
+  state: DEPRECATED
+description: test description#0 data
+project: "'test project#0 data'"
+validDiskSize: test valid_disk_size#0 data
+zone: test zone#0 data
+selfLink: selflink(resource(disk_type,0))

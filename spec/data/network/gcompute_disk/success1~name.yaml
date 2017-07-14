@@ -26,25 +26,36 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#disk'
+kind: compute#disk
+name: test name#0 data
 id: 2149500871
-name: 'test name#0 data'
-description: 'test description#0 data'
+creationTimestamp: '2045-05-23T12:08:10+00:00'
+description: test description#0 data
+diskEncryptionKey:
+  rawKey: test raw_key#0 data
+  sha256: test sha256#0 data
 lastAttachTimestamp: '2052-04-11T10:26:47+00:00'
 lastDetachTimestamp: '1986-08-30T10:54:51+00:00'
 licenses:
-  - ww
-  - xx
-selfLink: 'selflink(resource(disk,0))'
+- ww
+- xx
+project: "'test project#0 data'"
 sizeGb: 2858499398
-sourceImage: 'test source_image#0 data'
-sourceImageId: 'test source_image_id#0 data'
-sourceSnapshot: 'test source_snapshot#0 data'
-sourceSnapshotId: 'test source_snapshot_id#0 data'
-type: 'test type#0 data'
+sourceImage: test source_image#0 data
+sourceImageEncryptionKey:
+  rawKey: test raw_key#0 data
+  sha256: test sha256#0 data
+sourceImageId: test source_image_id#0 data
+sourceSnapshot: test source_snapshot#0 data
+sourceSnapshotEncryptionKey:
+  rawKey: test raw_key#0 data
+  sha256: test sha256#0 data
+sourceSnapshotId: test source_snapshot_id#0 data
+type: test type#0 data
 users:
-  - ww
-  - xx
-  - yy
-  - zz
-creationTimestamp: '2045-05-23T12:08:10+00:00'
+- ww
+- xx
+- yy
+- zz
+zone: test zone#0 data
+selfLink: selflink(resource(disk,0))

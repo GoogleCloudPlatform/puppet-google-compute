@@ -134,7 +134,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_connections              => 824204419,
                       max_connections_per_instance => 2749819302,
                       max_rate                     => 400354212,
-                      max_rate_per_instance        => 17253532.5,
+                      max_rate_per_instance        => 17253532.50,
                       max_utilization              => 10960213.46,
                     },
                     {
@@ -247,7 +247,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_connections              => 3296817678,
                       max_connections_per_instance => 10999277209,
                       max_rate                     => 1601416850,
-                      max_rate_per_instance        => 69014130.01,
+                      max_rate_per_instance        => 69014130.1,
                       max_utilization              => 43840853.86,
                     },
                   ],
@@ -531,7 +531,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_connections              => 824204419,
                       max_connections_per_instance => 2749819302,
                       max_rate                     => 400354212,
-                      max_rate_per_instance        => 17253532.5,
+                      max_rate_per_instance        => 17253532.50,
                       max_utilization              => 10960213.46,
                     },
                     {
@@ -646,7 +646,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_connections              => 3296817678,
                       max_connections_per_instance => 10999277209,
                       max_rate                     => 1601416850,
-                      max_rate_per_instance        => 69014130.01,
+                      max_rate_per_instance        => 69014130.1,
                       max_utilization              => 43840853.86,
                     },
                   ],
@@ -991,7 +991,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                     max_connections              => 824204419,
                     max_connections_per_instance => 2749819302,
                     max_rate                     => 400354212,
-                    max_rate_per_instance        => 17253532.5,
+                    max_rate_per_instance        => 17253532.50,
                     max_utilization              => 10960213.46,
                   },
                   {
@@ -1154,7 +1154,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                     max_connections              => 824204419,
                     max_connections_per_instance => 2749819302,
                     max_rate                     => 400354212,
-                    max_rate_per_instance        => 17253532.5,
+                    max_rate_per_instance        => 17253532.50,
                     max_utilization              => 10960213.46,
                   },
                   {

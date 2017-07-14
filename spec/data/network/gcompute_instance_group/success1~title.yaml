@@ -26,7 +26,25 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#instanceGroup'
+kind: compute#instanceGroup
+name: title0
+namedPorts:
+- name: test name#0 data
+  port: 759512136
+- name: test name#1 data
+  port: 1519024273
+- name: test name#2 data
+  port: 2278536410
+- name: test name#3 data
+  port: 3038048546
+- name: test name#4 data
+  port: 3797560683
 id: 2149500871
 creationTimestamp: '2045-05-23T12:08:10+00:00'
-selfLink: selfLink(resource(instance_group,0))
+description: test description#0 data
+network: selflink(resource(network,0))
+project: "'test project#0 data'"
+region: selflink(resource(region,0))
+subnetwork: selflink(resource(subnetwork,0))
+zone: test zone#0 data
+selfLink: selflink(resource(instance_group,0))

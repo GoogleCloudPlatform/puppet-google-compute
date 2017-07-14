@@ -26,41 +26,41 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#image'
+kind: compute#image
+name: test name#2 data
+id: 6448502614
 archiveSizeBytes: 6728478589
 creationTimestamp: '2196-03-05T12:24:32+00:00'
 deprecated:
-  deleted: 'test deleted#2 data'
-  deprecated: 'test deprecated#2 data'
-  obsolete: 'test obsolete#2 data'
-  replacement: 'test replacement#2 data'
-  state: 'DEPRECATED'
-description: 'test description#2 data'
+  deleted: '2221-05-16T16:35:30+00:00'
+  deprecated: '2241-09-26T07:01:50+00:00'
+  obsolete: '2157-06-28T14:13:32+00:00'
+  replacement: test replacement#2 data
+  state: DELETED
+description: test description#2 data
 diskSizeGb: 1350276479
-family: 'test family#2 data'
+family: test family#2 data
 guestOsFeatures:
-  - type: 'test type#2 data'
-  - type: 'test type#3 data'
-  - type: 'test type#4 data'
-  - type: 'test type#5 data'
-id: 6448502614
-image: 'test image#2 data'
+- type: VIRTIO_SCSI_MULTIQUEUE
+- type: VIRTIO_SCSI_MULTIQUEUE
+- type: VIRTIO_SCSI_MULTIQUEUE
+- type: VIRTIO_SCSI_MULTIQUEUE
 imageEncryptionKey:
-  rawKey: 'test raw_key#2 data'
-  sha256: 'test sha256#2 data'
+  rawKey: test raw_key#2 data
+  sha256: test sha256#2 data
 licenses:
-  - 'tt'
-  - 'uu'
-  - 'vv'
-name: 'test name#2 data'
+- tt
+- uu
+- vv
+project: "'test project#2 data'"
 rawDisk:
-  containerType: 'test container_type#2 data'
-  sha1Checksum: 'test sha1_checksum#2 data'
-  source: 'test source#2 data'
-source: 'test source#2 data'
+  containerType: TAR
+  sha1Checksum: test sha1_checksum#2 data
+  source: test source#2 data
+sourceDisk: selflink(resource(disk,2))
 sourceDiskEncryptionKey:
-  rawKey: 'test raw_key#2 data'
-  sha256: 'test sha256#2 data'
-sourceDiskId: 'test source_disk_id#2 data'
-sourceType: 'RAW'
-status: 'READY'
+  rawKey: test raw_key#2 data
+  sha256: test sha256#2 data
+sourceDiskId: test source_disk_id#2 data
+sourceType: RAW
+selfLink: selflink(resource(image,2))

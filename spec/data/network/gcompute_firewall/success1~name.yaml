@@ -26,41 +26,42 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#firewall'
+kind: compute#firewall
+name: test name#0 data
 id: 2149500871
-name: 'test name#0 data'
-description: 'test description#0 data'
-creationTimestamp: '2045-05-23T12:08:10+00:00'
 allowed:
-  - ip_protocol: 'test ip_protocol#0 data'
-    ports:
-      - uu
-      - vv
-  - ip_protocol: 'test ip_protocol#1 data'
-    ports:
-      - qq
-      - rr
-  - ip_protocol: 'test ip_protocol#2 data'
-    ports:
-      - mm
-      - nn
-sourceRanges:
-  - dd
-  - ee
-  - ff
-  - gg
-  - hh
-sourceTags:
-  - vv
-  - ww
-  - xx
-  - yy
-  - zz
-targetTags:
-  - tt
+- IPProtocol: test ip_protocol#0 data
+  ports:
   - uu
   - vv
-  - ww
-  - xx
-selfLink: 'https://www.googleapis.com/compute/v1/projects/test project#0 data/global/firewalls/test name#0 data'
-network: 'test network#0 data'
+- IPProtocol: test ip_protocol#1 data
+  ports:
+  - qq
+  - rr
+- IPProtocol: test ip_protocol#2 data
+  ports:
+  - mm
+  - nn
+creationTimestamp: '2045-05-23T12:08:10+00:00'
+description: test description#0 data
+network: test network#0 data
+project: "'test project#0 data'"
+sourceRanges:
+- dd
+- ee
+- ff
+- gg
+- hh
+sourceTags:
+- vv
+- ww
+- xx
+- yy
+- zz
+targetTags:
+- tt
+- uu
+- vv
+- ww
+- xx
+selfLink: selflink(resource(firewall,0))

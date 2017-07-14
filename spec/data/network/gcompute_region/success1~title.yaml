@@ -26,19 +26,19 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#region'
+kind: compute#region
+name: title0
+id: 2149500871
 creationTimestamp: '2045-05-23T12:08:10+00:00'
 deprecated:
   deleted: '2023-11-07T16:45:28+00:00'
   deprecated: '2054-11-19T12:29:05+00:00'
   obsolete: '2008-04-08T00:34:16+00:00'
-  replacement: 'test deprecated_replacement#0 data'
-  state: 'DEPRECATED'
-description: 'test description#0 data'
-id: 2149500871
-name: 'title0'
-project: 'test project#0 data'
+  replacement: test deprecated_replacement#0 data
+  state: DEPRECATED
+description: test description#0 data
+project: "'test project#0 data'"
 zones:
-  - uu
-  - vv
-selfLink: 'selflink(resource(region,0))'
+- uu
+- vv
+selfLink: selflink(resource(region,0))

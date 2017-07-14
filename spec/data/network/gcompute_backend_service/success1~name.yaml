@@ -26,31 +26,29 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#backendService'
-creationTimestamp: '2045-05-23T12:08:10+00:00'
-enableCDN: true
+kind: compute#backendService
+name: test name#0 data
 id: 2149500871
 affinityCookieTtlSec: 1612732832
 backends:
 - balancingMode: UTILIZATION
-  #capacityScaler: 2662243032.88
-  capacityScaler: 8888888888.88
+  capacityScaler: '26622430.32'
   description: test description#0 data
   group: selflink(resource(instance_group,0))
   maxConnections: 824204419
   maxConnectionsPerInstance: 2749819302
   maxRate: 400354212
-  maxRatePerInstance: 1725353250.3500001
-  maxUtilization: 1096021346.52
+  maxRatePerInstance: '17253532.50'
+  maxUtilization: '10960213.46'
 - balancingMode: RATE
-  capacityScaler: 5324486065.76
+  capacityScaler: '53244860.65'
   description: test description#1 data
   group: selflink(resource(instance_group,1))
   maxConnections: 1648408839
   maxConnectionsPerInstance: 5499638604
   maxRate: 800708425
-  maxRatePerInstance: 3450706500.7000003
-  maxUtilization: 2192042693.04
+  maxRatePerInstance: '34507065.0'
+  maxUtilization: '21920426.93'
 cdnPolicy:
   cacheKeyPolicy:
     includeHost: true
@@ -70,6 +68,7 @@ cdnPolicy:
     - hh
 connectionDraining:
   drainingTimeoutSec: 2005106437
+creationTimestamp: '2045-05-23T12:08:10+00:00'
 description: test description#0 data
 enableCDN: true
 healthChecks:
@@ -78,9 +77,10 @@ healthChecks:
 - tt
 - uu
 - vv
-name: test name#0 data
 portName: test port_name#0 data
+project: "'test project#0 data'"
 protocol: HTTP
 region: selflink(resource(region,0))
 sessionAffinity: NONE
 timeoutSec: 2704031721
+selfLink: selflink(resource(backend_service,0))

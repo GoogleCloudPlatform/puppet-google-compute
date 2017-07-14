@@ -26,15 +26,39 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#healthCheck'
+kind: compute#healthCheck
+name: test name#1 data
 id: 4299001743
-name: 'test name#1 data'
 checkIntervalSec: 484080649
 creationTimestamp: '2120-10-14T00:16:21+00:00'
-description: 'test description#1 data'
+description: test description#1 data
 healthyThreshold: 591406512
-host: 'test host#1 data'
-port: 1519024273
-requestPath: 'test request_path#1 data'
+httpHealthCheck:
+  host: test host#1 data
+  requestPath: test request_path#1 data
+  port: 1519024273
+  portName: test port_name#1 data
+  proxyHeader: PROXY_V1
+httpsHealthCheck:
+  host: test host#1 data
+  requestPath: test request_path#1 data
+  port: 1519024273
+  portName: test port_name#1 data
+  proxyHeader: PROXY_V1
+project: "'test project#1 data'"
+sslHealthCheck:
+  request: test request#1 data
+  response: test response#1 data
+  port: 1519024273
+  portName: test port_name#1 data
+  proxyHeader: PROXY_V1
+tcpHealthCheck:
+  request: test request#1 data
+  response: test response#1 data
+  port: 1519024273
+  portName: test port_name#1 data
+  proxyHeader: PROXY_V1
 timeoutSec: 5408063442
+type: SSL
 unhealthyThreshold: 3209026038
+selfLink: selflink(resource(health_check,1))

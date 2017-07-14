@@ -26,10 +26,12 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#backendBucket'
-bucketName: 'test bucket_name#0 data'
-description: 'test description#0 data'
-enableCdn: true
+kind: compute#backendBucket
+name: test name#0 data
 id: 2149500871
-name: 'test name#0 data'
+bucketName: test bucket_name#0 data
 creationTimestamp: '2045-05-23T12:08:10+00:00'
+description: test description#0 data
+enableCdn: true
+project: "'test project#0 data'"
+selfLink: selflink(resource(backend_bucket,0))

@@ -26,10 +26,12 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#address'
+kind: compute#address
+name: test name#0 data
 id: 2149500871
-name: 'test name#0 data'
-region: 'test region#0 data'
-description: 'test description#0 data'
-address: 'test address#0 data'
+address: test address#0 data
 creationTimestamp: '2045-05-23T12:08:10+00:00'
+description: test description#0 data
+project: "'test project#0 data'"
+region: test region#0 data
+selfLink: selflink(resource(global_address,0))

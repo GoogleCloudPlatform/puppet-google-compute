@@ -26,14 +26,15 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#address'
-address: 'test address#1 data'
-creationTimestamp: '2120-10-14T00:16:21+00:00'
-description: 'test description#1 data'
+kind: compute#address
+name: test name#1 data
 id: 4299001743
-name: 'test name#1 data'
-project: 'test project#1 data'
+address: test address#1 data
+creationTimestamp: '2120-10-14T00:16:21+00:00'
+description: test description#1 data
+project: "'test project#1 data'"
+region: test name#1 data
 users:
-  - uu
-  - vv
-region: 'test region#1 data'
+- uu
+- vv
+selfLink: selflink(resource(address,1))

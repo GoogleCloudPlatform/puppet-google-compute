@@ -26,17 +26,17 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#route'
-name: 'test name#2 data'
-destRange: 'test dest_range#2 data'
-network: 'resource(network,2)'
-priority: 1108918677
+kind: compute#route
+name: test name#2 data
+destRange: test dest_range#2 data
+network: selflink(resource(network,2))
+nextHopGateway: test next_hop_gateway#2 data
+nextHopInstance: test next_hop_instance#2 data
+nextHopIp: test next_hop_ip#2 data
+nextHopVpnTunnel: test next_hop_vpn_tunnel#2 data
+priority: 3326756031
+project: "'test project#2 data'"
 tags:
- - mm
- - nn
- - oo
- - pp
-nextHopGateway: 'test next_hop_gateway#2 data'
-nextHopInstance: 'test next_hop_instance#2 data'
-nextHopIp: 'test next_hop_ip#2 data'
-nextHopVpnTunnel: 'test next_hop_vpn_tunnel#2 data'
+- qq
+- rr
+selfLink: selflink(resource(route,2))

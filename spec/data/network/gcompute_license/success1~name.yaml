@@ -26,42 +26,8 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: compute#firewall
-name: title0
-id: 2149500871
-allowed:
-- IPProtocol: test ip_protocol#0 data
-  ports:
-  - uu
-  - vv
-- IPProtocol: test ip_protocol#1 data
-  ports:
-  - qq
-  - rr
-- IPProtocol: test ip_protocol#2 data
-  ports:
-  - mm
-  - nn
-creationTimestamp: '2045-05-23T12:08:10+00:00'
-description: test description#0 data
-network: test network#0 data
+kind: compute#license
+name: test name#0 data
+chargesUseFee: true
 project: "'test project#0 data'"
-sourceRanges:
-- dd
-- ee
-- ff
-- gg
-- hh
-sourceTags:
-- vv
-- ww
-- xx
-- yy
-- zz
-targetTags:
-- tt
-- uu
-- vv
-- ww
-- xx
-selfLink: selflink(resource(firewall,0))
+selfLink: selflink(resource(license,0))

@@ -26,15 +26,16 @@
 # ----------------------------------------------------------------------------
 
 ---
+IPv4Range: test ipv4_range#2 data
 kind: compute#network
+name: title2
 id: 6448502614
-creationTimestamp: '2196-03-05T12:24:32+00:00'
-name: 'title2'
-description: 'test description#2 data'
-IPv4Range: 'test ipv4_range#2 data'
-gatewayIPv4: 'test gateway_ipv4#2 data'
-selfLink: selflink(resource(network,2))
 autoCreateSubnetworks: true
+creationTimestamp: '2196-03-05T12:24:32+00:00'
+description: test description#2 data
+gatewayIPv4: test gateway_ipv4#2 data
+project: "'test project#2 data'"
 subnetworks:
-  - mm
-  - nn
+- mm
+- nn
+selfLink: selflink(resource(network,2))

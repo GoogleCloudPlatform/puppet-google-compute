@@ -26,97 +26,99 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#instance'
+kind: compute#instance
+name: test name#2 data
+id: 6448502614
 canIpForward: true
-cpuPlatform: 'test cpu_platform#2 data'
-creationTimestamp: 'test creation_timestamp#2 data'
+cpuPlatform: test cpu_platform#2 data
+creationTimestamp: test creation_timestamp#2 data
 disks:
-  - autoDelete: true
-    boot: true
-    deviceName: 'test device_name#2 data'
-    diskEncryptionKey:
-      rawKey: 'test raw_key#2 data'
-      rsaEncryptedKey: 'test rsa_encrypted_key#2 data'
-      sha256: 'test sha256#2 data'
-    index: 4331643780
-    source: 'resource(source,2)'
-    initializeParams:
-      diskName: 'test disk_name#2 data'
-      diskSizeGb: 1350276479
-      diskType: 2202665748
-      sourceImage: 2978601703
-  - autoDelete: false
-    boot: false
-    deviceName: 'test device_name#3 data'
-    diskEncryptionKey:
-      rawKey: 'test raw_key#3 data'
-      rsaEncryptedKey: 'test rsa_encrypted_key#3 data'
-      sha256: 'test sha256#3 data'
-    index: 5775525040
-    source: 'resource(source,3)'
-    initializeParams:
-      diskName: 'test disk_name#3 data'
-      diskSizeGb: 1800368639
-      diskType: 2936887664
-      sourceImage: 3971468938
+- autoDelete: true
+  boot: true
+  deviceName: test device_name#2 data
+  diskEncryptionKey:
+    rawKey: test raw_key#2 data
+    rsaEncryptedKey: test rsa_encrypted_key#2 data
+    sha256: test sha256#2 data
+  index: 4331643780
+  source: selflink(resource(disk,2))
+  initializeParams:
+    diskName: test disk_name#2 data
+    diskSizeGb: 1350276479
+    diskType: 2202665748
+    sourceImage: 2978601703
+- autoDelete: false
+  boot: false
+  deviceName: test device_name#3 data
+  diskEncryptionKey:
+    rawKey: test raw_key#3 data
+    rsaEncryptedKey: test rsa_encrypted_key#3 data
+    sha256: test sha256#3 data
+  index: 5775525040
+  source: selflink(resource(disk,0))
+  initializeParams:
+    diskName: test disk_name#3 data
+    diskSizeGb: 1800368639
+    diskType: 2936887664
+    sourceImage: 3971468938
 guestAccelerators:
-  - acceleratorCount: 8092663672
-    acceleratorType: 'test accelerator_type#2 data'
-  - acceleratorCount: 10790218229
-    acceleratorType: 'test accelerator_type#3 data'
-  - acceleratorCount: 13487772787
-    acceleratorType: 'test accelerator_type#4 data'
-  - acceleratorCount: 16185327344
-    acceleratorType: 'test accelerator_type#5 data'
-id: 6_448_502_614
-labelFingerprint: 'test label_fingerprint#2 data'
-machineType: 'test machine_type#2 data'
-minCpuPlatform: 'test min_cpu_platform#2 data'
-name: 'test name#2 data'
+- acceleratorCount: 8092663672
+  acceleratorType: test accelerator_type#2 data
+- acceleratorCount: 10790218229
+  acceleratorType: test accelerator_type#3 data
+- acceleratorCount: 13487772787
+  acceleratorType: test accelerator_type#4 data
+- acceleratorCount: 16185327344
+  acceleratorType: test accelerator_type#5 data
+labelFingerprint: test label_fingerprint#2 data
+machineType: test machine_type#2 data
+minCpuPlatform: test min_cpu_platform#2 data
 networkInterfaces:
-  - name: 'test name#2 data'
-    network: 'resource(network,2)'
-    networkIp: 'test network_ip#2 data'
-    subnetwork: 'test subnetwork#2 data'
-  - name: 'test name#3 data'
-    network: 'resource(network,3)'
-    networkIp: 'test network_ip#3 data'
-    subnetwork: 'test subnetwork#3 data'
-  - name: 'test name#4 data'
-    network: 'resource(network,4)'
-    networkIp: 'test network_ip#4 data'
-    subnetwork: 'test subnetwork#4 data'
-  - name: 'test name#5 data'
-    network: 'resource(network,5)'
-    networkIp: 'test network_ip#5 data'
-    subnetwork: 'test subnetwork#5 data'
+- name: test name#2 data
+  network: selflink(resource(network,2))
+  networkIP: test network_ip#2 data
+  subnetwork: test subnetwork#2 data
+- name: test name#3 data
+  network: selflink(resource(network,0))
+  networkIP: test network_ip#3 data
+  subnetwork: test subnetwork#3 data
+- name: test name#4 data
+  network: selflink(resource(network,1))
+  networkIP: test network_ip#4 data
+  subnetwork: test subnetwork#4 data
+- name: test name#5 data
+  network: selflink(resource(network,2))
+  networkIP: test network_ip#5 data
+  subnetwork: test subnetwork#5 data
+project: "'test project#2 data'"
 scheduling:
   automaticRestart: true
-  onHostMaintenance: 'test on_host_maintenance#2 data'
+  onHostMaintenance: test on_host_maintenance#2 data
   preemptible: true
 serviceAccounts:
-  - email: true
-    scopes:
-      - 'ee'
-      - 'ff'
-      - 'gg'
-      - 'hh'
-  - email: false
-    scopes:
-      - 'ww'
-      - 'xx'
-      - 'yy'
-      - 'zz'
-  - email: true
-    scopes:
-      - 'rr'
-      - 'ss'
-      - 'tt'
-status: 'test status#2 data'
-statusMessage: 'test status_message#2 data'
+- email: true
+  scopes:
+  - ee
+  - ff
+  - gg
+  - hh
+- email: false
+  scopes:
+  - ww
+  - xx
+  - yy
+  - zz
+- email: true
+  scopes:
+  - rr
+  - ss
+  - tt
+status: test status#2 data
+statusMessage: test status_message#2 data
 tags:
-  fingerprint: 'test fingerprint#2 data'
+  fingerprint: test fingerprint#2 data
   items:
-    - 'yy'
-    - 'zz'
-zone: 'test zone#2 data'
+  - yy
+  - zz
+zone: test zone#2 data
+selfLink: selflink(resource(instance,2))

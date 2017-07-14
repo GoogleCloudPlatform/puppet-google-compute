@@ -26,10 +26,12 @@
 # ----------------------------------------------------------------------------
 
 ---
-kind: 'compute#sslCertificate'
-certificate: 'test certificate#2 data'
-creationTimestamp: '2196-03-05T12:24:32+00:00'
-description: 'test description#2 data'
+kind: compute#sslCertificate
+name: test name#2 data
 id: 6448502614
-name: 'test name#2 data'
-privateKey: 'test private_key#2 data'
+certificate: test certificate#2 data
+creationTimestamp: '2196-03-05T12:24:32+00:00'
+description: test description#2 data
+privateKey: test private_key#2 data
+project: "'test project#2 data'"
+selfLink: selflink(resource(ssl_certificate,2))
