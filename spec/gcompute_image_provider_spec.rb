@@ -94,13 +94,6 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
 
                 gcompute_image { 'title0':
                   ensure                     => present,
-                  deprecated                 => {
-                    deleted     => '2053-10-15T21:31:50+00:00',
-                    deprecated  => '2060-07-30T02:20:36+00:00',
-                    obsolete    => '2032-06-30T12:44:30+00:00',
-                    replacement => 'test replacement#0 data',
-                    state       => 'DEPRECATED',
-                  },
                   description                => 'test description#0 data',
                   disk_size_gb               => 450092159,
                   family                     => 'test family#0 data',
@@ -135,13 +128,6 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
 
                 gcompute_image { 'title1':
                   ensure                     => present,
-                  deprecated                 => {
-                    deleted     => '2137-07-31T19:03:40+00:00',
-                    deprecated  => '2151-02-27T04:41:13+00:00',
-                    obsolete    => '2094-12-29T01:29:01+00:00',
-                    replacement => 'test replacement#1 data',
-                    state       => 'OBSOLETE',
-                  },
                   description                => 'test description#1 data',
                   disk_size_gb               => 900184319,
                   family                     => 'test family#1 data',
@@ -179,13 +165,6 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
 
                 gcompute_image { 'title2':
                   ensure                     => present,
-                  deprecated                 => {
-                    deleted     => '2221-05-16T16:35:30+00:00',
-                    deprecated  => '2241-09-26T07:01:50+00:00',
-                    obsolete    => '2157-06-28T14:13:32+00:00',
-                    replacement => 'test replacement#2 data',
-                    state       => 'DELETED',
-                  },
                   description                => 'test description#2 data',
                   disk_size_gb               => 1350276479,
                   family                     => 'test family#2 data',
@@ -458,13 +437,6 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
 
                 gcompute_image { 'title0':
                   ensure                     => present,
-                  deprecated                 => {
-                    deleted     => '2053-10-15T21:31:50+00:00',
-                    deprecated  => '2060-07-30T02:20:36+00:00',
-                    obsolete    => '2032-06-30T12:44:30+00:00',
-                    replacement => 'test replacement#0 data',
-                    state       => 'DEPRECATED',
-                  },
                   description                => 'test description#0 data',
                   disk_size_gb               => 450092159,
                   family                     => 'test family#0 data',
@@ -500,13 +472,6 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
 
                 gcompute_image { 'title1':
                   ensure                     => present,
-                  deprecated                 => {
-                    deleted     => '2137-07-31T19:03:40+00:00',
-                    deprecated  => '2151-02-27T04:41:13+00:00',
-                    obsolete    => '2094-12-29T01:29:01+00:00',
-                    replacement => 'test replacement#1 data',
-                    state       => 'OBSOLETE',
-                  },
                   description                => 'test description#1 data',
                   disk_size_gb               => 900184319,
                   family                     => 'test family#1 data',
@@ -545,13 +510,6 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
 
                 gcompute_image { 'title2':
                   ensure                     => present,
-                  deprecated                 => {
-                    deleted     => '2221-05-16T16:35:30+00:00',
-                    deprecated  => '2241-09-26T07:01:50+00:00',
-                    obsolete    => '2157-06-28T14:13:32+00:00',
-                    replacement => 'test replacement#2 data',
-                    state       => 'DELETED',
-                  },
                   description                => 'test description#2 data',
                   disk_size_gb               => 1350276479,
                   family                     => 'test family#2 data',
@@ -828,13 +786,6 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               1,
               {
                 'kind' => 'compute#image',
-                'deprecated' => {
-                  'deleted' => '2053-10-15T21:31:50+00:00',
-                  'deprecated' => '2060-07-30T02:20:36+00:00',
-                  'obsolete' => '2032-06-30T12:44:30+00:00',
-                  'replacement' => 'test replacement#0 data',
-                  'state' => 'DEPRECATED'
-                },
                 'description' => 'test description#0 data',
                 'diskSizeGb' => 450_092_159,
                 'family' => 'test family#0 data',
@@ -886,13 +837,6 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
 
               gcompute_image { 'title0':
                 ensure                     => present,
-                deprecated                 => {
-                  deleted     => '2053-10-15T21:31:50+00:00',
-                  deprecated  => '2060-07-30T02:20:36+00:00',
-                  obsolete    => '2032-06-30T12:44:30+00:00',
-                  replacement => 'test replacement#0 data',
-                  state       => 'DEPRECATED',
-                },
                 description                => 'test description#0 data',
                 disk_size_gb               => 450092159,
                 family                     => 'test family#0 data',
@@ -949,13 +893,6 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               1,
               {
                 'kind' => 'compute#image',
-                'deprecated' => {
-                  'deleted' => '2053-10-15T21:31:50+00:00',
-                  'deprecated' => '2060-07-30T02:20:36+00:00',
-                  'obsolete' => '2032-06-30T12:44:30+00:00',
-                  'replacement' => 'test replacement#0 data',
-                  'state' => 'DEPRECATED'
-                },
                 'description' => 'test description#0 data',
                 'diskSizeGb' => 450_092_159,
                 'family' => 'test family#0 data',
@@ -1004,13 +941,6 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
 
               gcompute_image { 'title0':
                 ensure                     => present,
-                deprecated                 => {
-                  deleted     => '2053-10-15T21:31:50+00:00',
-                  deprecated  => '2060-07-30T02:20:36+00:00',
-                  obsolete    => '2032-06-30T12:44:30+00:00',
-                  replacement => 'test replacement#0 data',
-                  state       => 'DEPRECATED',
-                },
                 description                => 'test description#0 data',
                 disk_size_gb               => 450092159,
                 family                     => 'test family#0 data',

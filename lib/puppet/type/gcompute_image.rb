@@ -89,7 +89,7 @@ Puppet::Type.newtype(:gcompute_image) do
 
   newproperty(:deprecated,
               parent: Google::Compute::Property::ImageDeprecated) do
-    desc 'The deprecation status associated with this image.'
+    desc 'The deprecation status associated with this image. (output only)'
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do

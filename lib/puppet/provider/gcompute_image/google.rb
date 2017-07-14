@@ -192,7 +192,6 @@ Puppet::Type.type(:gcompute_image).provide(:google) do
   def resource_to_request
     request = {
       kind: 'compute#image',
-      deprecated: @resource[:deprecated],
       description: @resource[:description],
       diskSizeGb: @resource[:disk_size_gb],
       family: @resource[:family],

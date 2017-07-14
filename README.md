@@ -1571,10 +1571,6 @@ gcompute_image { 'test-image':
 
 ```
 
-##### `deprecated`
-
-  The deprecation status associated with this image.
-
 ##### `description`
 
   An optional description of this resource. Provide this property when
@@ -1660,6 +1656,9 @@ gcompute_image { 'test-image':
 
 * `creation_timestamp`: Output only.
   Creation timestamp in RFC3339 text format.
+
+* `deprecated`: Output only.
+  The deprecation status associated with this image.
 
 * `id`: Output only.
   The unique identifier for the resource. This identifier
