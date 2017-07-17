@@ -28,6 +28,9 @@
 ---
 kind: compute#instanceGroup
 name: test name#0 data
+id: 2149500871
+creationTimestamp: '2045-05-23T12:08:10+00:00'
+description: test description#0 data
 namedPorts:
 - name: test name#0 data
   port: 759512136
@@ -39,9 +42,6 @@ namedPorts:
   port: 3038048546
 - name: test name#4 data
   port: 3797560683
-id: 2149500871
-creationTimestamp: '2045-05-23T12:08:10+00:00'
-description: test description#0 data
 network: selflink(resource(network,0))
 project: "'test project#0 data'"
 region: selflink(resource(region,0))
