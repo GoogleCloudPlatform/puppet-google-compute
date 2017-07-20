@@ -23,9 +23,12 @@ Cloud Platform resources.
 To install this module on your Puppet Master (or Puppet Client/Agent), use the
 Puppet module installer:
 
-```
-puppet module install google-gcompute
-```
+    puppet module install google-gcompute
+
+Optionally you can install support to _all_ Google Cloud Platform products at
+once by installing our "bundle" [`google-cloud`][bundle-forge] module:
+
+    puppet module install google-cloud
 
 ## Usage
 
@@ -2384,6 +2387,7 @@ Variable                | Side Effect
 `RSPEC_HTTP_VERBOSE=1`  | Prints network expectations and access.
 
 [CONTRIBUTING.md]: CONTRIBUTING.md
+[bundle-forge]: https://forge.puppet.com/google/cloud
 [`google-gauth`]: https://github.com/GoogleCloudPlatform/puppet-google-auth
 [rspec]: http://rspec.info/
 [rspec-puppet]: http://rspec-puppet.com/
