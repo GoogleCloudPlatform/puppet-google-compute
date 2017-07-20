@@ -32,8 +32,7 @@
 # For more information on the gauth_credential parameters and providers please
 # refer to its detailed documentation at:
 #
-# TODO(nelsonjr): Add link to documentation on Puppet Forge / Github
-# ________________________
+#   https://forge.puppet.com/google/gauth
 #
 # For the sake of this example we set the parameter 'path' to point to the file
 # that contains your credential in JSON format. And for convenience this example
