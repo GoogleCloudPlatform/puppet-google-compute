@@ -142,7 +142,8 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2045-05-23T12:08:10+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2045-05-23T12:08:10+00:00')
                   )
               end
               it do
@@ -153,13 +154,15 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    last_attach_timestamp: '2052-04-11T10:26:47+00:00'
+                    last_attach_timestamp:
+                    ::Time.parse('2052-04-11T10:26:47+00:00')
                   )
               end
               it do
                 is_expected
                   .to have_attributes(
-                    last_detach_timestamp: '1986-08-30T10:54:51+00:00'
+                    last_detach_timestamp:
+                    ::Time.parse('1986-08-30T10:54:51+00:00')
                   )
               end
               it { is_expected.to have_attributes(licenses: %w[ww xx]) }
@@ -181,7 +184,8 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2120-10-14T00:16:21+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2120-10-14T00:16:21+00:00')
                   )
               end
               it do
@@ -192,13 +196,15 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    last_attach_timestamp: '2134-07-22T20:53:35+00:00'
+                    last_attach_timestamp:
+                    ::Time.parse('2134-07-22T20:53:35+00:00')
                   )
               end
               it do
                 is_expected
                   .to have_attributes(
-                    last_detach_timestamp: '2003-04-28T21:49:42+00:00'
+                    last_detach_timestamp:
+                    ::Time.parse('2003-04-28T21:49:42+00:00')
                   )
               end
               it { is_expected.to have_attributes(licenses: %w[uu vv]) }
@@ -220,7 +226,8 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2196-03-05T12:24:32+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2196-03-05T12:24:32+00:00')
                   )
               end
               it do
@@ -231,13 +238,15 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    last_attach_timestamp: '2216-11-01T07:20:23+00:00'
+                    last_attach_timestamp:
+                    ::Time.parse('2216-11-01T07:20:23+00:00')
                   )
               end
               it do
                 is_expected
                   .to have_attributes(
-                    last_detach_timestamp: '2019-12-26T08:44:33+00:00'
+                    last_detach_timestamp:
+                    ::Time.parse('2019-12-26T08:44:33+00:00')
                   )
               end
               it { is_expected.to have_attributes(licenses: %w[tt uu vv]) }
@@ -362,7 +371,8 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2045-05-23T12:08:10+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2045-05-23T12:08:10+00:00')
                   )
               end
               it do
@@ -373,13 +383,15 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    last_attach_timestamp: '2052-04-11T10:26:47+00:00'
+                    last_attach_timestamp:
+                    ::Time.parse('2052-04-11T10:26:47+00:00')
                   )
               end
               it do
                 is_expected
                   .to have_attributes(
-                    last_detach_timestamp: '1986-08-30T10:54:51+00:00'
+                    last_detach_timestamp:
+                    ::Time.parse('1986-08-30T10:54:51+00:00')
                   )
               end
               it { is_expected.to have_attributes(licenses: %w[ww xx]) }
@@ -401,7 +413,8 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2120-10-14T00:16:21+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2120-10-14T00:16:21+00:00')
                   )
               end
               it do
@@ -412,13 +425,15 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    last_attach_timestamp: '2134-07-22T20:53:35+00:00'
+                    last_attach_timestamp:
+                    ::Time.parse('2134-07-22T20:53:35+00:00')
                   )
               end
               it do
                 is_expected
                   .to have_attributes(
-                    last_detach_timestamp: '2003-04-28T21:49:42+00:00'
+                    last_detach_timestamp:
+                    ::Time.parse('2003-04-28T21:49:42+00:00')
                   )
               end
               it { is_expected.to have_attributes(licenses: %w[uu vv]) }
@@ -440,7 +455,8 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2196-03-05T12:24:32+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2196-03-05T12:24:32+00:00')
                   )
               end
               it do
@@ -451,13 +467,15 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    last_attach_timestamp: '2216-11-01T07:20:23+00:00'
+                    last_attach_timestamp:
+                    ::Time.parse('2216-11-01T07:20:23+00:00')
                   )
               end
               it do
                 is_expected
                   .to have_attributes(
-                    last_detach_timestamp: '2019-12-26T08:44:33+00:00'
+                    last_detach_timestamp:
+                    ::Time.parse('2019-12-26T08:44:33+00:00')
                   )
               end
               it { is_expected.to have_attributes(licenses: %w[tt uu vv]) }

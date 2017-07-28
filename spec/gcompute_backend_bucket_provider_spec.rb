@@ -104,7 +104,8 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2045-05-23T12:08:10+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2045-05-23T12:08:10+00:00')
                   )
               end
               it do
@@ -128,7 +129,8 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2120-10-14T00:16:21+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2120-10-14T00:16:21+00:00')
                   )
               end
               it do
@@ -152,7 +154,8 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2196-03-05T12:24:32+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2196-03-05T12:24:32+00:00')
                   )
               end
               it do
@@ -237,7 +240,8 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2045-05-23T12:08:10+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2045-05-23T12:08:10+00:00')
                   )
               end
               it do
@@ -261,7 +265,8 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2120-10-14T00:16:21+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2120-10-14T00:16:21+00:00')
                   )
               end
               it do
@@ -285,7 +290,8 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2196-03-05T12:24:32+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2196-03-05T12:24:32+00:00')
                   )
               end
               it do

@@ -29,14 +29,26 @@ require 'google/compute/property/base'
 
 module Google
   module Compute
+    module Data
+      # A Time that always returns a ISO8601 String
+      class Time < ::Time
+        def to_s
+          # All GCP APIs expect timestamps in the ISO-8601 / RFC3339 format
+
+          # Overriding the .to_s method ensures that Ruby will get a
+          # ISO-8601 timestamp at the last moment and ensures the timestamp
+          # format is abstracted away.
+          iso8601
+        end
+      end
+    end
+
     module Property
       # A Puppet property that holds a date & time value
       class Time < Google::Compute::Property::Base
         def self.unsafe_munge(value)
           return if value.nil?
-          # TODO(nelsonjr): Treat this value (once again) as time. Change was
-          # lost along the way. Look at all other types for similar conversions.
-          value
+          Data::Time.parse(value)
         end
 
         def unsafe_munge(value)
@@ -45,9 +57,7 @@ module Google
 
         def self.api_munge(value)
           return if value.nil?
-          # TODO(nelsonjr): Treat this value (once again) as time. Change was
-          # lost along the way. Look at all other types for similar conversions.
-          value
+          Data::Time.parse(value)
         end
       end
     end
