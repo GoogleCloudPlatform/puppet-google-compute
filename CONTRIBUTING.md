@@ -131,6 +131,7 @@ puppet-codegen:
   * lib/google/compute/network/get.rb
   * lib/google/compute/network/post.rb
   * lib/google/compute/network/put.rb
+  * lib/google/compute/property/address_address.rb
   * lib/google/compute/property/array.rb
   * lib/google/compute/property/backendservice_backends.rb
   * lib/google/compute/property/backendservice_cache_key_policy.rb
@@ -154,6 +155,7 @@ puppet-codegen:
   * lib/google/compute/property/image_image_encryption_key.rb
   * lib/google/compute/property/image_raw_disk.rb
   * lib/google/compute/property/image_source_disk_encryption_key.rb
+  * lib/google/compute/property/instance_access_configs.rb
   * lib/google/compute/property/instance_disk_encryption_key.rb
   * lib/google/compute/property/instance_disks.rb
   * lib/google/compute/property/instance_guest_accelerators.rb

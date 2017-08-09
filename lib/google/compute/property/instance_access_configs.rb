@@ -31,40 +31,32 @@ require 'puppet/property'
 module Google
   module Compute
     module Data
-      # A class to manage data for network_interfaces for instance.
-      class InstancNetworkInterfa
+      # A class to manage data for access_configs for instance.
+      class InstancAccessConfigs
         include Comparable
 
-        attr_reader :access_configs
         attr_reader :name
-        attr_reader :network
-        attr_reader :network_ip
-        attr_reader :subnetwork
+        attr_reader :nat_ip
+        attr_reader :type
 
         def to_json(_arg = nil)
           {
-            'accessConfigs' => access_configs,
             'name' => name,
-            'network' => network,
-            'networkIP' => network_ip,
-            'subnetwork' => subnetwork
+            'natIP' => nat_ip,
+            'type' => type
           }.reject { |_k, v| v.nil? }.to_json
         end
 
         def to_s
           {
-            access_configs: ['[',
-                             access_configs.map(&:to_json).join(', '),
-                             ']'].join(' '),
             name: name,
-            network: network,
-            network_ip: network_ip,
-            subnetwork: subnetwork
+            nat_ip: nat_ip,
+            type: type
           }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)
-          return false unless other.is_a? InstancNetworkInterfa
+          return false unless other.is_a? InstancAccessConfigs
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -73,7 +65,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? InstancNetworkInterfa
+          return false unless other.is_a? InstancAccessConfigs
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -86,57 +78,41 @@ module Google
 
         def compare_fields(other)
           [
-            { self: access_configs, other: other.access_configs },
             { self: name, other: other.name },
-            { self: network, other: other.network },
-            { self: network_ip, other: other.network_ip },
-            { self: subnetwork, other: other.subnetwork }
+            { self: nat_ip, other: other.nat_ip },
+            { self: type, other: other.type }
           ]
         end
       end
 
-      # Manages a InstancNetworkInterfa nested object
+      # Manages a InstancAccessConfigs nested object
       # Data is coming from the GCP API
-      class InstancNetworkInterfaApi < InstancNetworkInterfa
+      class InstancAccessConfigsApi < InstancAccessConfigs
         def initialize(args)
-          @access_configs =
-            Google::Compute::Property::InstancAccessConfigsArray.api_munge(
-              args['accessConfigs']
-            )
           @name = Google::Compute::Property::String.api_munge(args['name'])
-          @network = Google::Compute::Property::NetwoSelfLinkRef.api_munge(
-            args['network']
+          @nat_ip = Google::Compute::Property::AddressAddressRef.api_munge(
+            args['natIP']
           )
-          @network_ip =
-            Google::Compute::Property::String.api_munge(args['networkIP'])
-          @subnetwork =
-            Google::Compute::Property::String.api_munge(args['subnetwork'])
+          @type = Google::Compute::Property::Enum.api_munge(args['type'])
         end
       end
 
-      # Manages a InstancNetworkInterfa nested object
+      # Manages a InstancAccessConfigs nested object
       # Data is coming from the Puppet manifest
-      class InstancNetworkInterfaCatalog < InstancNetworkInterfa
+      class InstancAccessConfigsCatalog < InstancAccessConfigs
         def initialize(args)
-          @access_configs =
-            Google::Compute::Property::InstancAccessConfigsArray.unsafe_munge(
-              args['access_configs']
-            )
           @name = Google::Compute::Property::String.unsafe_munge(args['name'])
-          @network = Google::Compute::Property::NetwoSelfLinkRef.unsafe_munge(
-            args['network']
+          @nat_ip = Google::Compute::Property::AddressAddressRef.unsafe_munge(
+            args['nat_ip']
           )
-          @network_ip =
-            Google::Compute::Property::String.unsafe_munge(args['network_ip'])
-          @subnetwork =
-            Google::Compute::Property::String.unsafe_munge(args['subnetwork'])
+          @type = Google::Compute::Property::Enum.unsafe_munge(args['type'])
         end
       end
     end
 
     module Property
-      # A class to manage input to network_interfaces for instance.
-      class InstancNetworkInterfa < Puppet::Property
+      # A class to manage input to access_configs for instance.
+      class InstancAccessConfigs < Puppet::Property
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -145,18 +121,18 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::InstancNetworkInterfaCatalog.new(value)
+          Data::InstancAccessConfigsCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::InstancNetworkInterfaApi.new(value)
+          Data::InstancAccessConfigsApi.new(value)
         end
       end
 
       # A Puppet property that holds an integer
-      class InstancNetworkInterfaArray < Google::Compute::Property::Array
+      class InstancAccessConfigsArray < Google::Compute::Property::Array
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -165,17 +141,17 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          return InstancNetworkInterfa.unsafe_munge(value) \
+          return InstancAccessConfigs.unsafe_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| InstancNetworkInterfa.unsafe_munge(v) }
+          value.map { |v| InstancAccessConfigs.unsafe_munge(v) }
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          return InstancNetworkInterfa.api_munge(value) \
+          return InstancAccessConfigs.api_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| InstancNetworkInterfa.api_munge(v) }
+          value.map { |v| InstancAccessConfigs.api_munge(v) }
         end
       end
     end

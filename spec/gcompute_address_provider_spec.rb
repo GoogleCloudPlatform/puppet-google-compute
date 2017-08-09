@@ -130,7 +130,8 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2045-05-23T12:08:10+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2045-05-23T12:08:10+00:00')
                   )
               end
               it do
@@ -153,7 +154,8 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2120-10-14T00:16:21+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2120-10-14T00:16:21+00:00')
                   )
               end
               it do
@@ -176,7 +178,8 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2196-03-05T12:24:32+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2196-03-05T12:24:32+00:00')
                   )
               end
               it do
@@ -281,7 +284,8 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2045-05-23T12:08:10+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2045-05-23T12:08:10+00:00')
                   )
               end
               it do
@@ -304,7 +308,8 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2120-10-14T00:16:21+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2120-10-14T00:16:21+00:00')
                   )
               end
               it do
@@ -327,7 +332,8 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(
-                    creation_timestamp: '2196-03-05T12:24:32+00:00'
+                    creation_timestamp:
+                    ::Time.parse('2196-03-05T12:24:32+00:00')
                   )
               end
               it do
@@ -699,6 +705,26 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     end
   end
 
+  context '#exports' do
+    context 'exports all properties' do
+      let(:resource1) { create_type 1 }
+      before do
+        prefetch_region
+        expect_network_get_success 1
+        described_class.prefetch(title0: resource1)
+      end
+
+      subject { resource1.exports }
+
+      let(:expected_results) do
+        {
+          address: 'test address#0 data'
+        }
+      end
+      it { is_expected.to eq(expected_results) }
+    end
+  end
+
   private
 
   def expect_network_get_success(id, data = {})
@@ -854,6 +880,19 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         data
       )
     )
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_region
+    expect_network_get_success_region 1
+
+    resource = Puppet::Type.type(:gcompute_region).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .prefetch(resource: resource)
   end
 
   def debug(message)

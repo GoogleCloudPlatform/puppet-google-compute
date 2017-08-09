@@ -68,6 +68,18 @@ gcompute_network { 'mynetwork-test':
   credential => 'mycred',
 }
 
+gcompute_region { 'us-central1':
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+gcompute_address { 'my-external-ip':
+  ensure     => present,
+  region     => 'us-central1',
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
 gcompute_instance { 'instance-test':
   ensure             => present,
   machine_type       => 'https://www.googleapis.com/compute/v1/projects/google.com:graphite-playground/zones/us-central1-a/machineTypes/n1-standard-1',
@@ -79,7 +91,14 @@ gcompute_instance { 'instance-test':
   ],
   network_interfaces => [
     {
-      network => 'mynetwork-test',
+      access_configs => [
+        {
+          name   => 'External NAT',
+          nat_ip => 'my-external-ip',
+          type   => 'ONE_TO_ONE_NAT',
+        },
+      ],
+      network        => 'mynetwork-test',
     }
   ],
   zone               => 'us-central1-a',

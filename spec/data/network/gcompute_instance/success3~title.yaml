@@ -74,19 +74,65 @@ labelFingerprint: test label_fingerprint#2 data
 machineType: test machine_type#2 data
 minCpuPlatform: test min_cpu_platform#2 data
 networkInterfaces:
-- name: test name#2 data
+- accessConfigs:
+  - name: test name#2 data
+    natIP: test address#2 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#3 data
+    natIP: test address#0 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#4 data
+    natIP: test address#1 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#5 data
+    natIP: test address#2 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#6 data
+    natIP: test address#0 data
+    type: ONE_TO_ONE_NAT
+  name: test name#2 data
   network: selflink(resource(network,2))
   networkIP: test network_ip#2 data
   subnetwork: test subnetwork#2 data
-- name: test name#3 data
+- accessConfigs:
+  - name: test name#3 data
+    natIP: test address#0 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#4 data
+    natIP: test address#1 data
+    type: ONE_TO_ONE_NAT
+  name: test name#3 data
   network: selflink(resource(network,0))
   networkIP: test network_ip#3 data
   subnetwork: test subnetwork#3 data
-- name: test name#4 data
+- accessConfigs:
+  - name: test name#4 data
+    natIP: test address#1 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#5 data
+    natIP: test address#2 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#6 data
+    natIP: test address#0 data
+    type: ONE_TO_ONE_NAT
+  name: test name#4 data
   network: selflink(resource(network,1))
   networkIP: test network_ip#4 data
   subnetwork: test subnetwork#4 data
-- name: test name#5 data
+- accessConfigs:
+  - name: test name#5 data
+    natIP: test address#2 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#6 data
+    natIP: test address#0 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#7 data
+    natIP: test address#1 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#8 data
+    natIP: test address#2 data
+    type: ONE_TO_ONE_NAT
+  name: test name#5 data
   network: selflink(resource(network,2))
   networkIP: test network_ip#5 data
   subnetwork: test subnetwork#5 data

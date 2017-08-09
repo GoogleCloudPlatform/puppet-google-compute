@@ -25,8 +25,11 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/address_address'
 require 'google/compute/property/boolean'
 require 'google/compute/property/disk_selflink'
+require 'google/compute/property/enum'
+require 'google/compute/property/instance_access_configs'
 require 'google/compute/property/instance_disk_encryption_key'
 require 'google/compute/property/instance_disks'
 require 'google/compute/property/instance_guest_accelerators'

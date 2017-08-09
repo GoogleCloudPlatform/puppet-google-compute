@@ -263,7 +263,14 @@ gcompute_instance { 'instance-test':
   ],
   network_interfaces => [
     {
-      network => 'mynetwork-test',
+      access_configs => [
+        {
+          name   => 'External NAT',
+          nat_ip => 'my-external-ip',
+          type   => 'ONE_TO_ONE_NAT',
+        },
+      ],
+      network        => 'mynetwork-test',
     }
   ],
   zone               => 'us-central1-a',
@@ -1688,7 +1695,14 @@ gcompute_instance { 'instance-test':
   ],
   network_interfaces => [
     {
-      network => 'mynetwork-test',
+      access_configs => [
+        {
+          name   => 'External NAT',
+          nat_ip => 'my-external-ip',
+          type   => 'ONE_TO_ONE_NAT',
+        },
+      ],
+      network        => 'mynetwork-test',
     }
   ],
   zone               => 'us-central1-a',

@@ -32,23 +32,23 @@ id: 2149500871
 affinityCookieTtlSec: 1612732832
 backends:
 - balancingMode: UTILIZATION
-  capacityScaler: '26622430.32'
+  capacityScaler: 26622430.32
   description: test description#0 data
   group: selflink(resource(instance_group,0))
   maxConnections: 824204419
   maxConnectionsPerInstance: 2749819302
   maxRate: 400354212
-  maxRatePerInstance: '17253532.50'
-  maxUtilization: '10960213.46'
+  maxRatePerInstance: 17253532.5
+  maxUtilization: 10960213.46
 - balancingMode: RATE
-  capacityScaler: '53244860.65'
+  capacityScaler: 53244860.65
   description: test description#1 data
   group: selflink(resource(instance_group,1))
   maxConnections: 1648408839
   maxConnectionsPerInstance: 5499638604
   maxRate: 800708425
-  maxRatePerInstance: '34507065.0'
-  maxUtilization: '21920426.93'
+  maxRatePerInstance: 34507065.0
+  maxUtilization: 21920426.93
 cdnPolicy:
   cacheKeyPolicy:
     includeHost: true
