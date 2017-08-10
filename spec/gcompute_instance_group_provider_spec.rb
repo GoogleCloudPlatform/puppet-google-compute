@@ -84,7 +84,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
             end
 
             let(:catalog) do
-              apply_compiled_manifest(
+              apply_with_error_check(
                 <<-MANIFEST
                 gcompute_network { 'resource(network,0)':
                   ensure     => present,
@@ -409,7 +409,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
             end
 
             let(:catalog) do
-              apply_compiled_manifest(
+              apply_with_error_check(
                 <<-MANIFEST
                 gcompute_network { 'resource(network,0)':
                   ensure     => present,
@@ -794,7 +794,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_network { 'resource(network,0)':
                 ensure     => present,
@@ -922,7 +922,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_network { 'resource(network,0)':
                 ensure     => present,
@@ -1008,7 +1008,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_instance_group { 'title0':
                 ensure     => absent,
@@ -1041,7 +1041,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_instance_group { 'title0':
                 ensure     => absent,
@@ -1079,7 +1079,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_instance_group { 'title0':
                 ensure     => absent,
@@ -1114,7 +1114,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_instance_group { 'title0':
                 ensure     => absent,

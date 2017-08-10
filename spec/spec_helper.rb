@@ -117,6 +117,8 @@ RSpec.configure do |c|
   end
 end
 
+require 'mocha/test_unit'
+
 #----------------------------------------------------------
 # Helper modules
 
