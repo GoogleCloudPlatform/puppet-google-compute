@@ -786,13 +786,107 @@ gcompute_backend_service { 'my-app-backend':
 
   The list of backends that serve this BackendService.
 
+##### backends[]/balancing_mode
+  Specifies the balancing mode for this backend.
+  For global HTTP(S) or TCP/SSL load balancing, the default is
+  UTILIZATION. Valid values are UTILIZATION, RATE (for HTTP(S))
+  and CONNECTION (for TCP/SSL).
+  This cannot be used for internal load balancing.
+
+##### backends[]/capacity_scaler
+  A multiplier applied to the group's maximum servicing capacity
+  (based on UTILIZATION, RATE or CONNECTION).
+  Default value is 1, which means the group will serve up to 100%
+  of its configured capacity (depending on balancingMode). A
+  setting of 0 means the group is completely drained, offering
+  0% of its available Capacity. Valid range is [0.0,1.0].
+  This cannot be used for internal load balancing.
+
+##### backends[]/description
+  An optional description of this resource.
+  Provide this property when you create the resource.
+
+##### backends[]/group
+  A reference to InstanceGroup resource
+
+##### backends[]/max_connections
+  The max number of simultaneous connections for the group. Can
+  be used with either CONNECTION or UTILIZATION balancing modes.
+  For CONNECTION mode, either maxConnections or
+  maxConnectionsPerInstance must be set.
+  This cannot be used for internal load balancing.
+
+##### backends[]/max_connections_per_instance
+  The max number of simultaneous connections that a single
+  backend instance can handle. This is used to calculate the
+  capacity of the group. Can be used in either CONNECTION or
+  UTILIZATION balancing modes.
+  For CONNECTION mode, either maxConnections or
+  maxConnectionsPerInstance must be set.
+  This cannot be used for internal load balancing.
+
+##### backends[]/max_rate
+  The max requests per second (RPS) of the group.
+  Can be used with either RATE or UTILIZATION balancing modes,
+  but required if RATE mode. For RATE mode, either maxRate or
+  maxRatePerInstance must be set.
+  This cannot be used for internal load balancing.
+
+##### backends[]/max_rate_per_instance
+  The max requests per second (RPS) that a single backend
+  instance can handle. This is used to calculate the capacity of
+  the group. Can be used in either balancing mode. For RATE mode,
+  either maxRate or maxRatePerInstance must be set.
+  This cannot be used for internal load balancing.
+
+##### backends[]/max_utilization
+  Used when balancingMode is UTILIZATION. This ratio defines the
+  CPU utilization target for the group. The default is 0.8. Valid
+  range is [0.0, 1.0].
+  This cannot be used for internal load balancing.
+
 ##### `cdn_policy`
 
   Cloud CDN configuration for this BackendService.
 
+##### cdn_policy/cache_key_policy
+  The CacheKeyPolicy for this CdnPolicy.
+
+##### cdn_policy/cache_key_policy/include_host
+  If true requests to different hosts will be cached separately.
+
+##### cdn_policy/cache_key_policy/include_protocol
+  If true, http and https requests will be cached separately.
+
+##### cdn_policy/cache_key_policy/include_query_string
+  If true, include query string parameters in the cache key
+  according to query_string_whitelist and
+  query_string_blacklist. If neither is set, the entire query
+  string will be included.
+  If false, the query string will be excluded from the cache
+  key entirely.
+
+##### cdn_policy/cache_key_policy/query_string_blacklist
+  Names of query string parameters to exclude in cache keys.
+  All other parameters will be included. Either specify
+  query_string_whitelist or query_string_blacklist, not both.
+  '&' and '=' will be percent encoded and not treated as
+  delimiters.
+
+##### cdn_policy/cache_key_policy/query_string_whitelist
+  Names of query string parameters to include in cache keys.
+  All other parameters will be excluded. Either specify
+  query_string_whitelist or query_string_blacklist, not both.
+  '&' and '=' will be percent encoded and not treated as
+  delimiters.
+
 ##### `connection_draining`
 
   Settings for connection draining
+
+##### connection_draining/draining_timeout_sec
+  Time for which instance will be drained (not accept new
+  connections, but still work to finish started).
 
 ##### `description`
 
@@ -1032,10 +1126,26 @@ Required.  URL of the zone where the autoscaler resides.
   the disk will be encrypted using an automatically generated key and
   you do not need to provide a key to use the disk later.
 
+##### disk_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption key, encoded in
+  RFC 4648 base64 to either encrypt or decrypt this resource.
+
+##### disk_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
+  encryption key that protects this resource.
+
 ##### `source_image_encryption_key`
 
   The customer-supplied encryption key of the source image. Required if
   the source image is protected by a customer-supplied encryption key.
+
+##### source_image_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption key, encoded in
+  RFC 4648 base64 to either encrypt or decrypt this resource.
+
+##### source_image_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
+  encryption key that protects this resource.
 
 ##### `source_snapshot`
 
@@ -1052,6 +1162,14 @@ Required.  URL of the zone where the autoscaler resides.
   The customer-supplied encryption key of the source snapshot. Required
   if the source snapshot is protected by a customer-supplied encryption
   key.
+
+##### source_snapshot_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption key, encoded in
+  RFC 4648 base64 to either encrypt or decrypt this resource.
+
+##### source_snapshot_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
+  encryption key that protects this resource.
 
 
 ##### Output-only properties
@@ -1138,6 +1256,20 @@ gcompute_firewall { 'test-firewall-allow-ssh':
   The list of ALLOW rules specified by this firewall. Each rule
   specifies a protocol and port-range tuple that describes a permitted
   connection.
+
+##### allowed[]/ip_protocol
+Required.  The IP protocol to which this rule applies. The protocol type is
+  required when creating a firewall rule. This value can either be
+  one of the following well known protocol strings (tcp, udp,
+  icmp, esp, ah, sctp), or the IP protocol number.
+
+##### allowed[]/ports
+  An optional list of ports to which this rule applies. This field
+  is only applicable for UDP or TCP protocol. Each entry must be
+  either an integer or a range. If not specified, this rule
+  applies to connections through any port.
+  Example inputs include: ["22"], ["80","443"], and
+  ["12345-12349"].
 
 ##### `description`
 
@@ -1491,17 +1623,105 @@ gcompute_health_check { 'my-app-tcp-hc':
 
   A nested object resource
 
+##### http_health_check/host
+  The value of the host header in the HTTP health check request.
+  If left empty (default value), the public IP on behalf of which this health
+  check is performed will be used.
+
+##### http_health_check/request_path
+  The request path of the HTTP health check request.
+  The default value is /.
+
+##### http_health_check/port
+  The TCP port number for the HTTP health check request.
+  The default value is 80.
+
+##### http_health_check/port_name
+  Port name as defined in InstanceGroup#NamedPort#name. If both port and
+  port_name are defined, port takes precedence.
+
+##### http_health_check/proxy_header
+  Specifies the type of proxy header to append before sending data to the
+  backend, either NONE or PROXY_V1. The default is NONE.
+
 ##### `https_health_check`
 
   A nested object resource
+
+##### https_health_check/host
+  The value of the host header in the HTTPS health check request.
+  If left empty (default value), the public IP on behalf of which this health
+  check is performed will be used.
+
+##### https_health_check/request_path
+  The request path of the HTTPS health check request.
+  The default value is /.
+
+##### https_health_check/port
+  The TCP port number for the HTTPS health check request.
+  The default value is 443.
+
+##### https_health_check/port_name
+  Port name as defined in InstanceGroup#NamedPort#name. If both port and
+  port_name are defined, port takes precedence.
+
+##### https_health_check/proxy_header
+  Specifies the type of proxy header to append before sending data to the
+  backend, either NONE or PROXY_V1. The default is NONE.
 
 ##### `tcp_health_check`
 
   A nested object resource
 
+##### tcp_health_check/request
+  The application data to send once the TCP connection has been
+  established (default value is empty). If both request and response are
+  empty, the connection establishment alone will indicate health. The request
+  data can only be ASCII.
+
+##### tcp_health_check/response
+  The bytes to match against the beginning of the response data. If left empty
+  (the default value), any response will indicate health. The response data
+  can only be ASCII.
+
+##### tcp_health_check/port
+  The TCP port number for the TCP health check request.
+  The default value is 443.
+
+##### tcp_health_check/port_name
+  Port name as defined in InstanceGroup#NamedPort#name. If both port and
+  port_name are defined, port takes precedence.
+
+##### tcp_health_check/proxy_header
+  Specifies the type of proxy header to append before sending data to the
+  backend, either NONE or PROXY_V1. The default is NONE.
+
 ##### `ssl_health_check`
 
   A nested object resource
+
+##### ssl_health_check/request
+  The application data to send once the SSL connection has been
+  established (default value is empty). If both request and response are
+  empty, the connection establishment alone will indicate health. The request
+  data can only be ASCII.
+
+##### ssl_health_check/response
+  The bytes to match against the beginning of the response data. If left empty
+  (the default value), any response will indicate health. The response data
+  can only be ASCII.
+
+##### ssl_health_check/port
+  The TCP port number for the SSL health check request.
+  The default value is 443.
+
+##### ssl_health_check/port_name
+  Port name as defined in InstanceGroup#NamedPort#name. If both port and
+  port_name are defined, port takes precedence.
+
+##### ssl_health_check/proxy_header
+  Specifies the type of proxy header to append before sending data to the
+  backend, either NONE or PROXY_V1. The default is NONE.
 
 
 ##### Output-only properties
@@ -1605,12 +1825,28 @@ gcompute_image { 'test-image':
   This value is purely informational and does not enable or disable
   any features.
 
+##### guest_os_features[]/type
+  The type of supported feature. Currenty only
+  VIRTIO_SCSI_MULTIQUEUE is supported. For newer Windows images,
+  the server might also populate this property with the value
+  WINDOWS to indicate that this is a Windows image. This value is
+  purely informational and does not enable or disable any
+  features.
+
 ##### `image_encryption_key`
 
   Encrypts the image using a customer-supplied encryption key.
   After you encrypt an image with a customer-supplied key, you must
   provide the same key if you use the image later (e.g. to create a
   disk from the image)
+
+##### image_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption key, encoded in
+  RFC 4648 base64 to either encrypt or decrypt this resource.
+
+##### image_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
+  customer-supplied encryption key that protects this resource.
 
 ##### `licenses`
 
@@ -1630,6 +1866,21 @@ gcompute_image { 'test-image':
 
   The parameters of the raw disk image.
 
+##### raw_disk/container_type
+  The format used to encode and transmit the block device, which
+  should be TAR. This is just a container and transmission format
+  and not a runtime format. Provided by the client when the disk
+  image is created.
+
+##### raw_disk/sha1_checksum
+  An optional SHA1 checksum of the disk image before unpackaging.
+  This is provided by the client when the disk image is created.
+
+##### raw_disk/source
+  The full Google Cloud Storage URL where disk storage is stored
+  You must provide either this property or the sourceDisk property
+  but not both.
+
 ##### `source_disk`
 
   A reference to Disk resource
@@ -1638,6 +1889,14 @@ gcompute_image { 'test-image':
 
   The customer-supplied encryption key of the source disk. Required if
   the source disk is protected by a customer-supplied encryption key.
+
+##### source_disk_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption key, encoded in
+  RFC 4648 base64 to either encrypt or decrypt this resource.
+
+##### source_disk_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
+  customer-supplied encryption key that protects this resource.
 
 ##### `source_disk_id`
 
@@ -1662,6 +1921,37 @@ gcompute_image { 'test-image':
 
 * `deprecated`: Output only.
   The deprecation status associated with this image.
+
+##### deprecated/deleted
+  An optional RFC3339 timestamp on or after which the state of this
+  resource is intended to change to DELETED. This is only
+  informational and the status will not change unless the client
+  explicitly changes it.
+
+##### deprecated/deprecated
+  An optional RFC3339 timestamp on or after which the state of this
+  resource is intended to change to DEPRECATED. This is only
+  informational and the status will not change unless the client
+  explicitly changes it.
+
+##### deprecated/obsolete
+  An optional RFC3339 timestamp on or after which the state of this
+  resource is intended to change to OBSOLETE. This is only
+  informational and the status will not change unless the client
+  explicitly changes it.
+
+##### deprecated/replacement
+  The URL of the suggested replacement for a deprecated resource.
+  The suggested replacement resource must be the same kind of
+  resource as the deprecated resource.
+
+##### deprecated/state
+  The deprecation state of this resource. This can be DEPRECATED,
+  OBSOLETE, or DELETED. Operations which create a new resource
+  using a DEPRECATED resource will return successfully, but with a
+  warning indicating the deprecated resource and recommending its
+  replacement. Operations which use OBSOLETE or DELETED resources
+  will be rejected and result in an error.
 
 * `id`: Output only.
   The unique identifier for the resource. This identifier
@@ -1712,10 +2002,86 @@ gcompute_instance { 'instance-test':
   optimize performance for you. Persistent disks are available as either
   standard hard disk drives (HDD) or solid-state drives (SSD).
 
+##### disks[]/auto_delete
+  Specifies whether the disk will be auto-deleted when the
+  instance is deleted (but not when the disk is detached from the
+  instance).
+
+##### disks[]/boot
+  Indicates that this is a boot disk. The virtual machine will
+  use the first partition of the disk for its root filesystem.
+
+##### disks[]/device_name
+  Specifies a unique device name of your choice that is reflected
+  into the /dev/disk/by-id/google-* tree of a Linux operating
+  system running within the instance. This name can be used to
+  reference the device for mounting, resizing, and so on, from
+  within the instance.
+
+##### disks[]/disk_encryption_key
+  Encrypts or decrypts a disk using a customer-supplied
+  encryption key.
+
+##### disks[]/disk_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption key,
+  encoded in RFC 4648 base64 to either encrypt or decrypt
+  this resource.
+
+##### disks[]/disk_encryption_key/rsa_encrypted_key
+  Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
+  customer-supplied encryption key to either encrypt or
+  decrypt this resource.
+
+##### disks[]/disk_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
+  customer-supplied encryption key that protects this
+  resource.
+
+##### disks[]/index
+  Assigns a zero-based index to this disk, where 0 is reserved
+  for the boot disk. For example, if you have many disks attached
+  to an instance, each disk would have a unique index number. If
+  not specified, the server will choose an appropriate value.
+
+##### disks[]/source
+  A reference to Disk resource
+
+##### disks[]/initialize_params
+  Specifies the parameters for a new disk that will be created
+  alongside the new instance. Use initialization parameters to
+  create boot disks or local SSDs attached to the new instance.
+
+##### disks[]/initialize_params/disk_name
+  Specifies the disk name. If not specified, the default is
+  to use the name of the instance.
+
+##### disks[]/initialize_params/disk_size_gb
+  Specifies the size of the disk in base-2 GB.
+
+##### disks[]/initialize_params/disk_type
+  Specifies the disk type to use to create the instance. If
+  not specified, the default is pd-standard, specified using
+  the full URL.
+
+##### disks[]/initialize_params/source_image
+  The source image to create this disk. When creating a new
+  instance, one of initializeParams.sourceImage or
+  disks.source is required.  To create a disk with one of the
+  public operating system images, specify the image by its
+  family name.
+
 ##### `guest_accelerators`
 
   List of the type and count of accelerator cards attached to the
   instance
+
+##### guest_accelerators[]/accelerator_count
+  The number of the guest accelerator cards exposed to this
+  instance.
+
+##### guest_accelerators[]/accelerator_type
+  Full or partial URL of the accelerator type resource to expose
+  to this instance.
 
 ##### `label_fingerprint`
 
@@ -1755,15 +2121,59 @@ gcompute_instance { 'instance-test':
   as connecting to the internet. Only one network interface is supported
   per instance.
 
+##### network_interfaces[]/name
+Output only.  The name of the network interface, generated by the server. For
+  network devices, these are eth0, eth1, etc
+
+##### network_interfaces[]/network
+  A reference to Network resource
+
+##### network_interfaces[]/network_ip
+  An IPv4 internal network address to assign to the instance for
+  this network interface. If not specified by the user, an unused
+  internal IP is assigned by the system.
+
+##### network_interfaces[]/subnetwork
+  The URL of the Subnetwork resource for this instance. If the
+  network resource is in legacy mode, do not provide this
+  property.  If the network is in auto subnet mode, providing the
+  subnetwork is optional. If the network is in custom subnet
+  mode, then this field should be specified.
+
 ##### `scheduling`
 
   Sets the scheduling options for this instance.
+
+##### scheduling/automatic_restart
+  Specifies whether the instance should be automatically restarted
+  if it is terminated by Compute Engine (not terminated by a user).
+  You can only set the automatic restart option for standard
+  instances. Preemptible instances cannot be automatically
+  restarted.
+
+##### scheduling/on_host_maintenance
+  Defines the maintenance behavior for this instance. For standard
+  instances, the default behavior is MIGRATE. For preemptible
+  instances, the default and only possible behavior is TERMINATE.
+  For more information, see Setting Instance Scheduling Options.
+
+##### scheduling/preemptible
+  Defines whether the instance is preemptible. This can only be set
+  during instance creation, it cannot be set or changed after the
+  instance has been created.
 
 ##### `service_accounts`
 
   A list of service accounts, with their specified scopes, authorized
   for this instance. Only one service account per VM instance is
   supported.
+
+##### service_accounts[]/email
+  Email address of the service account.
+
+##### service_accounts[]/scopes
+  The list of scopes to be made available for this service
+  account.
 
 ##### `tags`
 
@@ -1772,6 +2182,18 @@ gcompute_instance { 'instance-test':
   the client during instance creation. The tags can be later modified
   by the setTags method. Each tag within the list must comply with
   RFC1035.
+
+##### tags/fingerprint
+  Specifies a fingerprint for this request, which is essentially a
+  hash of the metadata's contents and used for optimistic locking.
+  The fingerprint is initially generated by Compute Engine and
+  changes after every request to modify or update metadata. You
+  must always provide an up-to-date fingerprint hash in order to
+  update or change metadata.
+
+##### tags/items
+  An array of tags. Each tag must be 1-63 characters long, and
+  comply with RFC1035.
 
 ##### `zone`
 
@@ -1846,6 +2268,13 @@ gcompute_instance_group { 'my-puppet-masters':
   ports.
   For example: [{name: "http", port: 80},{name: "http", port: 8080}]
   Named ports apply to all instances in this instance group.
+
+##### named_ports[]/name
+  The name for this named port.
+  The name must be 1-63 characters long, and comply with RFC1035.
+
+##### named_ports[]/port
+  The port number, which can be a value between 1 and 65535.
 
 ##### `network`
 
