@@ -140,7 +140,7 @@ gcompute_disk { 'data-disk-1':
 #### `gcompute_firewall`
 
 ```puppet
-gcompute_firewall { 'test-firewall-allow-ssh':
+gcompute_firewall { 'test-fw-allow-ssh':
   ensure      => present,
   allowed     => [
     {
@@ -166,7 +166,7 @@ gcompute_firewall { 'test-firewall-allow-ssh':
 #### `gcompute_global_address`
 
 ```puppet
-gcompute_global_address { 'my-app-loadbalancer-address':
+gcompute_global_address { 'my-app-lb-address':
   ensure     => present,
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
@@ -1228,7 +1228,7 @@ you need.
 #### Example
 
 ```puppet
-gcompute_firewall { 'test-firewall-allow-ssh':
+gcompute_firewall { 'test-fw-allow-ssh':
   ensure      => present,
   allowed     => [
     {
@@ -1346,7 +1346,7 @@ HTTP(S) load balancing.
 #### Example
 
 ```puppet
-gcompute_global_address { 'my-app-loadbalancer-address':
+gcompute_global_address { 'my-app-lb-address':
   ensure     => present,
   project    => 'google.com:graphite-playground',
   credential => 'mycred',

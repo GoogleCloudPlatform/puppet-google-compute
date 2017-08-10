@@ -85,6 +85,45 @@ puppet-codegen:
 
   * .gitignore
   * .rubocop.yml
+  * .tests/end2end/data/address.pp
+  * .tests/end2end/data/backend_bucket.pp
+  * .tests/end2end/data/backend_service.pp
+  * .tests/end2end/data/delete_address.pp
+  * .tests/end2end/data/delete_backend_bucket.pp
+  * .tests/end2end/data/delete_backend_service.pp
+  * .tests/end2end/data/delete_disk.pp
+  * .tests/end2end/data/delete_firewall.pp
+  * .tests/end2end/data/delete_global_address.pp
+  * .tests/end2end/data/delete_health_check.pp
+  * .tests/end2end/data/delete_http_health_check.pp
+  * .tests/end2end/data/delete_https_health_check.pp
+  * .tests/end2end/data/delete_image.pp
+  * .tests/end2end/data/delete_instance.pp
+  * .tests/end2end/data/delete_instance_group.pp
+  * .tests/end2end/data/delete_network.pp
+  * .tests/end2end/data/delete_route.pp
+  * .tests/end2end/data/delete_ssl_certificate.pp
+  * .tests/end2end/data/delete_subnetwork.pp
+  * .tests/end2end/data/disk.pp
+  * .tests/end2end/data/disk_type.pp
+  * .tests/end2end/data/firewall.pp
+  * .tests/end2end/data/firewall~change1.pp
+  * .tests/end2end/data/global_address.pp
+  * .tests/end2end/data/health_check.pp
+  * .tests/end2end/data/http_health_check.pp
+  * .tests/end2end/data/https_health_check.pp
+  * .tests/end2end/data/image.pp
+  * .tests/end2end/data/instance.pp
+  * .tests/end2end/data/instance_group.pp
+  * .tests/end2end/data/license.pp
+  * .tests/end2end/data/network~auto.pp
+  * .tests/end2end/data/network~convert_to_custom.pp
+  * .tests/end2end/data/network~custom.pp
+  * .tests/end2end/data/network~legacy.pp
+  * .tests/end2end/data/region.pp
+  * .tests/end2end/data/route.pp
+  * .tests/end2end/data/ssl_certificate.pp
+  * .tests/end2end/data/subnetwork.pp
   * CONTRIBUTING.md
   * examples/address.pp
   * examples/backend_bucket.pp
@@ -372,6 +411,7 @@ puppet-codegen:
 The list below contains all the files that were automatically sourced from a
 central location:
 
+  * .tests/README.md
   * Gemfile.lock
   * LICENSE
   * spec/data/poor_example.pp

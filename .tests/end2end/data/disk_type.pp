@@ -40,7 +40,7 @@
 # command line you can pass it via Facter:
 #
 #   FACTER_cred_path=/path/to/my/cred.json \
-#       puppet apply examples/delete_instance.pp
+#       puppet apply .tests/end2end/data/disk_type.pp
 #
 # For convenience you optionally can add it to your ~/.bash_profile (or the
 # respective .profile settings) environment:
@@ -55,38 +55,10 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_disk { 'data-disk-1':
-  ensure              => present,
-  size_gb             => 500,
-  disk_encryption_key => {
-    raw_key => 'SGVsbG8gZnJvbSBHb29nbGUgQ2xvdWQgUGxhdGZvcm0=',
-  },
-  zone                => 'us-central1-a',
-  project             => 'google.com:graphite-playground',
-  credential          => 'mycred',
-}
-
-gcompute_network { 'mynetwork-test':
-  auto_create_subnetworks => true,
-  project                 => 'google.com:graphite-playground',
-  credential              => 'mycred',
-}
-
-gcompute_instance { 'instance-test':
-  ensure             => absent,
-  machine_type       => 'zones/us-central1-a/machineTypes/n1-standard-1',
-  disks              => [
-    {
-      boot   => true,
-      source => 'data-disk-1'
-    }
-  ],
-  network_interfaces => [
-    {
-      network => 'mynetwork-test',
-    }
-  ],
-  zone               => 'us-central1-a',
-  project            => 'google.com:graphite-playground',
-  credential         => 'mycred',
+gcompute_disk_type { 'pd-standard':
+  default_disk_size_gb => 500,
+  deprecated_deleted   => undef, # undef = not deprecated
+  zone                 => 'us-central1-a',
+  project              => 'google.com:graphite-playground',
+  credential           => 'mycred',
 }

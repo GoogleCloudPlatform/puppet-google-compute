@@ -40,7 +40,7 @@
 # command line you can pass it via Facter:
 #
 #   FACTER_cred_path=/path/to/my/cred.json \
-#       puppet apply examples/delete_instance.pp
+#       puppet apply .tests/end2end/data/firewall~change1.pp
 #
 # For convenience you optionally can add it to your ~/.bash_profile (or the
 # respective .profile settings) environment:
@@ -55,38 +55,22 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_disk { 'data-disk-1':
-  ensure              => present,
-  size_gb             => 500,
-  disk_encryption_key => {
-    raw_key => 'SGVsbG8gZnJvbSBHb29nbGUgQ2xvdWQgUGxhdGZvcm0=',
-  },
-  zone                => 'us-central1-a',
-  project             => 'google.com:graphite-playground',
-  credential          => 'mycred',
-}
-
-gcompute_network { 'mynetwork-test':
-  auto_create_subnetworks => true,
-  project                 => 'google.com:graphite-playground',
-  credential              => 'mycred',
-}
-
-gcompute_instance { 'instance-test':
-  ensure             => absent,
-  machine_type       => 'zones/us-central1-a/machineTypes/n1-standard-1',
-  disks              => [
+gcompute_firewall { 'test-firewall-allow-ssh':
+  ensure     => present,
+  allowed    => [
     {
-      boot   => true,
-      source => 'data-disk-1'
-    }
-  ],
-  network_interfaces => [
+      ip_protocol => 'tcp',
+      ports       => [
+        '22',
+      ],
+    },
     {
-      network => 'mynetwork-test',
-    }
+      ip_protocol => 'tcp',
+      ports       => [
+        '2222',
+      ],
+    },
   ],
-  zone               => 'us-central1-a',
-  project            => 'google.com:graphite-playground',
-  credential         => 'mycred',
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
 }
