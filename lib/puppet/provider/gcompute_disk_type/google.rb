@@ -60,7 +60,6 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
 
   def self.present(name, fetch)
     result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
-    result.instance_variable_set(:@fetched, fetch)
     result
   end
 
