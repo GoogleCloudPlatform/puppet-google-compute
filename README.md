@@ -51,7 +51,7 @@ gauth_credential { 'mycred':
 Please refer to the [`google-gauth`][] module for further requirements, i.e.
 required gems.
 
-### Resources
+### Examples
 
 #### `gcompute_address`
 
@@ -419,8 +419,6 @@ gcompute_subnetwork { 'servers':
 ```
 
 
-## Reference
-
 ### Classes
 
 #### Public classes
@@ -659,6 +657,25 @@ gcompute_address { 'test1':
 
 ```
 
+#### Reference
+
+```puppet
+gcompute_address { 'id-of-resource':
+  address            => string,
+  creation_timestamp => time,
+  description        => string,
+  id                 => integer,
+  name               => string,
+  region             => reference to gcompute_region,
+  users              => [
+    string,
+    ...
+  ],
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
 ##### `address`
 
   The static external IP address represented by this
@@ -711,6 +728,21 @@ gcompute_backend_bucket { 'be-bucket-connection':
   credential  => 'mycred',
 }
 
+```
+
+#### Reference
+
+```puppet
+gcompute_backend_bucket { 'id-of-resource':
+  bucket_name        => string,
+  creation_timestamp => time,
+  description        => string,
+  enable_cdn         => boolean,
+  id                 => integer,
+  name               => string,
+  project            => string,
+  credential         => reference to gauth_credential,
+}
 ```
 
 ##### `bucket_name`
@@ -772,6 +804,62 @@ gcompute_backend_service { 'my-app-backend':
   credential    => 'mycred',
 }
 
+```
+
+#### Reference
+
+```puppet
+gcompute_backend_service { 'id-of-resource':
+  affinity_cookie_ttl_sec => integer,
+  backends                => [
+    {
+      balancing_mode               => 'UTILIZATION', 'RATE' or 'CONNECTION',
+      capacity_scaler              => double,
+      description                  => string,
+      group                        => reference to gcompute_instance_group,
+      max_connections              => integer,
+      max_connections_per_instance => integer,
+      max_rate                     => integer,
+      max_rate_per_instance        => double,
+      max_utilization              => double,
+    },
+    ...
+  ],
+  cdn_policy              => {
+    cache_key_policy => {
+      include_host           => boolean,
+      include_protocol       => boolean,
+      include_query_string   => boolean,
+      query_string_blacklist => [
+        string,
+        ...
+      ],
+      query_string_whitelist => [
+        string,
+        ...
+      ],
+    },
+  },
+  connection_draining     => {
+    draining_timeout_sec => integer,
+  },
+  creation_timestamp      => time,
+  description             => string,
+  enable_cdn              => boolean,
+  health_checks           => [
+    string,
+    ...
+  ],
+  id                      => integer,
+  name                    => string,
+  port_name               => string,
+  protocol                => 'HTTP', 'HTTPS', 'TCP' or 'SSL',
+  region                  => reference to gcompute_region,
+  session_affinity        => 'NONE', 'CLIENT_IP', 'GENERATED_COOKIE', 'CLIENT_IP_PROTO' or 'CLIENT_IP_PORT_PROTO',
+  timeout_sec             => integer,
+  project                 => string,
+  credential              => reference to gauth_credential,
+}
 ```
 
 ##### `affinity_cookie_ttl_sec`
@@ -976,6 +1064,27 @@ gcompute_disk_type { 'pd-standard':
 
 ```
 
+#### Reference
+
+```puppet
+gcompute_disk_type { 'id-of-resource':
+  creation_timestamp     => time,
+  default_disk_size_gb   => integer,
+  deprecated_deleted     => time,
+  deprecated_deprecated  => time,
+  deprecated_obsolete    => time,
+  deprecated_replacement => string,
+  deprecated_state       => 'DEPRECATED', 'OBSOLETE' or 'DELETED',
+  description            => string,
+  id                     => integer,
+  name                   => string,
+  valid_disk_size        => string,
+  zone                   => string,
+  project                => string,
+  credential             => reference to gauth_credential,
+}
+```
+
 ##### `zone`
 
 Required.  URL of the zone where the disk type resides.
@@ -1060,6 +1169,48 @@ gcompute_disk { 'data-disk-1':
   credential          => 'mycred',
 }
 
+```
+
+#### Reference
+
+```puppet
+gcompute_disk { 'id-of-resource':
+  creation_timestamp             => time,
+  description                    => string,
+  disk_encryption_key            => {
+    raw_key => string,
+    sha256  => string,
+  },
+  id                             => integer,
+  last_attach_timestamp          => time,
+  last_detach_timestamp          => time,
+  licenses                       => [
+    string,
+    ...
+  ],
+  name                           => string,
+  size_gb                        => integer,
+  source_image                   => string,
+  source_image_encryption_key    => {
+    raw_key => string,
+    sha256  => string,
+  },
+  source_image_id                => string,
+  source_snapshot                => string,
+  source_snapshot_encryption_key => {
+    raw_key => string,
+    sha256  => string,
+  },
+  source_snapshot_id             => string,
+  type                           => string,
+  users                          => [
+    string,
+    ...
+  ],
+  zone                           => string,
+  project                        => string,
+  credential                     => reference to gauth_credential,
+}
 ```
 
 ##### `description`
@@ -1251,6 +1402,42 @@ gcompute_firewall { 'test-fw-allow-ssh':
 
 ```
 
+#### Reference
+
+```puppet
+gcompute_firewall { 'id-of-resource':
+  allowed            => [
+    {
+      ip_protocol => string,
+      ports       => [
+        string,
+        ...
+      ],
+    },
+    ...
+  ],
+  creation_timestamp => time,
+  description        => string,
+  id                 => integer,
+  name               => string,
+  network            => string,
+  source_ranges      => [
+    string,
+    ...
+  ],
+  source_tags        => [
+    string,
+    ...
+  ],
+  target_tags        => [
+    string,
+    ...
+  ],
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
 ##### `allowed`
 
   The list of ALLOW rules specified by this firewall. Each rule
@@ -1354,6 +1541,21 @@ gcompute_global_address { 'my-app-lb-address':
 
 ```
 
+#### Reference
+
+```puppet
+gcompute_global_address { 'id-of-resource':
+  address            => string,
+  creation_timestamp => time,
+  description        => string,
+  id                 => integer,
+  name               => string,
+  region             => string,
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
 ##### `description`
 
   An optional description of this resource.
@@ -1405,6 +1607,26 @@ gcompute_http_health_check { 'my-app-http-hc':
   credential          => 'mycred',
 }
 
+```
+
+#### Reference
+
+```puppet
+gcompute_http_health_check { 'id-of-resource':
+  check_interval_sec  => integer,
+  creation_timestamp  => time,
+  description         => string,
+  healthy_threshold   => integer,
+  host                => string,
+  id                  => integer,
+  name                => string,
+  port                => integer,
+  request_path        => string,
+  timeout_sec         => integer,
+  unhealthy_threshold => integer,
+  project             => string,
+  credential          => reference to gauth_credential,
+}
 ```
 
 ##### `check_interval_sec`
@@ -1488,6 +1710,26 @@ gcompute_https_health_check { 'my-app-https-hc':
   credential          => 'mycred',
 }
 
+```
+
+#### Reference
+
+```puppet
+gcompute_https_health_check { 'id-of-resource':
+  check_interval_sec  => integer,
+  creation_timestamp  => time,
+  description         => string,
+  healthy_threshold   => integer,
+  host                => string,
+  id                  => integer,
+  name                => string,
+  port                => integer,
+  request_path        => string,
+  timeout_sec         => integer,
+  unhealthy_threshold => integer,
+  project             => string,
+  credential          => reference to gauth_credential,
+}
 ```
 
 ##### `check_interval_sec`
@@ -1574,6 +1816,52 @@ gcompute_health_check { 'my-app-tcp-hc':
   credential          => 'mycred',
 }
 
+```
+
+#### Reference
+
+```puppet
+gcompute_health_check { 'id-of-resource':
+  check_interval_sec  => integer,
+  creation_timestamp  => time,
+  description         => string,
+  healthy_threshold   => integer,
+  http_health_check   => {
+    host         => string,
+    port         => integer,
+    port_name    => string,
+    proxy_header => 'NONE' or 'PROXY_V1',
+    request_path => string,
+  },
+  https_health_check  => {
+    host         => string,
+    port         => integer,
+    port_name    => string,
+    proxy_header => 'NONE' or 'PROXY_V1',
+    request_path => string,
+  },
+  id                  => integer,
+  name                => string,
+  ssl_health_check    => {
+    port         => integer,
+    port_name    => string,
+    proxy_header => 'NONE' or 'PROXY_V1',
+    request      => string,
+    response     => string,
+  },
+  tcp_health_check    => {
+    port         => integer,
+    port_name    => string,
+    proxy_header => 'NONE' or 'PROXY_V1',
+    request      => string,
+    response     => string,
+  },
+  timeout_sec         => integer,
+  type                => 'TCP', 'SSL' or 'HTTP',
+  unhealthy_threshold => integer,
+  project             => string,
+  credential          => reference to gauth_credential,
+}
 ```
 
 ##### `check_interval_sec`
@@ -1750,6 +2038,17 @@ gcompute_license { 'test-license':
 
 ```
 
+#### Reference
+
+```puppet
+gcompute_license { 'id-of-resource':
+  charges_use_fee => boolean,
+  name            => string,
+  project         => string,
+  credential      => reference to gauth_credential,
+}
+```
+
 
 ##### Output-only properties
 
@@ -1792,6 +2091,55 @@ gcompute_image { 'test-image':
   credential  => 'mycred'
 }
 
+```
+
+#### Reference
+
+```puppet
+gcompute_image { 'id-of-resource':
+  archive_size_bytes         => integer,
+  creation_timestamp         => time,
+  deprecated                 => {
+    deleted     => time,
+    deprecated  => time,
+    obsolete    => time,
+    replacement => string,
+    state       => 'DEPRECATED', 'OBSOLETE' or 'DELETED',
+  },
+  description                => string,
+  disk_size_gb               => integer,
+  family                     => string,
+  guest_os_features          => [
+    {
+      type => VIRTIO_SCSI_MULTIQUEUE,
+    },
+    ...
+  ],
+  id                         => integer,
+  image_encryption_key       => {
+    raw_key => string,
+    sha256  => string,
+  },
+  licenses                   => [
+    string,
+    ...
+  ],
+  name                       => string,
+  raw_disk                   => {
+    container_type => TAR,
+    sha1_checksum  => string,
+    source         => string,
+  },
+  source_disk                => reference to gcompute_disk,
+  source_disk_encryption_key => {
+    raw_key => string,
+    sha256  => string,
+  },
+  source_disk_id             => string,
+  source_type                => RAW,
+  project                    => string,
+  credential                 => reference to gauth_credential,
+}
 ```
 
 ##### `description`
@@ -1986,6 +2334,85 @@ gcompute_instance { 'instance-test':
   credential         => 'mycred',
 }
 
+```
+
+#### Reference
+
+```puppet
+gcompute_instance { 'id-of-resource':
+  can_ip_forward     => boolean,
+  cpu_platform       => string,
+  creation_timestamp => string,
+  disks              => [
+    {
+      auto_delete         => boolean,
+      boot                => boolean,
+      device_name         => string,
+      disk_encryption_key => {
+        raw_key           => string,
+        rsa_encrypted_key => string,
+        sha256            => string,
+      },
+      index               => integer,
+      initialize_params   => {
+        disk_name    => string,
+        disk_size_gb => integer,
+        disk_type    => integer,
+        source_image => integer,
+      },
+      source              => reference to gcompute_disk,
+    },
+    ...
+  ],
+  guest_accelerators => [
+    {
+      accelerator_count => integer,
+      accelerator_type  => string,
+    },
+    ...
+  ],
+  id                 => integer,
+  label_fingerprint  => string,
+  machine_type       => string,
+  min_cpu_platform   => string,
+  name               => string,
+  network_interfaces => [
+    {
+      name       => string,
+      network    => reference to gcompute_network,
+      network_ip => string,
+      subnetwork => string,
+    },
+    ...
+  ],
+  scheduling         => {
+    automatic_restart   => boolean,
+    on_host_maintenance => string,
+    preemptible         => boolean,
+  },
+  service_accounts   => [
+    {
+      email  => boolean,
+      scopes => [
+        string,
+        ...
+      ],
+    },
+    ...
+  ],
+  status             => string,
+  status_message     => string,
+  tags               => {
+    fingerprint => string,
+    items       => [
+      string,
+      ...
+    ],
+  },
+  zone               => string,
+  project            => string,
+  credential         => reference to gauth_credential,
+}
 ```
 
 ##### `can_ip_forward`
@@ -2249,6 +2676,30 @@ gcompute_instance_group { 'my-puppet-masters':
 
 ```
 
+#### Reference
+
+```puppet
+gcompute_instance_group { 'id-of-resource':
+  creation_timestamp => time,
+  description        => string,
+  id                 => integer,
+  name               => string,
+  named_ports        => [
+    {
+      name => string,
+      port => integer,
+    },
+    ...
+  ],
+  network            => reference to gcompute_network,
+  region             => reference to gcompute_region,
+  subnetwork         => reference to gcompute_subnetwork,
+  zone               => string,
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
 ##### `description`
 
   An optional description of this resource. Provide this property when
@@ -2357,6 +2808,26 @@ gcompute_network { "mynetwork-${network_id}":
 
 ```
 
+#### Reference
+
+```puppet
+gcompute_network { 'id-of-resource':
+  auto_create_subnetworks => boolean,
+  creation_timestamp      => time,
+  description             => string,
+  gateway_ipv4            => string,
+  id                      => integer,
+  ipv4_range              => string,
+  name                    => string,
+  subnetworks             => [
+    string,
+    ...
+  ],
+  project                 => string,
+  credential              => reference to gauth_credential,
+}
+```
+
 ##### `description`
 
   An optional description of this resource. Provide this property when
@@ -2421,6 +2892,28 @@ gcompute_region { 'us-west1':
   credential => 'mycred',
 }
 
+```
+
+#### Reference
+
+```puppet
+gcompute_region { 'id-of-resource':
+  creation_timestamp     => time,
+  deprecated_deleted     => time,
+  deprecated_deprecated  => time,
+  deprecated_obsolete    => time,
+  deprecated_replacement => string,
+  deprecated_state       => 'DEPRECATED', 'OBSOLETE' or 'DELETED',
+  description            => string,
+  id                     => integer,
+  name                   => string,
+  zones                  => [
+    string,
+    ...
+  ],
+  project                => string,
+  credential             => reference to gauth_credential,
+}
 ```
 
 ##### `name`
@@ -2508,6 +3001,27 @@ gcompute_route { 'corp-route':
   credential       => 'mycred',
 }
 
+```
+
+#### Reference
+
+```puppet
+gcompute_route { 'id-of-resource':
+  dest_range          => string,
+  name                => string,
+  network             => reference to gcompute_network,
+  next_hop_gateway    => string,
+  next_hop_instance   => string,
+  next_hop_ip         => string,
+  next_hop_vpn_tunnel => string,
+  priority            => integer,
+  tags                => [
+    string,
+    ...
+  ],
+  project             => string,
+  credential          => reference to gauth_credential,
+}
 ```
 
 ##### `dest_range`
@@ -2617,6 +3131,21 @@ OGN02HtkpBOZzzvUARTR10JQoSe2/5PIwQ==
 
 ```
 
+#### Reference
+
+```puppet
+gcompute_ssl_certificate { 'id-of-resource':
+  certificate        => string,
+  creation_timestamp => time,
+  description        => string,
+  id                 => integer,
+  name               => string,
+  private_key        => string,
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
 ##### `certificate`
 
   The certificate in PEM format.
@@ -2691,6 +3220,24 @@ gcompute_subnetwork { 'servers':
   credential    => 'mycred',
 }
 
+```
+
+#### Reference
+
+```puppet
+gcompute_subnetwork { 'id-of-resource':
+  creation_timestamp       => time,
+  description              => string,
+  gateway_address          => string,
+  id                       => integer,
+  ip_cidr_range            => string,
+  name                     => string,
+  network                  => reference to gcompute_network,
+  private_ip_google_access => boolean,
+  region                   => reference to gcompute_region,
+  project                  => string,
+  credential               => reference to gauth_credential,
+}
 ```
 
 ##### `description`
