@@ -261,6 +261,9 @@ gcompute_image { 'test-image':
 #      d) gcompute_zone (to determine where the VM will be allocated)
 #      e) gcompute_machine_type (to determine the kind of machine to be created)
 #   2) Don't forget to define a source_image for the OS of the boot disk
+#      a) You can use the provided gcompute_image_family function to specify the
+#         latest version of an operating system of a given family
+#         e.g. Ubuntu 16.04
 gcompute_instance { 'instance-test':
   ensure             => present,
   machine_type       => 'n1-standard-1',
@@ -2018,6 +2021,9 @@ An instance is a virtual machine (VM) hosted on Google's infrastructure.
 #      d) gcompute_zone (to determine where the VM will be allocated)
 #      e) gcompute_machine_type (to determine the kind of machine to be created)
 #   2) Don't forget to define a source_image for the OS of the boot disk
+#      a) You can use the provided gcompute_image_family function to specify the
+#         latest version of an operating system of a given family
+#         e.g. Ubuntu 16.04
 gcompute_instance { 'instance-test':
   ensure             => present,
   machine_type       => 'n1-standard-1',
