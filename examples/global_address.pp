@@ -55,7 +55,7 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_global_address { 'my-app-loadbalancer-address':
+gcompute_global_address { 'my-app-lb-address':
   ensure     => present,
   project    => 'google.com:graphite-playground',
   credential => 'mycred',

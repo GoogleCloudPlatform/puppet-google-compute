@@ -29,6 +29,7 @@ require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
+require 'google/compute/property/zone_name'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_disk_type) do
@@ -40,6 +41,10 @@ Puppet::Type.newtype(:gcompute_disk_type) do
 
   autorequire(:gauth_credential) do
     [self[:credential]]
+  end
+
+  autorequire(:gcompute_zone) do
+    self[:zone].autorequires
   end
 
   newparam :credential do
@@ -58,8 +63,8 @@ Puppet::Type.newtype(:gcompute_disk_type) do
     desc 'The name of the DiskType.'
   end
 
-  newparam(:zone, parent: Google::Compute::Property::String) do
-    desc 'URL of the zone where the disk type resides.'
+  newparam(:zone, parent: Google::Compute::Property::ZoneNameRef) do
+    desc 'A reference to Zone resource'
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do

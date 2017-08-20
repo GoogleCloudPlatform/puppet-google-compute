@@ -57,7 +57,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
             end
 
             let(:catalog) do
-              apply_compiled_manifest(
+              apply_with_error_check(
                 <<-MANIFEST
                 gcompute_global_address { 'title0':
                   ensure      => present,
@@ -104,9 +104,10 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
-              it do
-                is_expected.to have_attributes(region: 'test region#0 data')
-              end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'region' do
+              #   # Add test code here
+              # end
             end
 
             context 'Gcompute_global_address[title1]' do
@@ -130,9 +131,10 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
-              it do
-                is_expected.to have_attributes(region: 'test region#1 data')
-              end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'region' do
+              #   # Add test code here
+              # end
             end
 
             context 'Gcompute_global_address[title2]' do
@@ -156,9 +158,10 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
-              it do
-                is_expected.to have_attributes(region: 'test region#2 data')
-              end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'region' do
+              #   # Add test code here
+              # end
             end
           end
 
@@ -184,7 +187,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
             end
 
             let(:catalog) do
-              apply_compiled_manifest(
+              apply_with_error_check(
                 <<-MANIFEST
                 gcompute_global_address { 'title0':
                   ensure      => present,
@@ -234,9 +237,10 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
-              it do
-                is_expected.to have_attributes(region: 'test region#0 data')
-              end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'region' do
+              #   # Add test code here
+              # end
             end
 
             context 'Gcompute_global_address[title1]' do
@@ -260,9 +264,10 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
-              it do
-                is_expected.to have_attributes(region: 'test region#1 data')
-              end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'region' do
+              #   # Add test code here
+              # end
             end
 
             context 'Gcompute_global_address[title2]' do
@@ -286,9 +291,10 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
-              it do
-                is_expected.to have_attributes(region: 'test region#2 data')
-              end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'region' do
+              #   # Add test code here
+              # end
             end
           end
 
@@ -354,7 +360,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_global_address { 'title0':
                 ensure      => present,
@@ -393,7 +399,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_global_address { 'title0':
                 ensure      => present,
@@ -431,7 +437,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_global_address { 'title0':
                 ensure     => absent,
@@ -463,7 +469,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_global_address { 'title0':
                 ensure     => absent,
@@ -500,7 +506,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_global_address { 'title0':
                 ensure     => absent,
@@ -534,7 +540,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_global_address { 'title0':
                 ensure     => absent,
@@ -647,6 +653,11 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
     body = { kind: 'compute#operation',
              status: 'DONE', targetLink: self_link(merged_uri) }.to_json
 
+    # Remove refs that are also part of the body
+    expected_body = Hash[expected_body.map do |k, v|
+      [k.is_a?(Symbol) ? k.id2name : k, v]
+    end]
+
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
@@ -688,6 +699,55 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
     data
   end
 
+  def expect_network_get_success_region(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_region("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_region(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_region(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_region(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_region', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_region objects
+  def uri_data_region(id)
+    {
+      project: GoogleTests::Constants::R_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::R_PROJECT_DATA.size],
+      name: GoogleTests::Constants::R_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::R_NAME_DATA.size]
+    }
+  end
+
+  def self_link_region(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_region(
+        'projects/{{project}}/regions/{{name}}',
+        data
+      )
+    )
+  end
+
   def debug(message)
     puts(message) if ENV['RSPEC_DEBUG']
   end
@@ -695,6 +755,11 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
   def debug_network(message)
     puts("Network #{message}") \
       if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
+  end
+
+  def expand_variables_region(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .expand_variables(template, data, ext_dat)
   end
 
   def create_type(id)

@@ -33,6 +33,7 @@ require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
+require 'google/compute/property/zone_name'
 require 'google/hash_utils'
 require 'puppet'
 
@@ -60,7 +61,6 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
 
   def self.present(name, fetch)
     result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
-    result.instance_variable_set(:@fetched, fetch)
     result
   end
 

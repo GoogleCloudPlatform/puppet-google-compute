@@ -55,6 +55,11 @@ gauth_credential { 'mycred':
   ],
 }
 
+gcompute_zone { 'us-central1-a':
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
 gcompute_network { 'my-network':
   ensure     => present,
   project    => 'google.com:graphite-playground',

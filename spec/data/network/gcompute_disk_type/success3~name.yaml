@@ -40,5 +40,5 @@ deprecated:
 description: test description#2 data
 project: "'test project#2 data'"
 validDiskSize: test valid_disk_size#2 data
-zone: test zone#2 data
+zone: test name#2 data
 selfLink: selflink(resource(disk_type,2))

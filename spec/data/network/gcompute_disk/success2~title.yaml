@@ -55,5 +55,5 @@ type: test type#1 data
 users:
 - uu
 - vv
-zone: test zone#1 data
+zone: test name#1 data
 selfLink: selflink(resource(disk,1))

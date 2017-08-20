@@ -43,8 +43,6 @@ Puppet::Type.newtype(:gcompute_region) do
     [self[:credential]]
   end
 
-  ensurable
-
   newparam :credential do
     desc <<-EOT
       A gauth_credential name to be used to authenticate with Google Cloud

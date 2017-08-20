@@ -55,13 +55,6 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_disk { 'data-disk-1':
-  ensure     => present,
-  zone       => 'us-central1-a',
-  project    => 'google.com:graphite-playground',
-  credential => 'mycred',
-}
-
 gcompute_image { 'test-image':
   ensure     => absent,
   project    => 'google.com:graphite-playground',

@@ -62,7 +62,6 @@ Puppet::Type.type(:gcompute_ssl_certificate).provide(:google) do
     result = new(
       { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
     )
-    result.instance_variable_set(:@fetched, fetch)
     result
   end
 
@@ -92,7 +91,7 @@ Puppet::Type.type(:gcompute_ssl_certificate).provide(:google) do
                                                     fetch_auth(@resource),
                                                     'application/json',
                                                     resource_to_request)
-    @fetched = wait_for_operation create_req.send, @resource
+    wait_for_operation create_req.send, @resource
     @property_hash[:ensure] = :present
   end
 
@@ -113,7 +112,7 @@ Puppet::Type.type(:gcompute_ssl_certificate).provide(:google) do
                                                    fetch_auth(@resource),
                                                    'application/json',
                                                    resource_to_request)
-    @fetched = wait_for_operation update_req.send, @resource
+    wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)

@@ -55,38 +55,53 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 1,
                 name: 'title0',
                 disk: 'selflink(resource(disk,0))',
+                zone: 'test name#0 data',
+                machine_type: 'selflink(resource(machine_type,0))',
                 address: 'test address#0 data',
                 network: 'selflink(resource(network,0))'
               expect_network_get_success \
                 2,
                 name: 'title1',
                 disk: 'selflink(resource(disk,1))',
+                zone: 'test name#1 data',
+                machine_type: 'selflink(resource(machine_type,1))',
                 address: 'test address#1 data',
                 network: 'selflink(resource(network,1))'
               expect_network_get_success \
                 3,
                 name: 'title2',
                 disk: 'selflink(resource(disk,2))',
+                zone: 'test name#2 data',
+                machine_type: 'selflink(resource(machine_type,2))',
                 address: 'test address#2 data',
                 network: 'selflink(resource(network,2))'
               expect_network_get_success_disk 1
               expect_network_get_success_disk 2
               expect_network_get_success_disk 3
-              expect_network_get_success_address 1, region: 'test name#0 data'
-              expect_network_get_success_address 2, region: 'test name#1 data'
-              expect_network_get_success_address 3, region: 'test name#2 data'
+              expect_network_get_success_zone 1
+              expect_network_get_success_zone 2
+              expect_network_get_success_zone 3
+              expect_network_get_success_machine_type 1
+              expect_network_get_success_machine_type 2
+              expect_network_get_success_machine_type 3
+              expect_network_get_success_address 1
+              expect_network_get_success_address 2
+              expect_network_get_success_address 3
+              expect_network_get_success_region 1
+              expect_network_get_success_region 2
+              expect_network_get_success_region 3
               expect_network_get_success_network 1
               expect_network_get_success_network 2
               expect_network_get_success_network 3
             end
 
             let(:catalog) do
-              apply_compiled_manifest(
+              apply_with_error_check(
                 <<-MANIFEST
                 gcompute_disk { 'resource(disk,0)':
                   ensure     => present,
                   name       => 'test name#0 data',
-                  zone       => 'test zone#0 data',
+                  zone       => 'resource(zone,0)',
                   project    => 'test project#0 data',
                   credential => 'cred0',
                 }
@@ -94,7 +109,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 gcompute_disk { 'resource(disk,1)':
                   ensure     => present,
                   name       => 'test name#1 data',
-                  zone       => 'test zone#1 data',
+                  zone       => 'resource(zone,1)',
                   project    => 'test project#1 data',
                   credential => 'cred1',
                 }
@@ -102,7 +117,46 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 gcompute_disk { 'resource(disk,2)':
                   ensure     => present,
                   name       => 'test name#2 data',
-                  zone       => 'test zone#2 data',
+                  zone       => 'resource(zone,2)',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_zone { 'resource(zone,0)':
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_zone { 'resource(zone,1)':
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_zone { 'resource(zone,2)':
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_machine_type { 'resource(machine_type,0)':
+                  name       => 'test name#0 data',
+                  zone       => 'resource(zone,0)',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_machine_type { 'resource(machine_type,1)':
+                  name       => 'test name#1 data',
+                  zone       => 'resource(zone,1)',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_machine_type { 'resource(machine_type,2)':
+                  name       => 'test name#2 data',
+                  zone       => 'resource(zone,2)',
                   project    => 'test project#2 data',
                   credential => 'cred2',
                 }
@@ -127,6 +181,24 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   ensure     => present,
                   name       => 'test name#2 data',
                   region     => 'resource(region,2)',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_region { 'resource(region,0)':
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_region { 'resource(region,1)':
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_region { 'resource(region,2)':
+                  name       => 'test name#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
                 }
@@ -248,7 +320,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     },
                   ],
                   label_fingerprint  => 'test label_fingerprint#0 data',
-                  machine_type       => 'test machine_type#0 data',
+                  machine_type       => 'resource(machine_type,0)',
                   min_cpu_platform   => 'test min_cpu_platform#0 data',
                   network_interfaces => [
                     {
@@ -326,7 +398,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     fingerprint => 'test fingerprint#0 data',
                     items       => ['hh', 'ii', 'jj'],
                   },
-                  zone               => 'test zone#0 data',
+                  zone               => 'resource(zone,0)',
                   project            => 'test project#0 data',
                   credential         => 'cred0',
                 }
@@ -401,7 +473,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     },
                   ],
                   label_fingerprint  => 'test label_fingerprint#1 data',
-                  machine_type       => 'test machine_type#1 data',
+                  machine_type       => 'resource(machine_type,1)',
                   min_cpu_platform   => 'test min_cpu_platform#1 data',
                   network_interfaces => [
                     {
@@ -515,7 +587,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     fingerprint => 'test fingerprint#1 data',
                     items       => ['qq', 'rr', 'ss', 'tt'],
                   },
-                  zone               => 'test zone#1 data',
+                  zone               => 'resource(zone,1)',
                   project            => 'test project#1 data',
                   credential         => 'cred1',
                 }
@@ -580,7 +652,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     },
                   ],
                   label_fingerprint  => 'test label_fingerprint#2 data',
-                  machine_type       => 'test machine_type#2 data',
+                  machine_type       => 'resource(machine_type,2)',
                   min_cpu_platform   => 'test min_cpu_platform#2 data',
                   network_interfaces => [
                     {
@@ -709,7 +781,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     fingerprint => 'test fingerprint#2 data',
                     items       => ['yy', 'zz'],
                   },
-                  zone               => 'test zone#2 data',
+                  zone               => 'resource(zone,2)',
                   project            => 'test project#2 data',
                   credential         => 'cred2',
                 }
@@ -748,10 +820,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#0 data'
                   )
               end
-              it do
-                is_expected
-                  .to have_attributes(machine_type: 'test machine_type#0 data')
-              end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'machineType' do
+              #   # Add test code here
+              # end
               it do
                 is_expected
                   .to have_attributes(
@@ -817,10 +889,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#1 data'
                   )
               end
-              it do
-                is_expected
-                  .to have_attributes(machine_type: 'test machine_type#1 data')
-              end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'machineType' do
+              #   # Add test code here
+              # end
               it do
                 is_expected
                   .to have_attributes(
@@ -886,10 +958,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#2 data'
                   )
               end
-              it do
-                is_expected
-                  .to have_attributes(machine_type: 'test machine_type#2 data')
-              end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'machineType' do
+              #   # Add test code here
+              # end
               it do
                 is_expected
                   .to have_attributes(
@@ -944,36 +1016,51 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               expect_network_get_success \
                 1,
                 disk: 'selflink(resource(disk,0))',
+                zone: 'test name#0 data',
+                machine_type: 'selflink(resource(machine_type,0))',
                 address: 'test address#0 data',
                 network: 'selflink(resource(network,0))'
               expect_network_get_success \
                 2,
                 disk: 'selflink(resource(disk,1))',
+                zone: 'test name#1 data',
+                machine_type: 'selflink(resource(machine_type,1))',
                 address: 'test address#1 data',
                 network: 'selflink(resource(network,1))'
               expect_network_get_success \
                 3,
                 disk: 'selflink(resource(disk,2))',
+                zone: 'test name#2 data',
+                machine_type: 'selflink(resource(machine_type,2))',
                 address: 'test address#2 data',
                 network: 'selflink(resource(network,2))'
               expect_network_get_success_disk 1
               expect_network_get_success_disk 2
               expect_network_get_success_disk 3
-              expect_network_get_success_address 1, region: 'test name#0 data'
-              expect_network_get_success_address 2, region: 'test name#1 data'
-              expect_network_get_success_address 3, region: 'test name#2 data'
+              expect_network_get_success_zone 1
+              expect_network_get_success_zone 2
+              expect_network_get_success_zone 3
+              expect_network_get_success_machine_type 1
+              expect_network_get_success_machine_type 2
+              expect_network_get_success_machine_type 3
+              expect_network_get_success_address 1
+              expect_network_get_success_address 2
+              expect_network_get_success_address 3
+              expect_network_get_success_region 1
+              expect_network_get_success_region 2
+              expect_network_get_success_region 3
               expect_network_get_success_network 1
               expect_network_get_success_network 2
               expect_network_get_success_network 3
             end
 
             let(:catalog) do
-              apply_compiled_manifest(
+              apply_with_error_check(
                 <<-MANIFEST
                 gcompute_disk { 'resource(disk,0)':
                   ensure     => present,
                   name       => 'test name#0 data',
-                  zone       => 'test zone#0 data',
+                  zone       => 'resource(zone,0)',
                   project    => 'test project#0 data',
                   credential => 'cred0',
                 }
@@ -981,7 +1068,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 gcompute_disk { 'resource(disk,1)':
                   ensure     => present,
                   name       => 'test name#1 data',
-                  zone       => 'test zone#1 data',
+                  zone       => 'resource(zone,1)',
                   project    => 'test project#1 data',
                   credential => 'cred1',
                 }
@@ -989,7 +1076,46 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 gcompute_disk { 'resource(disk,2)':
                   ensure     => present,
                   name       => 'test name#2 data',
-                  zone       => 'test zone#2 data',
+                  zone       => 'resource(zone,2)',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_zone { 'resource(zone,0)':
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_zone { 'resource(zone,1)':
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_zone { 'resource(zone,2)':
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_machine_type { 'resource(machine_type,0)':
+                  name       => 'test name#0 data',
+                  zone       => 'resource(zone,0)',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_machine_type { 'resource(machine_type,1)':
+                  name       => 'test name#1 data',
+                  zone       => 'resource(zone,1)',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_machine_type { 'resource(machine_type,2)':
+                  name       => 'test name#2 data',
+                  zone       => 'resource(zone,2)',
                   project    => 'test project#2 data',
                   credential => 'cred2',
                 }
@@ -1014,6 +1140,24 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   ensure     => present,
                   name       => 'test name#2 data',
                   region     => 'resource(region,2)',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_region { 'resource(region,0)':
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_region { 'resource(region,1)':
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_region { 'resource(region,2)':
+                  name       => 'test name#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
                 }
@@ -1135,7 +1279,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     },
                   ],
                   label_fingerprint  => 'test label_fingerprint#0 data',
-                  machine_type       => 'test machine_type#0 data',
+                  machine_type       => 'resource(machine_type,0)',
                   min_cpu_platform   => 'test min_cpu_platform#0 data',
                   name               => 'test name#0 data',
                   network_interfaces => [
@@ -1214,7 +1358,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     fingerprint => 'test fingerprint#0 data',
                     items       => ['hh', 'ii', 'jj'],
                   },
-                  zone               => 'test zone#0 data',
+                  zone               => 'resource(zone,0)',
                   project            => 'test project#0 data',
                   credential         => 'cred0',
                 }
@@ -1289,7 +1433,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     },
                   ],
                   label_fingerprint  => 'test label_fingerprint#1 data',
-                  machine_type       => 'test machine_type#1 data',
+                  machine_type       => 'resource(machine_type,1)',
                   min_cpu_platform   => 'test min_cpu_platform#1 data',
                   name               => 'test name#1 data',
                   network_interfaces => [
@@ -1404,7 +1548,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     fingerprint => 'test fingerprint#1 data',
                     items       => ['qq', 'rr', 'ss', 'tt'],
                   },
-                  zone               => 'test zone#1 data',
+                  zone               => 'resource(zone,1)',
                   project            => 'test project#1 data',
                   credential         => 'cred1',
                 }
@@ -1469,7 +1613,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     },
                   ],
                   label_fingerprint  => 'test label_fingerprint#2 data',
-                  machine_type       => 'test machine_type#2 data',
+                  machine_type       => 'resource(machine_type,2)',
                   min_cpu_platform   => 'test min_cpu_platform#2 data',
                   name               => 'test name#2 data',
                   network_interfaces => [
@@ -1599,7 +1743,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     fingerprint => 'test fingerprint#2 data',
                     items       => ['yy', 'zz'],
                   },
-                  zone               => 'test zone#2 data',
+                  zone               => 'resource(zone,2)',
                   project            => 'test project#2 data',
                   credential         => 'cred2',
                 }
@@ -1638,10 +1782,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#0 data'
                   )
               end
-              it do
-                is_expected
-                  .to have_attributes(machine_type: 'test machine_type#0 data')
-              end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'machineType' do
+              #   # Add test code here
+              # end
               it do
                 is_expected
                   .to have_attributes(
@@ -1707,10 +1851,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#1 data'
                   )
               end
-              it do
-                is_expected
-                  .to have_attributes(machine_type: 'test machine_type#1 data')
-              end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'machineType' do
+              #   # Add test code here
+              # end
               it do
                 is_expected
                   .to have_attributes(
@@ -1776,10 +1920,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#2 data'
                   )
               end
-              it do
-                is_expected
-                  .to have_attributes(machine_type: 'test machine_type#2 data')
-              end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'machineType' do
+              #   # Add test code here
+              # end
               it do
                 is_expected
                   .to have_attributes(
@@ -1864,11 +2008,14 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
         # Ensure present: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      name: 'title0',
-                                      disk: 'selflink(resource(disk,0))',
-                                      address: 'test address#0 data',
-                                      network: 'selflink(resource(network,0))'
+            expect_network_get_failed \
+              1,
+              name: 'title0',
+              disk: 'selflink(resource(disk,0))',
+              zone: 'test name#0 data',
+              machine_type: 'selflink(resource(machine_type,0))',
+              address: 'test address#0 data',
+              network: 'selflink(resource(network,0))'
             expect_network_create \
               1,
               {
@@ -1967,26 +2114,26 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   }
                 ],
                 'labelFingerprint' => 'test label_fingerprint#0 data',
-                'machineType' => 'test machine_type#0 data',
+                'machineType' => 'selflink(resource(machine_type,0))',
                 'minCpuPlatform' => 'test min_cpu_platform#0 data',
                 'name' => 'title0',
                 'networkInterfaces' => [
                   {
                     'accessConfigs' => [
                       {
-                        'name': 'test name#0 data',
-                        'nat_ip': 'resource(address,0)',
-                        'type': 'ONE_TO_ONE_NAT'
+                        'name' => 'test name#0 data',
+                        'natIP' => 'test address#0 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       },
                       {
-                        'name': 'test name#1 data',
-                        'nat_ip': 'resource(address,1)',
-                        'type': 'ONE_TO_ONE_NAT'
+                        'name' => 'test name#1 data',
+                        'natIP' => 'test address#1 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       },
                       {
-                        'name': 'test name#2 data',
-                        'nat_ip': 'resource(address,2)',
-                        'type': 'ONE_TO_ONE_NAT'
+                        'name' => 'test name#2 data',
+                        'natIP' => 'test address#2 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       }
                     ],
                     'name' => 'test name#0 data',
@@ -1997,24 +2144,24 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   {
                     'accessConfigs' => [
                       {
-                        'name': 'test name#1 data',
-                        'nat_ip': 'resource(address,1)',
-                        'type': 'ONE_TO_ONE_NAT'
+                        'name' => 'test name#1 data',
+                        'natIP' => 'test address#1 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       },
                       {
-                        'name': 'test name#2 data',
-                        'nat_ip': 'resource(address,2)',
-                        'type': 'ONE_TO_ONE_NAT'
+                        'name' => 'test name#2 data',
+                        'natIP' => 'test address#2 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       },
                       {
-                        'name': 'test name#3 data',
-                        'nat_ip': 'resource(address,3)',
-                        'type': 'ONE_TO_ONE_NAT'
+                        'name' => 'test name#3 data',
+                        'natIP' => 'test address#0 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       },
                       {
-                        'name': 'test name#4 data',
-                        'nat_ip': 'resource(address,4)',
-                        'type': 'ONE_TO_ONE_NAT'
+                        'name' => 'test name#4 data',
+                        'natIP' => 'test address#1 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       }
                     ],
                     'name' => 'test name#1 data',
@@ -2049,30 +2196,42 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               },
               name: 'title0',
               disk: 'selflink(resource(disk,0))',
+              zone: 'test name#0 data',
+              machine_type: 'selflink(resource(machine_type,0))',
               address: 'test address#0 data',
               network: 'selflink(resource(network,0))'
-            expect_network_get_async 1,
-                                     name: 'title0',
-                                     disk: 'selflink(resource(disk,0))',
-                                     address: 'test address#0 data',
-                                     network: 'selflink(resource(network,0))'
+            expect_network_get_async \
+              1,
+              name: 'title0',
+              disk: 'selflink(resource(disk,0))',
+              zone: 'test name#0 data',
+              machine_type: 'selflink(resource(machine_type,0))',
+              address: 'test address#0 data',
+              network: 'selflink(resource(network,0))'
             expect_network_get_success_disk 1
             expect_network_get_success_disk 2
             expect_network_get_success_disk 3
-            expect_network_get_success_address 1, region: 'test name#0 data'
-            expect_network_get_success_address 2, region: 'test name#1 data'
-            expect_network_get_success_address 3, region: 'test name#2 data'
+            expect_network_get_success_zone 1
+            expect_network_get_success_zone 2
+            expect_network_get_success_zone 3
+            expect_network_get_success_machine_type 1
+            expect_network_get_success_address 1
+            expect_network_get_success_address 2
+            expect_network_get_success_address 3
+            expect_network_get_success_region 1
+            expect_network_get_success_region 2
+            expect_network_get_success_region 3
             expect_network_get_success_network 1
             expect_network_get_success_network 2
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_disk { 'resource(disk,0)':
                 ensure     => present,
                 name       => 'test name#0 data',
-                zone       => 'test zone#0 data',
+                zone       => 'resource(zone,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -2080,7 +2239,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               gcompute_disk { 'resource(disk,1)':
                 ensure     => present,
                 name       => 'test name#1 data',
-                zone       => 'test zone#1 data',
+                zone       => 'resource(zone,1)',
                 project    => 'test project#1 data',
                 credential => 'cred1',
               }
@@ -2088,9 +2247,34 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               gcompute_disk { 'resource(disk,2)':
                 ensure     => present,
                 name       => 'test name#2 data',
-                zone       => 'test zone#2 data',
+                zone       => 'resource(zone,2)',
                 project    => 'test project#2 data',
                 credential => 'cred2',
+              }
+
+              gcompute_zone { 'resource(zone,0)':
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_zone { 'resource(zone,1)':
+                name       => 'test name#1 data',
+                project    => 'test project#1 data',
+                credential => 'cred1',
+              }
+
+              gcompute_zone { 'resource(zone,2)':
+                name       => 'test name#2 data',
+                project    => 'test project#2 data',
+                credential => 'cred2',
+              }
+
+              gcompute_machine_type { 'resource(machine_type,0)':
+                name       => 'test name#0 data',
+                zone       => 'resource(zone,0)',
+                project    => 'test project#0 data',
+                credential => 'cred0',
               }
 
               gcompute_address { 'resource(address,0)':
@@ -2113,6 +2297,24 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 ensure     => present,
                 name       => 'test name#2 data',
                 region     => 'resource(region,2)',
+                project    => 'test project#2 data',
+                credential => 'cred2',
+              }
+
+              gcompute_region { 'resource(region,0)':
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_region { 'resource(region,1)':
+                name       => 'test name#1 data',
+                project    => 'test project#1 data',
+                credential => 'cred1',
+              }
+
+              gcompute_region { 'resource(region,2)':
+                name       => 'test name#2 data',
                 project    => 'test project#2 data',
                 credential => 'cred2',
               }
@@ -2227,7 +2429,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   },
                 ],
                 label_fingerprint  => 'test label_fingerprint#0 data',
-                machine_type       => 'test machine_type#0 data',
+                machine_type       => 'resource(machine_type,0)',
                 min_cpu_platform   => 'test min_cpu_platform#0 data',
                 network_interfaces => [
                   {
@@ -2305,7 +2507,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   fingerprint => 'test fingerprint#0 data',
                   items       => ['hh', 'ii', 'jj'],
                 },
-                zone               => 'test zone#0 data',
+                zone               => 'resource(zone,0)',
                 project            => 'test project#0 data',
                 credential         => 'cred0',
               }
@@ -2329,10 +2531,13 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
         # Ensure present: resource missing, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      disk: 'selflink(resource(disk,0))',
-                                      address: 'test address#0 data',
-                                      network: 'selflink(resource(network,0))'
+            expect_network_get_failed \
+              1,
+              disk: 'selflink(resource(disk,0))',
+              zone: 'test name#0 data',
+              machine_type: 'selflink(resource(machine_type,0))',
+              address: 'test address#0 data',
+              network: 'selflink(resource(network,0))'
             expect_network_create \
               1,
               {
@@ -2431,26 +2636,26 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   }
                 ],
                 'labelFingerprint' => 'test label_fingerprint#0 data',
-                'machineType' => 'test machine_type#0 data',
+                'machineType' => 'selflink(resource(machine_type,0))',
                 'minCpuPlatform' => 'test min_cpu_platform#0 data',
                 'name' => 'test name#0 data',
                 'networkInterfaces' => [
                   {
                     'accessConfigs' => [
                       {
-                        'name': 'test name#0 data',
-                        'nat_ip': 'resource(address,0)',
-                        'type': 'ONE_TO_ONE_NAT'
+                        'name' => 'test name#0 data',
+                        'natIP' => 'test address#0 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       },
                       {
-                        'name': 'test name#1 data',
-                        'nat_ip': 'resource(address,1)',
-                        'type': 'ONE_TO_ONE_NAT'
+                        'name' => 'test name#1 data',
+                        'natIP' => 'test address#1 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       },
                       {
-                        'name': 'test name#2 data',
-                        'nat_ip': 'resource(address,2)',
-                        'type': 'ONE_TO_ONE_NAT'
+                        'name' => 'test name#2 data',
+                        'natIP' => 'test address#2 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       }
                     ],
                     'name' => 'test name#0 data',
@@ -2461,24 +2666,24 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   {
                     'accessConfigs' => [
                       {
-                        'name': 'test name#1 data',
-                        'nat_ip': 'resource(address,1)',
-                        'type': 'ONE_TO_ONE_NAT'
+                        'name' => 'test name#1 data',
+                        'natIP' => 'test address#1 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       },
                       {
-                        'name': 'test name#2 data',
-                        'nat_ip': 'resource(address,2)',
-                        'type': 'ONE_TO_ONE_NAT'
+                        'name' => 'test name#2 data',
+                        'natIP' => 'test address#2 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       },
                       {
-                        'name': 'test name#3 data',
-                        'nat_ip': 'resource(address,3)',
-                        'type': 'ONE_TO_ONE_NAT'
+                        'name' => 'test name#3 data',
+                        'natIP' => 'test address#0 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       },
                       {
-                        'name': 'test name#4 data',
-                        'nat_ip': 'resource(address,4)',
-                        'type': 'ONE_TO_ONE_NAT'
+                        'name' => 'test name#4 data',
+                        'natIP' => 'test address#1 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       }
                     ],
                     'name' => 'test name#1 data',
@@ -2512,29 +2717,41 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 }
               },
               disk: 'selflink(resource(disk,0))',
+              zone: 'test name#0 data',
+              machine_type: 'selflink(resource(machine_type,0))',
               address: 'test address#0 data',
               network: 'selflink(resource(network,0))'
-            expect_network_get_async 1,
-                                     disk: 'selflink(resource(disk,0))',
-                                     address: 'test address#0 data',
-                                     network: 'selflink(resource(network,0))'
+            expect_network_get_async \
+              1,
+              disk: 'selflink(resource(disk,0))',
+              zone: 'test name#0 data',
+              machine_type: 'selflink(resource(machine_type,0))',
+              address: 'test address#0 data',
+              network: 'selflink(resource(network,0))'
             expect_network_get_success_disk 1
             expect_network_get_success_disk 2
             expect_network_get_success_disk 3
-            expect_network_get_success_address 1, region: 'test name#0 data'
-            expect_network_get_success_address 2, region: 'test name#1 data'
-            expect_network_get_success_address 3, region: 'test name#2 data'
+            expect_network_get_success_zone 1
+            expect_network_get_success_zone 2
+            expect_network_get_success_zone 3
+            expect_network_get_success_machine_type 1
+            expect_network_get_success_address 1
+            expect_network_get_success_address 2
+            expect_network_get_success_address 3
+            expect_network_get_success_region 1
+            expect_network_get_success_region 2
+            expect_network_get_success_region 3
             expect_network_get_success_network 1
             expect_network_get_success_network 2
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_disk { 'resource(disk,0)':
                 ensure     => present,
                 name       => 'test name#0 data',
-                zone       => 'test zone#0 data',
+                zone       => 'resource(zone,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -2542,7 +2759,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               gcompute_disk { 'resource(disk,1)':
                 ensure     => present,
                 name       => 'test name#1 data',
-                zone       => 'test zone#1 data',
+                zone       => 'resource(zone,1)',
                 project    => 'test project#1 data',
                 credential => 'cred1',
               }
@@ -2550,9 +2767,34 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               gcompute_disk { 'resource(disk,2)':
                 ensure     => present,
                 name       => 'test name#2 data',
-                zone       => 'test zone#2 data',
+                zone       => 'resource(zone,2)',
                 project    => 'test project#2 data',
                 credential => 'cred2',
+              }
+
+              gcompute_zone { 'resource(zone,0)':
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_zone { 'resource(zone,1)':
+                name       => 'test name#1 data',
+                project    => 'test project#1 data',
+                credential => 'cred1',
+              }
+
+              gcompute_zone { 'resource(zone,2)':
+                name       => 'test name#2 data',
+                project    => 'test project#2 data',
+                credential => 'cred2',
+              }
+
+              gcompute_machine_type { 'resource(machine_type,0)':
+                name       => 'test name#0 data',
+                zone       => 'resource(zone,0)',
+                project    => 'test project#0 data',
+                credential => 'cred0',
               }
 
               gcompute_address { 'resource(address,0)':
@@ -2575,6 +2817,24 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 ensure     => present,
                 name       => 'test name#2 data',
                 region     => 'resource(region,2)',
+                project    => 'test project#2 data',
+                credential => 'cred2',
+              }
+
+              gcompute_region { 'resource(region,0)':
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_region { 'resource(region,1)':
+                name       => 'test name#1 data',
+                project    => 'test project#1 data',
+                credential => 'cred1',
+              }
+
+              gcompute_region { 'resource(region,2)':
+                name       => 'test name#2 data',
                 project    => 'test project#2 data',
                 credential => 'cred2',
               }
@@ -2689,7 +2949,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   },
                 ],
                 label_fingerprint  => 'test label_fingerprint#0 data',
-                machine_type       => 'test machine_type#0 data',
+                machine_type       => 'resource(machine_type,0)',
                 min_cpu_platform   => 'test min_cpu_platform#0 data',
                 name               => 'test name#0 data',
                 network_interfaces => [
@@ -2768,7 +3028,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   fingerprint => 'test fingerprint#0 data',
                   items       => ['hh', 'ii', 'jj'],
                 },
-                zone               => 'test zone#0 data',
+                zone               => 'resource(zone,0)',
                 project            => 'test project#0 data',
                 credential         => 'cred0',
               }
@@ -2797,14 +3057,21 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
         context 'title == name (pass)' do
           before(:each) do
             expect_network_get_failed 1, name: 'title0'
+            expect_network_get_success_zone 1
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
+              gcompute_zone { 'resource(zone,0)':
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_instance { 'title0':
                 ensure     => absent,
-                zone       => 'test zone#0 data',
+                zone       => 'resource(zone,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -2830,15 +3097,22 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
         context 'title != name (pass)' do
           before(:each) do
             expect_network_get_failed 1
+            expect_network_get_success_zone 1
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
+              gcompute_zone { 'resource(zone,0)':
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_instance { 'title0':
                 ensure     => absent,
                 name       => 'test name#0 data',
-                zone       => 'test zone#0 data',
+                zone       => 'resource(zone,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -2866,16 +3140,23 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
         context 'title == name (pass)' do
           before(:each) do
             expect_network_get_success 1, name: 'title0'
-            expect_network_delete 1, 'title0'
-            expect_network_get_async 1, name: 'title0'
+            expect_network_delete 1, 'title0', zone: 'test name#0 data'
+            expect_network_get_async 1, name: 'title0', zone: 'test name#0 data'
+            expect_network_get_success_zone 1
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
+              gcompute_zone { 'resource(zone,0)':
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_instance { 'title0':
                 ensure     => absent,
-                zone       => 'test zone#0 data',
+                zone       => 'resource(zone,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -2901,17 +3182,24 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
         context 'title != name (pass)' do
           before(:each) do
             expect_network_get_success 1
-            expect_network_delete 1
-            expect_network_get_async 1
+            expect_network_delete 1, nil, zone: 'test name#0 data'
+            expect_network_get_async 1, zone: 'test name#0 data'
+            expect_network_get_success_zone 1
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
+              gcompute_zone { 'resource(zone,0)':
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_instance { 'title0':
                 ensure     => absent,
                 name       => 'test name#0 data',
-                zone       => 'test zone#0 data',
+                zone       => 'resource(zone,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -3117,6 +3405,155 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
     )
   end
 
+  def expect_network_get_success_zone(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_zone("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_zone(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_zone(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_zone(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_zone', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_zone objects
+  def uri_data_zone(id)
+    {
+      project: GoogleTests::Constants::Z_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::Z_PROJECT_DATA.size],
+      name: GoogleTests::Constants::Z_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::Z_NAME_DATA.size]
+    }
+  end
+
+  def self_link_zone(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_zone(
+        'projects/{{project}}/zones/{{name}}',
+        data
+      )
+    )
+  end
+
+  def expect_network_get_success_machine_type(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_machine_type("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_machine_type(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_machine_type(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_machine_type(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_machine_type', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_machine_type objects
+  def uri_data_machine_type(id)
+    {
+      project: GoogleTests::Constants::MT_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::MT_PROJECT_DATA.size],
+      zone: GoogleTests::Constants::MT_ZONE_DATA[(id - 1) \
+        % GoogleTests::Constants::MT_ZONE_DATA.size],
+      name: GoogleTests::Constants::MT_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::MT_NAME_DATA.size]
+    }
+  end
+
+  def self_link_machine_type(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_machine_type(
+        'projects/{{project}}/zones/{{zone}}/machineTypes/{{name}}',
+        data
+      )
+    )
+  end
+
+  def expect_network_get_success_zone(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_zone("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_zone(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_zone(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_zone(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_zone', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_zone objects
+  def uri_data_zone(id)
+    {
+      project: GoogleTests::Constants::Z_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::Z_PROJECT_DATA.size],
+      name: GoogleTests::Constants::Z_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::Z_NAME_DATA.size]
+    }
+  end
+
+  def self_link_zone(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_zone(
+        'projects/{{project}}/zones/{{name}}',
+        data
+      )
+    )
+  end
+
   def expect_network_get_success_address(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_address("success#{id}~" \
@@ -3163,6 +3600,55 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
       'https://www.googleapis.com/compute/v1/',
       expand_variables_address(
         'projects/{{project}}/regions/{{region}}/addresses/{{name}}',
+        data
+      )
+    )
+  end
+
+  def expect_network_get_success_region(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_region("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_region(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_region(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_region(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_region', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_region objects
+  def uri_data_region(id)
+    {
+      project: GoogleTests::Constants::R_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::R_PROJECT_DATA.size],
+      name: GoogleTests::Constants::R_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::R_NAME_DATA.size]
+    }
+  end
+
+  def self_link_region(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_region(
+        'projects/{{project}}/regions/{{name}}',
         data
       )
     )
@@ -3217,6 +3703,55 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
     )
   end
 
+  def expect_network_get_success_zone(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_zone("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_zone(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_zone(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_zone(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_zone', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_zone objects
+  def uri_data_zone(id)
+    {
+      project: GoogleTests::Constants::Z_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::Z_PROJECT_DATA.size],
+      name: GoogleTests::Constants::Z_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::Z_NAME_DATA.size]
+    }
+  end
+
+  def self_link_zone(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_zone(
+        'projects/{{project}}/zones/{{name}}',
+        data
+      )
+    )
+  end
+
   def debug(message)
     puts(message) if ENV['RSPEC_DEBUG']
   end
@@ -3231,13 +3766,38 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 .expand_variables(template, data, ext_dat)
   end
 
+  def expand_variables_zone(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
+  def expand_variables_machine_type(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_machine_type).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
+  def expand_variables_zone(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
   def expand_variables_address(template, data, ext_dat = {})
     Puppet::Type.type(:gcompute_address).provider(:google)
                 .expand_variables(template, data, ext_dat)
   end
 
+  def expand_variables_region(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
   def expand_variables_network(template, data, ext_dat = {})
     Puppet::Type.type(:gcompute_network).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
+  def expand_variables_zone(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_zone).provider(:google)
                 .expand_variables(template, data, ext_dat)
   end
 

@@ -58,7 +58,6 @@ Puppet::Type.type(:gcompute_license).provide(:google) do
 
   def self.present(name, fetch)
     result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
-    result.instance_variable_set(:@fetched, fetch)
     result
   end
 
@@ -78,7 +77,7 @@ Puppet::Type.type(:gcompute_license).provide(:google) do
                                                    fetch_auth(@resource),
                                                    'application/json',
                                                    resource_to_request)
-    @fetched = return_if_object update_req.send, 'compute#license'
+    return_if_object update_req.send, 'compute#license'
   end
 
   def dirty(field, from, to)

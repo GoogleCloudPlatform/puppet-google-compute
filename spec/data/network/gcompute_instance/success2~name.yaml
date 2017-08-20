@@ -81,7 +81,7 @@ guestAccelerators:
 - acceleratorCount: 8092663672
   acceleratorType: test accelerator_type#2 data
 labelFingerprint: test label_fingerprint#1 data
-machineType: test machine_type#1 data
+machineType: selflink(resource(machine_type,1))
 minCpuPlatform: test min_cpu_platform#1 data
 networkInterfaces:
 - accessConfigs:
@@ -176,5 +176,5 @@ tags:
   - rr
   - ss
   - tt
-zone: test zone#1 data
+zone: test name#1 data
 selfLink: selflink(resource(instance,1))

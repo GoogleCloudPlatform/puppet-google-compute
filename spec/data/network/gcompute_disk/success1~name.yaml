@@ -57,5 +57,5 @@ users:
 - xx
 - yy
 - zz
-zone: test zone#0 data
+zone: test name#0 data
 selfLink: selflink(resource(disk,0))

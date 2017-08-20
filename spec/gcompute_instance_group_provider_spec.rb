@@ -56,54 +56,42 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                 name: 'title0',
                 network: 'selflink(resource(network,0))',
                 region: 'selflink(resource(region,0))',
-                subnetwork: 'selflink(resource(subnetwork,0))'
+                subnetwork: 'selflink(resource(subnetwork,0))',
+                zone: 'test name#0 data'
               expect_network_get_success \
                 2,
                 name: 'title1',
                 network: 'selflink(resource(network,1))',
                 region: 'selflink(resource(region,1))',
-                subnetwork: 'selflink(resource(subnetwork,1))'
+                subnetwork: 'selflink(resource(subnetwork,1))',
+                zone: 'test name#1 data'
               expect_network_get_success \
                 3,
                 name: 'title2',
                 network: 'selflink(resource(network,2))',
                 region: 'selflink(resource(region,2))',
-                subnetwork: 'selflink(resource(subnetwork,2))'
+                subnetwork: 'selflink(resource(subnetwork,2))',
+                zone: 'test name#2 data'
               expect_network_get_success_network 1
-              expect_network_get_success_region 1
-              expect_network_get_success_subnetwork 1,
-                                                    region: 'test name#0 data'
               expect_network_get_success_network 2
-              expect_network_get_success_region 2
-              expect_network_get_success_subnetwork 2,
-                                                    region: 'test name#1 data'
               expect_network_get_success_network 3
+              expect_network_get_success_region 1
+              expect_network_get_success_region 2
               expect_network_get_success_region 3
-              expect_network_get_success_subnetwork 3,
-                                                    region: 'test name#2 data'
+              expect_network_get_success_subnetwork 1
+              expect_network_get_success_subnetwork 2
+              expect_network_get_success_subnetwork 3
+              expect_network_get_success_zone 1
+              expect_network_get_success_zone 2
+              expect_network_get_success_zone 3
             end
 
             let(:catalog) do
-              apply_compiled_manifest(
+              apply_with_error_check(
                 <<-MANIFEST
                 gcompute_network { 'resource(network,0)':
                   ensure     => present,
                   name       => 'test name#0 data',
-                  project    => 'test project#0 data',
-                  credential => 'cred0',
-                }
-
-                gcompute_region { 'resource(region,0)':
-                  ensure     => present,
-                  name       => 'test name#0 data',
-                  project    => 'test project#0 data',
-                  credential => 'cred0',
-                }
-
-                gcompute_subnetwork { 'resource(subnetwork,0)':
-                  ensure     => present,
-                  name       => 'test name#0 data',
-                  region     => 'resource(region,0)',
                   project    => 'test project#0 data',
                   credential => 'cred0',
                 }
@@ -115,11 +103,37 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                   credential => 'cred1',
                 }
 
-                gcompute_region { 'resource(region,1)':
+                gcompute_network { 'resource(network,2)':
                   ensure     => present,
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_region { 'resource(region,0)':
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_region { 'resource(region,1)':
                   name       => 'test name#1 data',
                   project    => 'test project#1 data',
                   credential => 'cred1',
+                }
+
+                gcompute_region { 'resource(region,2)':
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_subnetwork { 'resource(subnetwork,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  region     => 'resource(region,0)',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
                 }
 
                 gcompute_subnetwork { 'resource(subnetwork,1)':
@@ -130,24 +144,28 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                   credential => 'cred1',
                 }
 
-                gcompute_network { 'resource(network,2)':
-                  ensure     => present,
-                  name       => 'test name#2 data',
-                  project    => 'test project#2 data',
-                  credential => 'cred2',
-                }
-
-                gcompute_region { 'resource(region,2)':
-                  ensure     => present,
-                  name       => 'test name#2 data',
-                  project    => 'test project#2 data',
-                  credential => 'cred2',
-                }
-
                 gcompute_subnetwork { 'resource(subnetwork,2)':
                   ensure     => present,
                   name       => 'test name#2 data',
                   region     => 'resource(region,2)',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_zone { 'resource(zone,0)':
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_zone { 'resource(zone,1)':
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_zone { 'resource(zone,2)':
+                  name       => 'test name#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
                 }
@@ -180,7 +198,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                   network     => 'resource(network,0)',
                   region      => 'resource(region,0)',
                   subnetwork  => 'resource(subnetwork,0)',
-                  zone        => 'test zone#0 data',
+                  zone        => 'resource(zone,0)',
                   project     => 'test project#0 data',
                   credential  => 'cred0',
                 }
@@ -213,7 +231,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                   network     => 'resource(network,1)',
                   region      => 'resource(region,1)',
                   subnetwork  => 'resource(subnetwork,1)',
-                  zone        => 'test zone#1 data',
+                  zone        => 'resource(zone,1)',
                   project     => 'test project#1 data',
                   credential  => 'cred1',
                 }
@@ -246,7 +264,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                   network     => 'resource(network,2)',
                   region      => 'resource(region,2)',
                   subnetwork  => 'resource(subnetwork,2)',
-                  zone        => 'test zone#2 data',
+                  zone        => 'resource(zone,2)',
                   project     => 'test project#2 data',
                   credential  => 'cred2',
                 }
@@ -383,52 +401,40 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                 1,
                 network: 'selflink(resource(network,0))',
                 region: 'selflink(resource(region,0))',
-                subnetwork: 'selflink(resource(subnetwork,0))'
+                subnetwork: 'selflink(resource(subnetwork,0))',
+                zone: 'test name#0 data'
               expect_network_get_success \
                 2,
                 network: 'selflink(resource(network,1))',
                 region: 'selflink(resource(region,1))',
-                subnetwork: 'selflink(resource(subnetwork,1))'
+                subnetwork: 'selflink(resource(subnetwork,1))',
+                zone: 'test name#1 data'
               expect_network_get_success \
                 3,
                 network: 'selflink(resource(network,2))',
                 region: 'selflink(resource(region,2))',
-                subnetwork: 'selflink(resource(subnetwork,2))'
+                subnetwork: 'selflink(resource(subnetwork,2))',
+                zone: 'test name#2 data'
               expect_network_get_success_network 1
-              expect_network_get_success_region 1
-              expect_network_get_success_subnetwork 1,
-                                                    region: 'test name#0 data'
               expect_network_get_success_network 2
-              expect_network_get_success_region 2
-              expect_network_get_success_subnetwork 2,
-                                                    region: 'test name#1 data'
               expect_network_get_success_network 3
+              expect_network_get_success_region 1
+              expect_network_get_success_region 2
               expect_network_get_success_region 3
-              expect_network_get_success_subnetwork 3,
-                                                    region: 'test name#2 data'
+              expect_network_get_success_subnetwork 1
+              expect_network_get_success_subnetwork 2
+              expect_network_get_success_subnetwork 3
+              expect_network_get_success_zone 1
+              expect_network_get_success_zone 2
+              expect_network_get_success_zone 3
             end
 
             let(:catalog) do
-              apply_compiled_manifest(
+              apply_with_error_check(
                 <<-MANIFEST
                 gcompute_network { 'resource(network,0)':
                   ensure     => present,
                   name       => 'test name#0 data',
-                  project    => 'test project#0 data',
-                  credential => 'cred0',
-                }
-
-                gcompute_region { 'resource(region,0)':
-                  ensure     => present,
-                  name       => 'test name#0 data',
-                  project    => 'test project#0 data',
-                  credential => 'cred0',
-                }
-
-                gcompute_subnetwork { 'resource(subnetwork,0)':
-                  ensure     => present,
-                  name       => 'test name#0 data',
-                  region     => 'resource(region,0)',
                   project    => 'test project#0 data',
                   credential => 'cred0',
                 }
@@ -440,11 +446,37 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                   credential => 'cred1',
                 }
 
-                gcompute_region { 'resource(region,1)':
+                gcompute_network { 'resource(network,2)':
                   ensure     => present,
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_region { 'resource(region,0)':
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_region { 'resource(region,1)':
                   name       => 'test name#1 data',
                   project    => 'test project#1 data',
                   credential => 'cred1',
+                }
+
+                gcompute_region { 'resource(region,2)':
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_subnetwork { 'resource(subnetwork,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  region     => 'resource(region,0)',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
                 }
 
                 gcompute_subnetwork { 'resource(subnetwork,1)':
@@ -455,24 +487,28 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                   credential => 'cred1',
                 }
 
-                gcompute_network { 'resource(network,2)':
-                  ensure     => present,
-                  name       => 'test name#2 data',
-                  project    => 'test project#2 data',
-                  credential => 'cred2',
-                }
-
-                gcompute_region { 'resource(region,2)':
-                  ensure     => present,
-                  name       => 'test name#2 data',
-                  project    => 'test project#2 data',
-                  credential => 'cred2',
-                }
-
                 gcompute_subnetwork { 'resource(subnetwork,2)':
                   ensure     => present,
                   name       => 'test name#2 data',
                   region     => 'resource(region,2)',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_zone { 'resource(zone,0)':
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_zone { 'resource(zone,1)':
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_zone { 'resource(zone,2)':
+                  name       => 'test name#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
                 }
@@ -506,7 +542,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                   network     => 'resource(network,0)',
                   region      => 'resource(region,0)',
                   subnetwork  => 'resource(subnetwork,0)',
-                  zone        => 'test zone#0 data',
+                  zone        => 'resource(zone,0)',
                   project     => 'test project#0 data',
                   credential  => 'cred0',
                 }
@@ -540,7 +576,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                   network     => 'resource(network,1)',
                   region      => 'resource(region,1)',
                   subnetwork  => 'resource(subnetwork,1)',
-                  zone        => 'test zone#1 data',
+                  zone        => 'resource(zone,1)',
                   project     => 'test project#1 data',
                   credential  => 'cred1',
                 }
@@ -574,7 +610,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                   network     => 'resource(network,2)',
                   region      => 'resource(region,2)',
                   subnetwork  => 'resource(subnetwork,2)',
-                  zone        => 'test zone#2 data',
+                  zone        => 'resource(zone,2)',
                   project     => 'test project#2 data',
                   credential  => 'cred2',
                 }
@@ -745,7 +781,8 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
               name: 'title0',
               network: 'selflink(resource(network,0))',
               region: 'selflink(resource(region,0))',
-              subnetwork: 'selflink(resource(subnetwork,0))'
+              subnetwork: 'selflink(resource(subnetwork,0))',
+              zone: 'test name#0 data'
             expect_network_create \
               1,
               {
@@ -781,20 +818,23 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
               name: 'title0',
               network: 'selflink(resource(network,0))',
               region: 'selflink(resource(region,0))',
-              subnetwork: 'selflink(resource(subnetwork,0))'
+              subnetwork: 'selflink(resource(subnetwork,0))',
+              zone: 'test name#0 data'
             expect_network_get_async \
               1,
               name: 'title0',
               network: 'selflink(resource(network,0))',
               region: 'selflink(resource(region,0))',
-              subnetwork: 'selflink(resource(subnetwork,0))'
+              subnetwork: 'selflink(resource(subnetwork,0))',
+              zone: 'test name#0 data'
             expect_network_get_success_network 1
             expect_network_get_success_region 1
-            expect_network_get_success_subnetwork 1, region: 'test name#0 data'
+            expect_network_get_success_subnetwork 1
+            expect_network_get_success_zone 1
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_network { 'resource(network,0)':
                 ensure     => present,
@@ -804,7 +844,6 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
               }
 
               gcompute_region { 'resource(region,0)':
-                ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
@@ -814,6 +853,12 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                 ensure     => present,
                 name       => 'test name#0 data',
                 region     => 'resource(region,0)',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_zone { 'resource(zone,0)':
+                name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -846,7 +891,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                 network     => 'resource(network,0)',
                 region      => 'resource(region,0)',
                 subnetwork  => 'resource(subnetwork,0)',
-                zone        => 'test zone#0 data',
+                zone        => 'resource(zone,0)',
                 project     => 'test project#0 data',
                 credential  => 'cred0',
               }
@@ -875,7 +920,8 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
               1,
               network: 'selflink(resource(network,0))',
               region: 'selflink(resource(region,0))',
-              subnetwork: 'selflink(resource(subnetwork,0))'
+              subnetwork: 'selflink(resource(subnetwork,0))',
+              zone: 'test name#0 data'
             expect_network_create \
               1,
               {
@@ -910,19 +956,22 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
               },
               network: 'selflink(resource(network,0))',
               region: 'selflink(resource(region,0))',
-              subnetwork: 'selflink(resource(subnetwork,0))'
+              subnetwork: 'selflink(resource(subnetwork,0))',
+              zone: 'test name#0 data'
             expect_network_get_async \
               1,
               network: 'selflink(resource(network,0))',
               region: 'selflink(resource(region,0))',
-              subnetwork: 'selflink(resource(subnetwork,0))'
+              subnetwork: 'selflink(resource(subnetwork,0))',
+              zone: 'test name#0 data'
             expect_network_get_success_network 1
             expect_network_get_success_region 1
-            expect_network_get_success_subnetwork 1, region: 'test name#0 data'
+            expect_network_get_success_subnetwork 1
+            expect_network_get_success_zone 1
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
               gcompute_network { 'resource(network,0)':
                 ensure     => present,
@@ -932,7 +981,6 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
               }
 
               gcompute_region { 'resource(region,0)':
-                ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
@@ -942,6 +990,12 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                 ensure     => present,
                 name       => 'test name#0 data',
                 region     => 'resource(region,0)',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_zone { 'resource(zone,0)':
+                name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -975,7 +1029,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                 network     => 'resource(network,0)',
                 region      => 'resource(region,0)',
                 subnetwork  => 'resource(subnetwork,0)',
-                zone        => 'test zone#0 data',
+                zone        => 'resource(zone,0)',
                 project     => 'test project#0 data',
                 credential  => 'cred0',
               }
@@ -1005,14 +1059,21 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
         context 'title == name (pass)' do
           before(:each) do
             expect_network_get_failed 1, name: 'title0'
+            expect_network_get_success_zone 1
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
+              gcompute_zone { 'resource(zone,0)':
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_instance_group { 'title0':
                 ensure     => absent,
-                zone       => 'test zone#0 data',
+                zone       => 'resource(zone,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -1038,15 +1099,22 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
         context 'title != name (pass)' do
           before(:each) do
             expect_network_get_failed 1
+            expect_network_get_success_zone 1
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
+              gcompute_zone { 'resource(zone,0)':
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_instance_group { 'title0':
                 ensure     => absent,
                 name       => 'test name#0 data',
-                zone       => 'test zone#0 data',
+                zone       => 'resource(zone,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -1074,16 +1142,23 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
         context 'title == name (pass)' do
           before(:each) do
             expect_network_get_success 1, name: 'title0'
-            expect_network_delete 1, 'title0'
-            expect_network_get_async 1, name: 'title0'
+            expect_network_delete 1, 'title0', zone: 'test name#0 data'
+            expect_network_get_async 1, name: 'title0', zone: 'test name#0 data'
+            expect_network_get_success_zone 1
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
+              gcompute_zone { 'resource(zone,0)':
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_instance_group { 'title0':
                 ensure     => absent,
-                zone       => 'test zone#0 data',
+                zone       => 'resource(zone,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -1109,17 +1184,24 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
         context 'title != name (pass)' do
           before(:each) do
             expect_network_get_success 1
-            expect_network_delete 1
-            expect_network_get_async 1
+            expect_network_delete 1, nil, zone: 'test name#0 data'
+            expect_network_get_async 1, zone: 'test name#0 data'
+            expect_network_get_success_zone 1
           end
 
           subject do
-            apply_compiled_manifest(
+            apply_with_error_check(
               <<-MANIFEST
+              gcompute_zone { 'resource(zone,0)':
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_instance_group { 'title0':
                 ensure     => absent,
                 name       => 'test name#0 data',
-                zone       => 'test zone#0 data',
+                zone       => 'resource(zone,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -1170,6 +1252,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
     context 'exports all properties' do
       let(:resource1) { create_type 1 }
       before do
+        prefetch_zone
         expect_network_get_success 1
         described_class.prefetch(title0: resource1)
       end
@@ -1442,6 +1525,130 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
     )
   end
 
+  def expect_network_get_success_region(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_region("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_region(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_region(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_region(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_region', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_region objects
+  def uri_data_region(id)
+    {
+      project: GoogleTests::Constants::R_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::R_PROJECT_DATA.size],
+      name: GoogleTests::Constants::R_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::R_NAME_DATA.size]
+    }
+  end
+
+  def self_link_region(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_region(
+        'projects/{{project}}/regions/{{name}}',
+        data
+      )
+    )
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_region
+    expect_network_get_success_region 1
+
+    resource = Puppet::Type.type(:gcompute_region).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .prefetch(resource: resource)
+  end
+
+  def expect_network_get_success_zone(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_zone("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_zone(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_zone(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_zone(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_zone', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_zone objects
+  def uri_data_zone(id)
+    {
+      project: GoogleTests::Constants::Z_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::Z_PROJECT_DATA.size],
+      name: GoogleTests::Constants::Z_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::Z_NAME_DATA.size]
+    }
+  end
+
+  def self_link_zone(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_zone(
+        'projects/{{project}}/zones/{{name}}',
+        data
+      )
+    )
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_zone
+    expect_network_get_success_zone 1
+
+    resource = Puppet::Type.type(:gcompute_zone).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .prefetch(resource: resource)
+  end
+
   def debug(message)
     puts(message) if ENV['RSPEC_DEBUG']
   end
@@ -1463,6 +1670,16 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
 
   def expand_variables_subnetwork(template, data, ext_dat = {})
     Puppet::Type.type(:gcompute_subnetwork).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
+  def expand_variables_region(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
+  def expand_variables_zone(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_zone).provider(:google)
                 .expand_variables(template, data, ext_dat)
   end
 

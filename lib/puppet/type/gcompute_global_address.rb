@@ -26,6 +26,7 @@
 # ----------------------------------------------------------------------------
 
 require 'google/compute/property/integer'
+require 'google/compute/property/region_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
 require 'puppet'
@@ -95,10 +96,7 @@ Puppet::Type.newtype(:gcompute_global_address) do
     EOT
   end
 
-  newproperty(:region, parent: Google::Compute::Property::String) do
-    desc <<-EOT
-      URL of the region where the regional address resides. This field is not
-      applicable to global addresses. (output only)
-    EOT
+  newproperty(:region, parent: Google::Compute::Property::RegioSelfLinkRef) do
+    desc 'A reference to Region resource (output only)'
   end
 end

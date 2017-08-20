@@ -39,9 +39,11 @@ require 'google/compute/property/instance_scheduling'
 require 'google/compute/property/instance_service_accounts'
 require 'google/compute/property/instance_tags'
 require 'google/compute/property/integer'
+require 'google/compute/property/machinetype_selflink'
 require 'google/compute/property/network_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
+require 'google/compute/property/zone_name'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_instance) do
@@ -51,6 +53,10 @@ Puppet::Type.newtype(:gcompute_instance) do
 
   autorequire(:gauth_credential) do
     [self[:credential]]
+  end
+
+  autorequire(:gcompute_zone) do
+    self[:zone].autorequires
   end
 
   ensurable
@@ -71,8 +77,8 @@ Puppet::Type.newtype(:gcompute_instance) do
     desc 'The name of the Instance.'
   end
 
-  newparam(:zone, parent: Google::Compute::Property::String) do
-    desc 'URL of the zone where the disk type resides.'
+  newparam(:zone, parent: Google::Compute::Property::ZoneNameRef) do
+    desc 'A reference to Zone resource'
   end
 
   newproperty(:can_ip_forward, parent: Google::Compute::Property::Boolean) do
@@ -127,12 +133,9 @@ Puppet::Type.newtype(:gcompute_instance) do
     EOT
   end
 
-  newproperty(:machine_type, parent: Google::Compute::Property::String) do
-    desc <<-EOT
-      Full or partial URL of the machine type resource to use for this
-      instance, in the format: zones/zone/machineTypes/machine-type. This is
-      provided by the client when the instance is created.
-    EOT
+  newproperty(:machine_type,
+              parent: Google::Compute::Property::MachTypeSelfLinkRef) do
+    desc 'A reference to MachineType resource'
   end
 
   newproperty(:min_cpu_platform, parent: Google::Compute::Property::String) do

@@ -55,7 +55,7 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_firewall { 'test-firewall-allow-ssh':
+gcompute_firewall { 'test-fw-allow-ssh':
   ensure      => present,
   allowed     => [
     {

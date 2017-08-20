@@ -43,9 +43,11 @@ require 'google/compute/property/instance_scheduling'
 require 'google/compute/property/instance_service_accounts'
 require 'google/compute/property/instance_tags'
 require 'google/compute/property/integer'
+require 'google/compute/property/machinetype_selflink'
 require 'google/compute/property/network_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
+require 'google/compute/property/zone_name'
 require 'google/hash_utils'
 require 'puppet'
 
@@ -75,7 +77,6 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
     result = new(
       { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
     )
-    result.instance_variable_set(:@fetched, fetch)
     result
   end
 
@@ -96,8 +97,9 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       label_fingerprint:
         Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
-      machine_type:
-        Google::Compute::Property::String.api_munge(fetch['machineType']),
+      machine_type: Google::Compute::Property::MachTypeSelfLinkRef.api_munge(
+        fetch['machineType']
+      ),
       min_cpu_platform:
         Google::Compute::Property::String.api_munge(fetch['minCpuPlatform']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
@@ -134,7 +136,7 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
                                                     fetch_auth(@resource),
                                                     'application/json',
                                                     resource_to_request)
-    @fetched = wait_for_operation create_req.send, @resource
+    wait_for_operation create_req.send, @resource
     @property_hash[:ensure] = :present
   end
 
@@ -155,7 +157,7 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
                                                    fetch_auth(@resource),
                                                    'application/json',
                                                    resource_to_request)
-    @fetched = wait_for_operation update_req.send, @resource
+    wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)
