@@ -124,11 +124,6 @@ Puppet::Type.type(:gcompute_image).provide(:google) do
   def create
     debug('create')
     @created = true
-    # Family is a virtual resource. If we reached the create method it means
-    # ensure => present was specified yet the family is not found
-    unless @resource[:family].nil?
-      raise ["Family '#{@resource[:family]}' does not exist ",
-             "on '#{@resource[:project]}'"].join
     create_req = Google::Compute::Network::Post.new(collection(@resource),
                                                     fetch_auth(@resource),
                                                     'application/json',
@@ -253,16 +248,6 @@ Puppet::Type.type(:gcompute_image).provide(:google) do
 
   def self_link(data)
     self.class.self_link(data)
-  end
-
-  def get_from_family(data)
-    URI.join(
-      'https://www.googleapis.com/compute/v1/',
-      expand_variables(
-        'projects/{{project}}/global/images/family/{{name}}',
-        data
-      )
-    )
   end
 
   def self.return_if_object(response, kind)
