@@ -174,25 +174,99 @@ puppet-codegen:
   * lib/google/compute/network/get.rb
   * lib/google/compute/network/post.rb
   * lib/google/compute/network/put.rb
+  * lib/google/compute/property/address_address.rb
   * lib/google/compute/property/array.rb
+  * lib/google/compute/property/backendservice_backends.rb
+  * lib/google/compute/property/backendservice_cache_key_policy.rb
+  * lib/google/compute/property/backendservice_cdn_policy.rb
+  * lib/google/compute/property/backendservice_connection_draining.rb
   * lib/google/compute/property/base.rb
+  * lib/google/compute/property/boolean.rb
+  * lib/google/compute/property/disk_disk_encryption_key.rb
   * lib/google/compute/property/disk_selflink.rb
+  * lib/google/compute/property/disk_source_image_encryption_key.rb
+  * lib/google/compute/property/disk_source_snapshot_encryption_key.rb
+  * lib/google/compute/property/double.rb
   * lib/google/compute/property/enum.rb
+  * lib/google/compute/property/firewall_allowed.rb
+  * lib/google/compute/property/healthcheck_http_health_check.rb
+  * lib/google/compute/property/healthcheck_https_health_check.rb
+  * lib/google/compute/property/healthcheck_ssl_health_check.rb
+  * lib/google/compute/property/healthcheck_tcp_health_check.rb
   * lib/google/compute/property/image_deprecated.rb
   * lib/google/compute/property/image_guest_os_features.rb
   * lib/google/compute/property/image_image_encryption_key.rb
   * lib/google/compute/property/image_raw_disk.rb
   * lib/google/compute/property/image_source_disk_encryption_key.rb
+  * lib/google/compute/property/instance_access_configs.rb
+  * lib/google/compute/property/instance_disk_encryption_key.rb
+  * lib/google/compute/property/instance_disks.rb
+  * lib/google/compute/property/instance_guest_accelerators.rb
+  * lib/google/compute/property/instance_initialize_params.rb
+  * lib/google/compute/property/instance_network_interfaces.rb
+  * lib/google/compute/property/instance_scheduling.rb
+  * lib/google/compute/property/instance_service_accounts.rb
+  * lib/google/compute/property/instance_tags.rb
+  * lib/google/compute/property/instancegroup_named_ports.rb
+  * lib/google/compute/property/instancegroup_selflink.rb
   * lib/google/compute/property/integer.rb
+  * lib/google/compute/property/machinetype_deprecated.rb
+  * lib/google/compute/property/machinetype_selflink.rb
+  * lib/google/compute/property/network_selflink.rb
+  * lib/google/compute/property/region_name.rb
+  * lib/google/compute/property/region_selflink.rb
   * lib/google/compute/property/string.rb
   * lib/google/compute/property/string_array.rb
+  * lib/google/compute/property/subnetwork_selflink.rb
   * lib/google/compute/property/time.rb
+  * lib/google/compute/property/zone_deprecated.rb
+  * lib/google/compute/property/zone_name.rb
   * lib/google/hash_utils.rb
   * lib/google/object_store.rb
   * lib/google/string_utils.rb
   * lib/puppet/functions/gcompute_image_family.rb
+  * lib/puppet/provider/gcompute_address/google.rb
+  * lib/puppet/provider/gcompute_backend_bucket/google.rb
+  * lib/puppet/provider/gcompute_backend_service/google.rb
+  * lib/puppet/provider/gcompute_disk/google.rb
+  * lib/puppet/provider/gcompute_disk_type/google.rb
+  * lib/puppet/provider/gcompute_firewall/google.rb
+  * lib/puppet/provider/gcompute_global_address/google.rb
+  * lib/puppet/provider/gcompute_health_check/google.rb
+  * lib/puppet/provider/gcompute_http_health_check/google.rb
+  * lib/puppet/provider/gcompute_https_health_check/google.rb
   * lib/puppet/provider/gcompute_image/google.rb
+  * lib/puppet/provider/gcompute_instance/google.rb
+  * lib/puppet/provider/gcompute_instance_group/google.rb
+  * lib/puppet/provider/gcompute_license/google.rb
+  * lib/puppet/provider/gcompute_machine_type/google.rb
+  * lib/puppet/provider/gcompute_network/google.rb
+  * lib/puppet/provider/gcompute_region/google.rb
+  * lib/puppet/provider/gcompute_route/google.rb
+  * lib/puppet/provider/gcompute_ssl_certificate/google.rb
+  * lib/puppet/provider/gcompute_subnetwork/google.rb
+  * lib/puppet/provider/gcompute_zone/google.rb
+  * lib/puppet/type/gcompute_address.rb
+  * lib/puppet/type/gcompute_backend_bucket.rb
+  * lib/puppet/type/gcompute_backend_service.rb
+  * lib/puppet/type/gcompute_disk.rb
+  * lib/puppet/type/gcompute_disk_type.rb
+  * lib/puppet/type/gcompute_firewall.rb
+  * lib/puppet/type/gcompute_global_address.rb
+  * lib/puppet/type/gcompute_health_check.rb
+  * lib/puppet/type/gcompute_http_health_check.rb
+  * lib/puppet/type/gcompute_https_health_check.rb
   * lib/puppet/type/gcompute_image.rb
+  * lib/puppet/type/gcompute_instance.rb
+  * lib/puppet/type/gcompute_instance_group.rb
+  * lib/puppet/type/gcompute_license.rb
+  * lib/puppet/type/gcompute_machine_type.rb
+  * lib/puppet/type/gcompute_network.rb
+  * lib/puppet/type/gcompute_region.rb
+  * lib/puppet/type/gcompute_route.rb
+  * lib/puppet/type/gcompute_ssl_certificate.rb
+  * lib/puppet/type/gcompute_subnetwork.rb
+  * lib/puppet/type/gcompute_zone.rb
   * metadata.json
   * README.md
   * spec/.rubocop.yml
@@ -203,14 +277,154 @@ puppet-codegen:
   * spec/data/copyright_bad2.rb
   * spec/data/copyright_good1.rb
   * spec/data/copyright_good2.rb
+  * spec/data/network/gcompute_address/success1~name.yaml
+  * spec/data/network/gcompute_address/success1~title.yaml
+  * spec/data/network/gcompute_address/success2~name.yaml
+  * spec/data/network/gcompute_address/success2~title.yaml
+  * spec/data/network/gcompute_address/success3~name.yaml
+  * spec/data/network/gcompute_address/success3~title.yaml
+  * spec/data/network/gcompute_backend_bucket/success1~name.yaml
+  * spec/data/network/gcompute_backend_bucket/success1~title.yaml
+  * spec/data/network/gcompute_backend_bucket/success2~name.yaml
+  * spec/data/network/gcompute_backend_bucket/success2~title.yaml
+  * spec/data/network/gcompute_backend_bucket/success3~name.yaml
+  * spec/data/network/gcompute_backend_bucket/success3~title.yaml
+  * spec/data/network/gcompute_backend_service/success1~name.yaml
+  * spec/data/network/gcompute_backend_service/success1~title.yaml
+  * spec/data/network/gcompute_backend_service/success2~name.yaml
+  * spec/data/network/gcompute_backend_service/success2~title.yaml
+  * spec/data/network/gcompute_backend_service/success3~name.yaml
+  * spec/data/network/gcompute_backend_service/success3~title.yaml
+  * spec/data/network/gcompute_disk/success1~name.yaml
+  * spec/data/network/gcompute_disk/success1~title.yaml
+  * spec/data/network/gcompute_disk/success2~name.yaml
+  * spec/data/network/gcompute_disk/success2~title.yaml
+  * spec/data/network/gcompute_disk/success3~name.yaml
+  * spec/data/network/gcompute_disk/success3~title.yaml
+  * spec/data/network/gcompute_disk_type/success1~name.yaml
+  * spec/data/network/gcompute_disk_type/success1~title.yaml
+  * spec/data/network/gcompute_disk_type/success2~name.yaml
+  * spec/data/network/gcompute_disk_type/success2~title.yaml
+  * spec/data/network/gcompute_disk_type/success3~name.yaml
+  * spec/data/network/gcompute_disk_type/success3~title.yaml
+  * spec/data/network/gcompute_firewall/success1~name.yaml
+  * spec/data/network/gcompute_firewall/success1~title.yaml
+  * spec/data/network/gcompute_firewall/success2~name.yaml
+  * spec/data/network/gcompute_firewall/success2~title.yaml
+  * spec/data/network/gcompute_firewall/success3~name.yaml
+  * spec/data/network/gcompute_firewall/success3~title.yaml
+  * spec/data/network/gcompute_global_address/success1~name.yaml
+  * spec/data/network/gcompute_global_address/success1~title.yaml
+  * spec/data/network/gcompute_global_address/success2~name.yaml
+  * spec/data/network/gcompute_global_address/success2~title.yaml
+  * spec/data/network/gcompute_global_address/success3~name.yaml
+  * spec/data/network/gcompute_global_address/success3~title.yaml
+  * spec/data/network/gcompute_health_check/success1~name.yaml
+  * spec/data/network/gcompute_health_check/success1~title.yaml
+  * spec/data/network/gcompute_health_check/success2~name.yaml
+  * spec/data/network/gcompute_health_check/success2~title.yaml
+  * spec/data/network/gcompute_health_check/success3~name.yaml
+  * spec/data/network/gcompute_health_check/success3~title.yaml
+  * spec/data/network/gcompute_http_health_check/success1~name.yaml
+  * spec/data/network/gcompute_http_health_check/success1~title.yaml
+  * spec/data/network/gcompute_http_health_check/success2~name.yaml
+  * spec/data/network/gcompute_http_health_check/success2~title.yaml
+  * spec/data/network/gcompute_http_health_check/success3~name.yaml
+  * spec/data/network/gcompute_http_health_check/success3~title.yaml
+  * spec/data/network/gcompute_https_health_check/success1~name.yaml
+  * spec/data/network/gcompute_https_health_check/success1~title.yaml
+  * spec/data/network/gcompute_https_health_check/success2~name.yaml
+  * spec/data/network/gcompute_https_health_check/success2~title.yaml
+  * spec/data/network/gcompute_https_health_check/success3~name.yaml
+  * spec/data/network/gcompute_https_health_check/success3~title.yaml
   * spec/data/network/gcompute_image/success1~name.yaml
   * spec/data/network/gcompute_image/success1~title.yaml
   * spec/data/network/gcompute_image/success2~name.yaml
   * spec/data/network/gcompute_image/success2~title.yaml
   * spec/data/network/gcompute_image/success3~name.yaml
   * spec/data/network/gcompute_image/success3~title.yaml
+  * spec/data/network/gcompute_instance/success1~name.yaml
+  * spec/data/network/gcompute_instance/success1~title.yaml
+  * spec/data/network/gcompute_instance/success2~name.yaml
+  * spec/data/network/gcompute_instance/success2~title.yaml
+  * spec/data/network/gcompute_instance/success3~name.yaml
+  * spec/data/network/gcompute_instance/success3~title.yaml
+  * spec/data/network/gcompute_instance_group/success1~name.yaml
+  * spec/data/network/gcompute_instance_group/success1~title.yaml
+  * spec/data/network/gcompute_instance_group/success2~name.yaml
+  * spec/data/network/gcompute_instance_group/success2~title.yaml
+  * spec/data/network/gcompute_instance_group/success3~name.yaml
+  * spec/data/network/gcompute_instance_group/success3~title.yaml
+  * spec/data/network/gcompute_license/success1~name.yaml
+  * spec/data/network/gcompute_license/success1~title.yaml
+  * spec/data/network/gcompute_license/success2~name.yaml
+  * spec/data/network/gcompute_license/success2~title.yaml
+  * spec/data/network/gcompute_license/success3~name.yaml
+  * spec/data/network/gcompute_license/success3~title.yaml
+  * spec/data/network/gcompute_machine_type/success1~name.yaml
+  * spec/data/network/gcompute_machine_type/success1~title.yaml
+  * spec/data/network/gcompute_machine_type/success2~name.yaml
+  * spec/data/network/gcompute_machine_type/success2~title.yaml
+  * spec/data/network/gcompute_machine_type/success3~name.yaml
+  * spec/data/network/gcompute_machine_type/success3~title.yaml
+  * spec/data/network/gcompute_network/success1~name.yaml
+  * spec/data/network/gcompute_network/success1~title.yaml
+  * spec/data/network/gcompute_network/success2~name.yaml
+  * spec/data/network/gcompute_network/success2~title.yaml
+  * spec/data/network/gcompute_network/success3~name.yaml
+  * spec/data/network/gcompute_network/success3~title.yaml
+  * spec/data/network/gcompute_region/success1~name.yaml
+  * spec/data/network/gcompute_region/success1~title.yaml
+  * spec/data/network/gcompute_region/success2~name.yaml
+  * spec/data/network/gcompute_region/success2~title.yaml
+  * spec/data/network/gcompute_region/success3~name.yaml
+  * spec/data/network/gcompute_region/success3~title.yaml
+  * spec/data/network/gcompute_route/success1~name.yaml
+  * spec/data/network/gcompute_route/success1~title.yaml
+  * spec/data/network/gcompute_route/success2~name.yaml
+  * spec/data/network/gcompute_route/success2~title.yaml
+  * spec/data/network/gcompute_route/success3~name.yaml
+  * spec/data/network/gcompute_route/success3~title.yaml
+  * spec/data/network/gcompute_ssl_certificate/success1~name.yaml
+  * spec/data/network/gcompute_ssl_certificate/success1~title.yaml
+  * spec/data/network/gcompute_ssl_certificate/success2~name.yaml
+  * spec/data/network/gcompute_ssl_certificate/success2~title.yaml
+  * spec/data/network/gcompute_ssl_certificate/success3~name.yaml
+  * spec/data/network/gcompute_ssl_certificate/success3~title.yaml
+  * spec/data/network/gcompute_subnetwork/success1~name.yaml
+  * spec/data/network/gcompute_subnetwork/success1~title.yaml
+  * spec/data/network/gcompute_subnetwork/success2~name.yaml
+  * spec/data/network/gcompute_subnetwork/success2~title.yaml
+  * spec/data/network/gcompute_subnetwork/success3~name.yaml
+  * spec/data/network/gcompute_subnetwork/success3~title.yaml
+  * spec/data/network/gcompute_zone/success1~name.yaml
+  * spec/data/network/gcompute_zone/success1~title.yaml
+  * spec/data/network/gcompute_zone/success2~name.yaml
+  * spec/data/network/gcompute_zone/success2~title.yaml
+  * spec/data/network/gcompute_zone/success3~name.yaml
+  * spec/data/network/gcompute_zone/success3~title.yaml
   * spec/fake_auth.rb
+  * spec/gcompute_address_provider_spec.rb
+  * spec/gcompute_backend_bucket_provider_spec.rb
+  * spec/gcompute_backend_service_provider_spec.rb
+  * spec/gcompute_disk_provider_spec.rb
+  * spec/gcompute_disk_type_provider_spec.rb
+  * spec/gcompute_firewall_provider_spec.rb
+  * spec/gcompute_global_address_provider_spec.rb
+  * spec/gcompute_health_check_provider_spec.rb
+  * spec/gcompute_http_health_check_provider_spec.rb
+  * spec/gcompute_https_health_check_provider_spec.rb
   * spec/gcompute_image_provider_spec.rb
+  * spec/gcompute_instance_group_provider_spec.rb
+  * spec/gcompute_instance_provider_spec.rb
+  * spec/gcompute_license_provider_spec.rb
+  * spec/gcompute_machine_type_provider_spec.rb
+  * spec/gcompute_network_provider_spec.rb
+  * spec/gcompute_region_provider_spec.rb
+  * spec/gcompute_route_provider_spec.rb
+  * spec/gcompute_ssl_certificate_provider_spec.rb
+  * spec/gcompute_subnetwork_provider_spec.rb
+  * spec/gcompute_zone_provider_spec.rb
   * spec/hash_utils_spec.rb
   * spec/network_blocker.rb
   * spec/network_blocker_spec.rb
