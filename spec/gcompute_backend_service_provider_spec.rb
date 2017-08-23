@@ -68,8 +68,8 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                 region: 'selflink(resource(region,2))'
               expect_network_get_success_instance_group 1
               expect_network_get_success_instance_group 2
-              expect_network_get_success_region 1
               expect_network_get_success_instance_group 3
+              expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
             end
@@ -93,19 +93,19 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   credential => 'cred1',
                 }
 
-                gcompute_region { 'resource(region,0)':
-                  ensure     => present,
-                  name       => 'test name#0 data',
-                  project    => 'test project#0 data',
-                  credential => 'cred0',
-                }
-
                 gcompute_instance_group { 'resource(instance_group,2)':
                   ensure     => present,
                   name       => 'test name#2 data',
                   zone       => 'test zone#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
+                }
+
+                gcompute_region { 'resource(region,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
                 }
 
                 gcompute_region { 'resource(region,1)':
@@ -468,8 +468,8 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                 region: 'selflink(resource(region,2))'
               expect_network_get_success_instance_group 1
               expect_network_get_success_instance_group 2
-              expect_network_get_success_region 1
               expect_network_get_success_instance_group 3
+              expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
             end
@@ -493,19 +493,19 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   credential => 'cred1',
                 }
 
-                gcompute_region { 'resource(region,0)':
-                  ensure     => present,
-                  name       => 'test name#0 data',
-                  project    => 'test project#0 data',
-                  credential => 'cred0',
-                }
-
                 gcompute_instance_group { 'resource(instance_group,2)':
                   ensure     => present,
                   name       => 'test name#2 data',
                   zone       => 'test zone#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
+                }
+
+                gcompute_region { 'resource(region,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
                 }
 
                 gcompute_region { 'resource(region,1)':
