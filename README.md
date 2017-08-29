@@ -405,12 +405,12 @@ OGN02HtkpBOZzzvUARTR10JQoSe2/5PIwQ==
 
 ```puppet
 # Subnetwork requires a network and a region, so define them in your manifest:
-#   - gcompute_network { 'my-network': ensure => presnet }
+#   - gcompute_network { 'my-network': ensure => present }
 #   - gcompute_region { 'some-region': ensure => present }
 gcompute_subnetwork { 'servers':
   ensure        => present,
   ip_cidr_range => '172.16.0.0/16',
-  network       => 'my-network',
+  network       => 'mynetwork-subnetwork',
   region        => 'some-region',
   project       => 'google.com:graphite-playground',
   credential    => 'mycred',
@@ -3209,12 +3209,12 @@ of the network, even entire subnets, using firewall rules.
 
 ```puppet
 # Subnetwork requires a network and a region, so define them in your manifest:
-#   - gcompute_network { 'my-network': ensure => presnet }
+#   - gcompute_network { 'my-network': ensure => present }
 #   - gcompute_region { 'some-region': ensure => present }
 gcompute_subnetwork { 'servers':
   ensure        => present,
   ip_cidr_range => '172.16.0.0/16',
-  network       => 'my-network',
+  network       => 'mynetwork-subnetwork',
   region        => 'some-region',
   project       => 'google.com:graphite-playground',
   credential    => 'mycred',

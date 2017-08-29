@@ -55,7 +55,7 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_network { 'puppet-e2e-my-network':
+gcompute_network { 'puppet-e2e-mynetwork-subnetwork':
   ensure     => present,
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
@@ -70,7 +70,7 @@ gcompute_region { 'puppet-e2e-some-region':
 
 gcompute_subnetwork { 'puppet-e2e-servers':
   ensure     => absent,
-  region     => 'some-region',
+  region     => 'puppet-e2e-some-region',
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
 }

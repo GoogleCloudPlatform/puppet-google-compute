@@ -55,7 +55,7 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_network { 'my-network':
+gcompute_network { 'mynetwork-subnetwork':
   ensure     => present,
   project    => 'google.com:graphite-playground',
   credential => 'mycred',

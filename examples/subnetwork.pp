@@ -55,10 +55,11 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_network { 'my-network':
-  ensure     => present,
-  project    => 'google.com:graphite-playground',
-  credential => 'mycred',
+gcompute_network { 'mynetwork-subnetwork':
+  ensure                  => present,
+  auto_create_subnetworks => false,
+  project                 => 'google.com:graphite-playground',
+  credential              => 'mycred',
 }
 
 gcompute_region { 'some-region':
@@ -71,7 +72,7 @@ gcompute_region { 'some-region':
 gcompute_subnetwork { 'servers':
   ensure        => present,
   ip_cidr_range => '172.16.0.0/16',
-  network       => 'my-network',
+  network       => 'mynetwork-subnetwork',
   region        => 'some-region',
   project       => 'google.com:graphite-playground',
   credential    => 'mycred',
