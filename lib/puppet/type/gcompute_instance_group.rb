@@ -32,6 +32,7 @@ require 'google/compute/property/region_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/subnetwork_selflink'
 require 'google/compute/property/time'
+require 'google/compute/property/zone_name'
 require 'google/object_store'
 require 'puppet'
 
@@ -45,6 +46,10 @@ Puppet::Type.newtype(:gcompute_instance_group) do
 
   autorequire(:gauth_credential) do
     [self[:credential]]
+  end
+
+  autorequire(:gcompute_zone) do
+    self[:zone].autorequires
   end
 
   ensurable
@@ -65,8 +70,8 @@ Puppet::Type.newtype(:gcompute_instance_group) do
     desc 'The name of the InstanceGroup.'
   end
 
-  newparam(:zone, parent: Google::Compute::Property::String) do
-    desc 'URL of the zone where the autoscaler resides.'
+  newparam(:zone, parent: Google::Compute::Property::ZoneNameRef) do
+    desc 'A reference to Zone resource'
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do

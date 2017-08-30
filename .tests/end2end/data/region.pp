@@ -55,8 +55,7 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_region { 'puppet-e2e-us-west1':
-  ensure     => present,
+gcompute_region { 'us-west1':
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
 }

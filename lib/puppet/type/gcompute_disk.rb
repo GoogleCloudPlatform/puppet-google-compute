@@ -32,6 +32,7 @@ require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
+require 'google/compute/property/zone_name'
 require 'google/object_store'
 require 'puppet'
 
@@ -55,6 +56,10 @@ Puppet::Type.newtype(:gcompute_disk) do
     [self[:credential]]
   end
 
+  autorequire(:gcompute_zone) do
+    self[:zone].autorequires
+  end
+
   ensurable
 
   newparam :credential do
@@ -73,8 +78,8 @@ Puppet::Type.newtype(:gcompute_disk) do
     desc 'The name of the Disk.'
   end
 
-  newparam(:zone, parent: Google::Compute::Property::String) do
-    desc 'URL of the zone where the autoscaler resides.'
+  newparam(:zone, parent: Google::Compute::Property::ZoneNameRef) do
+    desc 'A reference to Zone resource'
   end
 
   newparam(:disk_encryption_key,

@@ -55,12 +55,6 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_network { 'puppet-e2e-my-network':
-  ensure     => present,
-  project    => 'google.com:graphite-playground',
-  credential => 'mycred',
-}
-
 gcompute_backend_service { 'puppet-e2e-my-app-backend':
   ensure     => absent,
   project    => 'google.com:graphite-playground',

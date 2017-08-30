@@ -99,21 +99,18 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 }
 
                 gcompute_region { 'resource(region,0)':
-                  ensure     => present,
                   name       => 'test name#0 data',
                   project    => 'test project#0 data',
                   credential => 'cred0',
                 }
 
                 gcompute_region { 'resource(region,1)':
-                  ensure     => present,
                   name       => 'test name#1 data',
                   project    => 'test project#1 data',
                   credential => 'cred1',
                 }
 
                 gcompute_region { 'resource(region,2)':
-                  ensure     => present,
                   name       => 'test name#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
@@ -349,21 +346,18 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 }
 
                 gcompute_region { 'resource(region,0)':
-                  ensure     => present,
                   name       => 'test name#0 data',
                   project    => 'test project#0 data',
                   credential => 'cred0',
                 }
 
                 gcompute_region { 'resource(region,1)':
-                  ensure     => present,
                   name       => 'test name#1 data',
                   project    => 'test project#1 data',
                   credential => 'cred1',
                 }
 
                 gcompute_region { 'resource(region,2)':
-                  ensure     => present,
                   name       => 'test name#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
@@ -628,7 +622,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               }
 
               gcompute_region { 'resource(region,0)':
-                ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
@@ -700,7 +693,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               }
 
               gcompute_region { 'resource(region,0)':
-                ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
@@ -750,7 +742,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_region { 'resource(region,0)':
-                ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
@@ -791,7 +782,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_region { 'resource(region,0)':
-                ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
@@ -839,7 +829,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_region { 'resource(region,0)':
-                ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
@@ -882,7 +871,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_region { 'resource(region,0)':
-                ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',

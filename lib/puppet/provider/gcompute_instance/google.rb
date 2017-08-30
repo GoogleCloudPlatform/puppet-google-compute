@@ -29,8 +29,11 @@ require 'google/compute/network/delete'
 require 'google/compute/network/get'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
+require 'google/compute/property/address_address'
 require 'google/compute/property/boolean'
 require 'google/compute/property/disk_selflink'
+require 'google/compute/property/enum'
+require 'google/compute/property/instance_access_configs'
 require 'google/compute/property/instance_disk_encryption_key'
 require 'google/compute/property/instance_disks'
 require 'google/compute/property/instance_guest_accelerators'
@@ -40,9 +43,11 @@ require 'google/compute/property/instance_scheduling'
 require 'google/compute/property/instance_service_accounts'
 require 'google/compute/property/instance_tags'
 require 'google/compute/property/integer'
+require 'google/compute/property/machinetype_selflink'
 require 'google/compute/property/network_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
+require 'google/compute/property/zone_name'
 require 'google/hash_utils'
 require 'puppet'
 
@@ -92,8 +97,9 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       label_fingerprint:
         Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
-      machine_type:
-        Google::Compute::Property::String.api_munge(fetch['machineType']),
+      machine_type: Google::Compute::Property::MachTypeSelfLinkRef.api_munge(
+        fetch['machineType']
+      ),
       min_cpu_platform:
         Google::Compute::Property::String.api_munge(fetch['minCpuPlatform']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),

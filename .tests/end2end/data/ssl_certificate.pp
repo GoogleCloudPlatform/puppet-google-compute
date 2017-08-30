@@ -59,7 +59,14 @@ gauth_credential { 'mycred':
 # WARNING: This manifest is for example purposes only. It is *not* advisable to
 # have the key embedded like this because if you check this file into source
 # control you are publishing the private key to whomever can access the source
-# code.
+# code. Instead you should protect the key, and for example, use the file()
+# function to read it from disk without writing it verbatim to the manifest:
+#
+# gcompute_ssl_certificate { ...
+#   ...
+#   private_key => file('/path/to/my/private/key.pem'),
+#   ...
+# }
 # *******
 
 gcompute_ssl_certificate { 'puppet-e2e-sample-certificate':

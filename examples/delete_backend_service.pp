@@ -55,12 +55,6 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_network { 'my-network':
-  ensure     => present,
-  project    => 'google.com:graphite-playground',
-  credential => 'mycred',
-}
-
 gcompute_backend_service { 'my-app-backend':
   ensure     => absent,
   project    => 'google.com:graphite-playground',

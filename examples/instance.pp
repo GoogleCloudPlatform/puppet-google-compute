@@ -55,31 +55,74 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_disk { 'data-disk-1':
+gcompute_zone { 'us-central1-a':
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+gcompute_disk { 'instance-test-os-1':
+  ensure       => present,
+  size_gb      => 50,
+  source_image =>
+    'projects/ubuntu-os-cloud/global/images/family/ubuntu-1604-lts',
+  zone         => 'us-central1-a',
+  project      => 'google.com:graphite-playground',
+  credential   => 'mycred',
+}
+
+# Tips
+#   1) You can use network 'default' if do not use VLAN or other traffic
+#      seggregation on your project.
+#   2) Don't forget to define the firewall rules if you specify a custom
+#      network to ensure the traffic can reach your machine
+gcompute_network { 'default':
   ensure     => present,
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+gcompute_region { 'us-central1':
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+# Defines the machine type to be used by the VM. This definition is required
+# only once per catalog as it is shared to any objects that use the
+# 'n1-standard-1' defined below.
+gcompute_machine_type { 'n1-standard-1':
   zone       => 'us-central1-a',
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
 }
 
-gcompute_network { 'mynetwork-test':
-  ensure     => present,
+# Ensures the 'instance-test-ip' external IP address exists. If it does not
+# exist it will allocate an ephemeral one.
+gcompute_address { 'instance-test-ip':
+  region     => 'us-central1',
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
 }
 
 gcompute_instance { 'instance-test':
   ensure             => present,
-  machine_type       => 'https://www.googleapis.com/compute/v1/projects/google.com:graphite-playground/zones/us-central1-a/machineTypes/n1-standard-1',
+  machine_type       => 'n1-standard-1',
   disks              => [
     {
-      boot   => true,
-      source => 'data-disk-1'
+      auto_delete => true,
+      boot        => true,
+      source      => 'instance-test-os-1'
     }
   ],
   network_interfaces => [
     {
-      network => 'mynetwork-test',
+      network        => 'default',
+      access_configs => [
+        {
+          name   => 'External NAT',
+          nat_ip => 'instance-test-ip',
+          type   => 'ONE_TO_ONE_NAT',
+        },
+      ],
     }
   ],
   zone               => 'us-central1-a',

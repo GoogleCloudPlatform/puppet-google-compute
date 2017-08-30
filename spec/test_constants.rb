@@ -102,11 +102,11 @@ module GoogleTests
 
     # Constants for: DiskType.zone
     DT_ZONE_DATA = [
-      'test zone#0 data',
-      'test zone#1 data',
-      'test zone#2 data',
-      'test zone#3 data',
-      'test zone#4 data'
+      'test name#0 data',
+      'test name#1 data',
+      'test name#2 data',
+      'test name#3 data',
+      'test name#4 data'
     ].freeze
 
     # Constants for: DiskType.name
@@ -129,11 +129,11 @@ module GoogleTests
 
     # Constants for: Disk.zone
     D_ZONE_DATA = [
-      'test zone#0 data',
-      'test zone#1 data',
-      'test zone#2 data',
-      'test zone#3 data',
-      'test zone#4 data'
+      'test name#0 data',
+      'test name#1 data',
+      'test name#2 data',
+      'test name#3 data',
+      'test name#4 data'
     ].freeze
 
     # Constants for: Disk.name
@@ -263,11 +263,11 @@ module GoogleTests
 
     # Constants for: Instance.zone
     I_ZONE_DATA = [
-      'test zone#0 data',
-      'test zone#1 data',
-      'test zone#2 data',
-      'test zone#3 data',
-      'test zone#4 data'
+      'test name#0 data',
+      'test name#1 data',
+      'test name#2 data',
+      'test name#3 data',
+      'test name#4 data'
     ].freeze
 
     # Constants for: InstanceGroup.project
@@ -281,15 +281,42 @@ module GoogleTests
 
     # Constants for: InstanceGroup.zone
     IG_ZONE_DATA = [
-      'test zone#0 data',
-      'test zone#1 data',
-      'test zone#2 data',
-      'test zone#3 data',
-      'test zone#4 data'
+      'test name#0 data',
+      'test name#1 data',
+      'test name#2 data',
+      'test name#3 data',
+      'test name#4 data'
     ].freeze
 
     # Constants for: InstanceGroup.name
     IG_NAME_DATA = [
+      'test name#0 data',
+      'test name#1 data',
+      'test name#2 data',
+      'test name#3 data',
+      'test name#4 data'
+    ].freeze
+
+    # Constants for: MachineType.project
+    MT_PROJECT_DATA = [
+      'test project#0 data',
+      'test project#1 data',
+      'test project#2 data',
+      'test project#3 data',
+      'test project#4 data'
+    ].freeze
+
+    # Constants for: MachineType.zone
+    MT_ZONE_DATA = [
+      'test name#0 data',
+      'test name#1 data',
+      'test name#2 data',
+      'test name#3 data',
+      'test name#4 data'
+    ].freeze
+
+    # Constants for: MachineType.name
+    MT_NAME_DATA = [
       'test name#0 data',
       'test name#1 data',
       'test name#2 data',
@@ -375,6 +402,24 @@ module GoogleTests
 
     # Constants for: Subnetwork.name
     S_NAME_DATA = [
+      'test name#0 data',
+      'test name#1 data',
+      'test name#2 data',
+      'test name#3 data',
+      'test name#4 data'
+    ].freeze
+
+    # Constants for: Zone.project
+    Z_PROJECT_DATA = [
+      'test project#0 data',
+      'test project#1 data',
+      'test project#2 data',
+      'test project#3 data',
+      'test project#4 data'
+    ].freeze
+
+    # Constants for: Zone.name
+    Z_NAME_DATA = [
       'test name#0 data',
       'test name#1 data',
       'test name#2 data',

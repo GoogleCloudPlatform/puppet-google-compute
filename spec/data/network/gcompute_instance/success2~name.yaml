@@ -81,18 +81,54 @@ guestAccelerators:
 - acceleratorCount: 8092663672
   acceleratorType: test accelerator_type#2 data
 labelFingerprint: test label_fingerprint#1 data
-machineType: test machine_type#1 data
+machineType: selflink(resource(machine_type,1))
 minCpuPlatform: test min_cpu_platform#1 data
 networkInterfaces:
-- name: test name#1 data
+- accessConfigs:
+  - name: test name#1 data
+    natIP: test address#1 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#2 data
+    natIP: test address#2 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#3 data
+    natIP: test address#0 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#4 data
+    natIP: test address#1 data
+    type: ONE_TO_ONE_NAT
+  name: test name#1 data
   network: selflink(resource(network,1))
   networkIP: test network_ip#1 data
   subnetwork: test subnetwork#1 data
-- name: test name#2 data
+- accessConfigs:
+  - name: test name#2 data
+    natIP: test address#2 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#3 data
+    natIP: test address#0 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#4 data
+    natIP: test address#1 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#5 data
+    natIP: test address#2 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#6 data
+    natIP: test address#0 data
+    type: ONE_TO_ONE_NAT
+  name: test name#2 data
   network: selflink(resource(network,2))
   networkIP: test network_ip#2 data
   subnetwork: test subnetwork#2 data
-- name: test name#3 data
+- accessConfigs:
+  - name: test name#3 data
+    natIP: test address#0 data
+    type: ONE_TO_ONE_NAT
+  - name: test name#4 data
+    natIP: test address#1 data
+    type: ONE_TO_ONE_NAT
+  name: test name#3 data
   network: selflink(resource(network,0))
   networkIP: test network_ip#3 data
   subnetwork: test subnetwork#3 data
@@ -140,5 +176,5 @@ tags:
   - rr
   - ss
   - tt
-zone: test zone#1 data
+zone: test name#1 data
 selfLink: selflink(resource(instance,1))

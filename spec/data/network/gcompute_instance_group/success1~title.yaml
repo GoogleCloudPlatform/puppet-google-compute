@@ -46,5 +46,5 @@ network: selflink(resource(network,0))
 project: "'test project#0 data'"
 region: selflink(resource(region,0))
 subnetwork: selflink(resource(subnetwork,0))
-zone: test zone#0 data
+zone: test name#0 data
 selfLink: selflink(resource(instance_group,0))

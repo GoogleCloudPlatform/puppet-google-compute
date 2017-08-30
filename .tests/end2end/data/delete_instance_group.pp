@@ -55,8 +55,7 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_network { 'puppet-e2e-my-network':
-  ensure     => present,
+gcompute_zone { 'us-central1-a':
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
 }

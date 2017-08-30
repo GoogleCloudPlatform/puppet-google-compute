@@ -33,6 +33,7 @@ require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
+require 'google/compute/property/zone_name'
 require 'google/hash_utils'
 require 'puppet'
 

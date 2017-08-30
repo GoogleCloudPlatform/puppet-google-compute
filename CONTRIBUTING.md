@@ -116,6 +116,7 @@ puppet-codegen:
   * .tests/end2end/data/instance.pp
   * .tests/end2end/data/instance_group.pp
   * .tests/end2end/data/license.pp
+  * .tests/end2end/data/machine_type.pp
   * .tests/end2end/data/network~auto.pp
   * .tests/end2end/data/network~convert_to_custom.pp
   * .tests/end2end/data/network~custom.pp
@@ -124,6 +125,7 @@ puppet-codegen:
   * .tests/end2end/data/route.pp
   * .tests/end2end/data/ssl_certificate.pp
   * .tests/end2end/data/subnetwork.pp
+  * .tests/end2end/data/zone.pp
   * CONTRIBUTING.md
   * examples/address.pp
   * examples/backend_bucket.pp
@@ -156,6 +158,7 @@ puppet-codegen:
   * examples/instance.pp
   * examples/instance_group.pp
   * examples/license.pp
+  * examples/machine_type.pp
   * examples/network~auto.pp
   * examples/network~convert_to_custom.pp
   * examples/network~custom.pp
@@ -164,12 +167,14 @@ puppet-codegen:
   * examples/route.pp
   * examples/ssl_certificate.pp
   * examples/subnetwork.pp
+  * examples/zone.pp
   * Gemfile
   * lib/google/compute/network/base.rb
   * lib/google/compute/network/delete.rb
   * lib/google/compute/network/get.rb
   * lib/google/compute/network/post.rb
   * lib/google/compute/network/put.rb
+  * lib/google/compute/property/address_address.rb
   * lib/google/compute/property/array.rb
   * lib/google/compute/property/backendservice_backends.rb
   * lib/google/compute/property/backendservice_cache_key_policy.rb
@@ -193,6 +198,7 @@ puppet-codegen:
   * lib/google/compute/property/image_image_encryption_key.rb
   * lib/google/compute/property/image_raw_disk.rb
   * lib/google/compute/property/image_source_disk_encryption_key.rb
+  * lib/google/compute/property/instance_access_configs.rb
   * lib/google/compute/property/instance_disk_encryption_key.rb
   * lib/google/compute/property/instance_disks.rb
   * lib/google/compute/property/instance_guest_accelerators.rb
@@ -204,6 +210,8 @@ puppet-codegen:
   * lib/google/compute/property/instancegroup_named_ports.rb
   * lib/google/compute/property/instancegroup_selflink.rb
   * lib/google/compute/property/integer.rb
+  * lib/google/compute/property/machinetype_deprecated.rb
+  * lib/google/compute/property/machinetype_selflink.rb
   * lib/google/compute/property/network_selflink.rb
   * lib/google/compute/property/region_name.rb
   * lib/google/compute/property/region_selflink.rb
@@ -211,9 +219,12 @@ puppet-codegen:
   * lib/google/compute/property/string_array.rb
   * lib/google/compute/property/subnetwork_selflink.rb
   * lib/google/compute/property/time.rb
+  * lib/google/compute/property/zone_deprecated.rb
+  * lib/google/compute/property/zone_name.rb
   * lib/google/hash_utils.rb
   * lib/google/object_store.rb
   * lib/google/string_utils.rb
+  * lib/puppet/functions/gcompute_image_family.rb
   * lib/puppet/provider/gcompute_address/google.rb
   * lib/puppet/provider/gcompute_backend_bucket/google.rb
   * lib/puppet/provider/gcompute_backend_service/google.rb
@@ -228,11 +239,13 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_instance/google.rb
   * lib/puppet/provider/gcompute_instance_group/google.rb
   * lib/puppet/provider/gcompute_license/google.rb
+  * lib/puppet/provider/gcompute_machine_type/google.rb
   * lib/puppet/provider/gcompute_network/google.rb
   * lib/puppet/provider/gcompute_region/google.rb
   * lib/puppet/provider/gcompute_route/google.rb
   * lib/puppet/provider/gcompute_ssl_certificate/google.rb
   * lib/puppet/provider/gcompute_subnetwork/google.rb
+  * lib/puppet/provider/gcompute_zone/google.rb
   * lib/puppet/type/gcompute_address.rb
   * lib/puppet/type/gcompute_backend_bucket.rb
   * lib/puppet/type/gcompute_backend_service.rb
@@ -247,11 +260,13 @@ puppet-codegen:
   * lib/puppet/type/gcompute_instance.rb
   * lib/puppet/type/gcompute_instance_group.rb
   * lib/puppet/type/gcompute_license.rb
+  * lib/puppet/type/gcompute_machine_type.rb
   * lib/puppet/type/gcompute_network.rb
   * lib/puppet/type/gcompute_region.rb
   * lib/puppet/type/gcompute_route.rb
   * lib/puppet/type/gcompute_ssl_certificate.rb
   * lib/puppet/type/gcompute_subnetwork.rb
+  * lib/puppet/type/gcompute_zone.rb
   * metadata.json
   * README.md
   * spec/.rubocop.yml
@@ -346,6 +361,12 @@ puppet-codegen:
   * spec/data/network/gcompute_license/success2~title.yaml
   * spec/data/network/gcompute_license/success3~name.yaml
   * spec/data/network/gcompute_license/success3~title.yaml
+  * spec/data/network/gcompute_machine_type/success1~name.yaml
+  * spec/data/network/gcompute_machine_type/success1~title.yaml
+  * spec/data/network/gcompute_machine_type/success2~name.yaml
+  * spec/data/network/gcompute_machine_type/success2~title.yaml
+  * spec/data/network/gcompute_machine_type/success3~name.yaml
+  * spec/data/network/gcompute_machine_type/success3~title.yaml
   * spec/data/network/gcompute_network/success1~name.yaml
   * spec/data/network/gcompute_network/success1~title.yaml
   * spec/data/network/gcompute_network/success2~name.yaml
@@ -376,6 +397,12 @@ puppet-codegen:
   * spec/data/network/gcompute_subnetwork/success2~title.yaml
   * spec/data/network/gcompute_subnetwork/success3~name.yaml
   * spec/data/network/gcompute_subnetwork/success3~title.yaml
+  * spec/data/network/gcompute_zone/success1~name.yaml
+  * spec/data/network/gcompute_zone/success1~title.yaml
+  * spec/data/network/gcompute_zone/success2~name.yaml
+  * spec/data/network/gcompute_zone/success2~title.yaml
+  * spec/data/network/gcompute_zone/success3~name.yaml
+  * spec/data/network/gcompute_zone/success3~title.yaml
   * spec/fake_auth.rb
   * spec/gcompute_address_provider_spec.rb
   * spec/gcompute_backend_bucket_provider_spec.rb
@@ -391,11 +418,13 @@ puppet-codegen:
   * spec/gcompute_instance_group_provider_spec.rb
   * spec/gcompute_instance_provider_spec.rb
   * spec/gcompute_license_provider_spec.rb
+  * spec/gcompute_machine_type_provider_spec.rb
   * spec/gcompute_network_provider_spec.rb
   * spec/gcompute_region_provider_spec.rb
   * spec/gcompute_route_provider_spec.rb
   * spec/gcompute_ssl_certificate_provider_spec.rb
   * spec/gcompute_subnetwork_provider_spec.rb
+  * spec/gcompute_zone_provider_spec.rb
   * spec/hash_utils_spec.rb
   * spec/network_blocker.rb
   * spec/network_blocker_spec.rb

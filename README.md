@@ -8,6 +8,8 @@
 3. [Usage - Configuration options and additional functionality](#usage)
 4. [Reference - An under-the-hood peek at what the module is doing and how](
    #reference)
+    - [Classes](#classes)
+    - [Functions](#functions)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
 
@@ -57,7 +59,6 @@ required gems.
 
 ```puppet
 gcompute_region { 'some-region':
-  ensure     => present,
   name       => 'us-west1',
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
@@ -250,20 +251,38 @@ gcompute_image { 'test-image':
 #### `gcompute_instance`
 
 ```puppet
-# Tip: Remember to define gsql_disk to match the 'disk' property.
-# Tip: Remember to define gsql_network to match the 'network' property.
+# Power Tips:
+#   1) Remember to define the resources needed to allocate the VM:
+#      a) gcompute_disk (to be used in 'disks' property)
+#      b) gcompute_network (to be used in 'network' property)
+#      c) gcompute_address (to be used in 'access_configs', if your machine
+#         needs external ingress access)
+#      d) gcompute_zone (to determine where the VM will be allocated)
+#      e) gcompute_machine_type (to determine the kind of machine to be created)
+#   2) Don't forget to define a source_image for the OS of the boot disk
+#      a) You can use the provided gcompute_image_family function to specify the
+#         latest version of an operating system of a given family
+#         e.g. Ubuntu 16.04
 gcompute_instance { 'instance-test':
   ensure             => present,
-  machine_type       => 'https://www.googleapis.com/compute/v1/projects/google.com:graphite-playground/zones/us-central1-a/machineTypes/n1-standard-1',
+  machine_type       => 'n1-standard-1',
   disks              => [
     {
-      boot   => true,
-      source => 'data-disk-1'
+      auto_delete => true,
+      boot        => true,
+      source      => 'instance-test-os-1'
     }
   ],
   network_interfaces => [
     {
-      network => 'mynetwork-test',
+      network        => 'default',
+      access_configs => [
+        {
+          name   => 'External NAT',
+          nat_ip => 'instance-test-ip',
+          type   => 'ONE_TO_ONE_NAT',
+        },
+      ],
     }
   ],
   zone               => 'us-central1-a',
@@ -290,6 +309,17 @@ gcompute_instance_group { 'my-puppet-masters':
   zone        => 'us-central1-a',
   project     => 'google.com:graphite-playground',
   credential  => 'mycred',
+}
+
+```
+
+#### `gcompute_machine_type`
+
+```puppet
+gcompute_machine_type { 'n1-standard-1':
+  zone       => 'us-central1-a',
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
 }
 
 ```
@@ -335,7 +365,6 @@ gcompute_network { "mynetwork-${network_id}":
 
 ```puppet
 gcompute_region { 'us-west1':
-  ensure     => present,
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
 }
@@ -345,9 +374,8 @@ gcompute_region { 'us-west1':
 #### `gcompute_route`
 
 ```puppet
-# Subnetwork requires a network and a region, so define them in your manifest:
+# Route requires a network, so define them in your manifest:
 #   - gcompute_network { 'my-network': ensure => presnet }
-#   - gcompute_region { 'some-region': ensure => present }
 gcompute_route { 'corp-route':
   ensure           => present,
   dest_range       => '192.168.6.0/24',
@@ -367,7 +395,14 @@ gcompute_route { 'corp-route':
 # WARNING: This manifest is for example purposes only. It is *not* advisable to
 # have the key embedded like this because if you check this file into source
 # control you are publishing the private key to whomever can access the source
-# code.
+# code. Instead you should protect the key, and for example, use the file()
+# function to read it from disk without writing it verbatim to the manifest:
+#
+# gcompute_ssl_certificate { ...
+#   ...
+#   private_key => file('/path/to/my/private/key.pem'),
+#   ...
+# }
 # *******
 
 gcompute_ssl_certificate { 'sample-certificate':
@@ -405,8 +440,8 @@ OGN02HtkpBOZzzvUARTR10JQoSe2/5PIwQ==
 
 ```puppet
 # Subnetwork requires a network and a region, so define them in your manifest:
-#   - gcompute_network { 'my-network': ensure => present }
-#   - gcompute_region { 'some-region': ensure => present }
+#   - gcompute_network { 'my-network': ensure => present, ... }
+#   - gcompute_region { 'some-region': ... }
 gcompute_subnetwork { 'servers':
   ensure        => present,
   ip_cidr_range => '172.16.0.0/16',
@@ -414,6 +449,16 @@ gcompute_subnetwork { 'servers':
   region        => 'some-region',
   project       => 'google.com:graphite-playground',
   credential    => 'mycred',
+}
+
+```
+
+#### `gcompute_zone`
+
+```puppet
+gcompute_zone { 'us-central1-a':
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
 }
 
 ```
@@ -526,6 +571,11 @@ gcompute_subnetwork { 'servers':
     use an instance template. Unlike managed instance groups, you must
     create
     and add instances to an instance group manually.
+* [`gcompute_machine_type`][]:
+    Represents a MachineType resource. Machine types determine the
+    virtualized
+    hardware specifications of your virtual machine instances, such as the
+    amount of memory or number of virtual CPUs.
 * [`gcompute_network`][]:
     Represents a Network resource.
     Your Cloud Platform Console project can contain multiple networks, and
@@ -603,6 +653,8 @@ gcompute_subnetwork { 'servers':
     region, using their RFC1918 private IP addresses. You can isolate
     portions
     of the network, even entire subnets, using firewall rules.
+* [`gcompute_zone`][]:
+    Represents a Zone resource.
 
 ### About output only properties
 
@@ -642,7 +694,6 @@ static.
 
 ```puppet
 gcompute_region { 'some-region':
-  ensure     => present,
   name       => 'us-west1',
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
@@ -1079,7 +1130,7 @@ gcompute_disk_type { 'id-of-resource':
   id                     => integer,
   name                   => string,
   valid_disk_size        => string,
-  zone                   => string,
+  zone                   => reference to gcompute_zone,
   project                => string,
   credential             => reference to gauth_credential,
 }
@@ -1087,7 +1138,7 @@ gcompute_disk_type { 'id-of-resource':
 
 ##### `zone`
 
-Required.  URL of the zone where the disk type resides.
+Required.  A reference to Zone resource
 
 
 ##### Output-only properties
@@ -1207,7 +1258,7 @@ gcompute_disk { 'id-of-resource':
     string,
     ...
   ],
-  zone                           => string,
+  zone                           => reference to gcompute_zone,
   project                        => string,
   credential                     => reference to gauth_credential,
 }
@@ -1263,7 +1314,7 @@ gcompute_disk { 'id-of-resource':
 
 ##### `zone`
 
-Required.  URL of the zone where the autoscaler resides.
+Required.  A reference to Zone resource
 
 ##### `disk_encryption_key`
 
@@ -1550,7 +1601,7 @@ gcompute_global_address { 'id-of-resource':
   description        => string,
   id                 => integer,
   name               => string,
-  region             => string,
+  region             => reference to gcompute_region,
   project            => string,
   credential         => reference to gauth_credential,
 }
@@ -1585,8 +1636,7 @@ gcompute_global_address { 'id-of-resource':
   the server.
 
 * `region`: Output only.
-  URL of the region where the regional address resides. This field is
-  not applicable to global addresses.
+  A reference to Region resource
 
 #### `gcompute_http_health_check`
 
@@ -2313,20 +2363,38 @@ An instance is a virtual machine (VM) hosted on Google's infrastructure.
 #### Example
 
 ```puppet
-# Tip: Remember to define gsql_disk to match the 'disk' property.
-# Tip: Remember to define gsql_network to match the 'network' property.
+# Power Tips:
+#   1) Remember to define the resources needed to allocate the VM:
+#      a) gcompute_disk (to be used in 'disks' property)
+#      b) gcompute_network (to be used in 'network' property)
+#      c) gcompute_address (to be used in 'access_configs', if your machine
+#         needs external ingress access)
+#      d) gcompute_zone (to determine where the VM will be allocated)
+#      e) gcompute_machine_type (to determine the kind of machine to be created)
+#   2) Don't forget to define a source_image for the OS of the boot disk
+#      a) You can use the provided gcompute_image_family function to specify the
+#         latest version of an operating system of a given family
+#         e.g. Ubuntu 16.04
 gcompute_instance { 'instance-test':
   ensure             => present,
-  machine_type       => 'https://www.googleapis.com/compute/v1/projects/google.com:graphite-playground/zones/us-central1-a/machineTypes/n1-standard-1',
+  machine_type       => 'n1-standard-1',
   disks              => [
     {
-      boot   => true,
-      source => 'data-disk-1'
+      auto_delete => true,
+      boot        => true,
+      source      => 'instance-test-os-1'
     }
   ],
   network_interfaces => [
     {
-      network => 'mynetwork-test',
+      network        => 'default',
+      access_configs => [
+        {
+          name   => 'External NAT',
+          nat_ip => 'instance-test-ip',
+          type   => 'ONE_TO_ONE_NAT',
+        },
+      ],
     }
   ],
   zone               => 'us-central1-a',
@@ -2373,15 +2441,23 @@ gcompute_instance { 'id-of-resource':
   ],
   id                 => integer,
   label_fingerprint  => string,
-  machine_type       => string,
+  machine_type       => reference to gcompute_machine_type,
   min_cpu_platform   => string,
   name               => string,
   network_interfaces => [
     {
-      name       => string,
-      network    => reference to gcompute_network,
-      network_ip => string,
-      subnetwork => string,
+      access_configs => [
+        {
+          name   => string,
+          nat_ip => reference to gcompute_address,
+          type   => ONE_TO_ONE_NAT,
+        },
+        ...
+      ],
+      name           => string,
+      network        => reference to gcompute_network,
+      network_ip     => string,
+      subnetwork     => string,
     },
     ...
   ],
@@ -2409,7 +2485,7 @@ gcompute_instance { 'id-of-resource':
       ...
     ],
   },
-  zone               => string,
+  zone               => reference to gcompute_zone,
   project            => string,
   credential         => reference to gauth_credential,
 }
@@ -2520,10 +2596,7 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
 
 ##### `machine_type`
 
-  Full or partial URL of the machine type resource to use
-  for this instance, in the format:
-  zones/zone/machineTypes/machine-type. This is provided by the client
-  when the instance is created.
+  A reference to MachineType resource
 
 ##### `min_cpu_platform`
 
@@ -2547,6 +2620,24 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   interface is configured to interact with other network services, such
   as connecting to the internet. Only one network interface is supported
   per instance.
+
+##### network_interfaces[]/access_configs
+  An array of configurations for this interface. Currently, only
+  one access config, ONE_TO_ONE_NAT, is supported. If there are no
+  accessConfigs specified, then this instance will have no
+  external internet access.
+
+##### network_interfaces[]/access_configs[]/name
+Required.  The name of this access configuration. The default and recommended name is
+  External NAT but you can use any arbitrary string you would like. For
+  example, My external IP or Network Access.
+
+##### network_interfaces[]/access_configs[]/nat_ip
+Required.  A reference to Address resource
+
+##### network_interfaces[]/access_configs[]/type
+Required.  The type of configuration. The default and only option is
+  ONE_TO_ONE_NAT.
 
 ##### network_interfaces[]/name
 Output only.  The name of the network interface, generated by the server. For
@@ -2624,7 +2715,7 @@ Output only.  The name of the network interface, generated by the server. For
 
 ##### `zone`
 
-Required.  URL of the zone where the disk type resides.
+Required.  A reference to Zone resource
 
 
 ##### Output-only properties
@@ -2694,7 +2785,7 @@ gcompute_instance_group { 'id-of-resource':
   network            => reference to gcompute_network,
   region             => reference to gcompute_region,
   subnetwork         => reference to gcompute_subnetwork,
-  zone               => string,
+  zone               => reference to gcompute_zone,
   project            => string,
   credential         => reference to gauth_credential,
 }
@@ -2741,7 +2832,7 @@ gcompute_instance_group { 'id-of-resource':
 
 ##### `zone`
 
-Required.  URL of the zone where the autoscaler resides.
+Required.  A reference to Zone resource
 
 
 ##### Output-only properties
@@ -2751,6 +2842,121 @@ Required.  URL of the zone where the autoscaler resides.
 
 * `id`: Output only.
   A unique identifier for this instance group.
+
+#### `gcompute_machine_type`
+
+Represents a MachineType resource. Machine types determine the virtualized
+hardware specifications of your virtual machine instances, such as the
+amount of memory or number of virtual CPUs.
+
+
+#### Example
+
+```puppet
+gcompute_machine_type { 'n1-standard-1':
+  zone       => 'us-central1-a',
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_machine_type { 'id-of-resource':
+  creation_timestamp               => time,
+  deprecated                       => {
+    deleted     => time,
+    deprecated  => time,
+    obsolete    => time,
+    replacement => string,
+    state       => 'DEPRECATED', 'OBSOLETE' or 'DELETED',
+  },
+  description                      => string,
+  guest_cpus                       => integer,
+  id                               => integer,
+  is_shared_cpu                    => boolean,
+  maximum_persistent_disks         => integer,
+  maximum_persistent_disks_size_gb => integer,
+  memory_mb                        => integer,
+  name                             => string,
+  zone                             => reference to gcompute_zone,
+  project                          => string,
+  credential                       => reference to gauth_credential,
+}
+```
+
+##### `name`
+
+  Name of the resource.
+
+##### `zone`
+
+Required.  A reference to Zone resource
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `deprecated`: Output only.
+  The deprecation status associated with this machine type.
+
+##### deprecated/deleted
+Output only.  An optional RFC3339 timestamp on or after which the state of this
+  resource is intended to change to DELETED. This is only
+  informational and the status will not change unless the client
+  explicitly changes it.
+
+##### deprecated/deprecated
+Output only.  An optional RFC3339 timestamp on or after which the state of this
+  resource is intended to change to DEPRECATED. This is only
+  informational and the status will not change unless the client
+  explicitly changes it.
+
+##### deprecated/obsolete
+Output only.  An optional RFC3339 timestamp on or after which the state of this
+  resource is intended to change to OBSOLETE. This is only
+  informational and the status will not change unless the client
+  explicitly changes it.
+
+##### deprecated/replacement
+Output only.  The URL of the suggested replacement for a deprecated resource.
+  The suggested replacement resource must be the same kind of
+  resource as the deprecated resource.
+
+##### deprecated/state
+Output only.  The deprecation state of this resource. This can be DEPRECATED,
+  OBSOLETE, or DELETED. Operations which create a new resource
+  using a DEPRECATED resource will return successfully, but with a
+  warning indicating the deprecated resource and recommending its
+  replacement. Operations which use OBSOLETE or DELETED resources
+  will be rejected and result in an error.
+
+* `description`: Output only.
+  An optional textual description of the resource.
+
+* `guest_cpus`: Output only.
+  The number of virtual CPUs that are available to the instance.
+
+* `id`: Output only.
+  The unique identifier for the resource.
+
+* `is_shared_cpu`: Output only.
+  Whether this machine type has a shared CPU. See Shared-core machine
+  types for more information.
+
+* `maximum_persistent_disks`: Output only.
+  Maximum persistent disks allowed.
+
+* `maximum_persistent_disks_size_gb`: Output only.
+  Maximum total persistent disks size (GB) allowed.
+
+* `memory_mb`: Output only.
+  The amount of physical memory available to the instance, defined in
+  MB.
 
 #### `gcompute_network`
 
@@ -2887,7 +3093,6 @@ zones
 
 ```puppet
 gcompute_region { 'us-west1':
-  ensure     => present,
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
 }
@@ -2988,9 +3193,8 @@ nextHopGateway, nextHopInstance, nextHopIp, or nextHopVpnTunnel.
 #### Example
 
 ```puppet
-# Subnetwork requires a network and a region, so define them in your manifest:
+# Route requires a network, so define them in your manifest:
 #   - gcompute_network { 'my-network': ensure => presnet }
-#   - gcompute_region { 'some-region': ensure => present }
 gcompute_route { 'corp-route':
   ensure           => present,
   dest_range       => '192.168.6.0/24',
@@ -3097,7 +3301,14 @@ connections from the user.
 # WARNING: This manifest is for example purposes only. It is *not* advisable to
 # have the key embedded like this because if you check this file into source
 # control you are publishing the private key to whomever can access the source
-# code.
+# code. Instead you should protect the key, and for example, use the file()
+# function to read it from disk without writing it verbatim to the manifest:
+#
+# gcompute_ssl_certificate { ...
+#   ...
+#   private_key => file('/path/to/my/private/key.pem'),
+#   ...
+# }
 # *******
 
 gcompute_ssl_certificate { 'sample-certificate':
@@ -3209,8 +3420,8 @@ of the network, even entire subnets, using firewall rules.
 
 ```puppet
 # Subnetwork requires a network and a region, so define them in your manifest:
-#   - gcompute_network { 'my-network': ensure => present }
-#   - gcompute_region { 'some-region': ensure => present }
+#   - gcompute_network { 'my-network': ensure => present, ... }
+#   - gcompute_region { 'some-region': ... }
 gcompute_subnetwork { 'servers':
   ensure        => present,
   ip_cidr_range => '172.16.0.0/16',
@@ -3290,6 +3501,127 @@ Required.  A reference to Region resource
 
 * `id`: Output only.
   The unique identifier for the resource.
+
+#### `gcompute_zone`
+
+Represents a Zone resource.
+
+#### Example
+
+```puppet
+gcompute_zone { 'us-central1-a':
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_zone { 'id-of-resource':
+  creation_timestamp => time,
+  deprecated         => {
+    deleted     => time,
+    deprecated  => time,
+    obsolete    => time,
+    replacement => string,
+    state       => 'DEPRECATED', 'OBSOLETE' or 'DELETED',
+  },
+  description        => string,
+  id                 => integer,
+  name               => string,
+  region             => reference to gcompute_region,
+  status             => 'UP' or 'DOWN',
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
+##### `name`
+
+  Name of the resource.
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `deprecated`: Output only.
+  The deprecation status associated with this machine type.
+
+##### deprecated/deleted
+Output only.  An optional RFC3339 timestamp on or after which the state of this
+  resource is intended to change to DELETED. This is only
+  informational and the status will not change unless the client
+  explicitly changes it.
+
+##### deprecated/deprecated
+Output only.  An optional RFC3339 timestamp on or after which the state of this
+  resource is intended to change to DEPRECATED. This is only
+  informational and the status will not change unless the client
+  explicitly changes it.
+
+##### deprecated/obsolete
+Output only.  An optional RFC3339 timestamp on or after which the state of this
+  resource is intended to change to OBSOLETE. This is only
+  informational and the status will not change unless the client
+  explicitly changes it.
+
+##### deprecated/replacement
+Output only.  The URL of the suggested replacement for a deprecated resource.
+  The suggested replacement resource must be the same kind of
+  resource as the deprecated resource.
+
+##### deprecated/state
+Output only.  The deprecation state of this resource. This can be DEPRECATED,
+  OBSOLETE, or DELETED. Operations which create a new resource
+  using a DEPRECATED resource will return successfully, but with a
+  warning indicating the deprecated resource and recommending its
+  replacement. Operations which use OBSOLETE or DELETED resources
+  will be rejected and result in an error.
+
+* `description`: Output only.
+  An optional textual description of the resource.
+
+* `id`: Output only.
+  The unique identifier for the resource.
+
+* `region`: Output only.
+  A reference to Region resource
+
+* `status`: Output only.
+  The status of the zone.
+
+
+### Functions
+
+
+#### `gcompute_image_family`
+
+  Builds the family resource identifier required to uniquely identify the
+  family, e.g. to create virtual machines based on it. You can use this
+  function as `source_image` of a `gcompute_instance` resource.
+
+##### Arguments
+
+  - `image_family`:
+    the name of the family, e.g. ubuntu-1604-lts
+
+  - `project_name`:
+    the name of the project that hosts the family,
+    e.g. ubuntu-os-cloud
+
+##### Examples
+
+```puppet
+gcompute_image_family('ubuntu-1604-lts', 'ubuntu-os-cloud')
+```
+
+```puppet
+gcompute_image_family('my-web-server', 'my-project')
+```
 
 
 ## Limitations
@@ -3382,8 +3714,10 @@ Variable                | Side Effect
 [`gcompute_image`]: #gcompute_image
 [`gcompute_instance`]: #gcompute_instance
 [`gcompute_instance_group`]: #gcompute_instance_group
+[`gcompute_machine_type`]: #gcompute_machine_type
 [`gcompute_network`]: #gcompute_network
 [`gcompute_region`]: #gcompute_region
 [`gcompute_route`]: #gcompute_route
 [`gcompute_ssl_certificate`]: #gcompute_ssl_certificate
 [`gcompute_subnetwork`]: #gcompute_subnetwork
+[`gcompute_zone`]: #gcompute_zone

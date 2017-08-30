@@ -55,38 +55,14 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_disk { 'puppet-e2e-data-disk-1':
-  ensure              => present,
-  size_gb             => 500,
-  disk_encryption_key => {
-    raw_key => 'SGVsbG8gZnJvbSBHb29nbGUgQ2xvdWQgUGxhdGZvcm0=',
-  },
-  zone                => 'us-central1-a',
-  project             => 'google.com:graphite-playground',
-  credential          => 'mycred',
-}
-
-gcompute_network { 'puppet-e2e-mynetwork-test':
-  auto_create_subnetworks => true,
-  project                 => 'google.com:graphite-playground',
-  credential              => 'mycred',
+gcompute_zone { 'us-central1-a':
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
 }
 
 gcompute_instance { 'puppet-e2e-instance-test':
-  ensure             => absent,
-  machine_type       => 'zones/us-central1-a/machineTypes/n1-standard-1',
-  disks              => [
-    {
-      boot   => true,
-      source => 'data-disk-1'
-    }
-  ],
-  network_interfaces => [
-    {
-      network => 'mynetwork-test',
-    }
-  ],
-  zone               => 'us-central1-a',
-  project            => 'google.com:graphite-playground',
-  credential         => 'mycred',
+  ensure     => absent,
+  zone       => 'us-central1-a',
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
 }

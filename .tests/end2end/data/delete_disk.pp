@@ -55,6 +55,11 @@ gauth_credential { 'mycred':
   ],
 }
 
+gcompute_zone { 'us-central1-a':
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
 gcompute_disk { 'puppet-e2e-data-disk-1':
   ensure     => absent,
   zone       => 'us-central1-a',

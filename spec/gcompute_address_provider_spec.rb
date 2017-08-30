@@ -69,21 +69,18 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               apply_with_error_check(
                 <<-MANIFEST
                 gcompute_region { 'resource(region,0)':
-                  ensure     => present,
                   name       => 'test name#0 data',
                   project    => 'test project#0 data',
                   credential => 'cred0',
                 }
 
                 gcompute_region { 'resource(region,1)':
-                  ensure     => present,
                   name       => 'test name#1 data',
                   project    => 'test project#1 data',
                   credential => 'cred1',
                 }
 
                 gcompute_region { 'resource(region,2)':
-                  ensure     => present,
                   name       => 'test name#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
@@ -220,21 +217,18 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               apply_with_error_check(
                 <<-MANIFEST
                 gcompute_region { 'resource(region,0)':
-                  ensure     => present,
                   name       => 'test name#0 data',
                   project    => 'test project#0 data',
                   credential => 'cred0',
                 }
 
                 gcompute_region { 'resource(region,1)':
-                  ensure     => present,
                   name       => 'test name#1 data',
                   project    => 'test project#1 data',
                   credential => 'cred1',
                 }
 
                 gcompute_region { 'resource(region,2)':
-                  ensure     => present,
                   name       => 'test name#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
@@ -418,7 +412,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_region { 'resource(region,0)':
-                ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
@@ -470,7 +463,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_region { 'resource(region,0)':
-                ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
@@ -517,7 +509,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_region { 'resource(region,0)':
-                ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
@@ -558,7 +549,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_region { 'resource(region,0)':
-                ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
@@ -606,7 +596,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_region { 'resource(region,0)':
-                ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
@@ -649,7 +638,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_region { 'resource(region,0)':
-                ensure     => present,
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
@@ -702,6 +690,26 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         before { subject.instance_variable_set(:@deleted, true) }
         it { expect { subject.flush }.not_to raise_error }
       end
+    end
+  end
+
+  context '#exports' do
+    context 'exports all properties' do
+      let(:resource1) { create_type 1 }
+      before do
+        prefetch_region
+        expect_network_get_success 1
+        described_class.prefetch(title0: resource1)
+      end
+
+      subject { resource1.exports }
+
+      let(:expected_results) do
+        {
+          address: 'test address#0 data'
+        }
+      end
+      it { is_expected.to eq(expected_results) }
     end
   end
 
@@ -860,6 +868,19 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
         data
       )
     )
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_region
+    expect_network_get_success_region 1
+
+    resource = Puppet::Type.type(:gcompute_region).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .prefetch(resource: resource)
   end
 
   def debug(message)

@@ -96,31 +96,6 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
   end
   # rubocop:enable Metrics/MethodLength
 
-  def exists?
-    debug("exists? #{@property_hash[:ensure] == :present}")
-    @property_hash[:ensure] == :present
-  end
-
-  def create
-    debug('create')
-    @created = true
-    create_req = Google::Compute::Network::Post.new(collection(@resource),
-                                                    fetch_auth(@resource),
-                                                    'application/json',
-                                                    resource_to_request)
-    @fetched = return_if_object create_req.send, 'compute#region'
-    @property_hash[:ensure] = :present
-  end
-
-  def destroy
-    debug('destroy')
-    @deleted = true
-    delete_req = Google::Compute::Network::Delete.new(self_link(@resource),
-                                                      fetch_auth(@resource))
-    return_if_object delete_req.send, 'compute#region'
-    @property_hash[:ensure] = :absent
-  end
-
   def flush
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)

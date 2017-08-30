@@ -30,6 +30,7 @@ require 'google/compute/property/region_name'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_address) do
@@ -101,5 +102,10 @@ Puppet::Type.newtype(:gcompute_address) do
 
   newproperty(:users, parent: Google::Compute::Property::StringArray) do
     desc 'The URLs of the resources that are using this address. (output only)'
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end
