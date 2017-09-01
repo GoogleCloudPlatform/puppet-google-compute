@@ -1,6 +1,6 @@
 {
   "name": "google-gcompute",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Google",
   "summary": "A Puppet module to manage Google Compute Engine resources",
   "license": "Apache-2.0",
