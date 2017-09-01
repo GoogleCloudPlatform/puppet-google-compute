@@ -64,13 +64,13 @@
   ],
   "dependencies": [
     {
-      "name": "google-gauth",
+      "name": "google/gauth",
       "version_requirement": "< 0.2.0"
     }
   ],
   "requirements": [
     {
-      "name": "google-gauth",
+      "name": "google/gauth",
       "version_requirement": "< 0.2.0"
     }
   ],
