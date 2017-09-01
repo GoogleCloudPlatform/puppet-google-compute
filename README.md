@@ -1,5 +1,7 @@
 # Google Compute Engine Puppet Module
 
+[![Puppet Forge](http://img.shields.io/puppetforge/v/google/gcompute.svg)](https://forge.puppetlabs.com/google/gcompute)
+
 #### Table of Contents
 
 1. [Module Description - What the module does and why it is useful](
