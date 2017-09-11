@@ -55,14 +55,14 @@ gauth_credential { 'mycred':
   ],
 }
 
-gcompute_network { 'puppet-e2e-my-network':
-  ensure     => present,
-  project    => 'google.com:graphite-playground',
-  credential => 'mycred',
+gcompute_network { 'puppet-e2e-mynetwork-subnetwork':
+  ensure                  => present,
+  auto_create_subnetworks => false,
+  project                 => 'google.com:graphite-playground',
+  credential              => 'mycred',
 }
 
 gcompute_region { 'puppet-e2e-some-region':
-  ensure     => present,
   name       => 'us-west1',
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
@@ -71,7 +71,7 @@ gcompute_region { 'puppet-e2e-some-region':
 gcompute_subnetwork { 'puppet-e2e-servers':
   ensure        => present,
   ip_cidr_range => '172.16.0.0/16',
-  network       => 'puppet-e2e-my-network',
+  network       => 'puppet-e2e-mynetwork-subnetwork',
   region        => 'puppet-e2e-some-region',
   project       => 'google.com:graphite-playground',
   credential    => 'mycred',

@@ -1,5 +1,7 @@
 # Google Compute Engine Puppet Module
 
+[![Puppet Forge](http://img.shields.io/puppetforge/v/google/gcompute.svg)](https://forge.puppetlabs.com/google/gcompute)
+
 #### Table of Contents
 
 1. [Module Description - What the module does and why it is useful](
@@ -59,7 +61,6 @@ required gems.
 
 ```puppet
 gcompute_region { 'some-region':
-  ensure     => present,
   name       => 'us-west1',
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
@@ -264,6 +265,7 @@ gcompute_image { 'test-image':
 #      a) You can use the provided gcompute_image_family function to specify the
 #         latest version of an operating system of a given family
 #         e.g. Ubuntu 16.04
+#   3) If you define a startup-script-url make sure VM has access to it
 gcompute_instance { 'instance-test':
   ensure             => present,
   machine_type       => 'n1-standard-1',
@@ -274,6 +276,11 @@ gcompute_instance { 'instance-test':
       source      => 'instance-test-os-1'
     }
   ],
+  metadata => {
+    'startup-script-url' =>
+      'gs://graphite-production/public/bootstrap-sample.sh',
+    'cost-center'        => '12345',
+  },
   network_interfaces => [
     {
       network        => 'default',
@@ -366,7 +373,6 @@ gcompute_network { "mynetwork-${network_id}":
 
 ```puppet
 gcompute_region { 'us-west1':
-  ensure     => present,
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
 }
@@ -376,9 +382,8 @@ gcompute_region { 'us-west1':
 #### `gcompute_route`
 
 ```puppet
-# Subnetwork requires a network and a region, so define them in your manifest:
+# Route requires a network, so define them in your manifest:
 #   - gcompute_network { 'my-network': ensure => presnet }
-#   - gcompute_region { 'some-region': ensure => present }
 gcompute_route { 'corp-route':
   ensure           => present,
   dest_range       => '192.168.6.0/24',
@@ -443,12 +448,12 @@ OGN02HtkpBOZzzvUARTR10JQoSe2/5PIwQ==
 
 ```puppet
 # Subnetwork requires a network and a region, so define them in your manifest:
-#   - gcompute_network { 'my-network': ensure => presnet }
-#   - gcompute_region { 'some-region': ensure => present }
+#   - gcompute_network { 'my-network': ensure => present, ... }
+#   - gcompute_region { 'some-region': ... }
 gcompute_subnetwork { 'servers':
   ensure        => present,
   ip_cidr_range => '172.16.0.0/16',
-  network       => 'my-network',
+  network       => 'mynetwork-subnetwork',
   region        => 'some-region',
   project       => 'google.com:graphite-playground',
   credential    => 'mycred',
@@ -697,7 +702,6 @@ static.
 
 ```puppet
 gcompute_region { 'some-region':
-  ensure     => present,
   name       => 'us-west1',
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
@@ -2379,6 +2383,7 @@ An instance is a virtual machine (VM) hosted on Google's infrastructure.
 #      a) You can use the provided gcompute_image_family function to specify the
 #         latest version of an operating system of a given family
 #         e.g. Ubuntu 16.04
+#   3) If you define a startup-script-url make sure VM has access to it
 gcompute_instance { 'instance-test':
   ensure             => present,
   machine_type       => 'n1-standard-1',
@@ -2389,6 +2394,11 @@ gcompute_instance { 'instance-test':
       source      => 'instance-test-os-1'
     }
   ],
+  metadata => {
+    'startup-script-url' =>
+      'gs://graphite-production/public/bootstrap-sample.sh',
+    'cost-center'        => '12345',
+  },
   network_interfaces => [
     {
       network        => 'default',
@@ -2446,7 +2456,7 @@ gcompute_instance { 'id-of-resource':
   id                 => integer,
   label_fingerprint  => string,
   machine_type       => reference to gcompute_machine_type,
-  min_cpu_platform   => string,
+  metadata           => namevalues,
   name               => string,
   network_interfaces => [
     {
@@ -2602,10 +2612,15 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
 
   A reference to MachineType resource
 
-##### `min_cpu_platform`
+##### `metadata`
 
-  Specifies a minimum CPU platform for the VM instance. Applicable
-  values are the friendly names of CPU platforms
+  The metadata key/value pairs assigned to this instance. This includes
+  custom metadata and predefined keys.
+  Key for the metadata entry. Keys must conform to the following
+  regexp [a-zA-Z0-9-_]+, and be less than 128 bytes in length. This is
+  reflected as part of a URL in the metadata server. Additionally, to
+  avoid ambiguity, keys must not conflict with any other metadata keys
+  for the project.
 
 ##### `name`
 
@@ -3097,7 +3112,6 @@ zones
 
 ```puppet
 gcompute_region { 'us-west1':
-  ensure     => present,
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
 }
@@ -3198,9 +3212,8 @@ nextHopGateway, nextHopInstance, nextHopIp, or nextHopVpnTunnel.
 #### Example
 
 ```puppet
-# Subnetwork requires a network and a region, so define them in your manifest:
+# Route requires a network, so define them in your manifest:
 #   - gcompute_network { 'my-network': ensure => presnet }
-#   - gcompute_region { 'some-region': ensure => present }
 gcompute_route { 'corp-route':
   ensure           => present,
   dest_range       => '192.168.6.0/24',
@@ -3426,12 +3439,12 @@ of the network, even entire subnets, using firewall rules.
 
 ```puppet
 # Subnetwork requires a network and a region, so define them in your manifest:
-#   - gcompute_network { 'my-network': ensure => presnet }
-#   - gcompute_region { 'some-region': ensure => present }
+#   - gcompute_network { 'my-network': ensure => present, ... }
+#   - gcompute_region { 'some-region': ... }
 gcompute_subnetwork { 'servers':
   ensure        => present,
   ip_cidr_range => '172.16.0.0/16',
-  network       => 'my-network',
+  network       => 'mynetwork-subnetwork',
   region        => 'some-region',
   project       => 'google.com:graphite-playground',
   credential    => 'mycred',

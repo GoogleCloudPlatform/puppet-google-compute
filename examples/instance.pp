@@ -113,6 +113,11 @@ gcompute_instance { 'instance-test':
       source      => 'instance-test-os-1'
     }
   ],
+  metadata => {
+    'startup-script-url' =>
+      'gs://graphite-production/public/bootstrap-sample.sh',
+    'cost-center'        => '12345',
+  },
   network_interfaces => [
     {
       network        => 'default',

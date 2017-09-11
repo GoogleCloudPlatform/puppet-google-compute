@@ -38,6 +38,7 @@ require 'google/compute/property/instance_disk_encryption_key'
 require 'google/compute/property/instance_disks'
 require 'google/compute/property/instance_guest_accelerators'
 require 'google/compute/property/instance_initialize_params'
+require 'google/compute/property/instance_metadata'
 require 'google/compute/property/instance_network_interfaces'
 require 'google/compute/property/instance_scheduling'
 require 'google/compute/property/instance_service_accounts'
@@ -100,8 +101,9 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
       machine_type: Google::Compute::Property::MachTypeSelfLinkRef.api_munge(
         fetch['machineType']
       ),
-      min_cpu_platform:
-        Google::Compute::Property::String.api_munge(fetch['minCpuPlatform']),
+      metadata: Google::Compute::Property::InstanceMetadata.api_munge(
+        fetch['metadata']
+      ),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       network_interfaces:
         Google::Compute::Property::InstancNetworkInterfaArray.api_munge(
@@ -195,7 +197,7 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
       id: resource[:id],
       label_fingerprint: resource[:label_fingerprint],
       machine_type: resource[:machine_type],
-      min_cpu_platform: resource[:min_cpu_platform],
+      metadata: resource[:metadata],
       network_interfaces: resource[:network_interfaces],
       scheduling: resource[:scheduling],
       service_accounts: resource[:service_accounts],
@@ -216,7 +218,7 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
       guestAccelerators: @resource[:guest_accelerators],
       labelFingerprint: @resource[:label_fingerprint],
       machineType: @resource[:machine_type],
-      minCpuPlatform: @resource[:min_cpu_platform],
+      metadata: @resource[:metadata],
       name: @resource[:name],
       networkInterfaces: @resource[:network_interfaces],
       scheduling: @resource[:scheduling],

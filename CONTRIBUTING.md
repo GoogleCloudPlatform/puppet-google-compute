@@ -126,6 +126,7 @@ puppet-codegen:
   * .tests/end2end/data/ssl_certificate.pp
   * .tests/end2end/data/subnetwork.pp
   * .tests/end2end/data/zone.pp
+  * CHANGELOG.md
   * CONTRIBUTING.md
   * examples/address.pp
   * examples/backend_bucket.pp
@@ -203,6 +204,7 @@ puppet-codegen:
   * lib/google/compute/property/instance_disks.rb
   * lib/google/compute/property/instance_guest_accelerators.rb
   * lib/google/compute/property/instance_initialize_params.rb
+  * lib/google/compute/property/instance_metadata.rb
   * lib/google/compute/property/instance_network_interfaces.rb
   * lib/google/compute/property/instance_scheduling.rb
   * lib/google/compute/property/instance_service_accounts.rb

@@ -321,7 +321,11 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   ],
                   label_fingerprint  => 'test label_fingerprint#0 data',
                   machine_type       => 'resource(machine_type,0)',
-                  min_cpu_platform   => 'test min_cpu_platform#0 data',
+                  metadata           => {
+                    'test metadata#1 data' => 'test metadata#1 data',
+                    'test metadata#2 data' => 2666715473,
+                    'test metadata#3 data' => 'test metadata#3 data',
+                  },
                   network_interfaces => [
                     {
                       access_configs => [
@@ -474,7 +478,13 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   ],
                   label_fingerprint  => 'test label_fingerprint#1 data',
                   machine_type       => 'resource(machine_type,1)',
-                  min_cpu_platform   => 'test min_cpu_platform#1 data',
+                  metadata           => {
+                    'test metadata#2 data' => 'test metadata#2 data',
+                    'test metadata#3 data' => 3555620630,
+                    'test metadata#4 data' => 'test metadata#4 data',
+                    'test metadata#5 data' => 5333430946,
+                    'test metadata#6 data' => 'test metadata#6 data',
+                  },
                   network_interfaces => [
                     {
                       access_configs => [
@@ -653,7 +663,11 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   ],
                   label_fingerprint  => 'test label_fingerprint#2 data',
                   machine_type       => 'resource(machine_type,2)',
-                  min_cpu_platform   => 'test min_cpu_platform#2 data',
+                  metadata           => {
+                    'test metadata#3 data' => 'test metadata#3 data',
+                    'test metadata#4 data' => 4444525788,
+                    'test metadata#5 data' => 'test metadata#5 data',
+                  },
                   network_interfaces => [
                     {
                       access_configs => [
@@ -824,12 +838,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # it 'machineType' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(
-                    min_cpu_platform: 'test min_cpu_platform#0 data'
-                  )
-              end
+              TODO(nelsonjr): Implement this
               it { is_expected.to have_attributes(name: 'title0') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'networkInterfaces' do
@@ -893,12 +902,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # it 'machineType' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(
-                    min_cpu_platform: 'test min_cpu_platform#1 data'
-                  )
-              end
+              TODO(nelsonjr): Implement this
               it { is_expected.to have_attributes(name: 'title1') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'networkInterfaces' do
@@ -962,12 +966,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # it 'machineType' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(
-                    min_cpu_platform: 'test min_cpu_platform#2 data'
-                  )
-              end
+              TODO(nelsonjr): Implement this
               it { is_expected.to have_attributes(name: 'title2') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'networkInterfaces' do
@@ -1280,7 +1279,11 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   ],
                   label_fingerprint  => 'test label_fingerprint#0 data',
                   machine_type       => 'resource(machine_type,0)',
-                  min_cpu_platform   => 'test min_cpu_platform#0 data',
+                  metadata           => {
+                    'test metadata#1 data' => 'test metadata#1 data',
+                    'test metadata#2 data' => 2666715473,
+                    'test metadata#3 data' => 'test metadata#3 data',
+                  },
                   name               => 'test name#0 data',
                   network_interfaces => [
                     {
@@ -1434,7 +1437,13 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   ],
                   label_fingerprint  => 'test label_fingerprint#1 data',
                   machine_type       => 'resource(machine_type,1)',
-                  min_cpu_platform   => 'test min_cpu_platform#1 data',
+                  metadata           => {
+                    'test metadata#2 data' => 'test metadata#2 data',
+                    'test metadata#3 data' => 3555620630,
+                    'test metadata#4 data' => 'test metadata#4 data',
+                    'test metadata#5 data' => 5333430946,
+                    'test metadata#6 data' => 'test metadata#6 data',
+                  },
                   name               => 'test name#1 data',
                   network_interfaces => [
                     {
@@ -1614,7 +1623,11 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   ],
                   label_fingerprint  => 'test label_fingerprint#2 data',
                   machine_type       => 'resource(machine_type,2)',
-                  min_cpu_platform   => 'test min_cpu_platform#2 data',
+                  metadata           => {
+                    'test metadata#3 data' => 'test metadata#3 data',
+                    'test metadata#4 data' => 4444525788,
+                    'test metadata#5 data' => 'test metadata#5 data',
+                  },
                   name               => 'test name#2 data',
                   network_interfaces => [
                     {
@@ -1786,12 +1799,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # it 'machineType' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(
-                    min_cpu_platform: 'test min_cpu_platform#0 data'
-                  )
-              end
+              TODO(nelsonjr): Implement this
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'networkInterfaces' do
@@ -1855,12 +1863,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # it 'machineType' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(
-                    min_cpu_platform: 'test min_cpu_platform#1 data'
-                  )
-              end
+              TODO(nelsonjr): Implement this
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'networkInterfaces' do
@@ -1924,12 +1927,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # it 'machineType' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(
-                    min_cpu_platform: 'test min_cpu_platform#2 data'
-                  )
-              end
+              TODO(nelsonjr): Implement this
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'networkInterfaces' do
@@ -2115,7 +2113,11 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 ],
                 'labelFingerprint' => 'test label_fingerprint#0 data',
                 'machineType' => 'selflink(resource(machine_type,0))',
-                'minCpuPlatform' => 'test min_cpu_platform#0 data',
+                'metadata' => {
+                  'test metadata#1 data' => 'test metadata#1 data',
+                  'test metadata#2 data' => 2_666_715_473,
+                  'test metadata#3 data' => 'test metadata#3 data'
+                },
                 'name' => 'title0',
                 'networkInterfaces' => [
                   {
@@ -2430,7 +2432,11 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 ],
                 label_fingerprint  => 'test label_fingerprint#0 data',
                 machine_type       => 'resource(machine_type,0)',
-                min_cpu_platform   => 'test min_cpu_platform#0 data',
+                metadata           => {
+                  'test metadata#1 data' => 'test metadata#1 data',
+                  'test metadata#2 data' => 2666715473,
+                  'test metadata#3 data' => 'test metadata#3 data',
+                },
                 network_interfaces => [
                   {
                     access_configs => [
@@ -2637,7 +2643,11 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 ],
                 'labelFingerprint' => 'test label_fingerprint#0 data',
                 'machineType' => 'selflink(resource(machine_type,0))',
-                'minCpuPlatform' => 'test min_cpu_platform#0 data',
+                'metadata' => {
+                  'test metadata#1 data' => 'test metadata#1 data',
+                  'test metadata#2 data' => 2_666_715_473,
+                  'test metadata#3 data' => 'test metadata#3 data'
+                },
                 'name' => 'test name#0 data',
                 'networkInterfaces' => [
                   {
@@ -2950,7 +2960,11 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 ],
                 label_fingerprint  => 'test label_fingerprint#0 data',
                 machine_type       => 'resource(machine_type,0)',
-                min_cpu_platform   => 'test min_cpu_platform#0 data',
+                metadata           => {
+                  'test metadata#1 data' => 'test metadata#1 data',
+                  'test metadata#2 data' => 2666715473,
+                  'test metadata#3 data' => 'test metadata#3 data',
+                },
                 name               => 'test name#0 data',
                 network_interfaces => [
                   {

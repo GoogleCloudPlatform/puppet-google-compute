@@ -100,7 +100,10 @@ guestAccelerators:
   acceleratorType: test accelerator_type#3 data
 labelFingerprint: test label_fingerprint#0 data
 machineType: selflink(resource(machine_type,0))
-minCpuPlatform: test min_cpu_platform#0 data
+metadata:
+  test metadata#1 data: test metadata#1 data
+  test metadata#2 data: 2666715473
+  test metadata#3 data: test metadata#3 data
 networkInterfaces:
 - accessConfigs:
   - name: test name#0 data

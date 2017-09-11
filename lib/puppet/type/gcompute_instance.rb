@@ -34,6 +34,7 @@ require 'google/compute/property/instance_disk_encryption_key'
 require 'google/compute/property/instance_disks'
 require 'google/compute/property/instance_guest_accelerators'
 require 'google/compute/property/instance_initialize_params'
+require 'google/compute/property/instance_metadata'
 require 'google/compute/property/instance_network_interfaces'
 require 'google/compute/property/instance_scheduling'
 require 'google/compute/property/instance_service_accounts'
@@ -138,10 +139,14 @@ Puppet::Type.newtype(:gcompute_instance) do
     desc 'A reference to MachineType resource'
   end
 
-  newproperty(:min_cpu_platform, parent: Google::Compute::Property::String) do
+  newproperty(:metadata, parent: Google::Compute::Property::InstanceMetadata) do
     desc <<-EOT
-      Specifies a minimum CPU platform for the VM instance. Applicable values
-      are the friendly names of CPU platforms
+      The metadata key/value pairs assigned to this instance. This includes
+      custom metadata and predefined keys. Key for the metadata entry. Keys
+      must conform to the following regexp [a-zA-Z0-9-_]+, and be less than 128
+      bytes in length. This is reflected as part of a URL in the metadata
+      server. Additionally, to avoid ambiguity, keys must not conflict with any
+      other metadata keys for the project.
     EOT
   end
 
