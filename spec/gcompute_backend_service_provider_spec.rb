@@ -157,6 +157,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_rate_per_instance        => 34507065.0,
                       max_utilization              => 21920426.93,
                     },
+                    {
+                      balancing_mode               => 'CONNECTION',
+                      capacity_scaler              => 79867290.98,
+                      description                  => 'test description#2 data',
+                      group                        => 'resource(instance_group,2)',
+                      max_connections              => 2472613258,
+                      max_connections_per_instance => 8249457907,
+                      max_rate                     => 1201062638,
+                      max_rate_per_instance        => 51760597.51,
+                      max_utilization              => 32880640.39,
+                    },
                   ],
                   cdn_policy              => {
                     cache_key_policy => {
@@ -208,6 +219,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_rate_per_instance        => 51760597.51,
                       max_utilization              => 32880640.39,
                     },
+                    {
+                      balancing_mode               => 'UTILIZATION',
+                      capacity_scaler              => 106489721.31,
+                      description                  => 'test description#3 data',
+                      group                        => 'resource(instance_group,0)',
+                      max_connections              => 3296817678,
+                      max_connections_per_instance => 10999277209,
+                      max_rate                     => 1601416850,
+                      max_rate_per_instance        => 69014130.1,
+                      max_utilization              => 43840853.86,
+                    },
                   ],
                   cdn_policy              => {
                     cache_key_policy => {
@@ -258,6 +280,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_rate                     => 1601416850,
                       max_rate_per_instance        => 69014130.1,
                       max_utilization              => 43840853.86,
+                    },
+                    {
+                      balancing_mode               => 'RATE',
+                      capacity_scaler              => 133112151.64,
+                      description                  => 'test description#4 data',
+                      group                        => 'resource(instance_group,1)',
+                      max_connections              => 4121022097,
+                      max_connections_per_instance => 13749096511,
+                      max_rate                     => 2001771063,
+                      max_rate_per_instance        => 86267662.51,
+                      max_utilization              => 54801067.32,
                     },
                   ],
                   cdn_policy              => {
@@ -569,6 +602,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_rate_per_instance        => 34507065.0,
                       max_utilization              => 21920426.93,
                     },
+                    {
+                      balancing_mode               => 'CONNECTION',
+                      capacity_scaler              => 79867290.98,
+                      description                  => 'test description#2 data',
+                      group                        => 'resource(instance_group,2)',
+                      max_connections              => 2472613258,
+                      max_connections_per_instance => 8249457907,
+                      max_rate                     => 1201062638,
+                      max_rate_per_instance        => 51760597.51,
+                      max_utilization              => 32880640.39,
+                    },
                   ],
                   cdn_policy              => {
                     cache_key_policy => {
@@ -621,6 +665,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_rate_per_instance        => 51760597.51,
                       max_utilization              => 32880640.39,
                     },
+                    {
+                      balancing_mode               => 'UTILIZATION',
+                      capacity_scaler              => 106489721.31,
+                      description                  => 'test description#3 data',
+                      group                        => 'resource(instance_group,0)',
+                      max_connections              => 3296817678,
+                      max_connections_per_instance => 10999277209,
+                      max_rate                     => 1601416850,
+                      max_rate_per_instance        => 69014130.1,
+                      max_utilization              => 43840853.86,
+                    },
                   ],
                   cdn_policy              => {
                     cache_key_policy => {
@@ -672,6 +727,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_rate                     => 1601416850,
                       max_rate_per_instance        => 69014130.1,
                       max_utilization              => 43840853.86,
+                    },
+                    {
+                      balancing_mode               => 'RATE',
+                      capacity_scaler              => 133112151.64,
+                      description                  => 'test description#4 data',
+                      group                        => 'resource(instance_group,1)',
+                      max_connections              => 4121022097,
+                      max_connections_per_instance => 13749096511,
+                      max_rate                     => 2001771063,
+                      max_rate_per_instance        => 86267662.51,
+                      max_utilization              => 54801067.32,
                     },
                   ],
                   cdn_policy              => {
@@ -939,6 +1005,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                     'maxRate' => 800_708_425,
                     'maxRatePerInstance' => 34_507_065.0,
                     'maxUtilization' => 21_920_426.93
+                  },
+                  {
+                    'balancingMode' => 'CONNECTION',
+                    'capacityScaler' => 79_867_290.98,
+                    'description' => 'test description#2 data',
+                    'group' => 'selflink(resource(instance_group,2))',
+                    'maxConnections' => 2_472_613_258,
+                    'maxConnectionsPerInstance' => 8_249_457_907,
+                    'maxRate' => 1_201_062_638,
+                    'maxRatePerInstance' => 51_760_597.51,
+                    'maxUtilization' => 32_880_640.39
                   }
                 ],
                 'cdnPolicy' => {
@@ -967,10 +1044,13 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
             expect_network_get_async 1, name: 'title0'
             expect_network_get_success_zone 1
             expect_network_get_success_zone 2
+            expect_network_get_success_zone 3
             expect_network_get_success_instance_group 1,
                                                       zone: 'test name#0 data'
             expect_network_get_success_instance_group 2,
                                                       zone: 'test name#1 data'
+            expect_network_get_success_instance_group 3,
+                                                      zone: 'test name#2 data'
             expect_network_get_success_region 1
           end
 
@@ -989,6 +1069,12 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                 credential => 'cred1',
               }
 
+              gcompute_zone { 'resource(zone,2)':
+                name       => 'test name#2 data',
+                project    => 'test project#2 data',
+                credential => 'cred2',
+              }
+
               gcompute_instance_group { 'resource(instance_group,0)':
                 ensure     => present,
                 name       => 'test name#0 data',
@@ -1003,6 +1089,14 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                 zone       => 'resource(zone,1)',
                 project    => 'test project#1 data',
                 credential => 'cred1',
+              }
+
+              gcompute_instance_group { 'resource(instance_group,2)':
+                ensure     => present,
+                name       => 'test name#2 data',
+                zone       => 'resource(zone,2)',
+                project    => 'test project#2 data',
+                credential => 'cred2',
               }
 
               gcompute_region { 'resource(region,0)':
@@ -1036,6 +1130,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                     max_rate                     => 800708425,
                     max_rate_per_instance        => 34507065.0,
                     max_utilization              => 21920426.93,
+                  },
+                  {
+                    balancing_mode               => 'CONNECTION',
+                    capacity_scaler              => 79867290.98,
+                    description                  => 'test description#2 data',
+                    group                        => 'resource(instance_group,2)',
+                    max_connections              => 2472613258,
+                    max_connections_per_instance => 8249457907,
+                    max_rate                     => 1201062638,
+                    max_rate_per_instance        => 51760597.51,
+                    max_utilization              => 32880640.39,
                   },
                 ],
                 cdn_policy              => {
@@ -1109,6 +1214,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   'maxRate' => 800_708_425,
                   'maxRatePerInstance' => 34_507_065.0,
                   'maxUtilization' => 21_920_426.93
+                },
+                {
+                  'balancingMode' => 'CONNECTION',
+                  'capacityScaler' => 79_867_290.98,
+                  'description' => 'test description#2 data',
+                  'group' => 'selflink(resource(instance_group,2))',
+                  'maxConnections' => 2_472_613_258,
+                  'maxConnectionsPerInstance' => 8_249_457_907,
+                  'maxRate' => 1_201_062_638,
+                  'maxRatePerInstance' => 51_760_597.51,
+                  'maxUtilization' => 32_880_640.39
                 }
               ],
               'cdnPolicy' => {
@@ -1135,10 +1251,13 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
             expect_network_get_async 1
             expect_network_get_success_zone 1
             expect_network_get_success_zone 2
+            expect_network_get_success_zone 3
             expect_network_get_success_instance_group 1,
                                                       zone: 'test name#0 data'
             expect_network_get_success_instance_group 2,
                                                       zone: 'test name#1 data'
+            expect_network_get_success_instance_group 3,
+                                                      zone: 'test name#2 data'
             expect_network_get_success_region 1
           end
 
@@ -1157,6 +1276,12 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                 credential => 'cred1',
               }
 
+              gcompute_zone { 'resource(zone,2)':
+                name       => 'test name#2 data',
+                project    => 'test project#2 data',
+                credential => 'cred2',
+              }
+
               gcompute_instance_group { 'resource(instance_group,0)':
                 ensure     => present,
                 name       => 'test name#0 data',
@@ -1171,6 +1296,14 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                 zone       => 'resource(zone,1)',
                 project    => 'test project#1 data',
                 credential => 'cred1',
+              }
+
+              gcompute_instance_group { 'resource(instance_group,2)':
+                ensure     => present,
+                name       => 'test name#2 data',
+                zone       => 'resource(zone,2)',
+                project    => 'test project#2 data',
+                credential => 'cred2',
               }
 
               gcompute_region { 'resource(region,0)':
@@ -1204,6 +1337,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                     max_rate                     => 800708425,
                     max_rate_per_instance        => 34507065.0,
                     max_utilization              => 21920426.93,
+                  },
+                  {
+                    balancing_mode               => 'CONNECTION',
+                    capacity_scaler              => 79867290.98,
+                    description                  => 'test description#2 data',
+                    group                        => 'resource(instance_group,2)',
+                    max_connections              => 2472613258,
+                    max_connections_per_instance => 8249457907,
+                    max_rate                     => 1201062638,
+                    max_rate_per_instance        => 51760597.51,
+                    max_utilization              => 32880640.39,
                   },
                 ],
                 cdn_policy              => {

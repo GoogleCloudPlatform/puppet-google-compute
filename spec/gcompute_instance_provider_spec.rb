@@ -252,42 +252,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       source              => 'resource(disk,1)',
                     },
-                    {
-                      auto_delete         => true,
-                      boot                => true,
-                      device_name         => 'test device_name#2 data',
-                      disk_encryption_key => {
-                        raw_key           => 'test raw_key#2 data',
-                        rsa_encrypted_key => 'test rsa_encrypted_key#2 data',
-                        sha256            => 'test sha256#2 data',
-                      },
-                      index               => 4331643780,
-                      initialize_params   => {
-                        disk_name    => 'test disk_name#2 data',
-                        disk_size_gb => 1350276479,
-                        disk_type    => 2202665748,
-                        source_image => 2978601703,
-                      },
-                      source              => 'resource(disk,2)',
-                    },
-                    {
-                      auto_delete         => false,
-                      boot                => false,
-                      device_name         => 'test device_name#3 data',
-                      disk_encryption_key => {
-                        raw_key           => 'test raw_key#3 data',
-                        rsa_encrypted_key => 'test rsa_encrypted_key#3 data',
-                        sha256            => 'test sha256#3 data',
-                      },
-                      index               => 5775525040,
-                      initialize_params   => {
-                        disk_name    => 'test disk_name#3 data',
-                        disk_size_gb => 1800368639,
-                        disk_type    => 2936887664,
-                        source_image => 3971468938,
-                      },
-                      source              => 'resource(disk,0)',
-                    },
                   ],
                   guest_accelerators => [
                     {
@@ -318,16 +282,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           nat_ip => 'resource(address,0)',
                           type   => 'ONE_TO_ONE_NAT',
                         },
-                        {
-                          name   => 'test name#1 data',
-                          nat_ip => 'resource(address,1)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#2 data',
-                          nat_ip => 'resource(address,2)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
                       ],
                       name           => 'test name#0 data',
                       network        => 'resource(network,0)',
@@ -346,6 +300,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           nat_ip => 'resource(address,2)',
                           type   => 'ONE_TO_ONE_NAT',
                         },
+                      ],
+                      name           => 'test name#1 data',
+                      network        => 'resource(network,1)',
+                      network_ip     => 'test network_ip#1 data',
+                      subnetwork     => 'test subnetwork#1 data',
+                    },
+                    {
+                      access_configs => [
+                        {
+                          name   => 'test name#2 data',
+                          nat_ip => 'resource(address,2)',
+                          type   => 'ONE_TO_ONE_NAT',
+                        },
                         {
                           name   => 'test name#3 data',
                           nat_ip => 'resource(address,0)',
@@ -357,10 +324,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           type   => 'ONE_TO_ONE_NAT',
                         },
                       ],
-                      name           => 'test name#1 data',
-                      network        => 'resource(network,1)',
-                      network_ip     => 'test network_ip#1 data',
-                      subnetwork     => 'test subnetwork#1 data',
+                      name           => 'test name#2 data',
+                      network        => 'resource(network,2)',
+                      network_ip     => 'test network_ip#2 data',
+                      subnetwork     => 'test subnetwork#2 data',
                     },
                   ],
                   scheduling         => {
@@ -413,42 +380,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       source              => 'resource(disk,1)',
                     },
-                    {
-                      auto_delete         => true,
-                      boot                => true,
-                      device_name         => 'test device_name#2 data',
-                      disk_encryption_key => {
-                        raw_key           => 'test raw_key#2 data',
-                        rsa_encrypted_key => 'test rsa_encrypted_key#2 data',
-                        sha256            => 'test sha256#2 data',
-                      },
-                      index               => 4331643780,
-                      initialize_params   => {
-                        disk_name    => 'test disk_name#2 data',
-                        disk_size_gb => 1350276479,
-                        disk_type    => 2202665748,
-                        source_image => 2978601703,
-                      },
-                      source              => 'resource(disk,2)',
-                    },
-                    {
-                      auto_delete         => false,
-                      boot                => false,
-                      device_name         => 'test device_name#3 data',
-                      disk_encryption_key => {
-                        raw_key           => 'test raw_key#3 data',
-                        rsa_encrypted_key => 'test rsa_encrypted_key#3 data',
-                        sha256            => 'test sha256#3 data',
-                      },
-                      index               => 5775525040,
-                      initialize_params   => {
-                        disk_name    => 'test disk_name#3 data',
-                        disk_size_gb => 1800368639,
-                        disk_type    => 2936887664,
-                        source_image => 3971468938,
-                      },
-                      source              => 'resource(disk,0)',
-                    },
                   ],
                   guest_accelerators => [
                     {
@@ -476,72 +407,11 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           nat_ip => 'resource(address,2)',
                           type   => 'ONE_TO_ONE_NAT',
                         },
-                        {
-                          name   => 'test name#3 data',
-                          nat_ip => 'resource(address,0)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#4 data',
-                          nat_ip => 'resource(address,1)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
                       ],
                       name           => 'test name#1 data',
                       network        => 'resource(network,1)',
                       network_ip     => 'test network_ip#1 data',
                       subnetwork     => 'test subnetwork#1 data',
-                    },
-                    {
-                      access_configs => [
-                        {
-                          name   => 'test name#2 data',
-                          nat_ip => 'resource(address,2)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#3 data',
-                          nat_ip => 'resource(address,0)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#4 data',
-                          nat_ip => 'resource(address,1)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#5 data',
-                          nat_ip => 'resource(address,2)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#6 data',
-                          nat_ip => 'resource(address,0)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                      ],
-                      name           => 'test name#2 data',
-                      network        => 'resource(network,2)',
-                      network_ip     => 'test network_ip#2 data',
-                      subnetwork     => 'test subnetwork#2 data',
-                    },
-                    {
-                      access_configs => [
-                        {
-                          name   => 'test name#3 data',
-                          nat_ip => 'resource(address,0)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#4 data',
-                          nat_ip => 'resource(address,1)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                      ],
-                      name           => 'test name#3 data',
-                      network        => 'resource(network,0)',
-                      network_ip     => 'test network_ip#3 data',
-                      subnetwork     => 'test subnetwork#3 data',
                     },
                   ],
                   scheduling         => {
@@ -620,6 +490,24 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       source              => 'resource(disk,0)',
                     },
+                    {
+                      auto_delete         => true,
+                      boot                => true,
+                      device_name         => 'test device_name#4 data',
+                      disk_encryption_key => {
+                        raw_key           => 'test raw_key#4 data',
+                        rsa_encrypted_key => 'test rsa_encrypted_key#4 data',
+                        sha256            => 'test sha256#4 data',
+                      },
+                      index               => 7219406300,
+                      initialize_params   => {
+                        disk_name    => 'test disk_name#4 data',
+                        disk_size_gb => 2250460799,
+                        disk_type    => 3671109580,
+                        source_image => 4964336173,
+                      },
+                      source              => 'resource(disk,1)',
+                    },
                   ],
                   guest_accelerators => [
                     {
@@ -660,16 +548,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           nat_ip => 'resource(address,1)',
                           type   => 'ONE_TO_ONE_NAT',
                         },
-                        {
-                          name   => 'test name#5 data',
-                          nat_ip => 'resource(address,2)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#6 data',
-                          nat_ip => 'resource(address,0)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
                       ],
                       name           => 'test name#2 data',
                       network        => 'resource(network,2)',
@@ -688,62 +566,16 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           nat_ip => 'resource(address,1)',
                           type   => 'ONE_TO_ONE_NAT',
                         },
+                        {
+                          name   => 'test name#5 data',
+                          nat_ip => 'resource(address,2)',
+                          type   => 'ONE_TO_ONE_NAT',
+                        },
                       ],
                       name           => 'test name#3 data',
                       network        => 'resource(network,0)',
                       network_ip     => 'test network_ip#3 data',
                       subnetwork     => 'test subnetwork#3 data',
-                    },
-                    {
-                      access_configs => [
-                        {
-                          name   => 'test name#4 data',
-                          nat_ip => 'resource(address,1)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#5 data',
-                          nat_ip => 'resource(address,2)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#6 data',
-                          nat_ip => 'resource(address,0)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                      ],
-                      name           => 'test name#4 data',
-                      network        => 'resource(network,1)',
-                      network_ip     => 'test network_ip#4 data',
-                      subnetwork     => 'test subnetwork#4 data',
-                    },
-                    {
-                      access_configs => [
-                        {
-                          name   => 'test name#5 data',
-                          nat_ip => 'resource(address,2)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#6 data',
-                          nat_ip => 'resource(address,0)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#7 data',
-                          nat_ip => 'resource(address,1)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#8 data',
-                          nat_ip => 'resource(address,2)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                      ],
-                      name           => 'test name#5 data',
-                      network        => 'resource(network,2)',
-                      network_ip     => 'test network_ip#5 data',
-                      subnetwork     => 'test subnetwork#5 data',
                     },
                   ],
                   scheduling         => {
@@ -1196,42 +1028,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       source              => 'resource(disk,1)',
                     },
-                    {
-                      auto_delete         => true,
-                      boot                => true,
-                      device_name         => 'test device_name#2 data',
-                      disk_encryption_key => {
-                        raw_key           => 'test raw_key#2 data',
-                        rsa_encrypted_key => 'test rsa_encrypted_key#2 data',
-                        sha256            => 'test sha256#2 data',
-                      },
-                      index               => 4331643780,
-                      initialize_params   => {
-                        disk_name    => 'test disk_name#2 data',
-                        disk_size_gb => 1350276479,
-                        disk_type    => 2202665748,
-                        source_image => 2978601703,
-                      },
-                      source              => 'resource(disk,2)',
-                    },
-                    {
-                      auto_delete         => false,
-                      boot                => false,
-                      device_name         => 'test device_name#3 data',
-                      disk_encryption_key => {
-                        raw_key           => 'test raw_key#3 data',
-                        rsa_encrypted_key => 'test rsa_encrypted_key#3 data',
-                        sha256            => 'test sha256#3 data',
-                      },
-                      index               => 5775525040,
-                      initialize_params   => {
-                        disk_name    => 'test disk_name#3 data',
-                        disk_size_gb => 1800368639,
-                        disk_type    => 2936887664,
-                        source_image => 3971468938,
-                      },
-                      source              => 'resource(disk,0)',
-                    },
                   ],
                   guest_accelerators => [
                     {
@@ -1263,16 +1059,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           nat_ip => 'resource(address,0)',
                           type   => 'ONE_TO_ONE_NAT',
                         },
-                        {
-                          name   => 'test name#1 data',
-                          nat_ip => 'resource(address,1)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#2 data',
-                          nat_ip => 'resource(address,2)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
                       ],
                       name           => 'test name#0 data',
                       network        => 'resource(network,0)',
@@ -1291,6 +1077,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           nat_ip => 'resource(address,2)',
                           type   => 'ONE_TO_ONE_NAT',
                         },
+                      ],
+                      name           => 'test name#1 data',
+                      network        => 'resource(network,1)',
+                      network_ip     => 'test network_ip#1 data',
+                      subnetwork     => 'test subnetwork#1 data',
+                    },
+                    {
+                      access_configs => [
+                        {
+                          name   => 'test name#2 data',
+                          nat_ip => 'resource(address,2)',
+                          type   => 'ONE_TO_ONE_NAT',
+                        },
                         {
                           name   => 'test name#3 data',
                           nat_ip => 'resource(address,0)',
@@ -1302,10 +1101,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           type   => 'ONE_TO_ONE_NAT',
                         },
                       ],
-                      name           => 'test name#1 data',
-                      network        => 'resource(network,1)',
-                      network_ip     => 'test network_ip#1 data',
-                      subnetwork     => 'test subnetwork#1 data',
+                      name           => 'test name#2 data',
+                      network        => 'resource(network,2)',
+                      network_ip     => 'test network_ip#2 data',
+                      subnetwork     => 'test subnetwork#2 data',
                     },
                   ],
                   scheduling         => {
@@ -1358,42 +1157,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       source              => 'resource(disk,1)',
                     },
-                    {
-                      auto_delete         => true,
-                      boot                => true,
-                      device_name         => 'test device_name#2 data',
-                      disk_encryption_key => {
-                        raw_key           => 'test raw_key#2 data',
-                        rsa_encrypted_key => 'test rsa_encrypted_key#2 data',
-                        sha256            => 'test sha256#2 data',
-                      },
-                      index               => 4331643780,
-                      initialize_params   => {
-                        disk_name    => 'test disk_name#2 data',
-                        disk_size_gb => 1350276479,
-                        disk_type    => 2202665748,
-                        source_image => 2978601703,
-                      },
-                      source              => 'resource(disk,2)',
-                    },
-                    {
-                      auto_delete         => false,
-                      boot                => false,
-                      device_name         => 'test device_name#3 data',
-                      disk_encryption_key => {
-                        raw_key           => 'test raw_key#3 data',
-                        rsa_encrypted_key => 'test rsa_encrypted_key#3 data',
-                        sha256            => 'test sha256#3 data',
-                      },
-                      index               => 5775525040,
-                      initialize_params   => {
-                        disk_name    => 'test disk_name#3 data',
-                        disk_size_gb => 1800368639,
-                        disk_type    => 2936887664,
-                        source_image => 3971468938,
-                      },
-                      source              => 'resource(disk,0)',
-                    },
                   ],
                   guest_accelerators => [
                     {
@@ -1422,72 +1185,11 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           nat_ip => 'resource(address,2)',
                           type   => 'ONE_TO_ONE_NAT',
                         },
-                        {
-                          name   => 'test name#3 data',
-                          nat_ip => 'resource(address,0)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#4 data',
-                          nat_ip => 'resource(address,1)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
                       ],
                       name           => 'test name#1 data',
                       network        => 'resource(network,1)',
                       network_ip     => 'test network_ip#1 data',
                       subnetwork     => 'test subnetwork#1 data',
-                    },
-                    {
-                      access_configs => [
-                        {
-                          name   => 'test name#2 data',
-                          nat_ip => 'resource(address,2)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#3 data',
-                          nat_ip => 'resource(address,0)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#4 data',
-                          nat_ip => 'resource(address,1)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#5 data',
-                          nat_ip => 'resource(address,2)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#6 data',
-                          nat_ip => 'resource(address,0)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                      ],
-                      name           => 'test name#2 data',
-                      network        => 'resource(network,2)',
-                      network_ip     => 'test network_ip#2 data',
-                      subnetwork     => 'test subnetwork#2 data',
-                    },
-                    {
-                      access_configs => [
-                        {
-                          name   => 'test name#3 data',
-                          nat_ip => 'resource(address,0)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#4 data',
-                          nat_ip => 'resource(address,1)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                      ],
-                      name           => 'test name#3 data',
-                      network        => 'resource(network,0)',
-                      network_ip     => 'test network_ip#3 data',
-                      subnetwork     => 'test subnetwork#3 data',
                     },
                   ],
                   scheduling         => {
@@ -1566,6 +1268,24 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       source              => 'resource(disk,0)',
                     },
+                    {
+                      auto_delete         => true,
+                      boot                => true,
+                      device_name         => 'test device_name#4 data',
+                      disk_encryption_key => {
+                        raw_key           => 'test raw_key#4 data',
+                        rsa_encrypted_key => 'test rsa_encrypted_key#4 data',
+                        sha256            => 'test sha256#4 data',
+                      },
+                      index               => 7219406300,
+                      initialize_params   => {
+                        disk_name    => 'test disk_name#4 data',
+                        disk_size_gb => 2250460799,
+                        disk_type    => 3671109580,
+                        source_image => 4964336173,
+                      },
+                      source              => 'resource(disk,1)',
+                    },
                   ],
                   guest_accelerators => [
                     {
@@ -1607,16 +1327,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           nat_ip => 'resource(address,1)',
                           type   => 'ONE_TO_ONE_NAT',
                         },
-                        {
-                          name   => 'test name#5 data',
-                          nat_ip => 'resource(address,2)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#6 data',
-                          nat_ip => 'resource(address,0)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
                       ],
                       name           => 'test name#2 data',
                       network        => 'resource(network,2)',
@@ -1635,62 +1345,16 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           nat_ip => 'resource(address,1)',
                           type   => 'ONE_TO_ONE_NAT',
                         },
+                        {
+                          name   => 'test name#5 data',
+                          nat_ip => 'resource(address,2)',
+                          type   => 'ONE_TO_ONE_NAT',
+                        },
                       ],
                       name           => 'test name#3 data',
                       network        => 'resource(network,0)',
                       network_ip     => 'test network_ip#3 data',
                       subnetwork     => 'test subnetwork#3 data',
-                    },
-                    {
-                      access_configs => [
-                        {
-                          name   => 'test name#4 data',
-                          nat_ip => 'resource(address,1)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#5 data',
-                          nat_ip => 'resource(address,2)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#6 data',
-                          nat_ip => 'resource(address,0)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                      ],
-                      name           => 'test name#4 data',
-                      network        => 'resource(network,1)',
-                      network_ip     => 'test network_ip#4 data',
-                      subnetwork     => 'test subnetwork#4 data',
-                    },
-                    {
-                      access_configs => [
-                        {
-                          name   => 'test name#5 data',
-                          nat_ip => 'resource(address,2)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#6 data',
-                          nat_ip => 'resource(address,0)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#7 data',
-                          nat_ip => 'resource(address,1)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                        {
-                          name   => 'test name#8 data',
-                          nat_ip => 'resource(address,2)',
-                          type   => 'ONE_TO_ONE_NAT',
-                        },
-                      ],
-                      name           => 'test name#5 data',
-                      network        => 'resource(network,2)',
-                      network_ip     => 'test network_ip#5 data',
-                      subnetwork     => 'test subnetwork#5 data',
                     },
                   ],
                   scheduling         => {
@@ -2025,42 +1689,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       'diskType' => 1_468_443_832,
                       'sourceImage' => 1_985_734_469
                     }
-                  },
-                  {
-                    'autoDelete' => true,
-                    'boot' => true,
-                    'deviceName' => 'test device_name#2 data',
-                    'diskEncryptionKey' => {
-                      'rawKey' => 'test raw_key#2 data',
-                      'rsaEncryptedKey' => 'test rsa_encrypted_key#2 data',
-                      'sha256' => 'test sha256#2 data'
-                    },
-                    'index' => 4_331_643_780,
-                    'source' => 'selflink(resource(disk,2))',
-                    'initializeParams' => {
-                      'diskName' => 'test disk_name#2 data',
-                      'diskSizeGb' => 1_350_276_479,
-                      'diskType' => 2_202_665_748,
-                      'sourceImage' => 2_978_601_703
-                    }
-                  },
-                  {
-                    'autoDelete' => false,
-                    'boot' => false,
-                    'deviceName' => 'test device_name#3 data',
-                    'diskEncryptionKey' => {
-                      'rawKey' => 'test raw_key#3 data',
-                      'rsaEncryptedKey' => 'test rsa_encrypted_key#3 data',
-                      'sha256' => 'test sha256#3 data'
-                    },
-                    'index' => 5_775_525_040,
-                    'source' => 'selflink(resource(disk,0))',
-                    'initializeParams' => {
-                      'diskName' => 'test disk_name#3 data',
-                      'diskSizeGb' => 1_800_368_639,
-                      'diskType' => 2_936_887_664,
-                      'sourceImage' => 3_971_468_938
-                    }
                   }
                 ],
                 'guestAccelerators' => [
@@ -2092,16 +1720,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         'name' => 'test name#0 data',
                         'natIP' => 'test address#0 data',
                         'type' => 'ONE_TO_ONE_NAT'
-                      },
-                      {
-                        'name' => 'test name#1 data',
-                        'natIP' => 'test address#1 data',
-                        'type' => 'ONE_TO_ONE_NAT'
-                      },
-                      {
-                        'name' => 'test name#2 data',
-                        'natIP' => 'test address#2 data',
-                        'type' => 'ONE_TO_ONE_NAT'
                       }
                     ],
                     'name' => 'test name#0 data',
@@ -2120,6 +1738,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         'name' => 'test name#2 data',
                         'natIP' => 'test address#2 data',
                         'type' => 'ONE_TO_ONE_NAT'
+                      }
+                    ],
+                    'name' => 'test name#1 data',
+                    'network' => 'selflink(resource(network,1))',
+                    'networkIP' => 'test network_ip#1 data',
+                    'subnetwork' => 'test subnetwork#1 data'
+                  },
+                  {
+                    'accessConfigs' => [
+                      {
+                        'name' => 'test name#2 data',
+                        'natIP' => 'test address#2 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       },
                       {
                         'name' => 'test name#3 data',
@@ -2132,10 +1763,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         'type' => 'ONE_TO_ONE_NAT'
                       }
                     ],
-                    'name' => 'test name#1 data',
-                    'network' => 'selflink(resource(network,1))',
-                    'networkIP' => 'test network_ip#1 data',
-                    'subnetwork' => 'test subnetwork#1 data'
+                    'name' => 'test name#2 data',
+                    'network' => 'selflink(resource(network,2))',
+                    'networkIP' => 'test network_ip#2 data',
+                    'subnetwork' => 'test subnetwork#2 data'
                   }
                 ],
                 'scheduling' => {
@@ -2167,10 +1798,8 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
             expect_network_get_async 1, name: 'title0', zone: 'test name#0 data'
             expect_network_get_success_zone 1
             expect_network_get_success_zone 2
-            expect_network_get_success_zone 3
             expect_network_get_success_disk 1, zone: 'test name#0 data'
             expect_network_get_success_disk 2, zone: 'test name#1 data'
-            expect_network_get_success_disk 3, zone: 'test name#2 data'
             expect_network_get_success_machine_type 1, zone: 'test name#0 data'
             expect_network_get_success_region 1
             expect_network_get_success_region 2
@@ -2180,6 +1809,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
             expect_network_get_success_address 3, region: 'test name#2 data'
             expect_network_get_success_network 1
             expect_network_get_success_network 2
+            expect_network_get_success_network 3
           end
 
           subject do
@@ -2197,12 +1827,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 credential => 'cred1',
               }
 
-              gcompute_zone { 'resource(zone,2)':
-                name       => 'test name#2 data',
-                project    => 'test project#2 data',
-                credential => 'cred2',
-              }
-
               gcompute_disk { 'resource(disk,0)':
                 ensure     => present,
                 name       => 'test name#0 data',
@@ -2217,14 +1841,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 zone       => 'resource(zone,1)',
                 project    => 'test project#1 data',
                 credential => 'cred1',
-              }
-
-              gcompute_disk { 'resource(disk,2)':
-                ensure     => present,
-                name       => 'test name#2 data',
-                zone       => 'resource(zone,2)',
-                project    => 'test project#2 data',
-                credential => 'cred2',
               }
 
               gcompute_machine_type { 'resource(machine_type,0)':
@@ -2290,6 +1906,13 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 credential => 'cred1',
               }
 
+              gcompute_network { 'resource(network,2)':
+                ensure     => present,
+                name       => 'test name#2 data',
+                project    => 'test project#2 data',
+                credential => 'cred2',
+              }
+
               gcompute_instance { 'title0':
                 ensure             => present,
                 can_ip_forward     => true,
@@ -2330,42 +1953,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     },
                     source              => 'resource(disk,1)',
                   },
-                  {
-                    auto_delete         => true,
-                    boot                => true,
-                    device_name         => 'test device_name#2 data',
-                    disk_encryption_key => {
-                      raw_key           => 'test raw_key#2 data',
-                      rsa_encrypted_key => 'test rsa_encrypted_key#2 data',
-                      sha256            => 'test sha256#2 data',
-                    },
-                    index               => 4331643780,
-                    initialize_params   => {
-                      disk_name    => 'test disk_name#2 data',
-                      disk_size_gb => 1350276479,
-                      disk_type    => 2202665748,
-                      source_image => 2978601703,
-                    },
-                    source              => 'resource(disk,2)',
-                  },
-                  {
-                    auto_delete         => false,
-                    boot                => false,
-                    device_name         => 'test device_name#3 data',
-                    disk_encryption_key => {
-                      raw_key           => 'test raw_key#3 data',
-                      rsa_encrypted_key => 'test rsa_encrypted_key#3 data',
-                      sha256            => 'test sha256#3 data',
-                    },
-                    index               => 5775525040,
-                    initialize_params   => {
-                      disk_name    => 'test disk_name#3 data',
-                      disk_size_gb => 1800368639,
-                      disk_type    => 2936887664,
-                      source_image => 3971468938,
-                    },
-                    source              => 'resource(disk,0)',
-                  },
                 ],
                 guest_accelerators => [
                   {
@@ -2396,16 +1983,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         nat_ip => 'resource(address,0)',
                         type   => 'ONE_TO_ONE_NAT',
                       },
-                      {
-                        name   => 'test name#1 data',
-                        nat_ip => 'resource(address,1)',
-                        type   => 'ONE_TO_ONE_NAT',
-                      },
-                      {
-                        name   => 'test name#2 data',
-                        nat_ip => 'resource(address,2)',
-                        type   => 'ONE_TO_ONE_NAT',
-                      },
                     ],
                     name           => 'test name#0 data',
                     network        => 'resource(network,0)',
@@ -2424,6 +2001,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         nat_ip => 'resource(address,2)',
                         type   => 'ONE_TO_ONE_NAT',
                       },
+                    ],
+                    name           => 'test name#1 data',
+                    network        => 'resource(network,1)',
+                    network_ip     => 'test network_ip#1 data',
+                    subnetwork     => 'test subnetwork#1 data',
+                  },
+                  {
+                    access_configs => [
+                      {
+                        name   => 'test name#2 data',
+                        nat_ip => 'resource(address,2)',
+                        type   => 'ONE_TO_ONE_NAT',
+                      },
                       {
                         name   => 'test name#3 data',
                         nat_ip => 'resource(address,0)',
@@ -2435,10 +2025,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         type   => 'ONE_TO_ONE_NAT',
                       },
                     ],
-                    name           => 'test name#1 data',
-                    network        => 'resource(network,1)',
-                    network_ip     => 'test network_ip#1 data',
-                    subnetwork     => 'test subnetwork#1 data',
+                    name           => 'test name#2 data',
+                    network        => 'resource(network,2)',
+                    network_ip     => 'test network_ip#2 data',
+                    subnetwork     => 'test subnetwork#2 data',
                   },
                 ],
                 scheduling         => {
@@ -2530,42 +2120,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       'diskType' => 1_468_443_832,
                       'sourceImage' => 1_985_734_469
                     }
-                  },
-                  {
-                    'autoDelete' => true,
-                    'boot' => true,
-                    'deviceName' => 'test device_name#2 data',
-                    'diskEncryptionKey' => {
-                      'rawKey' => 'test raw_key#2 data',
-                      'rsaEncryptedKey' => 'test rsa_encrypted_key#2 data',
-                      'sha256' => 'test sha256#2 data'
-                    },
-                    'index' => 4_331_643_780,
-                    'source' => 'selflink(resource(disk,2))',
-                    'initializeParams' => {
-                      'diskName' => 'test disk_name#2 data',
-                      'diskSizeGb' => 1_350_276_479,
-                      'diskType' => 2_202_665_748,
-                      'sourceImage' => 2_978_601_703
-                    }
-                  },
-                  {
-                    'autoDelete' => false,
-                    'boot' => false,
-                    'deviceName' => 'test device_name#3 data',
-                    'diskEncryptionKey' => {
-                      'rawKey' => 'test raw_key#3 data',
-                      'rsaEncryptedKey' => 'test rsa_encrypted_key#3 data',
-                      'sha256' => 'test sha256#3 data'
-                    },
-                    'index' => 5_775_525_040,
-                    'source' => 'selflink(resource(disk,0))',
-                    'initializeParams' => {
-                      'diskName' => 'test disk_name#3 data',
-                      'diskSizeGb' => 1_800_368_639,
-                      'diskType' => 2_936_887_664,
-                      'sourceImage' => 3_971_468_938
-                    }
                   }
                 ],
                 'guestAccelerators' => [
@@ -2597,16 +2151,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         'name' => 'test name#0 data',
                         'natIP' => 'test address#0 data',
                         'type' => 'ONE_TO_ONE_NAT'
-                      },
-                      {
-                        'name' => 'test name#1 data',
-                        'natIP' => 'test address#1 data',
-                        'type' => 'ONE_TO_ONE_NAT'
-                      },
-                      {
-                        'name' => 'test name#2 data',
-                        'natIP' => 'test address#2 data',
-                        'type' => 'ONE_TO_ONE_NAT'
                       }
                     ],
                     'name' => 'test name#0 data',
@@ -2625,6 +2169,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         'name' => 'test name#2 data',
                         'natIP' => 'test address#2 data',
                         'type' => 'ONE_TO_ONE_NAT'
+                      }
+                    ],
+                    'name' => 'test name#1 data',
+                    'network' => 'selflink(resource(network,1))',
+                    'networkIP' => 'test network_ip#1 data',
+                    'subnetwork' => 'test subnetwork#1 data'
+                  },
+                  {
+                    'accessConfigs' => [
+                      {
+                        'name' => 'test name#2 data',
+                        'natIP' => 'test address#2 data',
+                        'type' => 'ONE_TO_ONE_NAT'
                       },
                       {
                         'name' => 'test name#3 data',
@@ -2637,10 +2194,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         'type' => 'ONE_TO_ONE_NAT'
                       }
                     ],
-                    'name' => 'test name#1 data',
-                    'network' => 'selflink(resource(network,1))',
-                    'networkIP' => 'test network_ip#1 data',
-                    'subnetwork' => 'test subnetwork#1 data'
+                    'name' => 'test name#2 data',
+                    'network' => 'selflink(resource(network,2))',
+                    'networkIP' => 'test network_ip#2 data',
+                    'subnetwork' => 'test subnetwork#2 data'
                   }
                 ],
                 'scheduling' => {
@@ -2671,10 +2228,8 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
             expect_network_get_async 1, zone: 'test name#0 data'
             expect_network_get_success_zone 1
             expect_network_get_success_zone 2
-            expect_network_get_success_zone 3
             expect_network_get_success_disk 1, zone: 'test name#0 data'
             expect_network_get_success_disk 2, zone: 'test name#1 data'
-            expect_network_get_success_disk 3, zone: 'test name#2 data'
             expect_network_get_success_machine_type 1, zone: 'test name#0 data'
             expect_network_get_success_region 1
             expect_network_get_success_region 2
@@ -2684,6 +2239,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
             expect_network_get_success_address 3, region: 'test name#2 data'
             expect_network_get_success_network 1
             expect_network_get_success_network 2
+            expect_network_get_success_network 3
           end
 
           subject do
@@ -2701,12 +2257,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 credential => 'cred1',
               }
 
-              gcompute_zone { 'resource(zone,2)':
-                name       => 'test name#2 data',
-                project    => 'test project#2 data',
-                credential => 'cred2',
-              }
-
               gcompute_disk { 'resource(disk,0)':
                 ensure     => present,
                 name       => 'test name#0 data',
@@ -2721,14 +2271,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 zone       => 'resource(zone,1)',
                 project    => 'test project#1 data',
                 credential => 'cred1',
-              }
-
-              gcompute_disk { 'resource(disk,2)':
-                ensure     => present,
-                name       => 'test name#2 data',
-                zone       => 'resource(zone,2)',
-                project    => 'test project#2 data',
-                credential => 'cred2',
               }
 
               gcompute_machine_type { 'resource(machine_type,0)':
@@ -2794,6 +2336,13 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 credential => 'cred1',
               }
 
+              gcompute_network { 'resource(network,2)':
+                ensure     => present,
+                name       => 'test name#2 data',
+                project    => 'test project#2 data',
+                credential => 'cred2',
+              }
+
               gcompute_instance { 'title0':
                 ensure             => present,
                 can_ip_forward     => true,
@@ -2834,42 +2383,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     },
                     source              => 'resource(disk,1)',
                   },
-                  {
-                    auto_delete         => true,
-                    boot                => true,
-                    device_name         => 'test device_name#2 data',
-                    disk_encryption_key => {
-                      raw_key           => 'test raw_key#2 data',
-                      rsa_encrypted_key => 'test rsa_encrypted_key#2 data',
-                      sha256            => 'test sha256#2 data',
-                    },
-                    index               => 4331643780,
-                    initialize_params   => {
-                      disk_name    => 'test disk_name#2 data',
-                      disk_size_gb => 1350276479,
-                      disk_type    => 2202665748,
-                      source_image => 2978601703,
-                    },
-                    source              => 'resource(disk,2)',
-                  },
-                  {
-                    auto_delete         => false,
-                    boot                => false,
-                    device_name         => 'test device_name#3 data',
-                    disk_encryption_key => {
-                      raw_key           => 'test raw_key#3 data',
-                      rsa_encrypted_key => 'test rsa_encrypted_key#3 data',
-                      sha256            => 'test sha256#3 data',
-                    },
-                    index               => 5775525040,
-                    initialize_params   => {
-                      disk_name    => 'test disk_name#3 data',
-                      disk_size_gb => 1800368639,
-                      disk_type    => 2936887664,
-                      source_image => 3971468938,
-                    },
-                    source              => 'resource(disk,0)',
-                  },
                 ],
                 guest_accelerators => [
                   {
@@ -2901,16 +2414,6 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         nat_ip => 'resource(address,0)',
                         type   => 'ONE_TO_ONE_NAT',
                       },
-                      {
-                        name   => 'test name#1 data',
-                        nat_ip => 'resource(address,1)',
-                        type   => 'ONE_TO_ONE_NAT',
-                      },
-                      {
-                        name   => 'test name#2 data',
-                        nat_ip => 'resource(address,2)',
-                        type   => 'ONE_TO_ONE_NAT',
-                      },
                     ],
                     name           => 'test name#0 data',
                     network        => 'resource(network,0)',
@@ -2929,6 +2432,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         nat_ip => 'resource(address,2)',
                         type   => 'ONE_TO_ONE_NAT',
                       },
+                    ],
+                    name           => 'test name#1 data',
+                    network        => 'resource(network,1)',
+                    network_ip     => 'test network_ip#1 data',
+                    subnetwork     => 'test subnetwork#1 data',
+                  },
+                  {
+                    access_configs => [
+                      {
+                        name   => 'test name#2 data',
+                        nat_ip => 'resource(address,2)',
+                        type   => 'ONE_TO_ONE_NAT',
+                      },
                       {
                         name   => 'test name#3 data',
                         nat_ip => 'resource(address,0)',
@@ -2940,10 +2456,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         type   => 'ONE_TO_ONE_NAT',
                       },
                     ],
-                    name           => 'test name#1 data',
-                    network        => 'resource(network,1)',
-                    network_ip     => 'test network_ip#1 data',
-                    subnetwork     => 'test subnetwork#1 data',
+                    name           => 'test name#2 data',
+                    network        => 'resource(network,2)',
+                    network_ip     => 'test network_ip#2 data',
+                    subnetwork     => 'test subnetwork#2 data',
                   },
                 ],
                 scheduling         => {

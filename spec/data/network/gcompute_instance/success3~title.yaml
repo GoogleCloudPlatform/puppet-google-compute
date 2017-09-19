@@ -61,6 +61,20 @@ disks:
     diskSizeGb: 1800368639
     diskType: 2936887664
     sourceImage: 3971468938
+- autoDelete: true
+  boot: true
+  deviceName: test device_name#4 data
+  diskEncryptionKey:
+    rawKey: test raw_key#4 data
+    rsaEncryptedKey: test rsa_encrypted_key#4 data
+    sha256: test sha256#4 data
+  index: 7219406300
+  source: selflink(resource(disk,1))
+  initializeParams:
+    diskName: test disk_name#4 data
+    diskSizeGb: 2250460799
+    diskType: 3671109580
+    sourceImage: 4964336173
 guestAccelerators:
 - acceleratorCount: 8092663672
   acceleratorType: test accelerator_type#2 data
@@ -84,12 +98,6 @@ networkInterfaces:
   - name: test name#4 data
     natIP: test address#1 data
     type: ONE_TO_ONE_NAT
-  - name: test name#5 data
-    natIP: test address#2 data
-    type: ONE_TO_ONE_NAT
-  - name: test name#6 data
-    natIP: test address#0 data
-    type: ONE_TO_ONE_NAT
   name: test name#2 data
   network: selflink(resource(network,2))
   networkIP: test network_ip#2 data
@@ -101,41 +109,13 @@ networkInterfaces:
   - name: test name#4 data
     natIP: test address#1 data
     type: ONE_TO_ONE_NAT
+  - name: test name#5 data
+    natIP: test address#2 data
+    type: ONE_TO_ONE_NAT
   name: test name#3 data
   network: selflink(resource(network,0))
   networkIP: test network_ip#3 data
   subnetwork: test subnetwork#3 data
-- accessConfigs:
-  - name: test name#4 data
-    natIP: test address#1 data
-    type: ONE_TO_ONE_NAT
-  - name: test name#5 data
-    natIP: test address#2 data
-    type: ONE_TO_ONE_NAT
-  - name: test name#6 data
-    natIP: test address#0 data
-    type: ONE_TO_ONE_NAT
-  name: test name#4 data
-  network: selflink(resource(network,1))
-  networkIP: test network_ip#4 data
-  subnetwork: test subnetwork#4 data
-- accessConfigs:
-  - name: test name#5 data
-    natIP: test address#2 data
-    type: ONE_TO_ONE_NAT
-  - name: test name#6 data
-    natIP: test address#0 data
-    type: ONE_TO_ONE_NAT
-  - name: test name#7 data
-    natIP: test address#1 data
-    type: ONE_TO_ONE_NAT
-  - name: test name#8 data
-    natIP: test address#2 data
-    type: ONE_TO_ONE_NAT
-  name: test name#5 data
-  network: selflink(resource(network,2))
-  networkIP: test network_ip#5 data
-  subnetwork: test subnetwork#5 data
 project: "'test project#2 data'"
 scheduling:
   automaticRestart: true

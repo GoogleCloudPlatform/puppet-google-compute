@@ -49,6 +49,15 @@ backends:
   maxRate: 1601416850
   maxRatePerInstance: 69014130.1
   maxUtilization: 43840853.86
+- balancingMode: RATE
+  capacityScaler: 133112151.64
+  description: test description#4 data
+  group: selflink(resource(instance_group,1))
+  maxConnections: 4121022097
+  maxConnectionsPerInstance: 13749096511
+  maxRate: 2001771063
+  maxRatePerInstance: 86267662.51
+  maxUtilization: 54801067.32
 cdnPolicy:
   cacheKeyPolicy:
     includeHost: true
