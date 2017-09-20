@@ -3600,6 +3600,32 @@ Output only.  The deprecation state of this resource. This can be DEPRECATED,
 ### Functions
 
 
+#### `gcompute_address_ip`
+
+  Returns the IP address associated with the Address managed by a
+  `gcompute_address` resource.
+
+##### Arguments
+
+  - `name`:
+    the name of the address resource
+
+  - `region`:
+    the region where the address resource is allocated
+
+  - `project`:
+    the project name where resource is allocated
+
+  - `cred`:
+    the credential to use to authorize the information request
+
+##### Examples
+
+```puppet
+gcompute_address_ip('my-server', 'us-central1', 'myproject', $fn_auth)
+```
+
+
 #### `gcompute_image_family`
 
   Builds the family resource identifier required to uniquely identify the

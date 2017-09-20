@@ -224,6 +224,7 @@ puppet-codegen:
   * lib/google/hash_utils.rb
   * lib/google/object_store.rb
   * lib/google/string_utils.rb
+  * lib/puppet/functions/gcompute_address_ip.rb
   * lib/puppet/functions/gcompute_image_family.rb
   * lib/puppet/provider/gcompute_address/google.rb
   * lib/puppet/provider/gcompute_backend_bucket/google.rb
@@ -444,6 +445,7 @@ central location:
   * Gemfile.lock
   * LICENSE
   * spec/data/poor_example.pp
+  * spec/stubs/google/authorization.rb
 
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
 [rubocop]: https://rubocop.readthedocs.io/en/latest/
