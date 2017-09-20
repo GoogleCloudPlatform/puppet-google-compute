@@ -3608,7 +3608,7 @@ Output only.  The deprecation state of this resource. This can be DEPRECATED,
 
 ##### Arguments
 
-  - `image_family`:
+  - `family_name`:
     the name of the family, e.g. ubuntu-1604-lts
 
   - `project_name`:
