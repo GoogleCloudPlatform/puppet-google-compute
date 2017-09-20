@@ -126,6 +126,7 @@ puppet-codegen:
   * .tests/end2end/data/ssl_certificate.pp
   * .tests/end2end/data/subnetwork.pp
   * .tests/end2end/data/zone.pp
+  * CHANGELOG.md
   * CONTRIBUTING.md
   * examples/address.pp
   * examples/backend_bucket.pp
