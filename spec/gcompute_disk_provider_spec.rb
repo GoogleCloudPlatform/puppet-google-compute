@@ -962,6 +962,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
 
       let(:expected_results) do
         {
+          name: 'test name#0 data',
           self_link: 'selflink(resource(disk,0))'
         }
       end

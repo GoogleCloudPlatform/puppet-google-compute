@@ -35,6 +35,7 @@ require 'google/compute/property/string'
 require 'google/compute/property/time'
 require 'google/compute/property/zone_name'
 require 'google/hash_utils'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_disk_type).provide(:google) do
@@ -56,11 +57,13 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource), 'compute#diskType')
       resource.provider = present(name, fetch) unless fetch.nil?
+      Google::ObjectStore.instance.add(:gcompute_disk_type, resource)
     end
   end
 
   def self.present(name, fetch)
     result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+    result.instance_variable_set(:@fetched, fetch)
     result
   end
 
@@ -115,6 +118,12 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
     }
   end
 
+  def exports
+    {
+      self_link: @fetched['selfLink']
+    }
+  end
+
   private
 
   # rubocop:disable Metrics/MethodLength
@@ -140,7 +149,8 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
 
   def resource_to_request
     request = {
-      kind: 'compute#diskType'
+      kind: 'compute#diskType',
+      name: @resource[:name]
     }.reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json

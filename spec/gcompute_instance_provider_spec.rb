@@ -63,6 +63,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               expect_network_get_success_zone 1
               expect_network_get_success_zone 2
               expect_network_get_success_zone 3
+              expect_network_get_success_disk_type 1, zone: 'test name#0 data'
+              expect_network_get_success_disk_type 2, zone: 'test name#1 data'
+              expect_network_get_success_disk_type 3, zone: 'test name#2 data'
               expect_network_get_success_disk 1, zone: 'test name#0 data'
               expect_network_get_success_disk 2, zone: 'test name#1 data'
               expect_network_get_success_disk 3, zone: 'test name#2 data'
@@ -81,6 +84,12 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               expect_network_get_success_network 1
               expect_network_get_success_network 2
               expect_network_get_success_network 3
+              expect_network_get_success_subnetwork 1,
+                                                    region: 'test name#0 data'
+              expect_network_get_success_subnetwork 2,
+                                                    region: 'test name#1 data'
+              expect_network_get_success_subnetwork 3,
+                                                    region: 'test name#2 data'
             end
 
             let(:catalog) do
@@ -100,6 +109,27 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
 
                 gcompute_zone { 'resource(zone,2)':
                   name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_disk_type { 'resource(disk_type,0)':
+                  name       => 'test name#0 data',
+                  zone       => 'resource(zone,0)',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_disk_type { 'resource(disk_type,1)':
+                  name       => 'test name#1 data',
+                  zone       => 'resource(zone,1)',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_disk_type { 'resource(disk_type,2)':
+                  name       => 'test name#2 data',
+                  zone       => 'resource(zone,2)',
                   project    => 'test project#2 data',
                   credential => 'cred2',
                 }
@@ -212,6 +242,30 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   credential => 'cred2',
                 }
 
+                gcompute_subnetwork { 'resource(subnetwork,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  region     => 'resource(region,0)',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_subnetwork { 'resource(subnetwork,1)':
+                  ensure     => present,
+                  name       => 'test name#1 data',
+                  region     => 'resource(region,1)',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_subnetwork { 'resource(subnetwork,2)':
+                  ensure     => present,
+                  name       => 'test name#2 data',
+                  region     => 'resource(region,2)',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
                 gcompute_instance { 'title0':
                   ensure             => present,
                   can_ip_forward     => true,
@@ -227,12 +281,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       index               => 1443881260,
                       initialize_params   => {
-                        disk_name    => 'test disk_name#0 data',
-                        disk_size_gb => 450092159,
-                        disk_type    => 734221916,
-                        source_image => 992867234,
+                        disk_name                   => 'test disk_name#0 data',
+                        disk_size_gb                => 450092159,
+                        disk_type                   => 'resource(disk_type,0)',
+                        source_image                => 'test source_image#0 data',
+                        source_image_encryption_key => {
+                          raw_key => 'test raw_key#0 data',
+                          sha256  => 'test sha256#0 data',
+                        },
                       },
+                      interface           => 'SCSI',
+                      mode                => 'READ_WRITE',
                       source              => 'resource(disk,0)',
+                      type                => 'SCRATCH',
                     },
                     {
                       auto_delete         => false,
@@ -245,12 +306,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       index               => 2887762520,
                       initialize_params   => {
-                        disk_name    => 'test disk_name#1 data',
-                        disk_size_gb => 900184319,
-                        disk_type    => 1468443832,
-                        source_image => 1985734469,
+                        disk_name                   => 'test disk_name#1 data',
+                        disk_size_gb                => 900184319,
+                        disk_type                   => 'resource(disk_type,1)',
+                        source_image                => 'test source_image#1 data',
+                        source_image_encryption_key => {
+                          raw_key => 'test raw_key#1 data',
+                          sha256  => 'test sha256#1 data',
+                        },
                       },
+                      interface           => 'NVME',
+                      mode                => 'READ_ONLY',
                       source              => 'resource(disk,1)',
+                      type                => 'PERSISTENT',
                     },
                   ],
                   guest_accelerators => [
@@ -273,23 +341,48 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   ],
                   label_fingerprint  => 'test label_fingerprint#0 data',
                   machine_type       => 'resource(machine_type,0)',
+                  metadata           => {
+                    items => {
+                      'test items#1 data' => 'test items#1 data',
+                      'test items#2 data' => 7591567804,
+                      'test items#3 data' => 'test items#3 data',
+                    },
+                  },
                   min_cpu_platform   => 'test min_cpu_platform#0 data',
                   network_interfaces => [
                     {
-                      access_configs => [
+                      access_configs  => [
                         {
                           name   => 'test name#0 data',
                           nat_ip => 'resource(address,0)',
                           type   => 'ONE_TO_ONE_NAT',
                         },
                       ],
-                      name           => 'test name#0 data',
-                      network        => 'resource(network,0)',
-                      network_ip     => 'test network_ip#0 data',
-                      subnetwork     => 'test subnetwork#0 data',
+                      alias_ip_ranges => [
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#0 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#0 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#1 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#1 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#2 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#3 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                        },
+                      ],
+                      name            => 'test name#0 data',
+                      network         => 'resource(network,0)',
+                      network_ip      => 'test network_ip#0 data',
+                      subnetwork      => 'resource(subnetwork,0)',
                     },
                     {
-                      access_configs => [
+                      access_configs  => [
                         {
                           name   => 'test name#1 data',
                           nat_ip => 'resource(address,1)',
@@ -301,13 +394,27 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           type   => 'ONE_TO_ONE_NAT',
                         },
                       ],
-                      name           => 'test name#1 data',
-                      network        => 'resource(network,1)',
-                      network_ip     => 'test network_ip#1 data',
-                      subnetwork     => 'test subnetwork#1 data',
+                      alias_ip_ranges => [
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#1 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#1 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#2 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#3 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                        },
+                      ],
+                      name            => 'test name#1 data',
+                      network         => 'resource(network,1)',
+                      network_ip      => 'test network_ip#1 data',
+                      subnetwork      => 'resource(subnetwork,1)',
                     },
                     {
-                      access_configs => [
+                      access_configs  => [
                         {
                           name   => 'test name#2 data',
                           nat_ip => 'resource(address,2)',
@@ -324,10 +431,20 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           type   => 'ONE_TO_ONE_NAT',
                         },
                       ],
-                      name           => 'test name#2 data',
-                      network        => 'resource(network,2)',
-                      network_ip     => 'test network_ip#2 data',
-                      subnetwork     => 'test subnetwork#2 data',
+                      alias_ip_ranges => [
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#2 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#3 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                        },
+                      ],
+                      name            => 'test name#2 data',
+                      network         => 'resource(network,2)',
+                      network_ip      => 'test network_ip#2 data',
+                      subnetwork      => 'resource(subnetwork,2)',
                     },
                   ],
                   scheduling         => {
@@ -373,12 +490,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       index               => 2887762520,
                       initialize_params   => {
-                        disk_name    => 'test disk_name#1 data',
-                        disk_size_gb => 900184319,
-                        disk_type    => 1468443832,
-                        source_image => 1985734469,
+                        disk_name                   => 'test disk_name#1 data',
+                        disk_size_gb                => 900184319,
+                        disk_type                   => 'resource(disk_type,1)',
+                        source_image                => 'test source_image#1 data',
+                        source_image_encryption_key => {
+                          raw_key => 'test raw_key#1 data',
+                          sha256  => 'test sha256#1 data',
+                        },
                       },
+                      interface           => 'NVME',
+                      mode                => 'READ_ONLY',
                       source              => 'resource(disk,1)',
+                      type                => 'PERSISTENT',
                     },
                   ],
                   guest_accelerators => [
@@ -393,10 +517,18 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   ],
                   label_fingerprint  => 'test label_fingerprint#1 data',
                   machine_type       => 'resource(machine_type,1)',
+                  metadata           => {
+                    items => {
+                      'test items#2 data' => 'test items#2 data',
+                      'test items#3 data' => 10122090405,
+                      'test items#4 data' => 'test items#4 data',
+                      'test items#5 data' => 15183135608,
+                    },
+                  },
                   min_cpu_platform   => 'test min_cpu_platform#1 data',
                   network_interfaces => [
                     {
-                      access_configs => [
+                      access_configs  => [
                         {
                           name   => 'test name#1 data',
                           nat_ip => 'resource(address,1)',
@@ -408,10 +540,24 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           type   => 'ONE_TO_ONE_NAT',
                         },
                       ],
-                      name           => 'test name#1 data',
-                      network        => 'resource(network,1)',
-                      network_ip     => 'test network_ip#1 data',
-                      subnetwork     => 'test subnetwork#1 data',
+                      alias_ip_ranges => [
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#1 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#1 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#2 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#3 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                        },
+                      ],
+                      name            => 'test name#1 data',
+                      network         => 'resource(network,1)',
+                      network_ip      => 'test network_ip#1 data',
+                      subnetwork      => 'resource(subnetwork,1)',
                     },
                   ],
                   scheduling         => {
@@ -465,12 +611,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       index               => 4331643780,
                       initialize_params   => {
-                        disk_name    => 'test disk_name#2 data',
-                        disk_size_gb => 1350276479,
-                        disk_type    => 2202665748,
-                        source_image => 2978601703,
+                        disk_name                   => 'test disk_name#2 data',
+                        disk_size_gb                => 1350276479,
+                        disk_type                   => 'resource(disk_type,2)',
+                        source_image                => 'test source_image#2 data',
+                        source_image_encryption_key => {
+                          raw_key => 'test raw_key#2 data',
+                          sha256  => 'test sha256#2 data',
+                        },
                       },
+                      interface           => 'SCSI',
+                      mode                => 'READ_WRITE',
                       source              => 'resource(disk,2)',
+                      type                => 'SCRATCH',
                     },
                     {
                       auto_delete         => false,
@@ -483,12 +636,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       index               => 5775525040,
                       initialize_params   => {
-                        disk_name    => 'test disk_name#3 data',
-                        disk_size_gb => 1800368639,
-                        disk_type    => 2936887664,
-                        source_image => 3971468938,
+                        disk_name                   => 'test disk_name#3 data',
+                        disk_size_gb                => 1800368639,
+                        disk_type                   => 'resource(disk_type,0)',
+                        source_image                => 'test source_image#3 data',
+                        source_image_encryption_key => {
+                          raw_key => 'test raw_key#3 data',
+                          sha256  => 'test sha256#3 data',
+                        },
                       },
+                      interface           => 'NVME',
+                      mode                => 'READ_ONLY',
                       source              => 'resource(disk,0)',
+                      type                => 'PERSISTENT',
                     },
                     {
                       auto_delete         => true,
@@ -501,12 +661,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       index               => 7219406300,
                       initialize_params   => {
-                        disk_name    => 'test disk_name#4 data',
-                        disk_size_gb => 2250460799,
-                        disk_type    => 3671109580,
-                        source_image => 4964336173,
+                        disk_name                   => 'test disk_name#4 data',
+                        disk_size_gb                => 2250460799,
+                        disk_type                   => 'resource(disk_type,1)',
+                        source_image                => 'test source_image#4 data',
+                        source_image_encryption_key => {
+                          raw_key => 'test raw_key#4 data',
+                          sha256  => 'test sha256#4 data',
+                        },
                       },
+                      interface           => 'SCSI',
+                      mode                => 'READ_WRITE',
                       source              => 'resource(disk,1)',
+                      type                => 'SCRATCH',
                     },
                   ],
                   guest_accelerators => [
@@ -529,10 +696,16 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   ],
                   label_fingerprint  => 'test label_fingerprint#2 data',
                   machine_type       => 'resource(machine_type,2)',
+                  metadata           => {
+                    items => {
+                      'test items#3 data' => 'test items#3 data',
+                      'test items#4 data' => 12652613006,
+                    },
+                  },
                   min_cpu_platform   => 'test min_cpu_platform#2 data',
                   network_interfaces => [
                     {
-                      access_configs => [
+                      access_configs  => [
                         {
                           name   => 'test name#2 data',
                           nat_ip => 'resource(address,2)',
@@ -549,13 +722,23 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           type   => 'ONE_TO_ONE_NAT',
                         },
                       ],
-                      name           => 'test name#2 data',
-                      network        => 'resource(network,2)',
-                      network_ip     => 'test network_ip#2 data',
-                      subnetwork     => 'test subnetwork#2 data',
+                      alias_ip_ranges => [
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#2 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#3 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                        },
+                      ],
+                      name            => 'test name#2 data',
+                      network         => 'resource(network,2)',
+                      network_ip      => 'test network_ip#2 data',
+                      subnetwork      => 'resource(subnetwork,2)',
                     },
                     {
-                      access_configs => [
+                      access_configs  => [
                         {
                           name   => 'test name#3 data',
                           nat_ip => 'resource(address,0)',
@@ -572,10 +755,32 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           type   => 'ONE_TO_ONE_NAT',
                         },
                       ],
-                      name           => 'test name#3 data',
-                      network        => 'resource(network,0)',
-                      network_ip     => 'test network_ip#3 data',
-                      subnetwork     => 'test subnetwork#3 data',
+                      alias_ip_ranges => [
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#3 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#4 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#4 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#5 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#5 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#6 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#6 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#7 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#7 data',
+                        },
+                      ],
+                      name            => 'test name#3 data',
+                      network         => 'resource(network,0)',
+                      network_ip      => 'test network_ip#3 data',
+                      subnetwork      => 'resource(subnetwork,0)',
                     },
                   ],
                   scheduling         => {
@@ -640,6 +845,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#0 data'
                   )
               end
+              # TODO(nelsonjr): Implement complex nested property object test.
+              # it 'metadata' do
+              #   # Add test code here
+              # end
               # TODO(alexstephen): Implement resourceref test.
               # it 'machineType' do
               #   # Add test code here
@@ -709,6 +918,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#1 data'
                   )
               end
+              # TODO(nelsonjr): Implement complex nested property object test.
+              # it 'metadata' do
+              #   # Add test code here
+              # end
               # TODO(alexstephen): Implement resourceref test.
               # it 'machineType' do
               #   # Add test code here
@@ -778,6 +991,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#2 data'
                   )
               end
+              # TODO(nelsonjr): Implement complex nested property object test.
+              # it 'metadata' do
+              #   # Add test code here
+              # end
               # TODO(alexstephen): Implement resourceref test.
               # it 'machineType' do
               #   # Add test code here
@@ -839,6 +1056,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               expect_network_get_success_zone 1
               expect_network_get_success_zone 2
               expect_network_get_success_zone 3
+              expect_network_get_success_disk_type 1, zone: 'test name#0 data'
+              expect_network_get_success_disk_type 2, zone: 'test name#1 data'
+              expect_network_get_success_disk_type 3, zone: 'test name#2 data'
               expect_network_get_success_disk 1, zone: 'test name#0 data'
               expect_network_get_success_disk 2, zone: 'test name#1 data'
               expect_network_get_success_disk 3, zone: 'test name#2 data'
@@ -857,6 +1077,12 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               expect_network_get_success_network 1
               expect_network_get_success_network 2
               expect_network_get_success_network 3
+              expect_network_get_success_subnetwork 1,
+                                                    region: 'test name#0 data'
+              expect_network_get_success_subnetwork 2,
+                                                    region: 'test name#1 data'
+              expect_network_get_success_subnetwork 3,
+                                                    region: 'test name#2 data'
             end
 
             let(:catalog) do
@@ -876,6 +1102,27 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
 
                 gcompute_zone { 'resource(zone,2)':
                   name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_disk_type { 'resource(disk_type,0)':
+                  name       => 'test name#0 data',
+                  zone       => 'resource(zone,0)',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_disk_type { 'resource(disk_type,1)':
+                  name       => 'test name#1 data',
+                  zone       => 'resource(zone,1)',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_disk_type { 'resource(disk_type,2)':
+                  name       => 'test name#2 data',
+                  zone       => 'resource(zone,2)',
                   project    => 'test project#2 data',
                   credential => 'cred2',
                 }
@@ -988,6 +1235,30 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   credential => 'cred2',
                 }
 
+                gcompute_subnetwork { 'resource(subnetwork,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  region     => 'resource(region,0)',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_subnetwork { 'resource(subnetwork,1)':
+                  ensure     => present,
+                  name       => 'test name#1 data',
+                  region     => 'resource(region,1)',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_subnetwork { 'resource(subnetwork,2)':
+                  ensure     => present,
+                  name       => 'test name#2 data',
+                  region     => 'resource(region,2)',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
                 gcompute_instance { 'title0':
                   ensure             => present,
                   can_ip_forward     => true,
@@ -1003,12 +1274,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       index               => 1443881260,
                       initialize_params   => {
-                        disk_name    => 'test disk_name#0 data',
-                        disk_size_gb => 450092159,
-                        disk_type    => 734221916,
-                        source_image => 992867234,
+                        disk_name                   => 'test disk_name#0 data',
+                        disk_size_gb                => 450092159,
+                        disk_type                   => 'resource(disk_type,0)',
+                        source_image                => 'test source_image#0 data',
+                        source_image_encryption_key => {
+                          raw_key => 'test raw_key#0 data',
+                          sha256  => 'test sha256#0 data',
+                        },
                       },
+                      interface           => 'SCSI',
+                      mode                => 'READ_WRITE',
                       source              => 'resource(disk,0)',
+                      type                => 'SCRATCH',
                     },
                     {
                       auto_delete         => false,
@@ -1021,12 +1299,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       index               => 2887762520,
                       initialize_params   => {
-                        disk_name    => 'test disk_name#1 data',
-                        disk_size_gb => 900184319,
-                        disk_type    => 1468443832,
-                        source_image => 1985734469,
+                        disk_name                   => 'test disk_name#1 data',
+                        disk_size_gb                => 900184319,
+                        disk_type                   => 'resource(disk_type,1)',
+                        source_image                => 'test source_image#1 data',
+                        source_image_encryption_key => {
+                          raw_key => 'test raw_key#1 data',
+                          sha256  => 'test sha256#1 data',
+                        },
                       },
+                      interface           => 'NVME',
+                      mode                => 'READ_ONLY',
                       source              => 'resource(disk,1)',
+                      type                => 'PERSISTENT',
                     },
                   ],
                   guest_accelerators => [
@@ -1049,24 +1334,49 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   ],
                   label_fingerprint  => 'test label_fingerprint#0 data',
                   machine_type       => 'resource(machine_type,0)',
+                  metadata           => {
+                    items => {
+                      'test items#1 data' => 'test items#1 data',
+                      'test items#2 data' => 7591567804,
+                      'test items#3 data' => 'test items#3 data',
+                    },
+                  },
                   min_cpu_platform   => 'test min_cpu_platform#0 data',
                   name               => 'test name#0 data',
                   network_interfaces => [
                     {
-                      access_configs => [
+                      access_configs  => [
                         {
                           name   => 'test name#0 data',
                           nat_ip => 'resource(address,0)',
                           type   => 'ONE_TO_ONE_NAT',
                         },
                       ],
-                      name           => 'test name#0 data',
-                      network        => 'resource(network,0)',
-                      network_ip     => 'test network_ip#0 data',
-                      subnetwork     => 'test subnetwork#0 data',
+                      alias_ip_ranges => [
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#0 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#0 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#1 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#1 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#2 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#3 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                        },
+                      ],
+                      name            => 'test name#0 data',
+                      network         => 'resource(network,0)',
+                      network_ip      => 'test network_ip#0 data',
+                      subnetwork      => 'resource(subnetwork,0)',
                     },
                     {
-                      access_configs => [
+                      access_configs  => [
                         {
                           name   => 'test name#1 data',
                           nat_ip => 'resource(address,1)',
@@ -1078,13 +1388,27 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           type   => 'ONE_TO_ONE_NAT',
                         },
                       ],
-                      name           => 'test name#1 data',
-                      network        => 'resource(network,1)',
-                      network_ip     => 'test network_ip#1 data',
-                      subnetwork     => 'test subnetwork#1 data',
+                      alias_ip_ranges => [
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#1 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#1 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#2 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#3 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                        },
+                      ],
+                      name            => 'test name#1 data',
+                      network         => 'resource(network,1)',
+                      network_ip      => 'test network_ip#1 data',
+                      subnetwork      => 'resource(subnetwork,1)',
                     },
                     {
-                      access_configs => [
+                      access_configs  => [
                         {
                           name   => 'test name#2 data',
                           nat_ip => 'resource(address,2)',
@@ -1101,10 +1425,20 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           type   => 'ONE_TO_ONE_NAT',
                         },
                       ],
-                      name           => 'test name#2 data',
-                      network        => 'resource(network,2)',
-                      network_ip     => 'test network_ip#2 data',
-                      subnetwork     => 'test subnetwork#2 data',
+                      alias_ip_ranges => [
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#2 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#3 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                        },
+                      ],
+                      name            => 'test name#2 data',
+                      network         => 'resource(network,2)',
+                      network_ip      => 'test network_ip#2 data',
+                      subnetwork      => 'resource(subnetwork,2)',
                     },
                   ],
                   scheduling         => {
@@ -1150,12 +1484,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       index               => 2887762520,
                       initialize_params   => {
-                        disk_name    => 'test disk_name#1 data',
-                        disk_size_gb => 900184319,
-                        disk_type    => 1468443832,
-                        source_image => 1985734469,
+                        disk_name                   => 'test disk_name#1 data',
+                        disk_size_gb                => 900184319,
+                        disk_type                   => 'resource(disk_type,1)',
+                        source_image                => 'test source_image#1 data',
+                        source_image_encryption_key => {
+                          raw_key => 'test raw_key#1 data',
+                          sha256  => 'test sha256#1 data',
+                        },
                       },
+                      interface           => 'NVME',
+                      mode                => 'READ_ONLY',
                       source              => 'resource(disk,1)',
+                      type                => 'PERSISTENT',
                     },
                   ],
                   guest_accelerators => [
@@ -1170,11 +1511,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   ],
                   label_fingerprint  => 'test label_fingerprint#1 data',
                   machine_type       => 'resource(machine_type,1)',
+                  metadata           => {
+                    items => {
+                      'test items#2 data' => 'test items#2 data',
+                      'test items#3 data' => 10122090405,
+                      'test items#4 data' => 'test items#4 data',
+                      'test items#5 data' => 15183135608,
+                    },
+                  },
                   min_cpu_platform   => 'test min_cpu_platform#1 data',
                   name               => 'test name#1 data',
                   network_interfaces => [
                     {
-                      access_configs => [
+                      access_configs  => [
                         {
                           name   => 'test name#1 data',
                           nat_ip => 'resource(address,1)',
@@ -1186,10 +1535,24 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           type   => 'ONE_TO_ONE_NAT',
                         },
                       ],
-                      name           => 'test name#1 data',
-                      network        => 'resource(network,1)',
-                      network_ip     => 'test network_ip#1 data',
-                      subnetwork     => 'test subnetwork#1 data',
+                      alias_ip_ranges => [
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#1 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#1 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#2 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#3 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                        },
+                      ],
+                      name            => 'test name#1 data',
+                      network         => 'resource(network,1)',
+                      network_ip      => 'test network_ip#1 data',
+                      subnetwork      => 'resource(subnetwork,1)',
                     },
                   ],
                   scheduling         => {
@@ -1243,12 +1606,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       index               => 4331643780,
                       initialize_params   => {
-                        disk_name    => 'test disk_name#2 data',
-                        disk_size_gb => 1350276479,
-                        disk_type    => 2202665748,
-                        source_image => 2978601703,
+                        disk_name                   => 'test disk_name#2 data',
+                        disk_size_gb                => 1350276479,
+                        disk_type                   => 'resource(disk_type,2)',
+                        source_image                => 'test source_image#2 data',
+                        source_image_encryption_key => {
+                          raw_key => 'test raw_key#2 data',
+                          sha256  => 'test sha256#2 data',
+                        },
                       },
+                      interface           => 'SCSI',
+                      mode                => 'READ_WRITE',
                       source              => 'resource(disk,2)',
+                      type                => 'SCRATCH',
                     },
                     {
                       auto_delete         => false,
@@ -1261,12 +1631,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       index               => 5775525040,
                       initialize_params   => {
-                        disk_name    => 'test disk_name#3 data',
-                        disk_size_gb => 1800368639,
-                        disk_type    => 2936887664,
-                        source_image => 3971468938,
+                        disk_name                   => 'test disk_name#3 data',
+                        disk_size_gb                => 1800368639,
+                        disk_type                   => 'resource(disk_type,0)',
+                        source_image                => 'test source_image#3 data',
+                        source_image_encryption_key => {
+                          raw_key => 'test raw_key#3 data',
+                          sha256  => 'test sha256#3 data',
+                        },
                       },
+                      interface           => 'NVME',
+                      mode                => 'READ_ONLY',
                       source              => 'resource(disk,0)',
+                      type                => 'PERSISTENT',
                     },
                     {
                       auto_delete         => true,
@@ -1279,12 +1656,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       },
                       index               => 7219406300,
                       initialize_params   => {
-                        disk_name    => 'test disk_name#4 data',
-                        disk_size_gb => 2250460799,
-                        disk_type    => 3671109580,
-                        source_image => 4964336173,
+                        disk_name                   => 'test disk_name#4 data',
+                        disk_size_gb                => 2250460799,
+                        disk_type                   => 'resource(disk_type,1)',
+                        source_image                => 'test source_image#4 data',
+                        source_image_encryption_key => {
+                          raw_key => 'test raw_key#4 data',
+                          sha256  => 'test sha256#4 data',
+                        },
                       },
+                      interface           => 'SCSI',
+                      mode                => 'READ_WRITE',
                       source              => 'resource(disk,1)',
+                      type                => 'SCRATCH',
                     },
                   ],
                   guest_accelerators => [
@@ -1307,11 +1691,17 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   ],
                   label_fingerprint  => 'test label_fingerprint#2 data',
                   machine_type       => 'resource(machine_type,2)',
+                  metadata           => {
+                    items => {
+                      'test items#3 data' => 'test items#3 data',
+                      'test items#4 data' => 12652613006,
+                    },
+                  },
                   min_cpu_platform   => 'test min_cpu_platform#2 data',
                   name               => 'test name#2 data',
                   network_interfaces => [
                     {
-                      access_configs => [
+                      access_configs  => [
                         {
                           name   => 'test name#2 data',
                           nat_ip => 'resource(address,2)',
@@ -1328,13 +1718,23 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           type   => 'ONE_TO_ONE_NAT',
                         },
                       ],
-                      name           => 'test name#2 data',
-                      network        => 'resource(network,2)',
-                      network_ip     => 'test network_ip#2 data',
-                      subnetwork     => 'test subnetwork#2 data',
+                      alias_ip_ranges => [
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#2 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#3 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                        },
+                      ],
+                      name            => 'test name#2 data',
+                      network         => 'resource(network,2)',
+                      network_ip      => 'test network_ip#2 data',
+                      subnetwork      => 'resource(subnetwork,2)',
                     },
                     {
-                      access_configs => [
+                      access_configs  => [
                         {
                           name   => 'test name#3 data',
                           nat_ip => 'resource(address,0)',
@@ -1351,10 +1751,32 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                           type   => 'ONE_TO_ONE_NAT',
                         },
                       ],
-                      name           => 'test name#3 data',
-                      network        => 'resource(network,0)',
-                      network_ip     => 'test network_ip#3 data',
-                      subnetwork     => 'test subnetwork#3 data',
+                      alias_ip_ranges => [
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#3 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#4 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#4 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#5 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#5 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#6 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#6 data',
+                        },
+                        {
+                          ip_cidr_range         => 'test ip_cidr_range#7 data',
+                          subnetwork_range_name => 'test subnetwork_range_name#7 data',
+                        },
+                      ],
+                      name            => 'test name#3 data',
+                      network         => 'resource(network,0)',
+                      network_ip      => 'test network_ip#3 data',
+                      subnetwork      => 'resource(subnetwork,0)',
                     },
                   ],
                   scheduling         => {
@@ -1419,6 +1841,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#0 data'
                   )
               end
+              # TODO(nelsonjr): Implement complex nested property object test.
+              # it 'metadata' do
+              #   # Add test code here
+              # end
               # TODO(alexstephen): Implement resourceref test.
               # it 'machineType' do
               #   # Add test code here
@@ -1488,6 +1914,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#1 data'
                   )
               end
+              # TODO(nelsonjr): Implement complex nested property object test.
+              # it 'metadata' do
+              #   # Add test code here
+              # end
               # TODO(alexstephen): Implement resourceref test.
               # it 'machineType' do
               #   # Add test code here
@@ -1557,6 +1987,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#2 data'
                   )
               end
+              # TODO(nelsonjr): Implement complex nested property object test.
+              # it 'metadata' do
+              #   # Add test code here
+              # end
               # TODO(alexstephen): Implement resourceref test.
               # it 'machineType' do
               #   # Add test code here
@@ -1645,6 +2079,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
         # Ensure present: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
+            # rubocop:disable Metrics/LineLength
             expect_network_get_failed 1,
                                       name: 'title0',
                                       zone: 'test name#0 data'
@@ -1664,13 +2099,20 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       'sha256' => 'test sha256#0 data'
                     },
                     'index' => 1_443_881_260,
-                    'source' => 'selflink(resource(disk,0))',
                     'initializeParams' => {
                       'diskName' => 'test disk_name#0 data',
                       'diskSizeGb' => 450_092_159,
-                      'diskType' => 734_221_916,
-                      'sourceImage' => 992_867_234
-                    }
+                      'diskType' => 'selflink(resource(disk_type,0))',
+                      'sourceImage' => 'test source_image#0 data',
+                      'sourceImageEncryptionKey' => {
+                        'rawKey' => 'test raw_key#0 data',
+                        'sha256' => 'test sha256#0 data'
+                      }
+                    },
+                    'interface' => 'SCSI',
+                    'mode' => 'READ_WRITE',
+                    'source' => 'selflink(resource(disk,0))',
+                    'type' => 'SCRATCH'
                   },
                   {
                     'autoDelete' => false,
@@ -1682,13 +2124,20 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       'sha256' => 'test sha256#1 data'
                     },
                     'index' => 2_887_762_520,
-                    'source' => 'selflink(resource(disk,1))',
                     'initializeParams' => {
                       'diskName' => 'test disk_name#1 data',
                       'diskSizeGb' => 900_184_319,
-                      'diskType' => 1_468_443_832,
-                      'sourceImage' => 1_985_734_469
-                    }
+                      'diskType' => 'selflink(resource(disk_type,1))',
+                      'sourceImage' => 'test source_image#1 data',
+                      'sourceImageEncryptionKey' => {
+                        'rawKey' => 'test raw_key#1 data',
+                        'sha256' => 'test sha256#1 data'
+                      }
+                    },
+                    'interface' => 'NVME',
+                    'mode' => 'READ_ONLY',
+                    'source' => 'selflink(resource(disk,1))',
+                    'type' => 'PERSISTENT'
                   }
                 ],
                 'guestAccelerators' => [
@@ -1710,6 +2159,13 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   }
                 ],
                 'labelFingerprint' => 'test label_fingerprint#0 data',
+                'metadata' => {
+                  'items' => {
+                    'test items#1 data' => 'test items#1 data',
+                    'test items#2 data' => 7_591_567_804,
+                    'test items#3 data' => 'test items#3 data'
+                  }
+                },
                 'machineType' => 'selflink(resource(machine_type,0))',
                 'minCpuPlatform' => 'test min_cpu_platform#0 data',
                 'name' => 'title0',
@@ -1722,10 +2178,28 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         'type' => 'ONE_TO_ONE_NAT'
                       }
                     ],
+                    'aliasIpRanges' => [
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#0 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#0 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#1 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#1 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#2 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#2 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#3 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#3 data'
+                      }
+                    ],
                     'name' => 'test name#0 data',
                     'network' => 'selflink(resource(network,0))',
                     'networkIP' => 'test network_ip#0 data',
-                    'subnetwork' => 'test subnetwork#0 data'
+                    'subnetwork' => 'selflink(resource(subnetwork,0))'
                   },
                   {
                     'accessConfigs' => [
@@ -1740,10 +2214,24 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         'type' => 'ONE_TO_ONE_NAT'
                       }
                     ],
+                    'aliasIpRanges' => [
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#1 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#1 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#2 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#2 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#3 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#3 data'
+                      }
+                    ],
                     'name' => 'test name#1 data',
                     'network' => 'selflink(resource(network,1))',
                     'networkIP' => 'test network_ip#1 data',
-                    'subnetwork' => 'test subnetwork#1 data'
+                    'subnetwork' => 'selflink(resource(subnetwork,1))'
                   },
                   {
                     'accessConfigs' => [
@@ -1763,10 +2251,20 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         'type' => 'ONE_TO_ONE_NAT'
                       }
                     ],
+                    'aliasIpRanges' => [
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#2 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#2 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#3 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#3 data'
+                      }
+                    ],
                     'name' => 'test name#2 data',
                     'network' => 'selflink(resource(network,2))',
                     'networkIP' => 'test network_ip#2 data',
-                    'subnetwork' => 'test subnetwork#2 data'
+                    'subnetwork' => 'selflink(resource(subnetwork,2))'
                   }
                 ],
                 'scheduling' => {
@@ -1798,6 +2296,8 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
             expect_network_get_async 1, name: 'title0', zone: 'test name#0 data'
             expect_network_get_success_zone 1
             expect_network_get_success_zone 2
+            expect_network_get_success_disk_type 1, zone: 'test name#0 data'
+            expect_network_get_success_disk_type 2, zone: 'test name#1 data'
             expect_network_get_success_disk 1, zone: 'test name#0 data'
             expect_network_get_success_disk 2, zone: 'test name#1 data'
             expect_network_get_success_machine_type 1, zone: 'test name#0 data'
@@ -1810,6 +2310,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
             expect_network_get_success_network 1
             expect_network_get_success_network 2
             expect_network_get_success_network 3
+            expect_network_get_success_subnetwork 1, region: 'test name#0 data'
+            expect_network_get_success_subnetwork 2, region: 'test name#1 data'
+            expect_network_get_success_subnetwork 3, region: 'test name#2 data'
+            # rubocop:enable Metrics/LineLength
           end
 
           subject do
@@ -1823,6 +2327,20 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
 
               gcompute_zone { 'resource(zone,1)':
                 name       => 'test name#1 data',
+                project    => 'test project#1 data',
+                credential => 'cred1',
+              }
+
+              gcompute_disk_type { 'resource(disk_type,0)':
+                name       => 'test name#0 data',
+                zone       => 'resource(zone,0)',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_disk_type { 'resource(disk_type,1)':
+                name       => 'test name#1 data',
+                zone       => 'resource(zone,1)',
                 project    => 'test project#1 data',
                 credential => 'cred1',
               }
@@ -1913,6 +2431,30 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 credential => 'cred2',
               }
 
+              gcompute_subnetwork { 'resource(subnetwork,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                region     => 'resource(region,0)',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_subnetwork { 'resource(subnetwork,1)':
+                ensure     => present,
+                name       => 'test name#1 data',
+                region     => 'resource(region,1)',
+                project    => 'test project#1 data',
+                credential => 'cred1',
+              }
+
+              gcompute_subnetwork { 'resource(subnetwork,2)':
+                ensure     => present,
+                name       => 'test name#2 data',
+                region     => 'resource(region,2)',
+                project    => 'test project#2 data',
+                credential => 'cred2',
+              }
+
               gcompute_instance { 'title0':
                 ensure             => present,
                 can_ip_forward     => true,
@@ -1928,12 +2470,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     },
                     index               => 1443881260,
                     initialize_params   => {
-                      disk_name    => 'test disk_name#0 data',
-                      disk_size_gb => 450092159,
-                      disk_type    => 734221916,
-                      source_image => 992867234,
+                      disk_name                   => 'test disk_name#0 data',
+                      disk_size_gb                => 450092159,
+                      disk_type                   => 'resource(disk_type,0)',
+                      source_image                => 'test source_image#0 data',
+                      source_image_encryption_key => {
+                        raw_key => 'test raw_key#0 data',
+                        sha256  => 'test sha256#0 data',
+                      },
                     },
+                    interface           => 'SCSI',
+                    mode                => 'READ_WRITE',
                     source              => 'resource(disk,0)',
+                    type                => 'SCRATCH',
                   },
                   {
                     auto_delete         => false,
@@ -1946,12 +2495,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     },
                     index               => 2887762520,
                     initialize_params   => {
-                      disk_name    => 'test disk_name#1 data',
-                      disk_size_gb => 900184319,
-                      disk_type    => 1468443832,
-                      source_image => 1985734469,
+                      disk_name                   => 'test disk_name#1 data',
+                      disk_size_gb                => 900184319,
+                      disk_type                   => 'resource(disk_type,1)',
+                      source_image                => 'test source_image#1 data',
+                      source_image_encryption_key => {
+                        raw_key => 'test raw_key#1 data',
+                        sha256  => 'test sha256#1 data',
+                      },
                     },
+                    interface           => 'NVME',
+                    mode                => 'READ_ONLY',
                     source              => 'resource(disk,1)',
+                    type                => 'PERSISTENT',
                   },
                 ],
                 guest_accelerators => [
@@ -1974,23 +2530,48 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 ],
                 label_fingerprint  => 'test label_fingerprint#0 data',
                 machine_type       => 'resource(machine_type,0)',
+                metadata           => {
+                  items => {
+                    'test items#1 data' => 'test items#1 data',
+                    'test items#2 data' => 7591567804,
+                    'test items#3 data' => 'test items#3 data',
+                  },
+                },
                 min_cpu_platform   => 'test min_cpu_platform#0 data',
                 network_interfaces => [
                   {
-                    access_configs => [
+                    access_configs  => [
                       {
                         name   => 'test name#0 data',
                         nat_ip => 'resource(address,0)',
                         type   => 'ONE_TO_ONE_NAT',
                       },
                     ],
-                    name           => 'test name#0 data',
-                    network        => 'resource(network,0)',
-                    network_ip     => 'test network_ip#0 data',
-                    subnetwork     => 'test subnetwork#0 data',
+                    alias_ip_ranges => [
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#0 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#0 data',
+                      },
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#1 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#1 data',
+                      },
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#2 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                      },
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#3 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                      },
+                    ],
+                    name            => 'test name#0 data',
+                    network         => 'resource(network,0)',
+                    network_ip      => 'test network_ip#0 data',
+                    subnetwork      => 'resource(subnetwork,0)',
                   },
                   {
-                    access_configs => [
+                    access_configs  => [
                       {
                         name   => 'test name#1 data',
                         nat_ip => 'resource(address,1)',
@@ -2002,13 +2583,27 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         type   => 'ONE_TO_ONE_NAT',
                       },
                     ],
-                    name           => 'test name#1 data',
-                    network        => 'resource(network,1)',
-                    network_ip     => 'test network_ip#1 data',
-                    subnetwork     => 'test subnetwork#1 data',
+                    alias_ip_ranges => [
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#1 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#1 data',
+                      },
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#2 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                      },
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#3 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                      },
+                    ],
+                    name            => 'test name#1 data',
+                    network         => 'resource(network,1)',
+                    network_ip      => 'test network_ip#1 data',
+                    subnetwork      => 'resource(subnetwork,1)',
                   },
                   {
-                    access_configs => [
+                    access_configs  => [
                       {
                         name   => 'test name#2 data',
                         nat_ip => 'resource(address,2)',
@@ -2025,10 +2620,20 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         type   => 'ONE_TO_ONE_NAT',
                       },
                     ],
-                    name           => 'test name#2 data',
-                    network        => 'resource(network,2)',
-                    network_ip     => 'test network_ip#2 data',
-                    subnetwork     => 'test subnetwork#2 data',
+                    alias_ip_ranges => [
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#2 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                      },
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#3 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                      },
+                    ],
+                    name            => 'test name#2 data',
+                    network         => 'resource(network,2)',
+                    network_ip      => 'test network_ip#2 data',
+                    subnetwork      => 'resource(subnetwork,2)',
                   },
                 ],
                 scheduling         => {
@@ -2078,6 +2683,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
         # Ensure present: resource missing, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
+            # rubocop:disable Metrics/LineLength
             expect_network_get_failed 1, zone: 'test name#0 data'
             expect_network_create \
               1,
@@ -2095,13 +2701,20 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       'sha256' => 'test sha256#0 data'
                     },
                     'index' => 1_443_881_260,
-                    'source' => 'selflink(resource(disk,0))',
                     'initializeParams' => {
                       'diskName' => 'test disk_name#0 data',
                       'diskSizeGb' => 450_092_159,
-                      'diskType' => 734_221_916,
-                      'sourceImage' => 992_867_234
-                    }
+                      'diskType' => 'selflink(resource(disk_type,0))',
+                      'sourceImage' => 'test source_image#0 data',
+                      'sourceImageEncryptionKey' => {
+                        'rawKey' => 'test raw_key#0 data',
+                        'sha256' => 'test sha256#0 data'
+                      }
+                    },
+                    'interface' => 'SCSI',
+                    'mode' => 'READ_WRITE',
+                    'source' => 'selflink(resource(disk,0))',
+                    'type' => 'SCRATCH'
                   },
                   {
                     'autoDelete' => false,
@@ -2113,13 +2726,20 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                       'sha256' => 'test sha256#1 data'
                     },
                     'index' => 2_887_762_520,
-                    'source' => 'selflink(resource(disk,1))',
                     'initializeParams' => {
                       'diskName' => 'test disk_name#1 data',
                       'diskSizeGb' => 900_184_319,
-                      'diskType' => 1_468_443_832,
-                      'sourceImage' => 1_985_734_469
-                    }
+                      'diskType' => 'selflink(resource(disk_type,1))',
+                      'sourceImage' => 'test source_image#1 data',
+                      'sourceImageEncryptionKey' => {
+                        'rawKey' => 'test raw_key#1 data',
+                        'sha256' => 'test sha256#1 data'
+                      }
+                    },
+                    'interface' => 'NVME',
+                    'mode' => 'READ_ONLY',
+                    'source' => 'selflink(resource(disk,1))',
+                    'type' => 'PERSISTENT'
                   }
                 ],
                 'guestAccelerators' => [
@@ -2141,6 +2761,13 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   }
                 ],
                 'labelFingerprint' => 'test label_fingerprint#0 data',
+                'metadata' => {
+                  'items' => {
+                    'test items#1 data' => 'test items#1 data',
+                    'test items#2 data' => 7_591_567_804,
+                    'test items#3 data' => 'test items#3 data'
+                  }
+                },
                 'machineType' => 'selflink(resource(machine_type,0))',
                 'minCpuPlatform' => 'test min_cpu_platform#0 data',
                 'name' => 'test name#0 data',
@@ -2153,10 +2780,28 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         'type' => 'ONE_TO_ONE_NAT'
                       }
                     ],
+                    'aliasIpRanges' => [
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#0 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#0 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#1 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#1 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#2 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#2 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#3 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#3 data'
+                      }
+                    ],
                     'name' => 'test name#0 data',
                     'network' => 'selflink(resource(network,0))',
                     'networkIP' => 'test network_ip#0 data',
-                    'subnetwork' => 'test subnetwork#0 data'
+                    'subnetwork' => 'selflink(resource(subnetwork,0))'
                   },
                   {
                     'accessConfigs' => [
@@ -2171,10 +2816,24 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         'type' => 'ONE_TO_ONE_NAT'
                       }
                     ],
+                    'aliasIpRanges' => [
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#1 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#1 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#2 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#2 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#3 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#3 data'
+                      }
+                    ],
                     'name' => 'test name#1 data',
                     'network' => 'selflink(resource(network,1))',
                     'networkIP' => 'test network_ip#1 data',
-                    'subnetwork' => 'test subnetwork#1 data'
+                    'subnetwork' => 'selflink(resource(subnetwork,1))'
                   },
                   {
                     'accessConfigs' => [
@@ -2194,10 +2853,20 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         'type' => 'ONE_TO_ONE_NAT'
                       }
                     ],
+                    'aliasIpRanges' => [
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#2 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#2 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#3 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#3 data'
+                      }
+                    ],
                     'name' => 'test name#2 data',
                     'network' => 'selflink(resource(network,2))',
                     'networkIP' => 'test network_ip#2 data',
-                    'subnetwork' => 'test subnetwork#2 data'
+                    'subnetwork' => 'selflink(resource(subnetwork,2))'
                   }
                 ],
                 'scheduling' => {
@@ -2228,6 +2897,8 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
             expect_network_get_async 1, zone: 'test name#0 data'
             expect_network_get_success_zone 1
             expect_network_get_success_zone 2
+            expect_network_get_success_disk_type 1, zone: 'test name#0 data'
+            expect_network_get_success_disk_type 2, zone: 'test name#1 data'
             expect_network_get_success_disk 1, zone: 'test name#0 data'
             expect_network_get_success_disk 2, zone: 'test name#1 data'
             expect_network_get_success_machine_type 1, zone: 'test name#0 data'
@@ -2240,6 +2911,10 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
             expect_network_get_success_network 1
             expect_network_get_success_network 2
             expect_network_get_success_network 3
+            expect_network_get_success_subnetwork 1, region: 'test name#0 data'
+            expect_network_get_success_subnetwork 2, region: 'test name#1 data'
+            expect_network_get_success_subnetwork 3, region: 'test name#2 data'
+            # rubocop:enable Metrics/LineLength
           end
 
           subject do
@@ -2253,6 +2928,20 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
 
               gcompute_zone { 'resource(zone,1)':
                 name       => 'test name#1 data',
+                project    => 'test project#1 data',
+                credential => 'cred1',
+              }
+
+              gcompute_disk_type { 'resource(disk_type,0)':
+                name       => 'test name#0 data',
+                zone       => 'resource(zone,0)',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_disk_type { 'resource(disk_type,1)':
+                name       => 'test name#1 data',
+                zone       => 'resource(zone,1)',
                 project    => 'test project#1 data',
                 credential => 'cred1',
               }
@@ -2343,6 +3032,30 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 credential => 'cred2',
               }
 
+              gcompute_subnetwork { 'resource(subnetwork,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                region     => 'resource(region,0)',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_subnetwork { 'resource(subnetwork,1)':
+                ensure     => present,
+                name       => 'test name#1 data',
+                region     => 'resource(region,1)',
+                project    => 'test project#1 data',
+                credential => 'cred1',
+              }
+
+              gcompute_subnetwork { 'resource(subnetwork,2)':
+                ensure     => present,
+                name       => 'test name#2 data',
+                region     => 'resource(region,2)',
+                project    => 'test project#2 data',
+                credential => 'cred2',
+              }
+
               gcompute_instance { 'title0':
                 ensure             => present,
                 can_ip_forward     => true,
@@ -2358,12 +3071,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     },
                     index               => 1443881260,
                     initialize_params   => {
-                      disk_name    => 'test disk_name#0 data',
-                      disk_size_gb => 450092159,
-                      disk_type    => 734221916,
-                      source_image => 992867234,
+                      disk_name                   => 'test disk_name#0 data',
+                      disk_size_gb                => 450092159,
+                      disk_type                   => 'resource(disk_type,0)',
+                      source_image                => 'test source_image#0 data',
+                      source_image_encryption_key => {
+                        raw_key => 'test raw_key#0 data',
+                        sha256  => 'test sha256#0 data',
+                      },
                     },
+                    interface           => 'SCSI',
+                    mode                => 'READ_WRITE',
                     source              => 'resource(disk,0)',
+                    type                => 'SCRATCH',
                   },
                   {
                     auto_delete         => false,
@@ -2376,12 +3096,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     },
                     index               => 2887762520,
                     initialize_params   => {
-                      disk_name    => 'test disk_name#1 data',
-                      disk_size_gb => 900184319,
-                      disk_type    => 1468443832,
-                      source_image => 1985734469,
+                      disk_name                   => 'test disk_name#1 data',
+                      disk_size_gb                => 900184319,
+                      disk_type                   => 'resource(disk_type,1)',
+                      source_image                => 'test source_image#1 data',
+                      source_image_encryption_key => {
+                        raw_key => 'test raw_key#1 data',
+                        sha256  => 'test sha256#1 data',
+                      },
                     },
+                    interface           => 'NVME',
+                    mode                => 'READ_ONLY',
                     source              => 'resource(disk,1)',
+                    type                => 'PERSISTENT',
                   },
                 ],
                 guest_accelerators => [
@@ -2404,24 +3131,49 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 ],
                 label_fingerprint  => 'test label_fingerprint#0 data',
                 machine_type       => 'resource(machine_type,0)',
+                metadata           => {
+                  items => {
+                    'test items#1 data' => 'test items#1 data',
+                    'test items#2 data' => 7591567804,
+                    'test items#3 data' => 'test items#3 data',
+                  },
+                },
                 min_cpu_platform   => 'test min_cpu_platform#0 data',
                 name               => 'test name#0 data',
                 network_interfaces => [
                   {
-                    access_configs => [
+                    access_configs  => [
                       {
                         name   => 'test name#0 data',
                         nat_ip => 'resource(address,0)',
                         type   => 'ONE_TO_ONE_NAT',
                       },
                     ],
-                    name           => 'test name#0 data',
-                    network        => 'resource(network,0)',
-                    network_ip     => 'test network_ip#0 data',
-                    subnetwork     => 'test subnetwork#0 data',
+                    alias_ip_ranges => [
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#0 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#0 data',
+                      },
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#1 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#1 data',
+                      },
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#2 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                      },
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#3 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                      },
+                    ],
+                    name            => 'test name#0 data',
+                    network         => 'resource(network,0)',
+                    network_ip      => 'test network_ip#0 data',
+                    subnetwork      => 'resource(subnetwork,0)',
                   },
                   {
-                    access_configs => [
+                    access_configs  => [
                       {
                         name   => 'test name#1 data',
                         nat_ip => 'resource(address,1)',
@@ -2433,13 +3185,27 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         type   => 'ONE_TO_ONE_NAT',
                       },
                     ],
-                    name           => 'test name#1 data',
-                    network        => 'resource(network,1)',
-                    network_ip     => 'test network_ip#1 data',
-                    subnetwork     => 'test subnetwork#1 data',
+                    alias_ip_ranges => [
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#1 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#1 data',
+                      },
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#2 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                      },
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#3 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                      },
+                    ],
+                    name            => 'test name#1 data',
+                    network         => 'resource(network,1)',
+                    network_ip      => 'test network_ip#1 data',
+                    subnetwork      => 'resource(subnetwork,1)',
                   },
                   {
-                    access_configs => [
+                    access_configs  => [
                       {
                         name   => 'test name#2 data',
                         nat_ip => 'resource(address,2)',
@@ -2456,10 +3222,20 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                         type   => 'ONE_TO_ONE_NAT',
                       },
                     ],
-                    name           => 'test name#2 data',
-                    network        => 'resource(network,2)',
-                    network_ip     => 'test network_ip#2 data',
-                    subnetwork     => 'test subnetwork#2 data',
+                    alias_ip_ranges => [
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#2 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#2 data',
+                      },
+                      {
+                        ip_cidr_range         => 'test ip_cidr_range#3 data',
+                        subnetwork_range_name => 'test subnetwork_range_name#3 data',
+                      },
+                    ],
+                    name            => 'test name#2 data',
+                    network         => 'resource(network,2)',
+                    network_ip      => 'test network_ip#2 data',
+                    subnetwork      => 'resource(subnetwork,2)',
                   },
                 ],
                 scheduling         => {
@@ -2815,6 +3591,106 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
     data
   end
 
+  def expect_network_get_success_disk_type(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_disk_type("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_disk_type(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_disk_type(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_disk_type(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_disk_type', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_disk_type objects
+  def uri_data_disk_type(id)
+    {
+      project: GoogleTests::Constants::DT_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::DT_PROJECT_DATA.size],
+      zone: GoogleTests::Constants::DT_ZONE_DATA[(id - 1) \
+        % GoogleTests::Constants::DT_ZONE_DATA.size],
+      name: GoogleTests::Constants::DT_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::DT_NAME_DATA.size]
+    }
+  end
+
+  def self_link_disk_type(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_disk_type(
+        'projects/{{project}}/zones/{{zone}}/diskTypes/{{name}}',
+        data
+      )
+    )
+  end
+
+  def expect_network_get_success_zone(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_zone("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_zone(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_zone(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_zone(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_zone', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_zone objects
+  def uri_data_zone(id)
+    {
+      project: GoogleTests::Constants::Z_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::Z_PROJECT_DATA.size],
+      name: GoogleTests::Constants::Z_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::Z_NAME_DATA.size]
+    }
+  end
+
+  def self_link_zone(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_zone(
+        'projects/{{project}}/zones/{{name}}',
+        data
+      )
+    )
+  end
+
   def expect_network_get_success_disk(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_disk("success#{id}~" \
@@ -3164,6 +4040,106 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
     )
   end
 
+  def expect_network_get_success_subnetwork(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_subnetwork("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_subnetwork(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_subnetwork(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_subnetwork(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_subnetwork', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_subnetwork objects
+  def uri_data_subnetwork(id)
+    {
+      project: GoogleTests::Constants::S_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::S_PROJECT_DATA.size],
+      region: GoogleTests::Constants::S_REGION_DATA[(id - 1) \
+        % GoogleTests::Constants::S_REGION_DATA.size],
+      name: GoogleTests::Constants::S_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::S_NAME_DATA.size]
+    }
+  end
+
+  def self_link_subnetwork(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_subnetwork(
+        'projects/{{project}}/regions/{{region}}/subnetworks/{{name}}',
+        data
+      )
+    )
+  end
+
+  def expect_network_get_success_region(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_region("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_region(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_region(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_region(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_region', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_region objects
+  def uri_data_region(id)
+    {
+      project: GoogleTests::Constants::R_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::R_PROJECT_DATA.size],
+      name: GoogleTests::Constants::R_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::R_NAME_DATA.size]
+    }
+  end
+
+  def self_link_region(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_region(
+        'projects/{{project}}/regions/{{name}}',
+        data
+      )
+    )
+  end
+
   def expect_network_get_success_zone(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_zone("success#{id}~" \
@@ -3222,6 +4198,16 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
       if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
   end
 
+  def expand_variables_disk_type(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_disk_type).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
+  def expand_variables_zone(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
   def expand_variables_disk(template, data, ext_dat = {})
     Puppet::Type.type(:gcompute_disk).provider(:google)
                 .expand_variables(template, data, ext_dat)
@@ -3254,6 +4240,16 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
 
   def expand_variables_network(template, data, ext_dat = {})
     Puppet::Type.type(:gcompute_network).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
+  def expand_variables_subnetwork(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_subnetwork).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
+  def expand_variables_region(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_region).provider(:google)
                 .expand_variables(template, data, ext_dat)
   end
 

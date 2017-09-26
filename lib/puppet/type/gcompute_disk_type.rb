@@ -30,6 +30,7 @@ require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
 require 'google/compute/property/zone_name'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_disk_type) do
@@ -130,7 +131,7 @@ Puppet::Type.newtype(:gcompute_disk_type) do
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc 'Name of the resource. (output only)'
+    desc 'Name of the resource.'
   end
 
   newproperty(:valid_disk_size, parent: Google::Compute::Property::String) do
@@ -138,5 +139,10 @@ Puppet::Type.newtype(:gcompute_disk_type) do
       An optional textual description of the valid disk size, such as
       "10GB-10TB". (output only)
     EOT
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end

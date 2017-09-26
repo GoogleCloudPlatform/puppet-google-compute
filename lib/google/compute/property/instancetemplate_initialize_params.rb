@@ -30,8 +30,8 @@ require 'puppet/property'
 module Google
   module Compute
     module Data
-      # A class to manage data for initialize_params for instance.
-      class InstancInitialParams
+      # A class to manage data for initialize_params for instance_template.
+      class InstaTemplInitiParam
         include Comparable
 
         attr_reader :disk_name
@@ -61,7 +61,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? InstancInitialParams
+          return false unless other.is_a? InstaTemplInitiParam
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -70,7 +70,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? InstancInitialParams
+          return false unless other.is_a? InstaTemplInitiParam
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -95,9 +95,9 @@ module Google
         end
       end
 
-      # Manages a InstancInitialParams nested object
+      # Manages a InstaTemplInitiParam nested object
       # Data is coming from the GCP API
-      class InstancInitialParamsApi < InstancInitialParams
+      class InstaTemplInitiParamApi < InstaTemplInitiParam
         def initialize(args)
           @disk_name =
             Google::Compute::Property::String.api_munge(args['diskName'])
@@ -109,15 +109,15 @@ module Google
           @source_image =
             Google::Compute::Property::String.api_munge(args['sourceImage'])
           @source_image_encryption_key =
-            Google::Compute::Property::InstSourImagEncrKey.api_munge(
+            Google::Compute::Property::InsTemSouImaEncKey.api_munge(
               args['sourceImageEncryptionKey']
             )
         end
       end
 
-      # Manages a InstancInitialParams nested object
+      # Manages a InstaTemplInitiParam nested object
       # Data is coming from the Puppet manifest
-      class InstancInitialParamsCatalog < InstancInitialParams
+      class InstaTemplInitiParamCatalog < InstaTemplInitiParam
         def initialize(args)
           @disk_name =
             Google::Compute::Property::String.unsafe_munge(args['disk_name'])
@@ -131,7 +131,7 @@ module Google
           @source_image =
             Google::Compute::Property::String.unsafe_munge(args['source_image'])
           @source_image_encryption_key =
-            Google::Compute::Property::InstSourImagEncrKey.unsafe_munge(
+            Google::Compute::Property::InsTemSouImaEncKey.unsafe_munge(
               args['source_image_encryption_key']
             )
         end
@@ -139,8 +139,8 @@ module Google
     end
 
     module Property
-      # A class to manage input to initialize_params for instance.
-      class InstancInitialParams < Puppet::Property
+      # A class to manage input to initialize_params for instance_template.
+      class InstaTemplInitiParam < Puppet::Property
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -149,13 +149,13 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::InstancInitialParamsCatalog.new(value)
+          Data::InstaTemplInitiParamCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::InstancInitialParamsApi.new(value)
+          Data::InstaTemplInitiParamApi.new(value)
         end
       end
     end

@@ -31,8 +31,8 @@ require 'puppet/property'
 module Google
   module Compute
     module Data
-      # A class to manage data for network_interfaces for instance.
-      class InstancNetworkInterfa
+      # A class to manage data for network_interfaces for instance_template.
+      class InstaTemplNetwoInter
         include Comparable
 
         attr_reader :access_configs
@@ -69,7 +69,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? InstancNetworkInterfa
+          return false unless other.is_a? InstaTemplNetwoInter
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -78,7 +78,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? InstancNetworkInterfa
+          return false unless other.is_a? InstaTemplNetwoInter
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -101,17 +101,17 @@ module Google
         end
       end
 
-      # Manages a InstancNetworkInterfa nested object
+      # Manages a InstaTemplNetwoInter nested object
       # Data is coming from the GCP API
-      class InstancNetworkInterfaApi < InstancNetworkInterfa
+      class InstaTemplNetwoInterApi < InstaTemplNetwoInter
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @access_configs =
-            Google::Compute::Property::InstancAccessConfigsArray.api_munge(
+            Google::Compute::Property::InstaTemplAccesConfiArray.api_munge(
               args['accessConfigs']
             )
           @alias_ip_ranges =
-            Google::Compute::Property::InstaAliasIpRangeArray.api_munge(
+            Google::Compute::Property::InstTempAliaIpRangArray.api_munge(
               args['aliasIpRanges']
             )
           @name = Google::Compute::Property::String.api_munge(args['name'])
@@ -127,17 +127,17 @@ module Google
         # rubocop:enable Metrics/MethodLength
       end
 
-      # Manages a InstancNetworkInterfa nested object
+      # Manages a InstaTemplNetwoInter nested object
       # Data is coming from the Puppet manifest
-      class InstancNetworkInterfaCatalog < InstancNetworkInterfa
+      class InstaTemplNetwoInterCatalog < InstaTemplNetwoInter
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @access_configs =
-            Google::Compute::Property::InstancAccessConfigsArray.unsafe_munge(
+            Google::Compute::Property::InstaTemplAccesConfiArray.unsafe_munge(
               args['access_configs']
             )
           @alias_ip_ranges =
-            Google::Compute::Property::InstaAliasIpRangeArray.unsafe_munge(
+            Google::Compute::Property::InstTempAliaIpRangArray.unsafe_munge(
               args['alias_ip_ranges']
             )
           @name = Google::Compute::Property::String.unsafe_munge(args['name'])
@@ -156,8 +156,8 @@ module Google
     end
 
     module Property
-      # A class to manage input to network_interfaces for instance.
-      class InstancNetworkInterfa < Puppet::Property
+      # A class to manage input to network_interfaces for instance_template.
+      class InstaTemplNetwoInter < Puppet::Property
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -166,18 +166,18 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::InstancNetworkInterfaCatalog.new(value)
+          Data::InstaTemplNetwoInterCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::InstancNetworkInterfaApi.new(value)
+          Data::InstaTemplNetwoInterApi.new(value)
         end
       end
 
       # A Puppet property that holds an integer
-      class InstancNetworkInterfaArray < Google::Compute::Property::Array
+      class InstaTemplNetwoInterArray < Google::Compute::Property::Array
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -186,17 +186,17 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          return InstancNetworkInterfa.unsafe_munge(value) \
+          return InstaTemplNetwoInter.unsafe_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| InstancNetworkInterfa.unsafe_munge(v) }
+          value.map { |v| InstaTemplNetwoInter.unsafe_munge(v) }
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          return InstancNetworkInterfa.api_munge(value) \
+          return InstaTemplNetwoInter.api_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| InstancNetworkInterfa.api_munge(v) }
+          value.map { |v| InstaTemplNetwoInter.api_munge(v) }
         end
       end
     end

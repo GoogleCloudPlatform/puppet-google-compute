@@ -100,6 +100,7 @@ puppet-codegen:
   * .tests/end2end/data/delete_image.pp
   * .tests/end2end/data/delete_instance.pp
   * .tests/end2end/data/delete_instance_group.pp
+  * .tests/end2end/data/delete_instance_template.pp
   * .tests/end2end/data/delete_network.pp
   * .tests/end2end/data/delete_route.pp
   * .tests/end2end/data/delete_ssl_certificate.pp
@@ -115,6 +116,7 @@ puppet-codegen:
   * .tests/end2end/data/image.pp
   * .tests/end2end/data/instance.pp
   * .tests/end2end/data/instance_group.pp
+  * .tests/end2end/data/instance_template.pp
   * .tests/end2end/data/license.pp
   * .tests/end2end/data/machine_type.pp
   * .tests/end2end/data/network~auto.pp
@@ -143,6 +145,7 @@ puppet-codegen:
   * examples/delete_image.pp
   * examples/delete_instance.pp
   * examples/delete_instance_group.pp
+  * examples/delete_instance_template.pp
   * examples/delete_network.pp
   * examples/delete_route.pp
   * examples/delete_ssl_certificate.pp
@@ -158,6 +161,7 @@ puppet-codegen:
   * examples/image.pp
   * examples/instance.pp
   * examples/instance_group.pp
+  * examples/instance_template.pp
   * examples/license.pp
   * examples/machine_type.pp
   * examples/network~auto.pp
@@ -184,9 +188,11 @@ puppet-codegen:
   * lib/google/compute/property/base.rb
   * lib/google/compute/property/boolean.rb
   * lib/google/compute/property/disk_disk_encryption_key.rb
+  * lib/google/compute/property/disk_name.rb
   * lib/google/compute/property/disk_selflink.rb
   * lib/google/compute/property/disk_source_image_encryption_key.rb
   * lib/google/compute/property/disk_source_snapshot_encryption_key.rb
+  * lib/google/compute/property/disktype_selflink.rb
   * lib/google/compute/property/double.rb
   * lib/google/compute/property/enum.rb
   * lib/google/compute/property/firewall_allowed.rb
@@ -200,19 +206,37 @@ puppet-codegen:
   * lib/google/compute/property/image_raw_disk.rb
   * lib/google/compute/property/image_source_disk_encryption_key.rb
   * lib/google/compute/property/instance_access_configs.rb
+  * lib/google/compute/property/instance_alias_ip_ranges.rb
   * lib/google/compute/property/instance_disk_encryption_key.rb
   * lib/google/compute/property/instance_disks.rb
   * lib/google/compute/property/instance_guest_accelerators.rb
   * lib/google/compute/property/instance_initialize_params.rb
+  * lib/google/compute/property/instance_metadata.rb
   * lib/google/compute/property/instance_network_interfaces.rb
   * lib/google/compute/property/instance_scheduling.rb
   * lib/google/compute/property/instance_service_accounts.rb
+  * lib/google/compute/property/instance_source_image_encryption_key.rb
   * lib/google/compute/property/instance_tags.rb
   * lib/google/compute/property/instancegroup_named_ports.rb
   * lib/google/compute/property/instancegroup_selflink.rb
+  * lib/google/compute/property/instancetemplate_access_configs.rb
+  * lib/google/compute/property/instancetemplate_alias_ip_ranges.rb
+  * lib/google/compute/property/instancetemplate_disk_encryption_key.rb
+  * lib/google/compute/property/instancetemplate_disks.rb
+  * lib/google/compute/property/instancetemplate_guest_accelerators.rb
+  * lib/google/compute/property/instancetemplate_initialize_params.rb
+  * lib/google/compute/property/instancetemplate_metadata.rb
+  * lib/google/compute/property/instancetemplate_network_interfaces.rb
+  * lib/google/compute/property/instancetemplate_properties.rb
+  * lib/google/compute/property/instancetemplate_scheduling.rb
+  * lib/google/compute/property/instancetemplate_service_accounts.rb
+  * lib/google/compute/property/instancetemplate_source_image_encryption_key.rb
+  * lib/google/compute/property/instancetemplate_tags.rb
   * lib/google/compute/property/integer.rb
   * lib/google/compute/property/machinetype_deprecated.rb
+  * lib/google/compute/property/machinetype_name.rb
   * lib/google/compute/property/machinetype_selflink.rb
+  * lib/google/compute/property/namevalues.rb
   * lib/google/compute/property/network_selflink.rb
   * lib/google/compute/property/region_name.rb
   * lib/google/compute/property/region_selflink.rb
@@ -240,6 +264,7 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_image/google.rb
   * lib/puppet/provider/gcompute_instance/google.rb
   * lib/puppet/provider/gcompute_instance_group/google.rb
+  * lib/puppet/provider/gcompute_instance_template/google.rb
   * lib/puppet/provider/gcompute_license/google.rb
   * lib/puppet/provider/gcompute_machine_type/google.rb
   * lib/puppet/provider/gcompute_network/google.rb
@@ -261,6 +286,7 @@ puppet-codegen:
   * lib/puppet/type/gcompute_image.rb
   * lib/puppet/type/gcompute_instance.rb
   * lib/puppet/type/gcompute_instance_group.rb
+  * lib/puppet/type/gcompute_instance_template.rb
   * lib/puppet/type/gcompute_license.rb
   * lib/puppet/type/gcompute_machine_type.rb
   * lib/puppet/type/gcompute_network.rb
@@ -357,6 +383,12 @@ puppet-codegen:
   * spec/data/network/gcompute_instance_group/success2~title.yaml
   * spec/data/network/gcompute_instance_group/success3~name.yaml
   * spec/data/network/gcompute_instance_group/success3~title.yaml
+  * spec/data/network/gcompute_instance_template/success1~name.yaml
+  * spec/data/network/gcompute_instance_template/success1~title.yaml
+  * spec/data/network/gcompute_instance_template/success2~name.yaml
+  * spec/data/network/gcompute_instance_template/success2~title.yaml
+  * spec/data/network/gcompute_instance_template/success3~name.yaml
+  * spec/data/network/gcompute_instance_template/success3~title.yaml
   * spec/data/network/gcompute_license/success1~name.yaml
   * spec/data/network/gcompute_license/success1~title.yaml
   * spec/data/network/gcompute_license/success2~name.yaml
@@ -419,6 +451,7 @@ puppet-codegen:
   * spec/gcompute_image_provider_spec.rb
   * spec/gcompute_instance_group_provider_spec.rb
   * spec/gcompute_instance_provider_spec.rb
+  * spec/gcompute_instance_template_provider_spec.rb
   * spec/gcompute_license_provider_spec.rb
   * spec/gcompute_machine_type_provider_spec.rb
   * spec/gcompute_network_provider_spec.rb

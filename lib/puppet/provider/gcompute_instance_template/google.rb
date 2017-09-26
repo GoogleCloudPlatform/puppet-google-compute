@@ -29,19 +29,36 @@ require 'google/compute/network/delete'
 require 'google/compute/network/get'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
-require 'google/compute/property/disk_disk_encryption_key'
-require 'google/compute/property/disk_source_image_encryption_key'
-require 'google/compute/property/disk_source_snapshot_encryption_key'
+require 'google/compute/property/address_address'
+require 'google/compute/property/boolean'
+require 'google/compute/property/disk_name'
+require 'google/compute/property/disktype_selflink'
+require 'google/compute/property/enum'
+require 'google/compute/property/instancetemplate_access_configs'
+require 'google/compute/property/instancetemplate_alias_ip_ranges'
+require 'google/compute/property/instancetemplate_disk_encryption_key'
+require 'google/compute/property/instancetemplate_disks'
+require 'google/compute/property/instancetemplate_guest_accelerators'
+require 'google/compute/property/instancetemplate_initialize_params'
+require 'google/compute/property/instancetemplate_metadata'
+require 'google/compute/property/instancetemplate_network_interfaces'
+require 'google/compute/property/instancetemplate_properties'
+require 'google/compute/property/instancetemplate_scheduling'
+require 'google/compute/property/instancetemplate_service_accounts'
+require 'google/compute/property/instancetemplate_source_image_encryption_key'
+require 'google/compute/property/instancetemplate_tags'
 require 'google/compute/property/integer'
+require 'google/compute/property/machinetype_name'
+require 'google/compute/property/namevalues'
+require 'google/compute/property/network_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
+require 'google/compute/property/subnetwork_selflink'
 require 'google/compute/property/time'
-require 'google/compute/property/zone_name'
 require 'google/hash_utils'
-require 'google/object_store'
 require 'puppet'
 
-Puppet::Type.type(:gcompute_disk).provide(:google) do
+Puppet::Type.type(:gcompute_instance_template).provide(:google) do
   mk_resource_methods
 
   def self.instances
@@ -58,42 +75,30 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource), 'compute#disk')
-      resource.provider = present(name, fetch, resource) unless fetch.nil?
-      Google::ObjectStore.instance.add(:gcompute_disk, resource)
+      fetch = fetch_resource(resource, self_link(resource),
+                             'compute#instanceTemplate')
+      resource.provider = present(name, fetch) unless fetch.nil?
     end
   end
 
-  def self.present(name, fetch, resource)
-    result = new(
-      { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
-    )
-    result.instance_variable_set(:@fetched, fetch)
+  def self.present(name, fetch)
+    result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
     result
   end
 
-  # rubocop:disable Metrics/MethodLength
-  def self.fetch_to_hash(fetch, resource)
+  def self.fetch_to_hash(fetch)
     {
       creation_timestamp:
         Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       description:
         Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      last_attach_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['lastAttachTimestamp']),
-      last_detach_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['lastDetachTimestamp']),
-      licenses:
-        Google::Compute::Property::StringArray.api_munge(fetch['licenses']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      size_gb: Google::Compute::Property::Integer.api_munge(fetch['sizeGb']),
-      type: Google::Compute::Property::String.api_munge(fetch['type']),
-      users: Google::Compute::Property::StringArray.api_munge(fetch['users']),
-      source_image: resource[:source_image]
+      properties: Google::Compute::Property::InstancTemplatPropert.api_munge(
+        fetch['properties']
+      )
     }.reject { |_, v| v.nil? }
   end
-  # rubocop:enable Metrics/MethodLength
 
   def exists?
     debug("exists? #{@property_hash[:ensure] == :present}")
@@ -107,7 +112,7 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
                                                     fetch_auth(@resource),
                                                     'application/json',
                                                     resource_to_request)
-    @fetched = wait_for_operation create_req.send, @resource
+    wait_for_operation create_req.send, @resource
     @property_hash[:ensure] = :present
   end
 
@@ -124,7 +129,11 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    raise 'Disk cannot be edited'
+    update_req = Google::Compute::Network::Put.new(self_link(@resource),
+                                                   fetch_auth(@resource),
+                                                   'application/json',
+                                                   resource_to_request)
+    wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)
@@ -135,53 +144,26 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
     }
   end
 
-  def exports
-    {
-      name: resource[:name],
-      self_link: @fetched['selfLink']
-    }
-  end
-
   private
 
-  # rubocop:disable Metrics/MethodLength
   def self.resource_to_hash(resource)
     {
       project: resource[:project],
       name: resource[:name],
-      kind: 'compute#disk',
+      kind: 'compute#instanceTemplate',
       creation_timestamp: resource[:creation_timestamp],
       description: resource[:description],
       id: resource[:id],
-      last_attach_timestamp: resource[:last_attach_timestamp],
-      last_detach_timestamp: resource[:last_detach_timestamp],
-      licenses: resource[:licenses],
-      size_gb: resource[:size_gb],
-      source_image: resource[:source_image],
-      type: resource[:type],
-      users: resource[:users],
-      zone: resource[:zone],
-      disk_encryption_key: resource[:disk_encryption_key],
-      source_image_encryption_key: resource[:source_image_encryption_key],
-      source_image_id: resource[:source_image_id],
-      source_snapshot: resource[:source_snapshot],
-      source_snapshot_encryption_key: resource[:source_snapshot_encryption_key],
-      source_snapshot_id: resource[:source_snapshot_id]
+      properties: resource[:properties]
     }.reject { |_, v| v.nil? }
   end
-  # rubocop:enable Metrics/MethodLength
 
   def resource_to_request
     request = {
-      kind: 'compute#disk',
+      kind: 'compute#instanceTemplate',
       description: @resource[:description],
-      licenses: @resource[:licenses],
       name: @resource[:name],
-      sizeGb: @resource[:size_gb],
-      sourceImage: @resource[:source_image],
-      diskEncryptionKey: @resource[:disk_encryption_key],
-      sourceImageEncryptionKey: @resource[:source_image_encryption_key],
-      sourceSnapshotEncryptionKey: @resource[:source_snapshot_encryption_key]
+      properties: @resource[:properties]
     }.reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json
@@ -204,7 +186,7 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/zones/{{zone}}/disks',
+        'projects/{{project}}/global/instanceTemplates',
         data
       )
     )
@@ -218,7 +200,7 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/zones/{{zone}}/disks/{{name}}',
+        'projects/{{project}}/global/instanceTemplates/{{name}}',
         data
       )
     )
@@ -281,7 +263,7 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        'projects/{{project}}/zones/{{zone}}/operations/{{op_id}}',
+        'projects/{{project}}/global/operations/{{op_id}}',
         data, extra_data
       )
     )
@@ -297,7 +279,7 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
                                                                  op_result,
                                                                  resource),
                                              %w[targetLink])),
-      'compute#disk'
+      'compute#instanceTemplate'
     )
   end
 
@@ -308,7 +290,7 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
       debug("Waiting for completion of operation #{op_id}")
       raise_if_errors op_result, %w[error errors], 'message'
       sleep 1.0
-      raise "Invalid result '#{status}' on gcompute_disk." \
+      raise "Invalid result '#{status}' on gcompute_instance_template." \
         unless %w[PENDING RUNNING DONE].include?(status)
       op_result = fetch_resource(resource, op_uri, 'compute#operation')
       status = ::Google::HashUtils.navigate(op_result, %w[status])

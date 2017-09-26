@@ -124,6 +124,7 @@ describe Puppet::Type.type(:gcompute_machine_type).provider(:google) do
 
       let(:expected_results) do
         {
+          name: 'test name#0 data',
           self_link: 'selflink(resource(machine_type,0))'
         }
       end

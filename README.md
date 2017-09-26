@@ -227,6 +227,52 @@ gcompute_health_check { 'my-app-tcp-hc':
 
 ```
 
+#### `gcompute_instance_template`
+
+```puppet
+# Power Tips:
+#   1) Remember to define the resources needed to allocate the VM:
+#      a) gcompute_disk_type (to be used in 'diskType' property)
+#      b) gcompute_machine_type (to be used in 'machine_type' property)
+#      c) gcompute_network (to be used in 'network_interfaces' property)
+#      d) gcompute_subnetwork (to be used in the 'subnetwork' property)
+#      e) gcompute_disk (to be used in the 'sourceDisk' property)
+#   2) Don't forget to define a source_image for the OS of the boot disk
+#      a) You can use the provided gcompute_image_family function to specify the
+#         latest version of an operating system of a given family
+#         e.g. Ubuntu 16.04
+gcompute_instance_template { 'instance-template':
+  ensure     => present,
+  properties => {
+    machine_type       => 'n1-standard-1',
+    disks              => [
+      {
+        # Tip: Auto delete will prevent disks from being left behind on
+        # deletion.
+        auto_delete       => true,
+        boot              => true,
+        initialize_params => {
+          source_image =>
+            gcompute_image_family('ubuntu-1604-lts', 'ubuntu-os-cloud'),
+        }
+      }
+    ],
+    network_interfaces => [
+      {
+        access_configs => {
+          name => 'test-config',
+          type => 'ONE_TO_ONE_NAT',
+        },
+        network        => 'mynetwork-test',
+      }
+    ]
+  },
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+```
+
 #### `gcompute_license`
 
 ```puppet
@@ -255,12 +301,13 @@ gcompute_image { 'test-image':
 ```puppet
 # Power Tips:
 #   1) Remember to define the resources needed to allocate the VM:
-#      a) gcompute_disk (to be used in 'disks' property)
-#      b) gcompute_network (to be used in 'network' property)
-#      c) gcompute_address (to be used in 'access_configs', if your machine
+#      a) gcompute_disk_type (to be used in 'diskType' property)
+#      b) gcompute_machine_type (to be used in 'machine_type' property)
+#      c) gcompute_network (to be used in 'network_interfaces' property)
+#      d) gcompute_subnetwork (to be used in the 'subnetwork' property)
+#      e) gcompute_disk (to be used in the 'sourceDisk' property)
+#      f) gcompute_address (to be used in 'access_configs', if your machine
 #         needs external ingress access)
-#      d) gcompute_zone (to determine where the VM will be allocated)
-#      e) gcompute_machine_type (to determine the kind of machine to be created)
 #   2) Don't forget to define a source_image for the OS of the boot disk
 #      a) You can use the provided gcompute_image_family function to specify the
 #         latest version of an operating system of a given family
@@ -542,6 +589,19 @@ gcompute_zone { 'us-central1-a':
     An HealthCheck resource. This resource defines a template for how
     individual virtual machines should be checked for health, via one of
     the supported protocols.
+* [`gcompute_instance_template`][]:
+    Defines an Instance Template resource that provides configuration
+    settings
+    for your virtual machine instances. Instance templates are not tied to
+    the
+    lifetime of an instance and can be used and reused as to deploy virtual
+    machines. You can also use different templates to create different
+    virtual
+    machine configurations. Instance templates are required when you create
+    a
+    managed instance group.
+    Tip: Disks should be set to autoDelete=true
+    so that leftover disks are not left behind on machine deletion.
 * [`gcompute_license`][]:
     A License resource represents a software license. Licenses are used to
     track software usage in images, persistent disks, snapshots, and
@@ -1138,6 +1198,10 @@ gcompute_disk_type { 'id-of-resource':
 }
 ```
 
+##### `name`
+
+  Name of the resource.
+
 ##### `zone`
 
 Required.  A reference to Zone resource
@@ -1181,9 +1245,6 @@ Required.  A reference to Zone resource
 
 * `id`: Output only.
   The unique identifier for the resource.
-
-* `name`: Output only.
-  Name of the resource.
 
 * `valid_disk_size`: Output only.
   An optional textual description of the valid disk size, such as
@@ -2073,6 +2134,450 @@ gcompute_health_check { 'id-of-resource':
   The unique identifier for the resource. This identifier is defined by
   the server.
 
+#### `gcompute_instance_template`
+
+Defines an Instance Template resource that provides configuration settings
+for your virtual machine instances. Instance templates are not tied to the
+lifetime of an instance and can be used and reused as to deploy virtual
+machines. You can also use different templates to create different virtual
+machine configurations. Instance templates are required when you create a
+managed instance group.
+
+Tip: Disks should be set to autoDelete=true
+so that leftover disks are not left behind on machine deletion.
+
+
+#### Example
+
+```puppet
+# Power Tips:
+#   1) Remember to define the resources needed to allocate the VM:
+#      a) gcompute_disk_type (to be used in 'diskType' property)
+#      b) gcompute_machine_type (to be used in 'machine_type' property)
+#      c) gcompute_network (to be used in 'network_interfaces' property)
+#      d) gcompute_subnetwork (to be used in the 'subnetwork' property)
+#      e) gcompute_disk (to be used in the 'sourceDisk' property)
+#   2) Don't forget to define a source_image for the OS of the boot disk
+#      a) You can use the provided gcompute_image_family function to specify the
+#         latest version of an operating system of a given family
+#         e.g. Ubuntu 16.04
+gcompute_instance_template { 'instance-template':
+  ensure     => present,
+  properties => {
+    machine_type       => 'n1-standard-1',
+    disks              => [
+      {
+        # Tip: Auto delete will prevent disks from being left behind on
+        # deletion.
+        auto_delete       => true,
+        boot              => true,
+        initialize_params => {
+          source_image =>
+            gcompute_image_family('ubuntu-1604-lts', 'ubuntu-os-cloud'),
+        }
+      }
+    ],
+    network_interfaces => [
+      {
+        access_configs => {
+          name => 'test-config',
+          type => 'ONE_TO_ONE_NAT',
+        },
+        network        => 'mynetwork-test',
+      }
+    ]
+  },
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_instance_template { 'id-of-resource':
+  creation_timestamp => time,
+  description        => string,
+  id                 => integer,
+  name               => string,
+  properties         => {
+    can_ip_forward     => boolean,
+    description        => string,
+    disks              => [
+      {
+        auto_delete         => boolean,
+        boot                => boolean,
+        device_name         => string,
+        disk_encryption_key => {
+          raw_key           => string,
+          rsa_encrypted_key => string,
+          sha256            => string,
+        },
+        index               => integer,
+        initialize_params   => {
+          disk_name                   => string,
+          disk_size_gb                => integer,
+          disk_type                   => reference to gcompute_disk_type,
+          source_image                => string,
+          source_image_encryption_key => {
+            raw_key => string,
+            sha256  => string,
+          },
+        },
+        interface           => 'SCSI' or 'NVME',
+        mode                => 'READ_WRITE' or 'READ_ONLY',
+        source              => reference to gcompute_disk,
+        type                => 'SCRATCH' or 'PERSISTENT',
+      },
+      ...
+    ],
+    guest_accelerators => [
+      {
+        accelerator_count => integer,
+        accelerator_type  => string,
+      },
+      ...
+    ],
+    machine_type       => reference to gcompute_machine_type,
+    metadata           => {
+      items => namevalues,
+    },
+    network_interfaces => [
+      {
+        access_configs  => [
+          {
+            name   => string,
+            nat_ip => reference to gcompute_address,
+            type   => ONE_TO_ONE_NAT,
+          },
+          ...
+        ],
+        alias_ip_ranges => [
+          {
+            ip_cidr_range         => string,
+            subnetwork_range_name => string,
+          },
+          ...
+        ],
+        name            => string,
+        network         => reference to gcompute_network,
+        network_ip      => string,
+        subnetwork      => reference to gcompute_subnetwork,
+      },
+      ...
+    ],
+    scheduling         => {
+      automatic_restart   => boolean,
+      on_host_maintenance => string,
+      preemptible         => boolean,
+    },
+    service_accounts   => [
+      {
+        email  => boolean,
+        scopes => [
+          string,
+          ...
+        ],
+      },
+      ...
+    ],
+    tags               => {
+      fingerprint => string,
+      items       => [
+        string,
+        ...
+      ],
+    },
+  },
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
+##### `description`
+
+  An optional description of this resource. Provide this property when
+  you create the resource.
+
+##### `name`
+
+Required.  Name of the resource. The name is 1-63 characters long
+  and complies with RFC1035.
+
+##### `properties`
+
+  The instance properties for this instance template.
+
+##### properties/can_ip_forward
+  Enables instances created based on this template to send packets
+  with source IP addresses other than their own and receive packets
+  with destination IP addresses other than their own. If these
+  instances will be used as an IP gateway or it will be set as the
+  next-hop in a Route resource, specify true. If unsure, leave this
+  set to false.
+
+##### properties/description
+  An optional text description for the instances that are created
+  from this instance template.
+
+##### properties/disks
+  An array of disks that are associated with the instances that are
+  created from this template.
+
+##### properties/disks[]/auto_delete
+  Specifies whether the disk will be auto-deleted when the
+  instance is deleted (but not when the disk is detached from
+  the instance).
+  Tip: Disks should be set to autoDelete=true
+  so that leftover disks are not left behind on machine
+  deletion.
+
+##### properties/disks[]/boot
+  Indicates that this is a boot disk. The virtual machine will
+  use the first partition of the disk for its root filesystem.
+
+##### properties/disks[]/device_name
+  Specifies a unique device name of your choice that is
+  reflected into the /dev/disk/by-id/google-* tree of a Linux
+  operating system running within the instance. This name can
+  be used to reference the device for mounting, resizing, and
+  so on, from within the instance.
+
+##### properties/disks[]/disk_encryption_key
+  Encrypts or decrypts a disk using a customer-supplied
+  encryption key.
+
+##### properties/disks[]/disk_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption key,
+  encoded in RFC 4648 base64 to either encrypt or decrypt
+  this resource.
+
+##### properties/disks[]/disk_encryption_key/rsa_encrypted_key
+  Specifies an RFC 4648 base64 encoded, RSA-wrapped
+  2048-bit customer-supplied encryption key to either
+  encrypt or decrypt this resource.
+
+##### properties/disks[]/disk_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
+  customer-supplied encryption key that protects this
+  resource.
+
+##### properties/disks[]/index
+  Assigns a zero-based index to this disk, where 0 is
+  reserved for the boot disk. For example, if you have many
+  disks attached to an instance, each disk would have a
+  unique index number. If not specified, the server will
+  choose an appropriate value.
+
+##### properties/disks[]/initialize_params
+Required.  Specifies the parameters for a new disk that will be
+  created alongside the new instance. Use initialization
+  parameters to create boot disks or local SSDs attached to
+  the new instance.
+
+##### properties/disks[]/initialize_params/disk_name
+  Specifies the disk name. If not specified, the default
+  is to use the name of the instance.
+
+##### properties/disks[]/initialize_params/disk_size_gb
+  Specifies the size of the disk in base-2 GB.
+
+##### properties/disks[]/initialize_params/disk_type
+  A reference to DiskType resource
+
+##### properties/disks[]/initialize_params/source_image
+  The source image to create this disk. When creating a
+  new instance, one of initializeParams.sourceImage or
+  disks.source is required.  To create a disk with one of
+  the public operating system images, specify the image
+  by its family name.
+
+##### properties/disks[]/initialize_params/source_image_encryption_key
+  The customer-supplied encryption key of the source
+  image. Required if the source image is protected by a
+  customer-supplied encryption key.
+  Instance templates do not store customer-supplied
+  encryption keys, so you cannot create disks for
+  instances in a managed instance group if the source
+  images are encrypted with your own keys.
+
+##### properties/disks[]/initialize_params/source_image_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption
+  key, encoded in RFC 4648 base64 to either encrypt
+  or decrypt this resource.
+
+##### properties/disks[]/initialize_params/source_image_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
+  customer-supplied encryption key that protects this
+  resource.
+
+##### properties/disks[]/interface
+  Specifies the disk interface to use for attaching this
+  disk, which is either SCSI or NVME. The default is SCSI.
+  Persistent disks must always use SCSI and the request will
+  fail if you attempt to attach a persistent disk in any
+  other format than SCSI.
+
+##### properties/disks[]/mode
+  The mode in which to attach this disk, either READ_WRITE or
+  READ_ONLY. If not specified, the default is to attach the
+  disk in READ_WRITE mode.
+
+##### properties/disks[]/source
+  A reference to Disk resource
+
+##### properties/disks[]/type
+  Specifies the type of the disk, either SCRATCH or
+  PERSISTENT. If not specified, the default is PERSISTENT.
+
+##### properties/machine_type
+Required.  A reference to MachineType resource
+
+##### properties/metadata
+  The metadata key/value pairs to assign to instances that are
+  created from this template. These pairs can consist of custom
+  metadata or predefined keys.
+
+##### properties/metadata/items
+  An array of tags. Each tag must be 1-63 characters long, and
+  comply with RFC1035.
+
+##### properties/guest_accelerators
+  List of the type and count of accelerator cards attached to the
+  instance
+
+##### properties/guest_accelerators[]/accelerator_count
+  The number of the guest accelerator cards exposed to this
+  instance.
+
+##### properties/guest_accelerators[]/accelerator_type
+  Full or partial URL of the accelerator type resource to expose
+  to this instance.
+
+##### properties/network_interfaces
+  An array of configurations for this interface. This specifies
+  how this interface is configured to interact with other
+  network services, such as connecting to the internet. Only
+  one network interface is supported per instance.
+
+##### properties/network_interfaces[]/access_configs
+  An array of configurations for this interface. Currently, only
+  one access config, ONE_TO_ONE_NAT, is supported. If there are no
+  accessConfigs specified, then this instance will have no
+  external internet access.
+
+##### properties/network_interfaces[]/access_configs[]/name
+Required.  The name of this access configuration. The
+  default and recommended name is External NAT but you can
+  use any arbitrary string you would like. For example, My
+  external IP or Network Access.
+
+##### properties/network_interfaces[]/access_configs[]/nat_ip
+Required.  A reference to Address resource
+
+##### properties/network_interfaces[]/access_configs[]/type
+Required.  The type of configuration. The default and only option is
+  ONE_TO_ONE_NAT.
+
+##### properties/network_interfaces[]/alias_ip_ranges
+  An array of alias IP ranges for this network interface. Can
+  only be specified for network interfaces on subnet-mode
+  networks.
+
+##### properties/network_interfaces[]/alias_ip_ranges[]/ip_cidr_range
+  The IP CIDR range represented by this alias IP range.
+  This IP CIDR range must belong to the specified
+  subnetwork and cannot contain IP addresses reserved by
+  system or used by other network interfaces. This range
+  may be a single IP address (e.g. 10.2.3.4), a netmask
+  (e.g. /24) or a CIDR format string (e.g. 10.1.2.0/24).
+
+##### properties/network_interfaces[]/alias_ip_ranges[]/subnetwork_range_name
+  Optional subnetwork secondary range name specifying
+  the secondary range from which to allocate the IP
+  CIDR range for this alias IP range. If left
+  unspecified, the primary range of the subnetwork will
+  be used.
+
+##### properties/network_interfaces[]/name
+Output only.  The name of the network interface, generated by the
+  server. For network devices, these are eth0, eth1, etc
+
+##### properties/network_interfaces[]/network
+  A reference to Network resource
+
+##### properties/network_interfaces[]/network_ip
+  An IPv4 internal network address to assign to the
+  instance for this network interface. If not specified
+  by the user, an unused internal IP is assigned by the
+  system.
+
+##### properties/network_interfaces[]/subnetwork
+  A reference to Subnetwork resource
+
+##### properties/scheduling
+  Sets the scheduling options for this instance.
+
+##### properties/scheduling/automatic_restart
+  Specifies whether the instance should be automatically restarted
+  if it is terminated by Compute Engine (not terminated by a user).
+  You can only set the automatic restart option for standard
+  instances. Preemptible instances cannot be automatically
+  restarted.
+
+##### properties/scheduling/on_host_maintenance
+  Defines the maintenance behavior for this instance. For standard
+  instances, the default behavior is MIGRATE. For preemptible
+  instances, the default and only possible behavior is TERMINATE.
+  For more information, see Setting Instance Scheduling Options.
+
+##### properties/scheduling/preemptible
+  Defines whether the instance is preemptible. This can only be set
+  during instance creation, it cannot be set or changed after the
+  instance has been created.
+
+##### properties/service_accounts
+  A list of service accounts, with their specified scopes, authorized
+  for this instance. Only one service account per VM instance is
+  supported.
+
+##### properties/service_accounts[]/email
+  Email address of the service account.
+
+##### properties/service_accounts[]/scopes
+  The list of scopes to be made available for this service
+  account.
+
+##### properties/tags
+  A list of tags to apply to this instance. Tags are used to identify
+  valid sources or targets for network firewalls and are specified by
+  the client during instance creation. The tags can be later modified
+  by the setTags method. Each tag within the list must comply with
+  RFC1035.
+
+##### properties/tags/fingerprint
+  Specifies a fingerprint for this request, which is essentially a
+  hash of the metadata's contents and used for optimistic locking.
+  The fingerprint is initially generated by Compute Engine and
+  changes after every request to modify or update metadata. You
+  must always provide an up-to-date fingerprint hash in order to
+  update or change metadata.
+
+##### properties/tags/items
+  An array of tags. Each tag must be 1-63 characters long, and
+  comply with RFC1035.
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource. This identifier
+  is defined by the server.
+
 #### `gcompute_license`
 
 A License resource represents a software license. Licenses are used to
@@ -2367,12 +2872,13 @@ An instance is a virtual machine (VM) hosted on Google's infrastructure.
 ```puppet
 # Power Tips:
 #   1) Remember to define the resources needed to allocate the VM:
-#      a) gcompute_disk (to be used in 'disks' property)
-#      b) gcompute_network (to be used in 'network' property)
-#      c) gcompute_address (to be used in 'access_configs', if your machine
+#      a) gcompute_disk_type (to be used in 'diskType' property)
+#      b) gcompute_machine_type (to be used in 'machine_type' property)
+#      c) gcompute_network (to be used in 'network_interfaces' property)
+#      d) gcompute_subnetwork (to be used in the 'subnetwork' property)
+#      e) gcompute_disk (to be used in the 'sourceDisk' property)
+#      f) gcompute_address (to be used in 'access_configs', if your machine
 #         needs external ingress access)
-#      d) gcompute_zone (to determine where the VM will be allocated)
-#      e) gcompute_machine_type (to determine the kind of machine to be created)
 #   2) Don't forget to define a source_image for the OS of the boot disk
 #      a) You can use the provided gcompute_image_family function to specify the
 #         latest version of an operating system of a given family
@@ -2425,12 +2931,19 @@ gcompute_instance { 'id-of-resource':
       },
       index               => integer,
       initialize_params   => {
-        disk_name    => string,
-        disk_size_gb => integer,
-        disk_type    => integer,
-        source_image => integer,
+        disk_name                   => string,
+        disk_size_gb                => integer,
+        disk_type                   => reference to gcompute_disk_type,
+        source_image                => string,
+        source_image_encryption_key => {
+          raw_key => string,
+          sha256  => string,
+        },
       },
+      interface           => 'SCSI' or 'NVME',
+      mode                => 'READ_WRITE' or 'READ_ONLY',
       source              => reference to gcompute_disk,
+      type                => 'SCRATCH' or 'PERSISTENT',
     },
     ...
   ],
@@ -2444,11 +2957,14 @@ gcompute_instance { 'id-of-resource':
   id                 => integer,
   label_fingerprint  => string,
   machine_type       => reference to gcompute_machine_type,
+  metadata           => {
+    items => namevalues,
+  },
   min_cpu_platform   => string,
   name               => string,
   network_interfaces => [
     {
-      access_configs => [
+      access_configs  => [
         {
           name   => string,
           nat_ip => reference to gcompute_address,
@@ -2456,10 +2972,17 @@ gcompute_instance { 'id-of-resource':
         },
         ...
       ],
-      name           => string,
-      network        => reference to gcompute_network,
-      network_ip     => string,
-      subnetwork     => string,
+      alias_ip_ranges => [
+        {
+          ip_cidr_range         => string,
+          subnetwork_range_name => string,
+        },
+        ...
+      ],
+      name            => string,
+      network         => reference to gcompute_network,
+      network_ip      => string,
+      subnetwork      => reference to gcompute_subnetwork,
     },
     ...
   ],
@@ -2501,27 +3024,27 @@ gcompute_instance { 'id-of-resource':
 
 ##### `disks`
 
-  Persistent disks are durable storage devices that function similarly
-  to the physical disks in a desktop or a server. Compute Engine manages
-  the hardware behind these devices to ensure data redundancy and
-  optimize performance for you. Persistent disks are available as either
-  standard hard disk drives (HDD) or solid-state drives (SSD).
+  An array of disks that are associated with the instances that are
+  created from this template.
 
 ##### disks[]/auto_delete
   Specifies whether the disk will be auto-deleted when the
-  instance is deleted (but not when the disk is detached from the
-  instance).
+  instance is deleted (but not when the disk is detached from
+  the instance).
+  Tip: Disks should be set to autoDelete=true
+  so that leftover disks are not left behind on machine
+  deletion.
 
 ##### disks[]/boot
   Indicates that this is a boot disk. The virtual machine will
   use the first partition of the disk for its root filesystem.
 
 ##### disks[]/device_name
-  Specifies a unique device name of your choice that is reflected
-  into the /dev/disk/by-id/google-* tree of a Linux operating
-  system running within the instance. This name can be used to
-  reference the device for mounting, resizing, and so on, from
-  within the instance.
+  Specifies a unique device name of your choice that is
+  reflected into the /dev/disk/by-id/google-* tree of a Linux
+  operating system running within the instance. This name can
+  be used to reference the device for mounting, resizing, and
+  so on, from within the instance.
 
 ##### disks[]/disk_encryption_key
   Encrypts or decrypts a disk using a customer-supplied
@@ -2533,9 +3056,9 @@ gcompute_instance { 'id-of-resource':
   this resource.
 
 ##### disks[]/disk_encryption_key/rsa_encrypted_key
-  Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
-  customer-supplied encryption key to either encrypt or
-  decrypt this resource.
+  Specifies an RFC 4648 base64 encoded, RSA-wrapped
+  2048-bit customer-supplied encryption key to either
+  encrypt or decrypt this resource.
 
 ##### disks[]/disk_encryption_key/sha256
 Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
@@ -2543,37 +3066,72 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   resource.
 
 ##### disks[]/index
-  Assigns a zero-based index to this disk, where 0 is reserved
-  for the boot disk. For example, if you have many disks attached
-  to an instance, each disk would have a unique index number. If
-  not specified, the server will choose an appropriate value.
-
-##### disks[]/source
-  A reference to Disk resource
+  Assigns a zero-based index to this disk, where 0 is
+  reserved for the boot disk. For example, if you have many
+  disks attached to an instance, each disk would have a
+  unique index number. If not specified, the server will
+  choose an appropriate value.
 
 ##### disks[]/initialize_params
-  Specifies the parameters for a new disk that will be created
-  alongside the new instance. Use initialization parameters to
-  create boot disks or local SSDs attached to the new instance.
+Required.  Specifies the parameters for a new disk that will be
+  created alongside the new instance. Use initialization
+  parameters to create boot disks or local SSDs attached to
+  the new instance.
 
 ##### disks[]/initialize_params/disk_name
-  Specifies the disk name. If not specified, the default is
-  to use the name of the instance.
+  Specifies the disk name. If not specified, the default
+  is to use the name of the instance.
 
 ##### disks[]/initialize_params/disk_size_gb
   Specifies the size of the disk in base-2 GB.
 
 ##### disks[]/initialize_params/disk_type
-  Specifies the disk type to use to create the instance. If
-  not specified, the default is pd-standard, specified using
-  the full URL.
+  A reference to DiskType resource
 
 ##### disks[]/initialize_params/source_image
-  The source image to create this disk. When creating a new
-  instance, one of initializeParams.sourceImage or
-  disks.source is required.  To create a disk with one of the
-  public operating system images, specify the image by its
-  family name.
+  The source image to create this disk. When creating a
+  new instance, one of initializeParams.sourceImage or
+  disks.source is required.  To create a disk with one of
+  the public operating system images, specify the image
+  by its family name.
+
+##### disks[]/initialize_params/source_image_encryption_key
+  The customer-supplied encryption key of the source
+  image. Required if the source image is protected by a
+  customer-supplied encryption key.
+  Instance templates do not store customer-supplied
+  encryption keys, so you cannot create disks for
+  instances in a managed instance group if the source
+  images are encrypted with your own keys.
+
+##### disks[]/initialize_params/source_image_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption
+  key, encoded in RFC 4648 base64 to either encrypt
+  or decrypt this resource.
+
+##### disks[]/initialize_params/source_image_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
+  customer-supplied encryption key that protects this
+  resource.
+
+##### disks[]/interface
+  Specifies the disk interface to use for attaching this
+  disk, which is either SCSI or NVME. The default is SCSI.
+  Persistent disks must always use SCSI and the request will
+  fail if you attempt to attach a persistent disk in any
+  other format than SCSI.
+
+##### disks[]/mode
+  The mode in which to attach this disk, either READ_WRITE or
+  READ_ONLY. If not specified, the default is to attach the
+  disk in READ_WRITE mode.
+
+##### disks[]/source
+  A reference to Disk resource
+
+##### disks[]/type
+  Specifies the type of the disk, either SCRATCH or
+  PERSISTENT. If not specified, the default is PERSISTENT.
 
 ##### `guest_accelerators`
 
@@ -2595,6 +3153,16 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   is initially generated by Compute Engine and changes after every
   request to modify or update metadata. You must always provide an
   up-to-date fingerprint hash in order to update or change metadata.
+
+##### `metadata`
+
+  The metadata key/value pairs to assign to instances that are
+  created from this template. These pairs can consist of custom
+  metadata or predefined keys.
+
+##### metadata/items
+  An array of tags. Each tag must be 1-63 characters long, and
+  comply with RFC1035.
 
 ##### `machine_type`
 
@@ -2618,10 +3186,10 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
 
 ##### `network_interfaces`
 
-  An array of configurations for this interface. This specifies how this
-  interface is configured to interact with other network services, such
-  as connecting to the internet. Only one network interface is supported
-  per instance.
+  An array of configurations for this interface. This specifies
+  how this interface is configured to interact with other
+  network services, such as connecting to the internet. Only
+  one network interface is supported per instance.
 
 ##### network_interfaces[]/access_configs
   An array of configurations for this interface. Currently, only
@@ -2630,9 +3198,10 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   external internet access.
 
 ##### network_interfaces[]/access_configs[]/name
-Required.  The name of this access configuration. The default and recommended name is
-  External NAT but you can use any arbitrary string you would like. For
-  example, My external IP or Network Access.
+Required.  The name of this access configuration. The
+  default and recommended name is External NAT but you can
+  use any arbitrary string you would like. For example, My
+  external IP or Network Access.
 
 ##### network_interfaces[]/access_configs[]/nat_ip
 Required.  A reference to Address resource
@@ -2641,24 +3210,41 @@ Required.  A reference to Address resource
 Required.  The type of configuration. The default and only option is
   ONE_TO_ONE_NAT.
 
+##### network_interfaces[]/alias_ip_ranges
+  An array of alias IP ranges for this network interface. Can
+  only be specified for network interfaces on subnet-mode
+  networks.
+
+##### network_interfaces[]/alias_ip_ranges[]/ip_cidr_range
+  The IP CIDR range represented by this alias IP range.
+  This IP CIDR range must belong to the specified
+  subnetwork and cannot contain IP addresses reserved by
+  system or used by other network interfaces. This range
+  may be a single IP address (e.g. 10.2.3.4), a netmask
+  (e.g. /24) or a CIDR format string (e.g. 10.1.2.0/24).
+
+##### network_interfaces[]/alias_ip_ranges[]/subnetwork_range_name
+  Optional subnetwork secondary range name specifying
+  the secondary range from which to allocate the IP
+  CIDR range for this alias IP range. If left
+  unspecified, the primary range of the subnetwork will
+  be used.
+
 ##### network_interfaces[]/name
-Output only.  The name of the network interface, generated by the server. For
-  network devices, these are eth0, eth1, etc
+Output only.  The name of the network interface, generated by the
+  server. For network devices, these are eth0, eth1, etc
 
 ##### network_interfaces[]/network
   A reference to Network resource
 
 ##### network_interfaces[]/network_ip
-  An IPv4 internal network address to assign to the instance for
-  this network interface. If not specified by the user, an unused
-  internal IP is assigned by the system.
+  An IPv4 internal network address to assign to the
+  instance for this network interface. If not specified
+  by the user, an unused internal IP is assigned by the
+  system.
 
 ##### network_interfaces[]/subnetwork
-  The URL of the Subnetwork resource for this instance. If the
-  network resource is in legacy mode, do not provide this
-  property.  If the network is in auto subnet mode, providing the
-  subnetwork is optional. If the network is in custom subnet
-  mode, then this field should be specified.
+  A reference to Subnetwork resource
 
 ##### `scheduling`
 
@@ -3738,6 +4324,7 @@ Variable                | Side Effect
 [`gcompute_http_health_check`]: #gcompute_http_health_check
 [`gcompute_https_health_check`]: #gcompute_https_health_check
 [`gcompute_health_check`]: #gcompute_health_check
+[`gcompute_instance_template`]: #gcompute_instance_template
 [`gcompute_license`]: #gcompute_license
 [`gcompute_image`]: #gcompute_image
 [`gcompute_instance`]: #gcompute_instance

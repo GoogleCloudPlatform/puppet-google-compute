@@ -32,21 +32,27 @@ require 'google/compute/network/put'
 require 'google/compute/property/address_address'
 require 'google/compute/property/boolean'
 require 'google/compute/property/disk_selflink'
+require 'google/compute/property/disktype_selflink'
 require 'google/compute/property/enum'
 require 'google/compute/property/instance_access_configs'
+require 'google/compute/property/instance_alias_ip_ranges'
 require 'google/compute/property/instance_disk_encryption_key'
 require 'google/compute/property/instance_disks'
 require 'google/compute/property/instance_guest_accelerators'
 require 'google/compute/property/instance_initialize_params'
+require 'google/compute/property/instance_metadata'
 require 'google/compute/property/instance_network_interfaces'
 require 'google/compute/property/instance_scheduling'
 require 'google/compute/property/instance_service_accounts'
+require 'google/compute/property/instance_source_image_encryption_key'
 require 'google/compute/property/instance_tags'
 require 'google/compute/property/integer'
 require 'google/compute/property/machinetype_selflink'
+require 'google/compute/property/namevalues'
 require 'google/compute/property/network_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
+require 'google/compute/property/subnetwork_selflink'
 require 'google/compute/property/zone_name'
 require 'google/hash_utils'
 require 'puppet'
@@ -97,6 +103,9 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       label_fingerprint:
         Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
+      metadata: Google::Compute::Property::InstanceMetadata.api_munge(
+        fetch['metadata']
+      ),
       machine_type: Google::Compute::Property::MachTypeSelfLinkRef.api_munge(
         fetch['machineType']
       ),
@@ -194,6 +203,7 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
       guest_accelerators: resource[:guest_accelerators],
       id: resource[:id],
       label_fingerprint: resource[:label_fingerprint],
+      metadata: resource[:metadata],
       machine_type: resource[:machine_type],
       min_cpu_platform: resource[:min_cpu_platform],
       network_interfaces: resource[:network_interfaces],
@@ -215,6 +225,7 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
       disks: @resource[:disks],
       guestAccelerators: @resource[:guest_accelerators],
       labelFingerprint: @resource[:label_fingerprint],
+      metadata: @resource[:metadata],
       machineType: @resource[:machine_type],
       minCpuPlatform: @resource[:min_cpu_platform],
       name: @resource[:name],
