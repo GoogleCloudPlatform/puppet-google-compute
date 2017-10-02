@@ -28,6 +28,7 @@
 require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_http_health_check) do
@@ -139,5 +140,10 @@ Puppet::Type.newtype(:gcompute_http_health_check) do
       A so-far healthy instance will be marked unhealthy after this many
       consecutive failures. The default value is 2.
     EOT
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end

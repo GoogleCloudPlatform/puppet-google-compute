@@ -40,7 +40,6 @@ require 'google/compute/property/instancetemplate_disk_encryption_key'
 require 'google/compute/property/instancetemplate_disks'
 require 'google/compute/property/instancetemplate_guest_accelerators'
 require 'google/compute/property/instancetemplate_initialize_params'
-require 'google/compute/property/instancetemplate_metadata'
 require 'google/compute/property/instancetemplate_network_interfaces'
 require 'google/compute/property/instancetemplate_properties'
 require 'google/compute/property/instancetemplate_scheduling'
@@ -56,6 +55,7 @@ require 'google/compute/property/string_array'
 require 'google/compute/property/subnetwork_selflink'
 require 'google/compute/property/time'
 require 'google/hash_utils'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_instance_template).provide(:google) do
@@ -78,11 +78,13 @@ Puppet::Type.type(:gcompute_instance_template).provide(:google) do
       fetch = fetch_resource(resource, self_link(resource),
                              'compute#instanceTemplate')
       resource.provider = present(name, fetch) unless fetch.nil?
+      Google::ObjectStore.instance.add(:gcompute_instance_template, resource)
     end
   end
 
   def self.present(name, fetch)
     result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+    result.instance_variable_set(:@fetched, fetch)
     result
   end
 
@@ -112,7 +114,7 @@ Puppet::Type.type(:gcompute_instance_template).provide(:google) do
                                                     fetch_auth(@resource),
                                                     'application/json',
                                                     resource_to_request)
-    wait_for_operation create_req.send, @resource
+    @fetched = wait_for_operation create_req.send, @resource
     @property_hash[:ensure] = :present
   end
 
@@ -133,7 +135,7 @@ Puppet::Type.type(:gcompute_instance_template).provide(:google) do
                                                    fetch_auth(@resource),
                                                    'application/json',
                                                    resource_to_request)
-    wait_for_operation update_req.send, @resource
+    @fetched = wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)
@@ -141,6 +143,12 @@ Puppet::Type.type(:gcompute_instance_template).provide(:google) do
     @dirty[field] = {
       from: from,
       to: to
+    }
+  end
+
+  def exports
+    {
+      self_link: @fetched['selfLink']
     }
   end
 
@@ -165,6 +173,8 @@ Puppet::Type.type(:gcompute_instance_template).provide(:google) do
       name: @resource[:name],
       properties: @resource[:properties]
     }.reject { |_, v| v.nil? }
+    # Format request to conform with API endpoint
+    request = encode_request(request)
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json
   end
@@ -218,7 +228,7 @@ Puppet::Type.type(:gcompute_instance_template).provide(:google) do
       unless response.is_a?(Net::HTTPResponse)
     return if response.is_a?(Net::HTTPNotFound)
     return if response.is_a?(Net::HTTPNoContent)
-    result = JSON.parse(response.body)
+    result = decode_response(response, kind)
     raise_if_errors result, %w[error errors], 'message'
     raise "Bad response: #{response}" unless response.is_a?(Net::HTTPOK)
     raise "Incorrect result: #{result['kind']} (expected '#{kind}')" \
@@ -300,6 +310,59 @@ Puppet::Type.type(:gcompute_instance_template).provide(:google) do
 
   def raise_if_errors(response, err_path, msg_field)
     self.class.raise_if_errors(response, err_path, msg_field)
+  end
+
+  def self.encode_request(request)
+    metadata_encoder(request[:properties].metadata) \
+      unless request[:properties].nil? || request[:properties].metadata.nil?
+    request
+  end
+
+  def encode_request(resource_request)
+    self.class.encode_request(resource_request)
+  end
+
+  def self.decode_response(response, kind)
+    response = JSON.parse(response.body)
+    return response unless kind == 'compute#instanceTemplate'
+
+    properties = response['properties']
+    metadata_decoder(properties['metadata']) \
+      unless properties.nil? || properties['metadata'].nil?
+
+    response
+  end
+
+  # TODO(nelsonjr): Implement updating metadata on exsiting resources.
+
+  # Expose instance 'metadata' as a simple name/value pair hash. However the API
+  # defines metadata as a NestedObject with the following layout:
+  #
+  # metadata {
+  #   fingerprint: 'hash-of-last-metadata'
+  #   items: [
+  #     {
+  #       key: 'metadata1-key'
+  #       value: 'metadata1-value'
+  #     },
+  #     ...
+  #   ]
+  # }
+  #
+  # Fingerpint is an optimistic locking mechanism for updates, which requires
+  # adding the 'fingerprint' of the last metadata to allow update.
+  def self.metadata_encoder(metadata)
+    items = metadata.map { |k, v| { key: k, value: v } }
+    metadata.clear
+    metadata[:items] = items
+  end
+
+  # Map metadata.items[]{key:,value:} => metadata[key]=value
+  def self.metadata_decoder(metadata)
+    metadata_items = metadata['items']
+    metadata.clear
+    metadata.merge!(Hash[metadata_items.map { |i| [i['key'], i['value']] }]) \
+      unless metadata_items.nil?
   end
 
   def self.fetch_resource(resource, self_link, kind)

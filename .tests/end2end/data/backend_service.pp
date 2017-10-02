@@ -67,16 +67,6 @@ gcompute_instance_group { 'puppet-e2e-my-puppet-masters':
   credential => 'mycred',
 }
 
-# A Puppet trick to fit in 80-columns :-)
-$my_health_check = inline_template(
-  "<%=
-    [
-      'https://www.googleapis.com/compute/v1',
-      'projects/google.com:graphite-playground',
-      'global/healthChecks/another-hc'
-    ].join('/')
-  %>")
-
 gcompute_backend_service { 'puppet-e2e-my-app-backend':
   ensure        => present,
   backends      => [
@@ -84,7 +74,7 @@ gcompute_backend_service { 'puppet-e2e-my-app-backend':
   ],
   enable_cdn    => true,
   health_checks => [
-    $my_health_check,
+    gcompute_health_check_ref('another-hc', 'google.com:graphite-playground'),
   ],
   project       => 'google.com:graphite-playground',
   credential    => 'mycred',

@@ -36,7 +36,6 @@ require 'google/compute/property/instance_disk_encryption_key'
 require 'google/compute/property/instance_disks'
 require 'google/compute/property/instance_guest_accelerators'
 require 'google/compute/property/instance_initialize_params'
-require 'google/compute/property/instance_metadata'
 require 'google/compute/property/instance_network_interfaces'
 require 'google/compute/property/instance_scheduling'
 require 'google/compute/property/instance_service_accounts'
@@ -50,6 +49,7 @@ require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/subnetwork_selflink'
 require 'google/compute/property/zone_name'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_instance) do
@@ -136,7 +136,7 @@ Puppet::Type.newtype(:gcompute_instance) do
     EOT
   end
 
-  newproperty(:metadata, parent: Google::Compute::Property::InstanceMetadata) do
+  newproperty(:metadata, parent: Google::Compute::Property::NameValues) do
     desc <<-EOT
       The metadata key/value pairs to assign to instances that are created from
       this template. These pairs can consist of custom metadata or predefined
@@ -210,5 +210,10 @@ Puppet::Type.newtype(:gcompute_instance) do
       during instance creation. The tags can be later modified by the setTags
       method. Each tag within the list must comply with RFC1035.
     EOT
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end

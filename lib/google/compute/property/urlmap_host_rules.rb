@@ -25,31 +25,38 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/array'
 require 'puppet/property'
 
 module Google
   module Compute
     module Data
-      # A class to manage data for metadata for instance_template.
-      class InstancTemplatMetadat
+      # A class to manage data for host_rules for url_map.
+      class UrlMapHostRules
         include Comparable
 
-        attr_reader :items
+        attr_reader :description
+        attr_reader :hosts
+        attr_reader :path_matcher
 
         def to_json(_arg = nil)
           {
-            'items' => items
+            'description' => description,
+            'hosts' => hosts,
+            'pathMatcher' => path_matcher
           }.reject { |_k, v| v.nil? }.to_json
         end
 
         def to_s
           {
-            items: items
+            description: description,
+            hosts: hosts,
+            path_matcher: path_matcher
           }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
         def ==(other)
-          return false unless other.is_a? InstancTemplatMetadat
+          return false unless other.is_a? UrlMapHostRules
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -58,7 +65,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? InstancTemplatMetadat
+          return false unless other.is_a? UrlMapHostRules
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -71,33 +78,43 @@ module Google
 
         def compare_fields(other)
           [
-            { self: items, other: other.items }
+            { self: description, other: other.description },
+            { self: hosts, other: other.hosts },
+            { self: path_matcher, other: other.path_matcher }
           ]
         end
       end
 
-      # Manages a InstancTemplatMetadat nested object
+      # Manages a UrlMapHostRules nested object
       # Data is coming from the GCP API
-      class InstancTemplatMetadatApi < InstancTemplatMetadat
+      class UrlMapHostRulesApi < UrlMapHostRules
         def initialize(args)
-          @items =
-            Google::Compute::Property::NameValues.api_munge(args['items'])
+          @description =
+            Google::Compute::Property::String.api_munge(args['description'])
+          @hosts =
+            Google::Compute::Property::StringArray.api_munge(args['hosts'])
+          @path_matcher =
+            Google::Compute::Property::String.api_munge(args['pathMatcher'])
         end
       end
 
-      # Manages a InstancTemplatMetadat nested object
+      # Manages a UrlMapHostRules nested object
       # Data is coming from the Puppet manifest
-      class InstancTemplatMetadatCatalog < InstancTemplatMetadat
+      class UrlMapHostRulesCatalog < UrlMapHostRules
         def initialize(args)
-          @items =
-            Google::Compute::Property::NameValues.unsafe_munge(args['items'])
+          @description =
+            Google::Compute::Property::String.unsafe_munge(args['description'])
+          @hosts =
+            Google::Compute::Property::StringArray.unsafe_munge(args['hosts'])
+          @path_matcher =
+            Google::Compute::Property::String.unsafe_munge(args['path_matcher'])
         end
       end
     end
 
     module Property
-      # A class to manage input to metadata for instance_template.
-      class InstancTemplatMetadat < Puppet::Property
+      # A class to manage input to host_rules for url_map.
+      class UrlMapHostRules < Puppet::Property
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -106,13 +123,37 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::InstancTemplatMetadatCatalog.new(value)
+          Data::UrlMapHostRulesCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::InstancTemplatMetadatApi.new(value)
+          Data::UrlMapHostRulesApi.new(value)
+        end
+      end
+
+      # A Puppet property that holds an integer
+      class UrlMapHostRulesArray < Google::Compute::Property::Array
+        # Used for parsing Puppet catalog
+        def unsafe_munge(value)
+          self.class.unsafe_munge(value)
+        end
+
+        # Used for parsing Puppet catalog
+        def self.unsafe_munge(value)
+          return if value.nil?
+          return UrlMapHostRules.unsafe_munge(value) \
+            unless value.is_a?(::Array)
+          value.map { |v| UrlMapHostRules.unsafe_munge(v) }
+        end
+
+        # Used for parsing GCP API responses
+        def self.api_munge(value)
+          return if value.nil?
+          return UrlMapHostRules.api_munge(value) \
+            unless value.is_a?(::Array)
+          value.map { |v| UrlMapHostRules.api_munge(v) }
         end
       end
     end

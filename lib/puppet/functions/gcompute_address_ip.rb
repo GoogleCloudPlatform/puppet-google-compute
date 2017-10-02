@@ -28,6 +28,7 @@
 require 'google/authorization'
 require 'google/compute/network/get'
 require 'json'
+require 'puppet'
 
 # Returns the IP address associated with the Address managed by a
 # `gcompute_address` resource.

@@ -99,6 +99,10 @@ gcompute_instance_template { 'puppet-e2e-instance-template':
         }
       }
     ],
+    metadata           => {
+      'startup-script-url' => 'gs://graphite-playground/bootstrap.sh',
+      'cost-center'        => '12345',
+    },
     network_interfaces => [
       {
         access_configs => {

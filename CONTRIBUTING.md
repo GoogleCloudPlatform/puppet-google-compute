@@ -93,6 +93,7 @@ puppet-codegen:
   * .tests/end2end/data/delete_backend_service.pp
   * .tests/end2end/data/delete_disk.pp
   * .tests/end2end/data/delete_firewall.pp
+  * .tests/end2end/data/delete_forwarding_rule.pp
   * .tests/end2end/data/delete_global_address.pp
   * .tests/end2end/data/delete_health_check.pp
   * .tests/end2end/data/delete_http_health_check.pp
@@ -100,15 +101,23 @@ puppet-codegen:
   * .tests/end2end/data/delete_image.pp
   * .tests/end2end/data/delete_instance.pp
   * .tests/end2end/data/delete_instance_group.pp
+  * .tests/end2end/data/delete_instance_group_manager.pp
   * .tests/end2end/data/delete_instance_template.pp
   * .tests/end2end/data/delete_network.pp
   * .tests/end2end/data/delete_route.pp
   * .tests/end2end/data/delete_ssl_certificate.pp
   * .tests/end2end/data/delete_subnetwork.pp
+  * .tests/end2end/data/delete_target_http_proxy.pp
+  * .tests/end2end/data/delete_target_https_proxy.pp
+  * .tests/end2end/data/delete_target_pool.pp
+  * .tests/end2end/data/delete_target_ssl_proxy.pp
+  * .tests/end2end/data/delete_target_tcp_proxy.pp
+  * .tests/end2end/data/delete_url_map.pp
   * .tests/end2end/data/disk.pp
   * .tests/end2end/data/disk_type.pp
   * .tests/end2end/data/firewall.pp
   * .tests/end2end/data/firewall~change1.pp
+  * .tests/end2end/data/forwarding_rule.pp
   * .tests/end2end/data/global_address.pp
   * .tests/end2end/data/health_check.pp
   * .tests/end2end/data/http_health_check.pp
@@ -116,6 +125,7 @@ puppet-codegen:
   * .tests/end2end/data/image.pp
   * .tests/end2end/data/instance.pp
   * .tests/end2end/data/instance_group.pp
+  * .tests/end2end/data/instance_group_manager.pp
   * .tests/end2end/data/instance_template.pp
   * .tests/end2end/data/license.pp
   * .tests/end2end/data/machine_type.pp
@@ -127,6 +137,12 @@ puppet-codegen:
   * .tests/end2end/data/route.pp
   * .tests/end2end/data/ssl_certificate.pp
   * .tests/end2end/data/subnetwork.pp
+  * .tests/end2end/data/target_http_proxy.pp
+  * .tests/end2end/data/target_https_proxy.pp
+  * .tests/end2end/data/target_pool.pp
+  * .tests/end2end/data/target_ssl_proxy.pp
+  * .tests/end2end/data/target_tcp_proxy.pp
+  * .tests/end2end/data/url_map.pp
   * .tests/end2end/data/zone.pp
   * CHANGELOG.md
   * CONTRIBUTING.md
@@ -138,6 +154,7 @@ puppet-codegen:
   * examples/delete_backend_service.pp
   * examples/delete_disk.pp
   * examples/delete_firewall.pp
+  * examples/delete_forwarding_rule.pp
   * examples/delete_global_address.pp
   * examples/delete_health_check.pp
   * examples/delete_http_health_check.pp
@@ -145,15 +162,23 @@ puppet-codegen:
   * examples/delete_image.pp
   * examples/delete_instance.pp
   * examples/delete_instance_group.pp
+  * examples/delete_instance_group_manager.pp
   * examples/delete_instance_template.pp
   * examples/delete_network.pp
   * examples/delete_route.pp
   * examples/delete_ssl_certificate.pp
   * examples/delete_subnetwork.pp
+  * examples/delete_target_http_proxy.pp
+  * examples/delete_target_https_proxy.pp
+  * examples/delete_target_pool.pp
+  * examples/delete_target_ssl_proxy.pp
+  * examples/delete_target_tcp_proxy.pp
+  * examples/delete_url_map.pp
   * examples/disk.pp
   * examples/disk_type.pp
   * examples/firewall.pp
   * examples/firewall~change1.pp
+  * examples/forwarding_rule.pp
   * examples/global_address.pp
   * examples/health_check.pp
   * examples/http_health_check.pp
@@ -161,6 +186,7 @@ puppet-codegen:
   * examples/image.pp
   * examples/instance.pp
   * examples/instance_group.pp
+  * examples/instance_group_manager.pp
   * examples/instance_template.pp
   * examples/license.pp
   * examples/machine_type.pp
@@ -172,6 +198,12 @@ puppet-codegen:
   * examples/route.pp
   * examples/ssl_certificate.pp
   * examples/subnetwork.pp
+  * examples/target_http_proxy.pp
+  * examples/target_https_proxy.pp
+  * examples/target_pool.pp
+  * examples/target_ssl_proxy.pp
+  * examples/target_tcp_proxy.pp
+  * examples/url_map.pp
   * examples/zone.pp
   * Gemfile
   * lib/google/compute/network/base.rb
@@ -185,6 +217,7 @@ puppet-codegen:
   * lib/google/compute/property/backendservice_cache_key_policy.rb
   * lib/google/compute/property/backendservice_cdn_policy.rb
   * lib/google/compute/property/backendservice_connection_draining.rb
+  * lib/google/compute/property/backendservice_selflink.rb
   * lib/google/compute/property/base.rb
   * lib/google/compute/property/boolean.rb
   * lib/google/compute/property/disk_disk_encryption_key.rb
@@ -200,6 +233,7 @@ puppet-codegen:
   * lib/google/compute/property/healthcheck_https_health_check.rb
   * lib/google/compute/property/healthcheck_ssl_health_check.rb
   * lib/google/compute/property/healthcheck_tcp_health_check.rb
+  * lib/google/compute/property/httphealthcheck_selflink.rb
   * lib/google/compute/property/image_deprecated.rb
   * lib/google/compute/property/image_guest_os_features.rb
   * lib/google/compute/property/image_image_encryption_key.rb
@@ -211,24 +245,26 @@ puppet-codegen:
   * lib/google/compute/property/instance_disks.rb
   * lib/google/compute/property/instance_guest_accelerators.rb
   * lib/google/compute/property/instance_initialize_params.rb
-  * lib/google/compute/property/instance_metadata.rb
   * lib/google/compute/property/instance_network_interfaces.rb
   * lib/google/compute/property/instance_scheduling.rb
+  * lib/google/compute/property/instance_selflink.rb
   * lib/google/compute/property/instance_service_accounts.rb
   * lib/google/compute/property/instance_source_image_encryption_key.rb
   * lib/google/compute/property/instance_tags.rb
   * lib/google/compute/property/instancegroup_named_ports.rb
   * lib/google/compute/property/instancegroup_selflink.rb
+  * lib/google/compute/property/instancegroupmanager_current_actions.rb
+  * lib/google/compute/property/instancegroupmanager_named_ports.rb
   * lib/google/compute/property/instancetemplate_access_configs.rb
   * lib/google/compute/property/instancetemplate_alias_ip_ranges.rb
   * lib/google/compute/property/instancetemplate_disk_encryption_key.rb
   * lib/google/compute/property/instancetemplate_disks.rb
   * lib/google/compute/property/instancetemplate_guest_accelerators.rb
   * lib/google/compute/property/instancetemplate_initialize_params.rb
-  * lib/google/compute/property/instancetemplate_metadata.rb
   * lib/google/compute/property/instancetemplate_network_interfaces.rb
   * lib/google/compute/property/instancetemplate_properties.rb
   * lib/google/compute/property/instancetemplate_scheduling.rb
+  * lib/google/compute/property/instancetemplate_selflink.rb
   * lib/google/compute/property/instancetemplate_service_accounts.rb
   * lib/google/compute/property/instancetemplate_source_image_encryption_key.rb
   * lib/google/compute/property/instancetemplate_tags.rb
@@ -240,16 +276,25 @@ puppet-codegen:
   * lib/google/compute/property/network_selflink.rb
   * lib/google/compute/property/region_name.rb
   * lib/google/compute/property/region_selflink.rb
+  * lib/google/compute/property/sslcertificate_selflink.rb
   * lib/google/compute/property/string.rb
   * lib/google/compute/property/string_array.rb
   * lib/google/compute/property/subnetwork_selflink.rb
+  * lib/google/compute/property/targetpool_selflink.rb
   * lib/google/compute/property/time.rb
+  * lib/google/compute/property/urlmap_host_rules.rb
+  * lib/google/compute/property/urlmap_path_matchers.rb
+  * lib/google/compute/property/urlmap_path_rules.rb
+  * lib/google/compute/property/urlmap_selflink.rb
+  * lib/google/compute/property/urlmap_tests.rb
   * lib/google/compute/property/zone_deprecated.rb
   * lib/google/compute/property/zone_name.rb
   * lib/google/hash_utils.rb
   * lib/google/object_store.rb
   * lib/google/string_utils.rb
   * lib/puppet/functions/gcompute_address_ip.rb
+  * lib/puppet/functions/gcompute_address_ref.rb
+  * lib/puppet/functions/gcompute_health_check_ref.rb
   * lib/puppet/functions/gcompute_image_family.rb
   * lib/puppet/provider/gcompute_address/google.rb
   * lib/puppet/provider/gcompute_backend_bucket/google.rb
@@ -257,6 +302,7 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_disk/google.rb
   * lib/puppet/provider/gcompute_disk_type/google.rb
   * lib/puppet/provider/gcompute_firewall/google.rb
+  * lib/puppet/provider/gcompute_forwarding_rule/google.rb
   * lib/puppet/provider/gcompute_global_address/google.rb
   * lib/puppet/provider/gcompute_health_check/google.rb
   * lib/puppet/provider/gcompute_http_health_check/google.rb
@@ -264,6 +310,7 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_image/google.rb
   * lib/puppet/provider/gcompute_instance/google.rb
   * lib/puppet/provider/gcompute_instance_group/google.rb
+  * lib/puppet/provider/gcompute_instance_group_manager/google.rb
   * lib/puppet/provider/gcompute_instance_template/google.rb
   * lib/puppet/provider/gcompute_license/google.rb
   * lib/puppet/provider/gcompute_machine_type/google.rb
@@ -272,6 +319,12 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_route/google.rb
   * lib/puppet/provider/gcompute_ssl_certificate/google.rb
   * lib/puppet/provider/gcompute_subnetwork/google.rb
+  * lib/puppet/provider/gcompute_target_http_proxy/google.rb
+  * lib/puppet/provider/gcompute_target_https_proxy/google.rb
+  * lib/puppet/provider/gcompute_target_pool/google.rb
+  * lib/puppet/provider/gcompute_target_ssl_proxy/google.rb
+  * lib/puppet/provider/gcompute_target_tcp_proxy/google.rb
+  * lib/puppet/provider/gcompute_url_map/google.rb
   * lib/puppet/provider/gcompute_zone/google.rb
   * lib/puppet/type/gcompute_address.rb
   * lib/puppet/type/gcompute_backend_bucket.rb
@@ -279,6 +332,7 @@ puppet-codegen:
   * lib/puppet/type/gcompute_disk.rb
   * lib/puppet/type/gcompute_disk_type.rb
   * lib/puppet/type/gcompute_firewall.rb
+  * lib/puppet/type/gcompute_forwarding_rule.rb
   * lib/puppet/type/gcompute_global_address.rb
   * lib/puppet/type/gcompute_health_check.rb
   * lib/puppet/type/gcompute_http_health_check.rb
@@ -286,6 +340,7 @@ puppet-codegen:
   * lib/puppet/type/gcompute_image.rb
   * lib/puppet/type/gcompute_instance.rb
   * lib/puppet/type/gcompute_instance_group.rb
+  * lib/puppet/type/gcompute_instance_group_manager.rb
   * lib/puppet/type/gcompute_instance_template.rb
   * lib/puppet/type/gcompute_license.rb
   * lib/puppet/type/gcompute_machine_type.rb
@@ -294,6 +349,12 @@ puppet-codegen:
   * lib/puppet/type/gcompute_route.rb
   * lib/puppet/type/gcompute_ssl_certificate.rb
   * lib/puppet/type/gcompute_subnetwork.rb
+  * lib/puppet/type/gcompute_target_http_proxy.rb
+  * lib/puppet/type/gcompute_target_https_proxy.rb
+  * lib/puppet/type/gcompute_target_pool.rb
+  * lib/puppet/type/gcompute_target_ssl_proxy.rb
+  * lib/puppet/type/gcompute_target_tcp_proxy.rb
+  * lib/puppet/type/gcompute_url_map.rb
   * lib/puppet/type/gcompute_zone.rb
   * metadata.json
   * README.md
@@ -341,6 +402,12 @@ puppet-codegen:
   * spec/data/network/gcompute_firewall/success2~title.yaml
   * spec/data/network/gcompute_firewall/success3~name.yaml
   * spec/data/network/gcompute_firewall/success3~title.yaml
+  * spec/data/network/gcompute_forwarding_rule/success1~name.yaml
+  * spec/data/network/gcompute_forwarding_rule/success1~title.yaml
+  * spec/data/network/gcompute_forwarding_rule/success2~name.yaml
+  * spec/data/network/gcompute_forwarding_rule/success2~title.yaml
+  * spec/data/network/gcompute_forwarding_rule/success3~name.yaml
+  * spec/data/network/gcompute_forwarding_rule/success3~title.yaml
   * spec/data/network/gcompute_global_address/success1~name.yaml
   * spec/data/network/gcompute_global_address/success1~title.yaml
   * spec/data/network/gcompute_global_address/success2~name.yaml
@@ -383,6 +450,12 @@ puppet-codegen:
   * spec/data/network/gcompute_instance_group/success2~title.yaml
   * spec/data/network/gcompute_instance_group/success3~name.yaml
   * spec/data/network/gcompute_instance_group/success3~title.yaml
+  * spec/data/network/gcompute_instance_group_manager/success1~name.yaml
+  * spec/data/network/gcompute_instance_group_manager/success1~title.yaml
+  * spec/data/network/gcompute_instance_group_manager/success2~name.yaml
+  * spec/data/network/gcompute_instance_group_manager/success2~title.yaml
+  * spec/data/network/gcompute_instance_group_manager/success3~name.yaml
+  * spec/data/network/gcompute_instance_group_manager/success3~title.yaml
   * spec/data/network/gcompute_instance_template/success1~name.yaml
   * spec/data/network/gcompute_instance_template/success1~title.yaml
   * spec/data/network/gcompute_instance_template/success2~name.yaml
@@ -431,6 +504,42 @@ puppet-codegen:
   * spec/data/network/gcompute_subnetwork/success2~title.yaml
   * spec/data/network/gcompute_subnetwork/success3~name.yaml
   * spec/data/network/gcompute_subnetwork/success3~title.yaml
+  * spec/data/network/gcompute_target_http_proxy/success1~name.yaml
+  * spec/data/network/gcompute_target_http_proxy/success1~title.yaml
+  * spec/data/network/gcompute_target_http_proxy/success2~name.yaml
+  * spec/data/network/gcompute_target_http_proxy/success2~title.yaml
+  * spec/data/network/gcompute_target_http_proxy/success3~name.yaml
+  * spec/data/network/gcompute_target_http_proxy/success3~title.yaml
+  * spec/data/network/gcompute_target_https_proxy/success1~name.yaml
+  * spec/data/network/gcompute_target_https_proxy/success1~title.yaml
+  * spec/data/network/gcompute_target_https_proxy/success2~name.yaml
+  * spec/data/network/gcompute_target_https_proxy/success2~title.yaml
+  * spec/data/network/gcompute_target_https_proxy/success3~name.yaml
+  * spec/data/network/gcompute_target_https_proxy/success3~title.yaml
+  * spec/data/network/gcompute_target_pool/success1~name.yaml
+  * spec/data/network/gcompute_target_pool/success1~title.yaml
+  * spec/data/network/gcompute_target_pool/success2~name.yaml
+  * spec/data/network/gcompute_target_pool/success2~title.yaml
+  * spec/data/network/gcompute_target_pool/success3~name.yaml
+  * spec/data/network/gcompute_target_pool/success3~title.yaml
+  * spec/data/network/gcompute_target_ssl_proxy/success1~name.yaml
+  * spec/data/network/gcompute_target_ssl_proxy/success1~title.yaml
+  * spec/data/network/gcompute_target_ssl_proxy/success2~name.yaml
+  * spec/data/network/gcompute_target_ssl_proxy/success2~title.yaml
+  * spec/data/network/gcompute_target_ssl_proxy/success3~name.yaml
+  * spec/data/network/gcompute_target_ssl_proxy/success3~title.yaml
+  * spec/data/network/gcompute_target_tcp_proxy/success1~name.yaml
+  * spec/data/network/gcompute_target_tcp_proxy/success1~title.yaml
+  * spec/data/network/gcompute_target_tcp_proxy/success2~name.yaml
+  * spec/data/network/gcompute_target_tcp_proxy/success2~title.yaml
+  * spec/data/network/gcompute_target_tcp_proxy/success3~name.yaml
+  * spec/data/network/gcompute_target_tcp_proxy/success3~title.yaml
+  * spec/data/network/gcompute_url_map/success1~name.yaml
+  * spec/data/network/gcompute_url_map/success1~title.yaml
+  * spec/data/network/gcompute_url_map/success2~name.yaml
+  * spec/data/network/gcompute_url_map/success2~title.yaml
+  * spec/data/network/gcompute_url_map/success3~name.yaml
+  * spec/data/network/gcompute_url_map/success3~title.yaml
   * spec/data/network/gcompute_zone/success1~name.yaml
   * spec/data/network/gcompute_zone/success1~title.yaml
   * spec/data/network/gcompute_zone/success2~name.yaml
@@ -444,11 +553,13 @@ puppet-codegen:
   * spec/gcompute_disk_provider_spec.rb
   * spec/gcompute_disk_type_provider_spec.rb
   * spec/gcompute_firewall_provider_spec.rb
+  * spec/gcompute_forwarding_rule_provider_spec.rb
   * spec/gcompute_global_address_provider_spec.rb
   * spec/gcompute_health_check_provider_spec.rb
   * spec/gcompute_http_health_check_provider_spec.rb
   * spec/gcompute_https_health_check_provider_spec.rb
   * spec/gcompute_image_provider_spec.rb
+  * spec/gcompute_instance_group_manager_provider_spec.rb
   * spec/gcompute_instance_group_provider_spec.rb
   * spec/gcompute_instance_provider_spec.rb
   * spec/gcompute_instance_template_provider_spec.rb
@@ -459,6 +570,12 @@ puppet-codegen:
   * spec/gcompute_route_provider_spec.rb
   * spec/gcompute_ssl_certificate_provider_spec.rb
   * spec/gcompute_subnetwork_provider_spec.rb
+  * spec/gcompute_target_http_proxy_provider_spec.rb
+  * spec/gcompute_target_https_proxy_provider_spec.rb
+  * spec/gcompute_target_pool_provider_spec.rb
+  * spec/gcompute_target_ssl_proxy_provider_spec.rb
+  * spec/gcompute_target_tcp_proxy_provider_spec.rb
+  * spec/gcompute_url_map_provider_spec.rb
   * spec/gcompute_zone_provider_spec.rb
   * spec/hash_utils_spec.rb
   * spec/network_blocker.rb

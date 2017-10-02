@@ -28,6 +28,7 @@
 require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_ssl_certificate) do
@@ -92,5 +93,10 @@ Puppet::Type.newtype(:gcompute_ssl_certificate) do
 
   newproperty(:private_key, parent: Google::Compute::Property::String) do
     desc 'The private key in PEM format.'
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end
