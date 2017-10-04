@@ -206,6 +206,7 @@ puppet-codegen:
   * examples/url_map.pp
   * examples/zone.pp
   * Gemfile
+  * lib/google/compute/api/gcompute_disk.rb
   * lib/google/compute/api/gcompute_instance.rb
   * lib/google/compute/bolt.rb
   * lib/google/compute/network/base.rb
@@ -592,6 +593,8 @@ puppet-codegen:
   * spec/test_constants.rb
   * tasks/reset.json
   * tasks/reset.rb
+  * tasks/snapshot.json
+  * tasks/snapshot.rb
 
 The list below contains all the files that were automatically sourced from a
 central location:
