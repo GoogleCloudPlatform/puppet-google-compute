@@ -37,12 +37,12 @@ require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_instance_group) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     Represents an Instance Group resource. Instance groups are self-managed and
     can contain identical or different instances. Instance groups do not use an
     instance template. Unlike managed instance groups, you must create and add
     instances to an instance group manually.
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
     [self[:credential]]
@@ -55,10 +55,10 @@ Puppet::Type.newtype(:gcompute_instance_group) do
   ensurable
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -79,10 +79,10 @@ Puppet::Type.newtype(:gcompute_instance_group) do
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       An optional description of this resource. Provide this property when you
       create the resource.
-    EOT
+    DOC
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
@@ -90,21 +90,21 @@ Puppet::Type.newtype(:gcompute_instance_group) do
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       The name of the instance group. The name must be 1-63 characters long,
       and comply with RFC1035.
-    EOT
+    DOC
   end
 
   newproperty(:named_ports,
               parent: Google::Compute::Property::InstaGroupNamedPortsArray) do
-    desc <<-EOT
+    desc <<-DOC
       Assigns a name to a port number. For example: {name: "http", port: 80}.
       This allows the system to reference ports by the assigned name instead of
       a port number. Named ports can also contain multiple ports. For example:
       [{name: "http", port: 80},{name: "http", port: 8080}] Named ports apply
       to all instances in this instance group.
-    EOT
+    DOC
   end
 
   newproperty(:network, parent: Google::Compute::Property::NetwoSelfLinkRef) do

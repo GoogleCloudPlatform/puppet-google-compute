@@ -54,7 +54,7 @@ require 'google/compute/property/time'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_instance_template) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     Defines an Instance Template resource that provides configuration settings
     for your virtual machine instances. Instance templates are not tied to the
     lifetime of an instance and can be used and reused as to deploy virtual
@@ -62,7 +62,7 @@ Puppet::Type.newtype(:gcompute_instance_template) do
     machine configurations. Instance templates are required when you create a
     managed instance group. Tip: Disks should be set to autoDelete=true so that
     leftover disks are not left behind on machine deletion.
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
     [self[:credential]]
@@ -71,10 +71,10 @@ Puppet::Type.newtype(:gcompute_instance_template) do
   ensurable
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -91,24 +91,24 @@ Puppet::Type.newtype(:gcompute_instance_template) do
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       An optional description of this resource. Provide this property when you
       create the resource.
-    EOT
+    DOC
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
-    desc <<-EOT
+    desc <<-DOC
       The unique identifier for the resource. This identifier is defined by the
       server. (output only)
-    EOT
+    DOC
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       Name of the resource. The name is 1-63 characters long and complies with
       RFC1035.
-    EOT
+    DOC
   end
 
   newproperty(:properties,

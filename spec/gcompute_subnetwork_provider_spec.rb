@@ -1142,18 +1142,18 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
       if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
   end
 
-# Creates and prefetch type so exports can be resolved without network access.
-def prefetch_region
-  expect_network_get_success_region 1
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_region
+    expect_network_get_success_region 1
 
-  resource = Puppet::Type.type(:gcompute_region).new(
-    project: 'test project#0 data',
-    name: 'test name#0 data'
-  )
+    resource = Puppet::Type.type(:gcompute_region).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
 
-  Puppet::Type.type(:gcompute_region).provider(:google)
-              .prefetch(resource: resource)
-end
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .prefetch(resource: resource)
+  end
 
   def expand_variables_network(template, data, ext_dat = {})
     Puppet::Type.type(:gcompute_network).provider(:google)

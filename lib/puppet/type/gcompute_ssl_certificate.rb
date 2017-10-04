@@ -31,11 +31,11 @@ require 'google/compute/property/time'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_ssl_certificate) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     An SslCertificate resource. This resource provides a mechanism to upload an
     SSL key and certificate to the load balancer to serve secure connections
     from the user.
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
     [self[:credential]]
@@ -44,10 +44,10 @@ Puppet::Type.newtype(:gcompute_ssl_certificate) do
   ensurable
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -60,10 +60,10 @@ Puppet::Type.newtype(:gcompute_ssl_certificate) do
   end
 
   newproperty(:certificate, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       The certificate in PEM format. The certificate chain must be no greater
       than 5 certs long. The chain must include at least one intermediate cert.
-    EOT
+    DOC
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
@@ -79,7 +79,7 @@ Puppet::Type.newtype(:gcompute_ssl_certificate) do
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       Name of the resource. Provided by the client when the resource is
       created. The name must be 1-63 characters long, and comply with RFC1035.
       Specifically, the name must be 1-63 characters long and match the regular
@@ -87,7 +87,7 @@ Puppet::Type.newtype(:gcompute_ssl_certificate) do
       must be a lowercase letter, and all following characters must be a dash,
       lowercase letter, or digit, except the last character, which cannot be a
       dash.
-    EOT
+    DOC
   end
 
   newproperty(:private_key, parent: Google::Compute::Property::String) do

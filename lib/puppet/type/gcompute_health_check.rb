@@ -36,11 +36,11 @@ require 'google/compute/property/time'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_health_check) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     An HealthCheck resource. This resource defines a template for how
     individual virtual machines should be checked for health, via one of the
     supported protocols.
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
     [self[:credential]]
@@ -49,10 +49,10 @@ Puppet::Type.newtype(:gcompute_health_check) do
   ensurable
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -66,10 +66,10 @@ Puppet::Type.newtype(:gcompute_health_check) do
 
   newproperty(:check_interval_sec,
               parent: Google::Compute::Property::Integer) do
-    desc <<-EOT
+    desc <<-DOC
       How often (in seconds) to send a health check. The default value is 5
       seconds.
-    EOT
+    DOC
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
@@ -77,28 +77,28 @@ Puppet::Type.newtype(:gcompute_health_check) do
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       An optional description of this resource. Provide this property when you
       create the resource.
-    EOT
+    DOC
   end
 
   newproperty(:healthy_threshold, parent: Google::Compute::Property::Integer) do
-    desc <<-EOT
+    desc <<-DOC
       A so-far unhealthy instance will be marked healthy after this many
       consecutive successes. The default value is 2.
-    EOT
+    DOC
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
-    desc <<-EOT
+    desc <<-DOC
       The unique identifier for the resource. This identifier is defined by the
       server. (output only)
-    EOT
+    DOC
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       Name of the resource. Provided by the client when the resource is
       created. The name must be 1-63 characters long, and comply with RFC1035.
       Specifically, the name must be 1-63 characters long and match the regular
@@ -106,31 +106,31 @@ Puppet::Type.newtype(:gcompute_health_check) do
       must be a lowercase letter, and all following characters must be a dash,
       lowercase letter, or digit, except the last character, which cannot be a
       dash.
-    EOT
+    DOC
   end
 
   newproperty(:timeout_sec, parent: Google::Compute::Property::Integer) do
-    desc <<-EOT
+    desc <<-DOC
       How long (in seconds) to wait before claiming failure. The default value
       is 5 seconds. It is invalid for timeoutSec to have greater value than
       checkIntervalSec.
-    EOT
+    DOC
   end
 
   newproperty(:unhealthy_threshold,
               parent: Google::Compute::Property::Integer) do
-    desc <<-EOT
+    desc <<-DOC
       A so-far healthy instance will be marked unhealthy after this many
       consecutive failures. The default value is 2.
-    EOT
+    DOC
   end
 
   newproperty(:type, parent: Google::Compute::Property::Enum) do
-    desc <<-EOT
+    desc <<-DOC
       Specifies the type of the healthCheck, either TCP, SSL, HTTP or HTTPS. If
       not specified, the default is TCP. Exactly one of the protocol-specific
       health check field must be specified, which must match type field.
-    EOT
+    DOC
     newvalue(:TCP)
     newvalue(:SSL)
     newvalue(:HTTP)

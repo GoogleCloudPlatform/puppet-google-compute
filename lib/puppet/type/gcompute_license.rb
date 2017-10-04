@@ -30,21 +30,21 @@ require 'google/compute/property/string'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_license) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     A License resource represents a software license. Licenses are used to
     track software usage in images, persistent disks, snapshots, and virtual
     machine instances.
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
     [self[:credential]]
   end
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -57,17 +57,17 @@ Puppet::Type.newtype(:gcompute_license) do
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       Name of the resource. The name is 1-63 characters long and complies with
       RFC1035. (output only)
-    EOT
+    DOC
   end
 
   newproperty(:charges_use_fee, parent: Google::Compute::Property::Boolean) do
-    desc <<-EOT
+    desc <<-DOC
       If true, the customer will be charged license fee for running software
       that contains this license on an instance. (output only)
-    EOT
+    DOC
     newvalue(:true)
     newvalue(:false)
   end

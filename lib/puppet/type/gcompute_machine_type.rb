@@ -36,21 +36,21 @@ require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_machine_type) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     Represents a MachineType resource. Machine types determine the virtualized
     hardware specifications of your virtual machine instances, such as the
     amount of memory or number of virtual CPUs.
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
     [self[:credential]]
   end
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -68,9 +68,9 @@ Puppet::Type.newtype(:gcompute_machine_type) do
 
   newproperty(:deprecated,
               parent: Google::Compute::Property::MachineTypeDepreca) do
-    desc <<-EOT
+    desc <<-DOC
       The deprecation status associated with this machine type. (output only)
-    EOT
+    DOC
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do
@@ -78,10 +78,10 @@ Puppet::Type.newtype(:gcompute_machine_type) do
   end
 
   newproperty(:guest_cpus, parent: Google::Compute::Property::Integer) do
-    desc <<-EOT
+    desc <<-DOC
       The number of virtual CPUs that are available to the instance. (output
       only)
-    EOT
+    DOC
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
@@ -89,10 +89,10 @@ Puppet::Type.newtype(:gcompute_machine_type) do
   end
 
   newproperty(:is_shared_cpu, parent: Google::Compute::Property::Boolean) do
-    desc <<-EOT
+    desc <<-DOC
       Whether this machine type has a shared CPU. See Shared-core machine types
       for more information. (output only)
-    EOT
+    DOC
     newvalue(:true)
     newvalue(:false)
   end
@@ -108,10 +108,10 @@ Puppet::Type.newtype(:gcompute_machine_type) do
   end
 
   newproperty(:memory_mb, parent: Google::Compute::Property::Integer) do
-    desc <<-EOT
+    desc <<-DOC
       The amount of physical memory available to the instance, defined in MB.
       (output only)
-    EOT
+    DOC
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do

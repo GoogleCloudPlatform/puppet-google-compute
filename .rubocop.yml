@@ -33,3 +33,8 @@ Metrics/BlockLength:
 
 Metrics/MethodLength:
   Max: 15
+
+# Puppet likes using :true and :false inside of type files
+# Rubocop wants these to be true and false instead.
+Lint/BooleanSymbol:
+  Enabled: false
