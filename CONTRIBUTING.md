@@ -299,6 +299,7 @@ puppet-codegen:
   * lib/puppet/functions/gcompute_address_ref.rb
   * lib/puppet/functions/gcompute_health_check_ref.rb
   * lib/puppet/functions/gcompute_image_family.rb
+  * lib/puppet/functions/gcompute_task_load_params.rb
   * lib/puppet/provider/gcompute_address/google.rb
   * lib/puppet/provider/gcompute_backend_bucket/google.rb
   * lib/puppet/provider/gcompute_backend_service/google.rb
@@ -591,6 +592,8 @@ puppet-codegen:
   * spec/spec_helper.rb
   * spec/string_utils_spec.rb
   * spec/test_constants.rb
+  * tasks/instance.json
+  * tasks/instance.rb
   * tasks/reset.json
   * tasks/reset.rb
   * tasks/snapshot.json

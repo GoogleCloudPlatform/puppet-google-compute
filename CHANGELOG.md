@@ -21,6 +21,7 @@
 - Added support for `gcompute_target_ssl_proxy` resources.
 - Added support for `gcompute_target_tcp_proxy` resources.
 - Added support for `gcompute_url_map` resources.
+- Added Bolt task `instance` to (quickly) create new a VM instance.
 - Added Bolt task `reset` to reset a VM instance.
 - Added Bolt task `snapshot` to create a Disk snapshot.
 - Added `gcompute_address_ip` client function.
