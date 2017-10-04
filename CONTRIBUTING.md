@@ -593,7 +593,8 @@ puppet-codegen:
   * spec/string_utils_spec.rb
   * spec/test_constants.rb
   * tasks/instance.json
-  * tasks/instance.rb
+  * tasks/instance.sh
+  * tasks/README.md
   * tasks/reset.json
   * tasks/reset.rb
   * tasks/snapshot.json

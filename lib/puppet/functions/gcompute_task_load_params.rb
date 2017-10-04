@@ -18,19 +18,15 @@ require 'timeout'
 # Load a JSON params object for running a task
 Puppet::Functions.create_function(:gcompute_task_load_params) do
   dispatch :gcompute_task_load_params do
-    # This doesn't accept params
+    param 'String', :input
   end
 
   # Load parameters from STDIN in JSON format
-  def gcompute_task_load_params
+  def gcompute_task_load_params(input)
     begin
-      Timeout::timeout(3) do
-        JSON.parse(STDIN.read)
-      end
-    rescue Timeout::Error
-      throw Puppet::ParseError "Couldn't read from stdin"
+      JSON.parse(input)
     rescue JSON::ParseError
-      throw Puppet::ParseError "Couldn't parse JSON from stdin"
+      throw Puppet::ParseError "Couldn't parse JSON from: #{input}"
     end
   end
 end
