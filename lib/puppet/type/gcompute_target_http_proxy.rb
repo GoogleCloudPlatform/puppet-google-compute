@@ -32,10 +32,10 @@ require 'google/compute/property/urlmap_selflink'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_target_http_proxy) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     Represents a TargetHttpProxy resource, which is used by one or more global
     forwarding rule to route incoming HTTP requests to a URL map.
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
     [self[:credential]]
@@ -44,10 +44,10 @@ Puppet::Type.newtype(:gcompute_target_http_proxy) do
   ensurable
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -72,7 +72,7 @@ Puppet::Type.newtype(:gcompute_target_http_proxy) do
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       Name of the resource. Provided by the client when the resource is
       created. The name must be 1-63 characters long, and comply with RFC1035.
       Specifically, the name must be 1-63 characters long and match the regular
@@ -80,7 +80,7 @@ Puppet::Type.newtype(:gcompute_target_http_proxy) do
       must be a lowercase letter, and all following characters must be a dash,
       lowercase letter, or digit, except the last character, which cannot be a
       dash.
-    EOT
+    DOC
   end
 
   newproperty(:url_map, parent: Google::Compute::Property::UrlMapSelfLinkRef) do

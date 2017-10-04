@@ -34,7 +34,7 @@ require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_address) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     Represents an Address resource. Each virtual machine instance has an
     ephemeral internal IP address and, optionally, an external IP address. To
     communicate between instances on the same network, you can use an
@@ -45,7 +45,7 @@ Puppet::Type.newtype(:gcompute_address) do
     and recreated, the instance is assigned a new internal IP address, either
     by Compute Engine or by you. External IP addresses can be either ephemeral
     or static.
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
     [self[:credential]]
@@ -58,10 +58,10 @@ Puppet::Type.newtype(:gcompute_address) do
   ensurable
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -78,10 +78,10 @@ Puppet::Type.newtype(:gcompute_address) do
   end
 
   newproperty(:address, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       The static external IP address represented by this resource. Only IPv4 is
       supported.
-    EOT
+    DOC
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do

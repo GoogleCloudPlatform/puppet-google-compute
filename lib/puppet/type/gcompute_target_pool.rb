@@ -51,10 +51,10 @@ Puppet::Type.newtype(:gcompute_target_pool) do
   ensurable
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -84,7 +84,7 @@ Puppet::Type.newtype(:gcompute_target_pool) do
   end
 
   newproperty(:failover_ratio, parent: Google::Compute::Property::Double) do
-    desc <<-EOT
+    desc <<-DOC
       This field is applicable only when the containing target pool is serving
       a forwarding rule as the primary pool (i.e., not as a backup pool to some
       other target pool). The value of the field must be in [0, 1]. If set,
@@ -96,7 +96,7 @@ Puppet::Type.newtype(:gcompute_target_pool) do
       unhealthy, the traffic will be directed back to the primary pool in the
       "force" mode, where traffic will be spread to the healthy instances with
       the best effort, or to all instances when no instance is healthy.
-    EOT
+    DOC
   end
 
   newproperty(:health_check,
@@ -110,14 +110,14 @@ Puppet::Type.newtype(:gcompute_target_pool) do
 
   newproperty(:instances,
               parent: Google::Compute::Property::InstaSelfLinkRefArray) do
-    desc <<-EOT
+    desc <<-DOC
       A list of virtual machine instances serving this pool. They must live in
       zones contained in the same region as this pool.
-    EOT
+    DOC
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       Name of the resource. Provided by the client when the resource is
       created. The name must be 1-63 characters long, and comply with RFC1035.
       Specifically, the name must be 1-63 characters long and match the regular
@@ -125,18 +125,18 @@ Puppet::Type.newtype(:gcompute_target_pool) do
       must be a lowercase letter, and all following characters must be a dash,
       lowercase letter, or digit, except the last character, which cannot be a
       dash.
-    EOT
+    DOC
   end
 
   newproperty(:session_affinity, parent: Google::Compute::Property::Enum) do
-    desc <<-EOT
+    desc <<-DOC
       Session affinity option. Must be one of these values: - NONE: Connections
       from the same client IP may go to any instance in  the pool. - CLIENT_IP:
       Connections from the same client IP will go to the same  instance in the
       pool while that instance remains healthy. - CLIENT_IP_PROTO: Connections
       from the same client IP with the same  IP protocol will go to the same
       instance in the pool while that  instance remains healthy.
-    EOT
+    DOC
     newvalue(:NONE)
     newvalue(:CLIENT_IP)
     newvalue(:CLIENT_IP_PROTO)

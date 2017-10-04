@@ -38,7 +38,7 @@ require 'google/compute/property/zone_name'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_instance_group_manager) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     Creates a managed instance group using the information that you specify in
     the request. After the group is created, it schedules an action to create
     instances in the group using the specified instance template. This
@@ -46,7 +46,7 @@ Puppet::Type.newtype(:gcompute_instance_group_manager) do
     in the group have not yet been created. You must separately verify the
     status of the individual instances. A managed instance group can have up to
     1000 VM instances per group.
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
     [self[:credential]]
@@ -59,10 +59,10 @@ Puppet::Type.newtype(:gcompute_instance_group_manager) do
   ensurable
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -79,35 +79,35 @@ Puppet::Type.newtype(:gcompute_instance_group_manager) do
   end
 
   newproperty(:base_instance_name, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       The base instance name to use for instances in this group. The value must
       be 1-58 characters long. Instances are named by appending a hyphen and a
       random four-character string to the base instance name. The base instance
       name must comply with RFC1035.
-    EOT
+    DOC
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
-    desc <<-EOT
+    desc <<-DOC
       The creation timestamp for this managed instance group in RFC3339 text
       format. (output only)
-    EOT
+    DOC
   end
 
   newproperty(:current_actions,
               parent: Google::Compute::Property::InstGrouManaCurrActi) do
-    desc <<-EOT
+    desc <<-DOC
       The list of instance actions and the number of instances in this managed
       instance group that are scheduled for each of those actions. (output
       only)
-    EOT
+    DOC
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       An optional description of this resource. Provide this property when you
       create the resource.
-    EOT
+    DOC
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
@@ -125,18 +125,18 @@ Puppet::Type.newtype(:gcompute_instance_group_manager) do
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       The name of the managed instance group. The name must be 1-63 characters
       long, and comply with RFC1035.
-    EOT
+    DOC
   end
 
   newproperty(:named_ports,
               parent: Google::Compute::Property::InstGrouManaNamePortArray) do
-    desc <<-EOT
+    desc <<-DOC
       Named ports configured for the Instance Groups complementary to this
       Instance Group Manager.
-    EOT
+    DOC
   end
 
   newproperty(:region, parent: Google::Compute::Property::RegioSelfLinkRef) do
@@ -145,18 +145,18 @@ Puppet::Type.newtype(:gcompute_instance_group_manager) do
 
   newproperty(:target_pools,
               parent: Google::Compute::Property::TargPoolSelfLinkRefArray) do
-    desc <<-EOT
+    desc <<-DOC
       TargetPool resources to which instances in the instanceGroup field are
       added. The target pools automatically apply to all of the instances in
       the managed instance group.
-    EOT
+    DOC
   end
 
   newproperty(:target_size, parent: Google::Compute::Property::Integer) do
-    desc <<-EOT
+    desc <<-DOC
       The target number of running instances for this managed instance group.
       Deleting or abandoning instances reduces this number. Resizing the group
       changes this number.
-    EOT
+    DOC
   end
 end

@@ -32,7 +32,7 @@ require 'google/compute/property/string_array'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_route) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     Represents a Route resource. A route is a rule that specifies how certain
     packets should be handled by the virtual network. Routes are associated
     with virtual machines by tag, and the set of routes for a particular
@@ -49,7 +49,7 @@ Puppet::Type.newtype(:gcompute_route) do
     the sending virtual machine's routing table will be dropped. A Routes
     resources must have exactly one specification of either nextHopGateway,
     nextHopInstance, nextHopIp, or nextHopVpnTunnel.
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
     [self[:credential]]
@@ -58,10 +58,10 @@ Puppet::Type.newtype(:gcompute_route) do
   ensurable
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -74,14 +74,14 @@ Puppet::Type.newtype(:gcompute_route) do
   end
 
   newproperty(:dest_range, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       The destination range of outgoing packets that this route applies to.
       Only IPv4 is supported.
-    EOT
+    DOC
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       Name of the resource. Provided by the client when the resource is
       created. The name must be 1-63 characters long, and comply with RFC1035.
       Specifically, the name must be 1-63 characters long and match the regular
@@ -89,7 +89,7 @@ Puppet::Type.newtype(:gcompute_route) do
       must be a lowercase letter, and all following characters must be a dash,
       lowercase letter, or digit, except the last character, which cannot be a
       dash.
-    EOT
+    DOC
   end
 
   newproperty(:network, parent: Google::Compute::Property::NetwoSelfLinkRef) do
@@ -97,13 +97,13 @@ Puppet::Type.newtype(:gcompute_route) do
   end
 
   newproperty(:priority, parent: Google::Compute::Property::Integer) do
-    desc <<-EOT
+    desc <<-DOC
       The priority of this route. Priority is used to break ties in cases where
       there is more than one matching route of equal prefix length. In the case
       of two routes with equal prefix length, the one with the lowest-numbered
       priority value wins. Default value is 1000. Valid range is 0 through
       65535.
-    EOT
+    DOC
   end
 
   newproperty(:tags, parent: Google::Compute::Property::StringArray) do
@@ -111,30 +111,30 @@ Puppet::Type.newtype(:gcompute_route) do
   end
 
   newproperty(:next_hop_gateway, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       URL to a gateway that should handle matching packets. Currently, you can
       only specify the internet gateway, using a full or partial valid URL: *
       https://www.googleapis.com/compute/v1/projects/project/
       global/gateways/default-internet-gateway *
       projects/project/global/gateways/default-internet-gateway *
       global/gateways/default-internet-gateway
-    EOT
+    DOC
   end
 
   newproperty(:next_hop_instance, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       URL to an instance that should handle matching packets. You can specify
       this as a full or partial URL. For example: *
       https://www.googleapis.com/compute/v1/projects/project/zones/zone/
       instances/instance * projects/project/zones/zone/instances/instance *
       zones/zone/instances/instance
-    EOT
+    DOC
   end
 
   newproperty(:next_hop_ip, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       Network IP address of an instance that should handle matching packets.
-    EOT
+    DOC
   end
 
   newproperty(:next_hop_vpn_tunnel,

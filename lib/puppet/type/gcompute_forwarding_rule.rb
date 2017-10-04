@@ -38,11 +38,11 @@ require 'google/compute/property/time'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_forwarding_rule) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     A ForwardingRule resource. A ForwardingRule resource specifies which pool
     of target virtual machines to forward a packet to if it matches the given
     [IPAddress, IPProtocol, portRange] tuple.
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
     [self[:credential]]
@@ -55,10 +55,10 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
   ensurable
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -79,10 +79,10 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       An optional description of this resource. Provide this property when you
       create the resource.
-    EOT
+    DOC
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
@@ -90,7 +90,7 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
   end
 
   newproperty(:ip_address, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       The IP address that this forwarding rule is serving on behalf of.
       Addresses are restricted based on the forwarding rule's load balancing
       scheme (EXTERNAL or INTERNAL) and scope (global or regional). When the
@@ -111,15 +111,15 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
       /regions/region/addresses/address *
       projects/project/regions/region/addresses/address *
       regions/region/addresses/address * global/addresses/address * address
-    EOT
+    DOC
   end
 
   newproperty(:ip_protocol, parent: Google::Compute::Property::Enum) do
-    desc <<-EOT
+    desc <<-DOC
       The IP protocol to which this rule applies. Valid options are TCP, UDP,
       ESP, AH, SCTP or ICMP. When the load balancing scheme is INTERNAL, only
       TCP and UDP are valid.
-    EOT
+    DOC
     newvalue(:TCP)
     newvalue(:UDP)
     newvalue(:ESP)
@@ -134,30 +134,30 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
   end
 
   newproperty(:ip_version, parent: Google::Compute::Property::Enum) do
-    desc <<-EOT
+    desc <<-DOC
       The IP Version that will be used by this forwarding rule. Valid options
       are IPV4 or IPV6. This can only be specified for a global forwarding
       rule.
-    EOT
+    DOC
     newvalue(:IPV4)
     newvalue(:IPV6)
   end
 
   newproperty(:load_balancing_scheme,
               parent: Google::Compute::Property::Enum) do
-    desc <<-EOT
+    desc <<-DOC
       This signifies what the ForwardingRule will be used for and can only take
       the following values: INTERNAL, EXTERNAL The value of INTERNAL means that
       this will be used for Internal Network Load Balancing (TCP, UDP). The
       value of EXTERNAL means that this will be used for External Load
       Balancing (HTTP(S) LB, External TCP/UDP LB, SSL Proxy)
-    EOT
+    DOC
     newvalue(:INTERNAL)
     newvalue(:EXTERNAL)
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       Name of the resource; provided by the client when the resource is
       created. The name must be 1-63 characters long, and comply with RFC1035.
       Specifically, the name must be 1-63 characters long and match the regular
@@ -165,7 +165,7 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
       must be a lowercase letter, and all following characters must be a dash,
       lowercase letter, or digit, except the last character, which cannot be a
       dash.
-    EOT
+    DOC
   end
 
   newproperty(:network, parent: Google::Compute::Property::NetwoSelfLinkRef) do
@@ -173,7 +173,7 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
   end
 
   newproperty(:port_range, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       This field is used along with the target field for TargetHttpProxy,
       TargetHttpsProxy, TargetSslProxy, TargetTcpProxy, TargetVpnGateway,
       TargetPool, TargetInstance. Applicable only when IPProtocol is TCP, UDP,
@@ -185,17 +185,17 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
       443, 465, 587, 700, 993, 995,          1883, 5222 * TargetSslProxy: 25,
       43, 110, 143, 195, 443, 465, 587, 700, 993, 995,          1883, 5222 *
       TargetVpnGateway: 500, 4500
-    EOT
+    DOC
   end
 
   newproperty(:ports, parent: Google::Compute::Property::StringArray) do
-    desc <<-EOT
+    desc <<-DOC
       This field is used along with the backend_service field for internal load
       balancing. When the load balancing scheme is INTERNAL, a single port or a
       comma separated list of ports can be configured. Only packets addressed
       to these ports will be forwarded to the backends configured with this
       forwarding rule. You may specify a maximum of up to 5 ports.
-    EOT
+    DOC
   end
 
   newproperty(:subnetwork,

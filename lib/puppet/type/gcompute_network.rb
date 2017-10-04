@@ -34,7 +34,7 @@ require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_network) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     Represents a Network resource. Your Cloud Platform Console project can
     contain multiple networks, and each network can have multiple instances
     attached to it. A network allows you to define a gateway IP and the network
@@ -47,7 +47,7 @@ Puppet::Type.newtype(:gcompute_network) do
     belong to one network. All Compute Engine networks use the IPv4 protocol.
     Compute Engine currently does not support IPv6. However, Google is a major
     advocate of IPv6 and it is an important future direction.
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
     [self[:credential]]
@@ -56,10 +56,10 @@ Puppet::Type.newtype(:gcompute_network) do
   ensurable
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -72,18 +72,18 @@ Puppet::Type.newtype(:gcompute_network) do
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       An optional description of this resource. Provide this property when you
       create the resource.
-    EOT
+    DOC
   end
 
   newproperty(:gateway_ipv4, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       A gateway address for default routing to other networks. This value is
       read only and is selected by the Google Compute Engine, typically as the
       first usable address in the IPv4Range.
-    EOT
+    DOC
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
@@ -91,15 +91,15 @@ Puppet::Type.newtype(:gcompute_network) do
   end
 
   newproperty(:ipv4_range, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       The range of internal addresses that are legal on this network. This
       range is a CIDR specification, for example: 192.168.0.0/16. Provided by
       the client when the network is created.
-    EOT
+    DOC
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       Name of the resource. Provided by the client when the resource is
       created. The name must be 1-63 characters long, and comply with RFC1035.
       Specifically, the name must be 1-63 characters long and match the regular
@@ -107,24 +107,24 @@ Puppet::Type.newtype(:gcompute_network) do
       must be a lowercase letter, and all following characters must be a dash,
       lowercase letter, or digit, except the last character, which cannot be a
       dash.
-    EOT
+    DOC
   end
 
   newproperty(:subnetworks, parent: Google::Compute::Property::StringArray) do
-    desc <<-EOT
+    desc <<-DOC
       Server-defined fully-qualified URLs for all subnetworks in this network.
       (output only)
-    EOT
+    DOC
   end
 
   newproperty(:auto_create_subnetworks,
               parent: Google::Compute::Property::Boolean) do
-    desc <<-EOT
+    desc <<-DOC
       When set to true, the network is created in "auto subnet mode". When set
       to false, the network is in "custom subnet mode". In "auto subnet mode",
       a newly created network is assigned the default CIDR of 10.128.0.0/9 and
       it automatically creates one subnetwork per region.
-    EOT
+    DOC
     newvalue(:true)
     newvalue(:false)
   end
