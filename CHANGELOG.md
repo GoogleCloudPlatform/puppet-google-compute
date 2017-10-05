@@ -13,6 +13,7 @@
   * Added support for `source_image_encryption_key` in
   `initializeParams { source_image_encryption_key }`
 - Added support for `gcompute_forwarding_rule` resources.
+- Added support for `gcompute_global_forwarding_rule` resources.
 - Added support for `gcompute_instance_group_manager` resources.
 - Added support for `gcompute_instance_template` resources.
 - Added support for `gcompute_target_pool` resources.
@@ -26,7 +27,9 @@
 - Added Bolt task `snapshot` to create a Disk snapshot.
 - Added `gcompute_address_ip` client function.
 - Added `gcompute_address_ref` client function.
+- Added `gcompute_global_address_ref` client function.
 - Added `gcompute_health_check_ref` client function.
+- Added `gcompute_target_http_proxy_ref` client function.
 
 ### Fixes
 

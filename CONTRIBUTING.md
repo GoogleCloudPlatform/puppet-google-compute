@@ -95,6 +95,7 @@ puppet-codegen:
   * .tests/end2end/data/delete_firewall.pp
   * .tests/end2end/data/delete_forwarding_rule.pp
   * .tests/end2end/data/delete_global_address.pp
+  * .tests/end2end/data/delete_global_forwarding_rule.pp
   * .tests/end2end/data/delete_health_check.pp
   * .tests/end2end/data/delete_http_health_check.pp
   * .tests/end2end/data/delete_https_health_check.pp
@@ -119,6 +120,7 @@ puppet-codegen:
   * .tests/end2end/data/firewall~change1.pp
   * .tests/end2end/data/forwarding_rule.pp
   * .tests/end2end/data/global_address.pp
+  * .tests/end2end/data/global_forwarding_rule.pp
   * .tests/end2end/data/health_check.pp
   * .tests/end2end/data/http_health_check.pp
   * .tests/end2end/data/https_health_check.pp
@@ -156,6 +158,7 @@ puppet-codegen:
   * examples/delete_firewall.pp
   * examples/delete_forwarding_rule.pp
   * examples/delete_global_address.pp
+  * examples/delete_global_forwarding_rule.pp
   * examples/delete_health_check.pp
   * examples/delete_http_health_check.pp
   * examples/delete_https_health_check.pp
@@ -180,6 +183,7 @@ puppet-codegen:
   * examples/firewall~change1.pp
   * examples/forwarding_rule.pp
   * examples/global_address.pp
+  * examples/global_forwarding_rule.pp
   * examples/health_check.pp
   * examples/http_health_check.pp
   * examples/https_health_check.pp
@@ -297,8 +301,10 @@ puppet-codegen:
   * lib/google/string_utils.rb
   * lib/puppet/functions/gcompute_address_ip.rb
   * lib/puppet/functions/gcompute_address_ref.rb
+  * lib/puppet/functions/gcompute_global_address_ref.rb
   * lib/puppet/functions/gcompute_health_check_ref.rb
   * lib/puppet/functions/gcompute_image_family.rb
+  * lib/puppet/functions/gcompute_target_http_proxy_ref.rb
   * lib/puppet/functions/gcompute_task_load_params.rb
   * lib/puppet/provider/gcompute_address/google.rb
   * lib/puppet/provider/gcompute_backend_bucket/google.rb
@@ -308,6 +314,7 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_firewall/google.rb
   * lib/puppet/provider/gcompute_forwarding_rule/google.rb
   * lib/puppet/provider/gcompute_global_address/google.rb
+  * lib/puppet/provider/gcompute_global_forwarding_rule/google.rb
   * lib/puppet/provider/gcompute_health_check/google.rb
   * lib/puppet/provider/gcompute_http_health_check/google.rb
   * lib/puppet/provider/gcompute_https_health_check/google.rb
@@ -338,6 +345,7 @@ puppet-codegen:
   * lib/puppet/type/gcompute_firewall.rb
   * lib/puppet/type/gcompute_forwarding_rule.rb
   * lib/puppet/type/gcompute_global_address.rb
+  * lib/puppet/type/gcompute_global_forwarding_rule.rb
   * lib/puppet/type/gcompute_health_check.rb
   * lib/puppet/type/gcompute_http_health_check.rb
   * lib/puppet/type/gcompute_https_health_check.rb
@@ -418,6 +426,12 @@ puppet-codegen:
   * spec/data/network/gcompute_global_address/success2~title.yaml
   * spec/data/network/gcompute_global_address/success3~name.yaml
   * spec/data/network/gcompute_global_address/success3~title.yaml
+  * spec/data/network/gcompute_global_forwarding_rule/success1~name.yaml
+  * spec/data/network/gcompute_global_forwarding_rule/success1~title.yaml
+  * spec/data/network/gcompute_global_forwarding_rule/success2~name.yaml
+  * spec/data/network/gcompute_global_forwarding_rule/success2~title.yaml
+  * spec/data/network/gcompute_global_forwarding_rule/success3~name.yaml
+  * spec/data/network/gcompute_global_forwarding_rule/success3~title.yaml
   * spec/data/network/gcompute_health_check/success1~name.yaml
   * spec/data/network/gcompute_health_check/success1~title.yaml
   * spec/data/network/gcompute_health_check/success2~name.yaml
@@ -559,6 +573,7 @@ puppet-codegen:
   * spec/gcompute_firewall_provider_spec.rb
   * spec/gcompute_forwarding_rule_provider_spec.rb
   * spec/gcompute_global_address_provider_spec.rb
+  * spec/gcompute_global_forwarding_rule_provider_spec.rb
   * spec/gcompute_health_check_provider_spec.rb
   * spec/gcompute_http_health_check_provider_spec.rb
   * spec/gcompute_https_health_check_provider_spec.rb
