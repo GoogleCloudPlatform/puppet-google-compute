@@ -23,10 +23,8 @@ Puppet::Functions.create_function(:gcompute_task_load_params) do
 
   # Load parameters from STDIN in JSON format
   def gcompute_task_load_params(input)
-    begin
-      JSON.parse(input)
-    rescue JSON::ParseError
-      throw Puppet::ParseError "Couldn't parse JSON from: #{input}"
-    end
+    JSON.parse(input)
+  rescue JSON::ParseError
+    throw Puppet::ParseError "Couldn't parse JSON from: #{input}"
   end
 end

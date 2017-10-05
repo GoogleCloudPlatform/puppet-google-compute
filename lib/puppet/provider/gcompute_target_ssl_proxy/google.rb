@@ -66,6 +66,7 @@ Puppet::Type.type(:gcompute_target_ssl_proxy).provide(:google) do
     result
   end
 
+  # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch)
     {
       creation_timestamp:
@@ -85,6 +86,7 @@ Puppet::Type.type(:gcompute_target_ssl_proxy).provide(:google) do
         )
     }.reject { |_, v| v.nil? }
   end
+  # rubocop:enable Metrics/MethodLength
 
   def exists?
     debug("exists? #{@property_hash[:ensure] == :present}")
