@@ -16,9 +16,13 @@ declare -r puppet='/opt/puppetlabs/bin/puppet'
 declare -r input="$(python -m json.tool | tr -d "\n")"
 declare -r run_log="$(mktemp /tmp/bolt-run-XXXXXX)"
 
+declare puppet_args
+[[ $BOLT_VERBOSE -ne 1 ]] || puppet_args='--debug'
+readonly puppet_args
+
 trap "rm '${run_log}'" TERM EXIT
 
-$puppet apply 1>${run_log} 2>&1 <<EOF
+$puppet apply ${puppet_args} 1>${run_log} 2>&1 <<EOF
 # Creates (or deletes) a Google Compute Engine VM instance
 #
 # Command line arguments: JSON object from STDIN with the following fields:
@@ -107,7 +111,10 @@ gcompute_machine_type { \$machine_type:
 }
 
 if \$ensure == absent {
-  Gcompute_instance[\$vm] -> Gcompute_disk[\$vm] -> Gcompute_address[\$vm]
+  Gcompute_instance[\$vm] -> Gcompute_disk[\$vm]
+  if \$allocate_static_ip {
+    Gcompute_instance[\$vm] -> Gcompute_address[\$vm]
+  }
 }
 
 gcompute_disk { \$vm:
@@ -143,7 +150,7 @@ if \$allocate_static_ip {
         access_configs => [
           {
             name   => 'External NAT',
-            nat_ip => \$nat_ip_name,
+            nat_ip => \$vm,
             type   => 'ONE_TO_ONE_NAT',
           }
         ],
@@ -187,14 +194,13 @@ notify { 'task:success':
 }
 EOF
 
-declare -r success_line=$(grep 'Notice:.*task:success' "${run_log}")
+declare -r success_line=$(grep 'Notice:.*task:success.*define.*as' "${run_log}")
 if [[ ! -z ${success_line} ]]; then
   declare -r vm_name=$(sed -e "s/.* as '\(.*\)'.*/\1/" <<< ${success_line})
   echo "{ \"status\": \"success\", \"name\": \"${vm_name}\" }"
   exit 0
 else
   echo "{ \"status\": \"failure\" }"
-  # TODO(ody): Figure out how to get the error log to the user
-  # | cat "${run_log}"
+  [[ $BOLT_VERBOSE -ne 1 ]] || cat "${run_log}"
   exit 1
 fi

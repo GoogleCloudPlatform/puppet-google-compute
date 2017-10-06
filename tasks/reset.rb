@@ -21,15 +21,26 @@
 # - project: the Google Cloud Project where the VM instance is hosted
 # - credential: the path for the Service Account JSON credential file
 
-COMPUTE_ADM_SCOPES = ['https://www.googleapis.com/auth/compute'].freeze
+COMPUTE_ADM_SCOPES = [
+  'https://www.googleapis.com/auth/compute'
+].freeze
 
-# Load our own library folder to access 'google/bolt'
-libdir = File.expand_path("#{File.dirname(__FILE__)}/../lib")
-$LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
+require 'puppet'
 
 # We want to re-use code already written for the GCP modules
-require 'google/compute/bolt'
-Google::Compute::Bolt.init
+Puppet.initialize_settings
+
+# Puppet apply does special stuff to load library code stored in modules
+# but that magic is available in Bolt so we emulate it here.  We look in
+# the local user's .puppetlabs directory or if running at "root" we look
+# in the directory where Puppet pluginsyncs to.
+libdir = if Puppet.run_mode.user?
+           Dir["#{Puppet.settings[:codedir]}/modules/*/lib"]
+         else
+           File.path("#{Puppet.settings[:vardir]}/lib").to_a
+         end
+libdir << File.expand_path("#{File.dirname(__FILE__)}/../lib")
+libdir.each { |l| $LOAD_PATH.unshift(l) unless $LOAD_PATH.include?(l) }
 
 require 'google/auth/gauth_credential'
 require 'google/compute/api/gcompute_instance'

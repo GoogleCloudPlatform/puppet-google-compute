@@ -26,6 +26,7 @@ module Google
           @cred = cred
         end
 
+        # TODO(nelsonjr): Implement this as gcompute_disk_snapshot { }
         # TODO(nelsonjr): Make this function wait for the operation to complete
         def snapshot(target)
           snapshot_request = ::Google::Compute::Network::Post.new(

@@ -212,7 +212,6 @@ puppet-codegen:
   * Gemfile
   * lib/google/compute/api/gcompute_disk.rb
   * lib/google/compute/api/gcompute_instance.rb
-  * lib/google/compute/bolt.rb
   * lib/google/compute/network/base.rb
   * lib/google/compute/network/delete.rb
   * lib/google/compute/network/get.rb

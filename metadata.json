@@ -68,12 +68,6 @@
       "version_requirement": "< 0.3.0"
     }
   ],
-  "requirements": [
-    {
-      "name": "google/gauth",
-      "version_requirement": "< 0.3.0"
-    }
-  ],
   "tags": [
     "google",
     "cloud",
