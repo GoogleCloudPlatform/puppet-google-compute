@@ -8,17 +8,15 @@
       "type": "Optional[String[1]]"
     },
     "image_family": {
-      "description":
-        "An indication of which image family to launch the instance from (format: $familyname:$organization) (default: centos-7:centos-cloud)",
+      "description": "An indication of which image family to launch the instance from (format: <familyname>:<organization>) (default: centos-7:centos-cloud)",
       "type": "Optional[String[1]]"
     },
     "size_gb": {
-      "description": "The size of the VM disk (in GB) (default: 50 GB)",
-      "type": "Optional[String[1]]"
+      "description": "The size of the VM disk (in GB) (default: 50)",
+      "type": "Optional[Integer[1]]"
     },
     "machine_type": {
-      "description":
-        "The type of the machine to create (default: n1-standard-1)",
+      "description": "The type of the machine to create (default: n1-standard-1)",
       "type": "Optional[String[1]]"
     },
     "allocate_static_ip": {
@@ -37,7 +35,7 @@
       "description": "The project you have credentials for and will houses your instance",
       "type": "String[1]"
     },
-    "credentials": {
+    "credential": {
       "description": "Path to a service account credentials file",
       "type": "String[1]"
     },

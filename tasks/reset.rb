@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Resets a Google Compute Engine VM
+# Resets a Google Compute Engine VM instance
 #
 # Command line arguments: JSON object from STDIN with the following fields:
 #
-# - name: the name of the instance to reset
-# - zone: the zone where the instance is located
-# - project: the Google Cloud Project where the VM instance is hosted
-# - credential: the path for the Service Account JSON credential file
+# - name: The name of the instance to reset
+# - zone: The zone where your instance resides
+# - project: The project that hosts the VM instance
+# - credential: Path to a service account credentials file
 
 COMPUTE_ADM_SCOPES = [
   'https://www.googleapis.com/auth/compute'

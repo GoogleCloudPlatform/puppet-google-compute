@@ -1,6 +1,6 @@
 {
   "description": "Create a snapshot of a Google Compute Engine Disk",
-  "supports_noop": true,
+  "supports_noop": false,
   "input_method": "stdin",
   "parameters": {
     "name": {
@@ -8,8 +8,7 @@
       "type": "String[1]"
     },
     "target": {
-      "description":
-        "The name of the disk snapshot (default: <name>-<timestamp>)",
+      "description": "The name of the disk snapshot (default: <name>-<timestamp>)",
       "type": "Optional[String[1]]"
     },
     "zone": {

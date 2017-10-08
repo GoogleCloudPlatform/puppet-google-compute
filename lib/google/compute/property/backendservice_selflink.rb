@@ -69,8 +69,8 @@ module Google
         end
 
         def resource
-          Google::ObjectStore.instance[
-            :gcompute_backend_service].each do |entry|
+          Google::ObjectStore.instance[:gcompute_backend_service]
+                             .each do |entry|
             return entry.exports[:self_link] if entry.title == @title
           end
           raise ArgumentError, "gcompute_backend_service[#{@title}] required"

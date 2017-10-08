@@ -12,15 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Snapshots a Google Compute Engine Disk
+# Create a snapshot of a Google Compute Engine Disk
 #
 # Command line arguments: JSON object from STDIN with the following fields:
 #
-# - name: the name of the disk to snapshot
-# - target: the name of the snapshot to create (default: <name>-<timestamp>)
-# - zone: the zone where the disk is located
-# - project: the Google Cloud Project where the disk is hosted
-# - credential: the path for the Service Account JSON credential file
+# - name: The name of the disk to create snapshot
+# - target: The name of the disk snapshot (default: <name>-<timestamp>)
+# - zone: The zone where your disk resides
+# - project: The project that hosts the disk
+# - credential: Path to a service account credentials file
 
 COMPUTE_ADM_SCOPES = [
   'https://www.googleapis.com/auth/compute'
@@ -48,11 +48,7 @@ require 'google/compute/api/gcompute_disk'
 
 params = JSON.parse(STDIN.read)
 name = params['name']
-target = if params['target'].nil?
-           "#{name}-#{Time.now.to_i}"
-         else
-           params['target']
-         end
+target = params['target'].nil? ? "#{name}-#{Time.now.to_i}" : params['target']
 zone = params['zone']
 project = params['project']
 credential = params['credential']

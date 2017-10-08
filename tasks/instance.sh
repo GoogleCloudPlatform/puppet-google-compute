@@ -23,14 +23,20 @@ readonly puppet_args
 trap "rm '${run_log}'" TERM EXIT
 
 $puppet apply ${puppet_args} 1>${run_log} 2>&1 <<EOF
-# Creates (or deletes) a Google Compute Engine VM instance
+# Because sometimes you just want a quick way to get (or destroy) an instance
 #
 # Command line arguments: JSON object from STDIN with the following fields:
 #
-# - name: the name of the instance to create (or delete)
-# - zone: the zone where the instance will be located
-# - project: the Google Cloud Project where the VM instance is hosted
-# - credential: the path for the Service Account JSON credential file
+# - name: Name of the machine to create (or delete) (default: bolt-<random>)
+# - image_family: An indication of which image family to launch the instance from (format: <familyname>:<organization>) (default: centos-7:centos-cloud)
+# - size_gb: The size of the VM disk (in GB) (default: 50)
+# - machine_type: The type of the machine to create (default: n1-standard-1)
+# - allocate_static_ip: If true it will allocate a static IP for the machine
+# - network: The network to connect the VM to (default: default)
+# - zone: The zone where your instance resides (default: us-west1-c)
+# - project: The project you have credentials for and will houses your instance
+# - credential: Path to a service account credentials file
+# - ensure: If you'd wish to quickly delete an instance instead of creating one (default: present)
 
 # Load parameters provided by task executor
 \$params = gcompute_task_load_params('${input}')
