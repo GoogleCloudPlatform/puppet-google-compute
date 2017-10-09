@@ -71,10 +71,10 @@ credential = validate(params, :credential)
 
 cred = Google::Auth::GAuthCredential \
        .serviceaccount_for_function(credential, COMPUTE_ADM_SCOPES)
-vm_instance = Google::Compute::Api::Instance.new(name, zone, project, cred)
+instance = Google::Compute::Api::Instance.new(name, zone, project, cred)
 
 begin
-  vm_instance.reset
+  instance.reset
   puts({ status: 'success' }.to_json)
   exit 0
 rescue Puppet::Error => e

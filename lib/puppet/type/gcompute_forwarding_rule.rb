@@ -45,11 +45,17 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
   DOC
 
   autorequire(:gauth_credential) do
-    [self[:credential]]
+    credential = self[:credential]
+    fail "#{self.ref}: required property 'credential' is missing" \
+      if credential.nil?
+    [credential]
   end
 
   autorequire(:gcompute_region) do
-    self[:region].autorequires
+    reference = self[:region]
+    fail "#{self.ref} required property 'region' is missing" \
+      if reference.nil?
+    reference.autorequires
   end
 
   ensurable

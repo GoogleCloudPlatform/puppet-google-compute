@@ -49,11 +49,17 @@ Puppet::Type.newtype(:gcompute_instance_group_manager) do
   DOC
 
   autorequire(:gauth_credential) do
-    [self[:credential]]
+    credential = self[:credential]
+    fail "#{self.ref}: required property 'credential' is missing" \
+      if credential.nil?
+    [credential]
   end
 
   autorequire(:gcompute_zone) do
-    self[:zone].autorequires
+    reference = self[:zone]
+    fail "#{self.ref} required property 'zone' is missing" \
+      if reference.nil?
+    reference.autorequires
   end
 
   ensurable

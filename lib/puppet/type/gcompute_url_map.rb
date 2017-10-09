@@ -44,7 +44,10 @@ Puppet::Type.newtype(:gcompute_url_map) do
   DOC
 
   autorequire(:gauth_credential) do
-    [self[:credential]]
+    credential = self[:credential]
+    fail "#{self.ref}: required property 'credential' is missing" \
+      if credential.nil?
+    [credential]
   end
 
   ensurable

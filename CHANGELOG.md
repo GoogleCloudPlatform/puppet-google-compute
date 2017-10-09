@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.0 (2017-10-09)
+## 0.2.0 (2017-10-10)
 
 ### New features
 
@@ -36,6 +36,7 @@
 - gcompute_instance { network_interfaces { subnetwork } } now accepts a
   reference to a gcompute_subnetwork resource instead of the GCP URL of a
   subnetwork
+- Improved validation of required parameter references
 
 ## 0.1.0 (2017-08-22)
 
