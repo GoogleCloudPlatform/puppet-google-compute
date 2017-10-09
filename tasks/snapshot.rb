@@ -46,12 +46,30 @@ libdir.each { |l| $LOAD_PATH.unshift(l) unless $LOAD_PATH.include?(l) }
 require 'google/auth/gauth_credential'
 require 'google/compute/api/gcompute_disk'
 
-params = JSON.parse(STDIN.read)
-name = params['name']
-target = params['target'].nil? ? "#{name}-#{Time.now.to_i}" : params['target']
-zone = params['zone']
-project = params['project']
-credential = params['credential']
+# Validates user input
+def validate(params, arg_id, default = nil)
+  arg = arg_id.id2name
+  raise "Missing parameter '#{arg}' from stdin" \
+    if default.nil? && !params.key?(arg)
+  params.key?(arg) ? params[arg] : default
+end
+
+# Parses and validates user input
+params = {}
+begin
+  Timeout.timeout(3) do
+    params = JSON.parse(STDIN.read)
+  end
+rescue Timeout::Error
+  puts({ status: 'failure', error: 'Cannot read JSON from stdin' }.to_json)
+  exit 1
+end
+
+name = validate(params, :name)
+target = validate(params, :target, "#{name}-#{Time.now.to_i}")
+zone = validate(params, :zone)
+project = validate(params, :project)
+credential = validate(params, :credential)
 
 cred = Google::Auth::GAuthCredential \
        .serviceaccount_for_function(credential, COMPUTE_ADM_SCOPES)

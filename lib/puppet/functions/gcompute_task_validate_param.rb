@@ -12,20 +12,22 @@
 # limitations under the License.
 
 require 'puppet'
-require 'puppet/error'
 require 'json'
 require 'timeout'
 
 # Load a JSON params object for running a task
-Puppet::Functions.create_function(:gcompute_task_load_params) do
-  dispatch :gcompute_task_load_params do
-    param 'String', :input
+Puppet::Functions.create_function(:gcompute_task_validate_param) do
+  dispatch :gcompute_task_validate_param do
+    param 'Hash', :params
+    param 'String', :variable
+    param 'String', :default
   end
 
   # Load parameters from STDIN in JSON format
-  def gcompute_task_load_params(input)
-    JSON.parse(input)
-  rescue JSON::ParserError => e
-    throw "Couldn't parse JSON from: #{input}: #{e.message}"
+  def gcompute_task_validate_param(params, arg, default)
+    raise "Missing parameter '#{arg}'" \
+      if default == '<-undef->' && !params.key?(arg)
+    puts "p(#{arg}) = #{params.key?(arg) ? params[arg] : default}"
+    params.key?(arg) ? params[arg] : default
   end
 end

@@ -13,11 +13,35 @@
 # limitations under the License.
 
 declare -r puppet='/opt/puppetlabs/bin/puppet'
-declare -r input="$(python -m json.tool | tr -d "\n")"
+declare -r ruby='/opt/puppetlabs/puppet/bin/ruby'
+
+declare -r parser=$(cat <<EOF
+require 'json'
+require 'timeout'
+
+begin
+  Timeout::timeout(3) do
+    puts JSON.parse(STDIN.read).to_json
+  end
+rescue Timeout::Error
+  puts({ status: 'failure', error: "Couldn't read from stdin" }.to_json)
+rescue Exception => e
+  puts({ status: 'failure', error: e.message }.to_json)
+end
+EOF
+)
+
+declare -r input="$(${ruby} -e "${parser}")"
 declare -r run_log="$(mktemp /tmp/bolt-run-XXXXXX)"
 
+if [[ $input =~ status.*failure ]]; then
+  echo "${input}"
+  exit 1
+fi
+
 declare puppet_args
-[[ $BOLT_VERBOSE -ne 1 ]] || puppet_args='--debug'
+[[ $BOLT_VERBOSE -ne 1 ]] || puppet_args="${puppet_args} --verbose"
+[[ $BOLT_DEBUG -ne 1 ]] || puppet_args="${puppet_args} --debug"
 readonly puppet_args
 
 trap "rm '${run_log}'" TERM EXIT
@@ -31,8 +55,8 @@ $puppet apply ${puppet_args} 1>${run_log} 2>&1 <<EOF
 # - image_family: An indication of which image family to launch the instance from (format: <familyname>:<organization>) (default: centos-7:centos-cloud)
 # - size_gb: The size of the VM disk (in GB) (default: 50)
 # - machine_type: The type of the machine to create (default: n1-standard-1)
-# - allocate_static_ip: If true it will allocate a static IP for the machine
-# - network: The network to connect the VM to (default: default)
+# - allocate_static_ip: If true it will allocate a static IP for the machine (default: false)
+# - network_name: The network to connect the VM to (default: default)
 # - zone: The zone where your instance resides (default: us-west1-c)
 # - project: The project you have credentials for and will houses your instance
 # - credential: Path to a service account credentials file
@@ -41,46 +65,32 @@ $puppet apply ${puppet_args} 1>${run_log} 2>&1 <<EOF
 # Load parameters provided by task executor
 \$params = gcompute_task_load_params('${input}')
 
-# Set paramters to some local variables to make changing parameter names easier
-\$credpath = \$params['credential']
-\$project  = \$params['project']
-
-# Set some defaults if they were not provided by the task executor
-\$ensure   = \$params['ensure'] ? {
-  undef   => present,
-  default => \$params['ensure'],
-}
-\$machine_type  = \$params['machine_type'] ? {
-  undef        => 'n1-standard-1',
-  default      => \$params['machine_type'],
-}
-\$size_gb  = \$params['size_gb'] ? {
-  undef   => 50,
-  default => \$params['size_gb'],
-}
-\$netname  = \$params['network'] ? {
-  undef   => 'default',
-  default => \$params['network'],
-}
-\$zone     = \$params['zone'] ? {
-  undef   => 'us-west1-c',
-  default => \$params['zone'],
-}
-\$image    = \$params['image_family'] ? {
-  undef   => ['centos-7', 'centos-cloud'],
-  default => split(\$params['image_family']),
-}
-\$allocate_static_ip  = \$params['allocate_static_ip'] ? {
-  undef              => false, # not all workloads require a static IP address
-  default            => \$params['allocate_static_ip'],
-}
-# I usually can't advocate the use to inline_template but I am trying hard not
-# to require someone to install stdlib to run this task because the gcompute
-# modules currently does not require it.
-\$vm       = \$params['name'] ? {
-  undef   => "bolt-\${inline_template('<%= SecureRandom.hex(8) -%>')}",
-  default => \$params['name'],
-}
+# Validate and parse user input parameters
+# I usually can't advocate the use to inline_template but I am trying
+# hard not to require someone to install stdlib to run this task because
+# the gcompute modules currently does not require it.
+\$_name = gcompute_task_validate_param(
+  \$params, 'name', "bolt-\${inline_template('<%= SecureRandom.hex(8) -%>')}"
+)
+\$image_family = gcompute_task_validate_param(
+  \$params, 'image_family', 'centos-7:centos-cloud'
+)
+\$size_gb = gcompute_task_validate_param(\$params, 'size_gb', '50')
+\$machine_type = gcompute_task_validate_param(
+  \$params, 'machine_type', 'n1-standard-1'
+)
+\$allocate_static_ip = gcompute_task_validate_param(
+  \$params, 'allocate_static_ip', 'false'
+)
+\$network_name = gcompute_task_validate_param(
+  \$params, 'network_name', 'default'
+)
+\$zone = gcompute_task_validate_param(\$params, 'zone', 'us-west1-c')
+\$project = gcompute_task_validate_param(\$params, 'project', '<-undef->')
+\$credential = gcompute_task_validate_param(\$params, 'credential', '<-undef->')
+\$ensure = gcompute_task_validate_param(\$params, 'ensure', 'present')
+\$vm = \$_name
+\$image = split(\$image_family, ':') # input: <family-name>:<image-name>
 
 # Convert provided zone to a region
 \$region_parts = split(\$zone, '-')
@@ -91,11 +101,11 @@ $puppet apply ${puppet_args} 1>${run_log} 2>&1 <<EOF
 
 gauth_credential { \$cred:
   provider => serviceaccount,
-  path     => \$credpath,
+  path     => \$credential,
   scopes   => ['https://www.googleapis.com/auth/cloud-platform'],
 }
 
-gcompute_network { \$netname:
+gcompute_network { \$network_name:
   project    => \$project,
   credential => \$cred,
 }
@@ -152,7 +162,7 @@ if \$allocate_static_ip {
     ],
     network_interfaces => [
       {
-        network        => \$netname,
+        network        => \$network_name,
         access_configs => [
           {
             name   => 'External NAT',
@@ -179,7 +189,7 @@ if \$allocate_static_ip {
     ],
     network_interfaces => [
       {
-        network        => \$netname,
+        network        => \$network_name,
         access_configs => [
           {
             name   => 'External NAT',
