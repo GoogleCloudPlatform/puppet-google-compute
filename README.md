@@ -12,6 +12,7 @@
    #reference)
     - [Classes](#classes)
     - [Functions](#functions)
+    - [Bolt Tasks](#bolt-tasks)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
 
@@ -5614,6 +5615,96 @@ gcompute_image_family('my-web-server', 'my-project')
 ```puppet
 gcompute_target_http_proxy_ref('my-http-proxy', 'my-project')
 ```
+
+
+### Bolt Tasks
+
+
+#### `tasks/reset.rb`
+
+  Resets a Google Compute Engine VM instance
+
+This task takes inputs as JSON from standard input.
+
+##### Arguments
+
+  - `name`:
+    The name of the instance to reset
+
+  - `zone`:
+    The zone where your instance resides
+
+  - `project`:
+    The project that hosts the VM instance
+
+  - `credential`:
+    Path to a service account credentials file
+
+
+#### `tasks/instance.sh`
+
+  Because sometimes you just want a quick way to get (or destroy) an
+  instance
+
+This task takes inputs as JSON from standard input.
+
+##### Arguments
+
+  - `name`:
+    Name of the machine to create (or delete) (default: bolt-<random>)
+
+  - `image_family`:
+    An indication of which image family to launch the instance from
+    (format: <familyname>:<organization>) (default: centos-7:centos-cloud)
+
+  - `size_gb`:
+    The size of the VM disk (in GB) (default: 50)
+
+  - `machine_type`:
+    The type of the machine to create (default: n1-standard-1)
+
+  - `allocate_static_ip`:
+    If true it will allocate a static IP for the machine (default: false)
+
+  - `network_name`:
+    The network to connect the VM to (default: default)
+
+  - `zone`:
+    The zone where your instance resides (default: us-west1-c)
+
+  - `project`:
+    The project you have credentials for and will houses your instance
+
+  - `credential`:
+    Path to a service account credentials file
+
+  - `ensure`:
+    If you'd wish to quickly delete an instance instead of creating one
+    (default: present)
+
+
+#### `tasks/snapshot.rb`
+
+  Create a snapshot of a Google Compute Engine Disk
+
+This task takes inputs as JSON from standard input.
+
+##### Arguments
+
+  - `name`:
+    The name of the disk to create snapshot
+
+  - `target`:
+    The name of the disk snapshot (default: <name>-<timestamp>)
+
+  - `zone`:
+    The zone where your disk resides
+
+  - `project`:
+    The project that hosts the disk
+
+  - `credential`:
+    Path to a service account credentials file
 
 
 ## Limitations
