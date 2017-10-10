@@ -42,15 +42,13 @@ Puppet::Type.newtype(:gcompute_disk_type) do
 
   autorequire(:gauth_credential) do
     credential = self[:credential]
-    fail "#{self.ref}: required property 'credential' is missing" \
-      if credential.nil?
+    raise "#{ref}: required property 'credential' is missing" if credential.nil?
     [credential]
   end
 
   autorequire(:gcompute_zone) do
     reference = self[:zone]
-    fail "#{self.ref} required property 'zone' is missing" \
-      if reference.nil?
+    raise "#{ref} required property 'zone' is missing" if reference.nil?
     reference.autorequires
   end
 

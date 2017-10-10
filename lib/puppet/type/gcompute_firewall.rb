@@ -46,8 +46,7 @@ Puppet::Type.newtype(:gcompute_firewall) do
 
   autorequire(:gauth_credential) do
     credential = self[:credential]
-    fail "#{self.ref}: required property 'credential' is missing" \
-      if credential.nil?
+    raise "#{ref}: required property 'credential' is missing" if credential.nil?
     [credential]
   end
 

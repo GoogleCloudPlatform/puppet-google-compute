@@ -47,8 +47,7 @@ Puppet::Type.newtype(:gcompute_global_forwarding_rule) do
 
   autorequire(:gauth_credential) do
     credential = self[:credential]
-    fail "#{self.ref}: required property 'credential' is missing" \
-      if credential.nil?
+    raise "#{ref}: required property 'credential' is missing" if credential.nil?
     [credential]
   end
 

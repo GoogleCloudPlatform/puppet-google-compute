@@ -69,6 +69,8 @@ Puppet::Type.type(:gcompute_global_forwarding_rule).provide(:google) do
     result
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch)
     {
       creation_timestamp:
@@ -101,6 +103,8 @@ Puppet::Type.type(:gcompute_global_forwarding_rule).provide(:google) do
       target: Google::Compute::Property::String.api_munge(fetch['target'])
     }.reject { |_, v| v.nil? }
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def exists?
     debug("exists? #{@property_hash[:ensure] == :present}")
@@ -148,6 +152,7 @@ Puppet::Type.type(:gcompute_global_forwarding_rule).provide(:google) do
 
   private
 
+  # rubocop:disable Metrics/MethodLength
   def self.resource_to_hash(resource)
     {
       project: resource[:project],
@@ -169,7 +174,9 @@ Puppet::Type.type(:gcompute_global_forwarding_rule).provide(:google) do
       target: resource[:target]
     }.reject { |_, v| v.nil? }
   end
+  # rubocop:enable Metrics/MethodLength
 
+  # rubocop:disable Metrics/MethodLength
   def resource_to_request
     request = {
       kind: 'compute#forwardingRule',
@@ -189,6 +196,7 @@ Puppet::Type.type(:gcompute_global_forwarding_rule).provide(:google) do
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json
   end
+  # rubocop:enable Metrics/MethodLength
 
   def fetch_auth(resource)
     self.class.fetch_auth(resource)
