@@ -51,18 +51,9 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               allow(Time).to receive(:now).and_return(
                 Time.new(2017, 1, 2, 3, 4, 5)
               )
-              expect_network_get_success \
-                1,
-                name: 'title0',
-                network: 'selflink(resource(network,0))'
-              expect_network_get_success \
-                2,
-                name: 'title1',
-                network: 'selflink(resource(network,1))'
-              expect_network_get_success \
-                3,
-                name: 'title2',
-                network: 'selflink(resource(network,2))'
+              expect_network_get_success 1, name: 'title0'
+              expect_network_get_success 2, name: 'title1'
+              expect_network_get_success 3, name: 'title2'
               expect_network_get_success_network 1
               expect_network_get_success_network 2
               expect_network_get_success_network 3
@@ -274,15 +265,9 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               allow(Time).to receive(:now).and_return(
                 Time.new(2017, 1, 2, 3, 4, 5)
               )
-              expect_network_get_success \
-                1,
-                network: 'selflink(resource(network,0))'
-              expect_network_get_success \
-                2,
-                network: 'selflink(resource(network,1))'
-              expect_network_get_success \
-                3,
-                network: 'selflink(resource(network,2))'
+              expect_network_get_success 1
+              expect_network_get_success 2
+              expect_network_get_success 3
               expect_network_get_success_network 1
               expect_network_get_success_network 2
               expect_network_get_success_network 3
@@ -530,9 +515,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
         # Ensure present: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      name: 'title0',
-                                      network: 'selflink(resource(network,0))'
+            expect_network_get_failed 1, name: 'title0'
             expect_network_create \
               1,
               {
@@ -547,11 +530,8 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                 'nextHopIp' => 'test next_hop_ip#0 data',
                 'nextHopVpnTunnel' => 'test next_hop_vpn_tunnel#0 data'
               },
-              name: 'title0',
-              network: 'selflink(resource(network,0))'
-            expect_network_get_async 1,
-                                     name: 'title0',
-                                     network: 'selflink(resource(network,0))'
+              name: 'title0'
+            expect_network_get_async 1, name: 'title0'
             expect_network_get_success_network 1
           end
 
@@ -598,24 +578,20 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
         # Ensure present: resource missing, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      network: 'selflink(resource(network,0))'
+            expect_network_get_failed 1
             expect_network_create \
               1,
-              {
-                'kind' => 'compute#route',
-                'destRange' => 'test dest_range#0 data',
-                'name' => 'test name#0 data',
-                'network' => 'selflink(resource(network,0))',
-                'priority' => 1_108_918_677,
-                'tags' => %w[mm nn oo pp],
-                'nextHopGateway' => 'test next_hop_gateway#0 data',
-                'nextHopInstance' => 'test next_hop_instance#0 data',
-                'nextHopIp' => 'test next_hop_ip#0 data',
-                'nextHopVpnTunnel' => 'test next_hop_vpn_tunnel#0 data'
-              },
-              network: 'selflink(resource(network,0))'
-            expect_network_get_async 1, network: 'selflink(resource(network,0))'
+              'kind' => 'compute#route',
+              'destRange' => 'test dest_range#0 data',
+              'name' => 'test name#0 data',
+              'network' => 'selflink(resource(network,0))',
+              'priority' => 1_108_918_677,
+              'tags' => %w[mm nn oo pp],
+              'nextHopGateway' => 'test next_hop_gateway#0 data',
+              'nextHopInstance' => 'test next_hop_instance#0 data',
+              'nextHopIp' => 'test next_hop_ip#0 data',
+              'nextHopVpnTunnel' => 'test next_hop_vpn_tunnel#0 data'
+            expect_network_get_async 1
             expect_network_get_success_network 1
           end
 

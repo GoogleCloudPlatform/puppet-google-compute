@@ -32,25 +32,27 @@ require 'google/compute/property/time'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_backend_bucket) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     Backend buckets allow you to use Google Cloud Storage buckets with HTTP(S)
     load balancing. An HTTP(S) load balancing can direct traffic to specified
     URLs to a backend bucket rather than a backend service. It can send
     requests for static content to a Cloud Storage bucket and requests for
     dynamic content a virtual machine instance.
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
-    [self[:credential]]
+    credential = self[:credential]
+    raise "#{ref}: required property 'credential' is missing" if credential.nil?
+    [credential]
   end
 
   ensurable
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -71,10 +73,10 @@ Puppet::Type.newtype(:gcompute_backend_bucket) do
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       An optional textual description of the resource; provided by the client
       when the resource is created.
-    EOT
+    DOC
   end
 
   newproperty(:enable_cdn, parent: Google::Compute::Property::Boolean) do
@@ -88,7 +90,7 @@ Puppet::Type.newtype(:gcompute_backend_bucket) do
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       Name of the resource. Provided by the client when the resource is
       created. The name must be 1-63 characters long, and comply with RFC1035.
       Specifically, the name must be 1-63 characters long and match the regular
@@ -96,6 +98,6 @@ Puppet::Type.newtype(:gcompute_backend_bucket) do
       must be a lowercase letter, and all following characters must be a dash,
       lowercase letter, or digit, except the last character, which cannot be a
       dash.
-    EOT
+    DOC
   end
 end

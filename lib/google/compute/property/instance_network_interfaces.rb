@@ -36,6 +36,7 @@ module Google
         include Comparable
 
         attr_reader :access_configs
+        attr_reader :alias_ip_ranges
         attr_reader :name
         attr_reader :network
         attr_reader :network_ip
@@ -44,6 +45,7 @@ module Google
         def to_json(_arg = nil)
           {
             'accessConfigs' => access_configs,
+            'aliasIpRanges' => alias_ip_ranges,
             'name' => name,
             'network' => network,
             'networkIP' => network_ip,
@@ -56,6 +58,9 @@ module Google
             access_configs: ['[',
                              access_configs.map(&:to_json).join(', '),
                              ']'].join(' '),
+            alias_ip_ranges: ['[',
+                              alias_ip_ranges.map(&:to_json).join(', '),
+                              ']'].join(' '),
             name: name,
             network: network,
             network_ip: network_ip,
@@ -87,6 +92,7 @@ module Google
         def compare_fields(other)
           [
             { self: access_configs, other: other.access_configs },
+            { self: alias_ip_ranges, other: other.alias_ip_ranges },
             { self: name, other: other.name },
             { self: network, other: other.network },
             { self: network_ip, other: other.network_ip },
@@ -98,10 +104,15 @@ module Google
       # Manages a InstancNetworkInterfa nested object
       # Data is coming from the GCP API
       class InstancNetworkInterfaApi < InstancNetworkInterfa
+        # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @access_configs =
             Google::Compute::Property::InstancAccessConfigsArray.api_munge(
               args['accessConfigs']
+            )
+          @alias_ip_ranges =
+            Google::Compute::Property::InstaAliasIpRangeArray.api_munge(
+              args['aliasIpRanges']
             )
           @name = Google::Compute::Property::String.api_munge(args['name'])
           @network = Google::Compute::Property::NetwoSelfLinkRef.api_munge(
@@ -109,18 +120,25 @@ module Google
           )
           @network_ip =
             Google::Compute::Property::String.api_munge(args['networkIP'])
-          @subnetwork =
-            Google::Compute::Property::String.api_munge(args['subnetwork'])
+          @subnetwork = Google::Compute::Property::SubneSelfLinkRef.api_munge(
+            args['subnetwork']
+          )
         end
+        # rubocop:enable Metrics/MethodLength
       end
 
       # Manages a InstancNetworkInterfa nested object
       # Data is coming from the Puppet manifest
       class InstancNetworkInterfaCatalog < InstancNetworkInterfa
+        # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @access_configs =
             Google::Compute::Property::InstancAccessConfigsArray.unsafe_munge(
               args['access_configs']
+            )
+          @alias_ip_ranges =
+            Google::Compute::Property::InstaAliasIpRangeArray.unsafe_munge(
+              args['alias_ip_ranges']
             )
           @name = Google::Compute::Property::String.unsafe_munge(args['name'])
           @network = Google::Compute::Property::NetwoSelfLinkRef.unsafe_munge(
@@ -129,8 +147,11 @@ module Google
           @network_ip =
             Google::Compute::Property::String.unsafe_munge(args['network_ip'])
           @subnetwork =
-            Google::Compute::Property::String.unsafe_munge(args['subnetwork'])
+            Google::Compute::Property::SubneSelfLinkRef.unsafe_munge(
+              args['subnetwork']
+            )
         end
+        # rubocop:enable Metrics/MethodLength
       end
     end
 

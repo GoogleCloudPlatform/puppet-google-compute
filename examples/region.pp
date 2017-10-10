@@ -56,7 +56,6 @@ gauth_credential { 'mycred':
 }
 
 gcompute_region { 'us-west1':
-  ensure     => present,
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
 }

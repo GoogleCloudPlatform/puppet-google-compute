@@ -225,7 +225,10 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     self.class.self_link(data)
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity
   def self.return_if_object(response, kind)
+    raise "Bad response: #{response.body}" \
+      if response.is_a?(Net::HTTPBadRequest)
     raise "Bad response: #{response}" \
       unless response.is_a?(Net::HTTPResponse)
     return if response.is_a?(Net::HTTPNotFound)
@@ -237,6 +240,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
       unless result['kind'] == kind
     result
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def return_if_object(response, kind)
     self.class.return_if_object(response, kind)

@@ -1,5 +1,7 @@
 # Google Compute Engine Puppet Module
 
+[![Puppet Forge](http://img.shields.io/puppetforge/v/google/gcompute.svg)](https://forge.puppetlabs.com/google/gcompute)
+
 #### Table of Contents
 
 1. [Module Description - What the module does and why it is useful](
@@ -10,6 +12,7 @@
    #reference)
     - [Classes](#classes)
     - [Functions](#functions)
+    - [Bolt Tasks](#bolt-tasks)
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
 
@@ -59,7 +62,6 @@ required gems.
 
 ```puppet
 gcompute_region { 'some-region':
-  ensure     => present,
   name       => 'us-west1',
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
@@ -102,7 +104,7 @@ gcompute_backend_service { 'my-app-backend':
   ],
   enable_cdn    => true,
   health_checks => [
-    $my_health_check,
+    gcompute_health_check_ref('another-hc', 'google.com:graphite-playground'),
   ],
   project       => 'google.com:graphite-playground',
   credential    => 'mycred',
@@ -165,6 +167,25 @@ gcompute_firewall { 'test-fw-allow-ssh':
 
 ```
 
+#### `gcompute_forwarding_rule`
+
+```puppet
+gcompute_forwarding_rule { 'test1':
+  ensure      => present,
+  ip_address  => gcompute_address_ref(
+    'some-address',
+    'us-west1', 'google.com:graphite-playground'
+  ),
+  ip_protocol => 'TCP',
+  port_range  => '80',
+  target      => 'target-pool',
+  region      => 'some-region',
+  project     => 'google.com:graphite-playground',
+  credential  => 'mycred',
+}
+
+```
+
 #### `gcompute_global_address`
 
 ```puppet
@@ -172,6 +193,27 @@ gcompute_global_address { 'my-app-lb-address':
   ensure     => present,
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
+}
+
+```
+
+#### `gcompute_global_forwarding_rule`
+
+```puppet
+gcompute_global_forwarding_rule { 'test1':
+  ensure      => present,
+  ip_address  => gcompute_global_address_ref(
+    'my-app-lb-address',
+    'google.com:graphite-playground'
+  ),
+  ip_protocol => 'TCP',
+  port_range  => '80',
+  target      => gcompute_target_http_proxy_ref(
+    'my-http-proxy',
+    'google.com:graphite-playground'
+  ),
+  project     => 'google.com:graphite-playground',
+  credential  => 'mycred',
 }
 
 ```
@@ -226,6 +268,56 @@ gcompute_health_check { 'my-app-tcp-hc':
 
 ```
 
+#### `gcompute_instance_template`
+
+```puppet
+# Power Tips:
+#   1) Remember to define the resources needed to allocate the VM:
+#      a) gcompute_disk_type (to be used in 'diskType' property)
+#      b) gcompute_machine_type (to be used in 'machine_type' property)
+#      c) gcompute_network (to be used in 'network_interfaces' property)
+#      d) gcompute_subnetwork (to be used in the 'subnetwork' property)
+#      e) gcompute_disk (to be used in the 'sourceDisk' property)
+#   2) Don't forget to define a source_image for the OS of the boot disk
+#      a) You can use the provided gcompute_image_family function to specify the
+#         latest version of an operating system of a given family
+#         e.g. Ubuntu 16.04
+gcompute_instance_template { 'instance-template':
+  ensure     => present,
+  properties => {
+    machine_type       => 'n1-standard-1',
+    disks              => [
+      {
+        # Tip: Auto delete will prevent disks from being left behind on
+        # deletion.
+        auto_delete       => true,
+        boot              => true,
+        initialize_params => {
+          source_image =>
+            gcompute_image_family('ubuntu-1604-lts', 'ubuntu-os-cloud'),
+        }
+      }
+    ],
+    metadata           => {
+      'startup-script-url' => 'gs://graphite-playground/bootstrap.sh',
+      'cost-center'        => '12345',
+    },
+    network_interfaces => [
+      {
+        access_configs => {
+          name => 'test-config',
+          type => 'ONE_TO_ONE_NAT',
+        },
+        network        => 'mynetwork-test',
+      }
+    ]
+  },
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+```
+
 #### `gcompute_license`
 
 ```puppet
@@ -254,12 +346,13 @@ gcompute_image { 'test-image':
 ```puppet
 # Power Tips:
 #   1) Remember to define the resources needed to allocate the VM:
-#      a) gcompute_disk (to be used in 'disks' property)
-#      b) gcompute_network (to be used in 'network' property)
-#      c) gcompute_address (to be used in 'access_configs', if your machine
+#      a) gcompute_disk_type (to be used in 'diskType' property)
+#      b) gcompute_machine_type (to be used in 'machine_type' property)
+#      c) gcompute_network (to be used in 'network_interfaces' property)
+#      d) gcompute_subnetwork (to be used in the 'subnetwork' property)
+#      e) gcompute_disk (to be used in the 'sourceDisk' property)
+#      f) gcompute_address (to be used in 'access_configs', if your machine
 #         needs external ingress access)
-#      d) gcompute_zone (to determine where the VM will be allocated)
-#      e) gcompute_machine_type (to determine the kind of machine to be created)
 #   2) Don't forget to define a source_image for the OS of the boot disk
 #      a) You can use the provided gcompute_image_family function to specify the
 #         latest version of an operating system of a given family
@@ -274,6 +367,10 @@ gcompute_instance { 'instance-test':
       source      => 'instance-test-os-1'
     }
   ],
+  metadata           => {
+    'startup-script-url' => 'gs://graphite-playground/bootstrap.sh',
+    'cost-center'        => '12345',
+  },
   network_interfaces => [
     {
       network        => 'default',
@@ -310,6 +407,21 @@ gcompute_instance_group { 'my-puppet-masters':
   zone        => 'us-central1-a',
   project     => 'google.com:graphite-playground',
   credential  => 'mycred',
+}
+
+```
+
+#### `gcompute_instance_group_manager`
+
+```puppet
+gcompute_instance_group_manager { 'test1':
+  ensure             => present,
+  base_instance_name => 'test1-child',
+  instance_template  => 'instance-template',
+  target_size        => 3,
+  zone               => 'us-west1-a',
+  project            => 'google.com:graphite-playground',
+  credential         => 'mycred',
 }
 
 ```
@@ -366,7 +478,6 @@ gcompute_network { "mynetwork-${network_id}":
 
 ```puppet
 gcompute_region { 'us-west1':
-  ensure     => present,
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
 }
@@ -376,9 +487,8 @@ gcompute_region { 'us-west1':
 #### `gcompute_route`
 
 ```puppet
-# Subnetwork requires a network and a region, so define them in your manifest:
+# Route requires a network, so define them in your manifest:
 #   - gcompute_network { 'my-network': ensure => presnet }
-#   - gcompute_region { 'some-region': ensure => present }
 gcompute_route { 'corp-route':
   ensure           => present,
   dest_range       => '192.168.6.0/24',
@@ -443,15 +553,101 @@ OGN02HtkpBOZzzvUARTR10JQoSe2/5PIwQ==
 
 ```puppet
 # Subnetwork requires a network and a region, so define them in your manifest:
-#   - gcompute_network { 'my-network': ensure => presnet }
-#   - gcompute_region { 'some-region': ensure => present }
+#   - gcompute_network { 'my-network': ensure => present, ... }
+#   - gcompute_region { 'some-region': ... }
 gcompute_subnetwork { 'servers':
   ensure        => present,
   ip_cidr_range => '172.16.0.0/16',
-  network       => 'my-network',
+  network       => 'mynetwork-subnetwork',
   region        => 'some-region',
   project       => 'google.com:graphite-playground',
   credential    => 'mycred',
+}
+
+```
+
+#### `gcompute_target_http_proxy`
+
+```puppet
+gcompute_target_http_proxy { 'my-http-proxy':
+  ensure     => present,
+  url_map    => 'my-url-map',
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+```
+
+#### `gcompute_target_https_proxy`
+
+```puppet
+gcompute_target_https_proxy { 'my-https-proxy':
+  ensure           => present,
+  ssl_certificates => [
+    'sample-certificate',
+  ],
+  url_map          => 'my-url-map',
+  project          => 'google.com:graphite-playground',
+  credential       => 'mycred',
+}
+
+```
+
+#### `gcompute_target_pool`
+
+```puppet
+gcompute_region { 'some-region':
+  name       => 'us-west1',
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+gcompute_target_pool { 'test1':
+  ensure     => present,
+  region     => 'some-region',
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+```
+
+#### `gcompute_target_ssl_proxy`
+
+```puppet
+gcompute_target_ssl_proxy { 'my-ssl-proxy':
+  ensure           => present,
+  proxy_header     => 'PROXY_V1',
+  service          => 'my-ssl-backend',
+  ssl_certificates => [
+    'sample-certificate',
+  ],
+  project          => 'google.com:graphite-playground',
+  credential       => 'mycred',
+}
+
+```
+
+#### `gcompute_target_tcp_proxy`
+
+```puppet
+gcompute_target_tcp_proxy { 'my-tcp-proxy':
+  ensure       => present,
+  proxy_header => 'PROXY_V1',
+  service      => 'my-tcp-backend',
+  project      => 'google.com:graphite-playground',
+  credential   => 'mycred',
+}
+
+```
+
+#### `gcompute_url_map`
+
+```puppet
+gcompute_url_map { 'my-url-map':
+  ensure          => present,
+  default_service => 'my-app-backend',
+  project         => 'google.com:graphite-playground',
+  credential      => 'mycred',
 }
 
 ```
@@ -530,9 +726,22 @@ gcompute_zone { 'us-central1-a':
     outgoing traffic and a default "deny" for incoming traffic. For all
     networks except the default network, you must create any firewall rules
     you need.
+* [`gcompute_forwarding_rule`][]:
+    A ForwardingRule resource. A ForwardingRule resource specifies which
+    pool
+    of target virtual machines to forward a packet to if it matches the
+    given
+    [IPAddress, IPProtocol, portRange] tuple.
 * [`gcompute_global_address`][]:
     Represents a Global Address resource. Global addresses are used for
     HTTP(S) load balancing.
+* [`gcompute_global_forwarding_rule`][]:
+    Represents a GlobalForwardingRule resource. Global forwarding rules are
+    used to forward traffic to the correct load balancer for HTTP load
+    balancing. Global forwarding rules can only be used for HTTP load
+    balancing.
+    For more information, see
+    https://cloud.google.com/compute/docs/load-balancing/http/
 * [`gcompute_http_health_check`][]:
     An HttpHealthCheck resource. This resource defines a template for how
     individual VMs should be checked for health, via HTTP.
@@ -543,6 +752,19 @@ gcompute_zone { 'us-central1-a':
     An HealthCheck resource. This resource defines a template for how
     individual virtual machines should be checked for health, via one of
     the supported protocols.
+* [`gcompute_instance_template`][]:
+    Defines an Instance Template resource that provides configuration
+    settings
+    for your virtual machine instances. Instance templates are not tied to
+    the
+    lifetime of an instance and can be used and reused as to deploy virtual
+    machines. You can also use different templates to create different
+    virtual
+    machine configurations. Instance templates are required when you create
+    a
+    managed instance group.
+    Tip: Disks should be set to autoDelete=true
+    so that leftover disks are not left behind on machine deletion.
 * [`gcompute_license`][]:
     A License resource represents a software license. Licenses are used to
     track software usage in images, persistent disks, snapshots, and
@@ -574,6 +796,16 @@ gcompute_zone { 'us-central1-a':
     use an instance template. Unlike managed instance groups, you must
     create
     and add instances to an instance group manually.
+* [`gcompute_instance_group_manager`][]:
+    Creates a managed instance group using the information that you specify
+    in
+    the request. After the group is created, it schedules an action to
+    create
+    instances in the group using the specified instance template. This
+    operation is marked as DONE when the group is created even if the
+    instances in the group have not yet been created. You must separately
+    verify the status of the individual instances.
+    A managed instance group can have up to 1000 VM instances per group.
 * [`gcompute_machine_type`][]:
     Represents a MachineType resource. Machine types determine the
     virtualized
@@ -656,6 +888,26 @@ gcompute_zone { 'us-central1-a':
     region, using their RFC1918 private IP addresses. You can isolate
     portions
     of the network, even entire subnets, using firewall rules.
+* [`gcompute_target_http_proxy`][]:
+    Represents a TargetHttpProxy resource, which is used by one or more
+    global
+    forwarding rule to route incoming HTTP requests to a URL map.
+* [`gcompute_target_https_proxy`][]:
+    Represents a TargetHttpsProxy resource, which is used by one or more
+    global forwarding rule to route incoming HTTPS requests to a URL map.
+* [`gcompute_target_pool`][]:
+    Represents a TargetPool resource, used for Load Balancing.
+* [`gcompute_target_ssl_proxy`][]:
+    Represents a TargetSslProxy resource, which is used by one or more
+    global forwarding rule to route incoming SSL requests to a backend
+    service.
+* [`gcompute_target_tcp_proxy`][]:
+    Represents a TargetTcpProxy resource, which is used by one or more
+    global forwarding rule to route incoming TCP requests to a Backend
+    service.
+* [`gcompute_url_map`][]:
+    UrlMaps are used to route requests to a backend service based on rules
+    that you define for the host and path of an incoming URL.
 * [`gcompute_zone`][]:
     Represents a Zone resource.
 
@@ -697,7 +949,6 @@ static.
 
 ```puppet
 gcompute_region { 'some-region':
-  ensure     => present,
   name       => 'us-west1',
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
@@ -853,7 +1104,7 @@ gcompute_backend_service { 'my-app-backend':
   ],
   enable_cdn    => true,
   health_checks => [
-    $my_health_check,
+    gcompute_health_check_ref('another-hc', 'google.com:graphite-playground'),
   ],
   project       => 'google.com:graphite-playground',
   credential    => 'mycred',
@@ -1140,6 +1391,10 @@ gcompute_disk_type { 'id-of-resource':
 }
 ```
 
+##### `name`
+
+  Name of the resource.
+
 ##### `zone`
 
 Required.  A reference to Zone resource
@@ -1183,9 +1438,6 @@ Required.  A reference to Zone resource
 
 * `id`: Output only.
   The unique identifier for the resource.
-
-* `name`: Output only.
-  Name of the resource.
 
 * `valid_disk_size`: Output only.
   An optional textual description of the valid disk size, such as
@@ -1579,6 +1831,181 @@ Required.  The IP protocol to which this rule applies. The protocol type is
 * `id`: Output only.
   The unique identifier for the resource.
 
+#### `gcompute_forwarding_rule`
+
+A ForwardingRule resource. A ForwardingRule resource specifies which pool
+of target virtual machines to forward a packet to if it matches the given
+[IPAddress, IPProtocol, portRange] tuple.
+
+
+#### Example
+
+```puppet
+gcompute_forwarding_rule { 'test1':
+  ensure      => present,
+  ip_address  => gcompute_address_ref(
+    'some-address',
+    'us-west1', 'google.com:graphite-playground'
+  ),
+  ip_protocol => 'TCP',
+  port_range  => '80',
+  target      => 'target-pool',
+  region      => 'some-region',
+  project     => 'google.com:graphite-playground',
+  credential  => 'mycred',
+}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_forwarding_rule { 'id-of-resource':
+  backend_service       => reference to gcompute_backend_service,
+  creation_timestamp    => time,
+  description           => string,
+  id                    => integer,
+  ip_address            => string,
+  ip_protocol           => 'TCP', 'UDP', 'ESP', 'AH', 'SCTP' or 'ICMP',
+  ip_version            => 'IPV4' or 'IPV6',
+  load_balancing_scheme => 'INTERNAL' or 'EXTERNAL',
+  name                  => string,
+  network               => reference to gcompute_network,
+  port_range            => string,
+  ports                 => [
+    string,
+    ...
+  ],
+  region                => reference to gcompute_region,
+  subnetwork            => reference to gcompute_subnetwork,
+  target                => reference to gcompute_target_pool,
+  project               => string,
+  credential            => reference to gauth_credential,
+}
+```
+
+##### `description`
+
+  An optional description of this resource. Provide this property when
+  you create the resource.
+
+##### `ip_address`
+
+  The IP address that this forwarding rule is serving on behalf of.
+  Addresses are restricted based on the forwarding rule's load balancing
+  scheme (EXTERNAL or INTERNAL) and scope (global or regional).
+  When the load balancing scheme is EXTERNAL, for global forwarding
+  rules, the address must be a global IP, and for regional forwarding
+  rules, the address must live in the same region as the forwarding
+  rule. If this field is empty, an ephemeral IPv4 address from the same
+  scope (global or regional) will be assigned. A regional forwarding
+  rule supports IPv4 only. A global forwarding rule supports either IPv4
+  or IPv6.
+  When the load balancing scheme is INTERNAL, this can only be an RFC
+  1918 IP address belonging to the network/subnet configured for the
+  forwarding rule. By default, if this field is empty, an ephemeral
+  internal IP address will be automatically allocated from the IP range
+  of the subnet or network configured for this forwarding rule.
+  An address can be specified either by a literal IP address or a URL
+  reference to an existing Address resource. The following examples are
+  all valid:
+  * 100.1.2.3
+  * https://www.googleapis.com/compute/v1/projects/project
+  /regions/region/addresses/address
+  * projects/project/regions/region/addresses/address
+  * regions/region/addresses/address
+  * global/addresses/address
+  * address
+
+##### `ip_protocol`
+
+  The IP protocol to which this rule applies. Valid options are TCP,
+  UDP, ESP, AH, SCTP or ICMP.
+  When the load balancing scheme is INTERNAL, only TCP and UDP are
+  valid.
+
+##### `backend_service`
+
+  A reference to BackendService resource
+
+##### `ip_version`
+
+  The IP Version that will be used by this forwarding rule. Valid
+  options are IPV4 or IPV6. This can only be specified for a global
+  forwarding rule.
+
+##### `load_balancing_scheme`
+
+  This signifies what the ForwardingRule will be used for and can only
+  take the following values: INTERNAL, EXTERNAL The value of INTERNAL
+  means that this will be used for Internal Network Load Balancing (TCP,
+  UDP). The value of EXTERNAL means that this will be used for External
+  Load Balancing (HTTP(S) LB, External TCP/UDP LB, SSL Proxy)
+
+##### `name`
+
+Required.  Name of the resource; provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035. Specifically, the name must be 1-63 characters long and match
+  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the last
+  character, which cannot be a dash.
+
+##### `network`
+
+  A reference to Network resource
+
+##### `port_range`
+
+  This field is used along with the target field for TargetHttpProxy,
+  TargetHttpsProxy, TargetSslProxy, TargetTcpProxy, TargetVpnGateway,
+  TargetPool, TargetInstance.
+  Applicable only when IPProtocol is TCP, UDP, or SCTP, only packets
+  addressed to ports in the specified range will be forwarded to target.
+  Forwarding rules with the same [IPAddress, IPProtocol] pair must have
+  disjoint port ranges.
+  Some types of forwarding target have constraints on the acceptable
+  ports:
+  * TargetHttpProxy: 80, 8080
+  * TargetHttpsProxy: 443
+  * TargetTcpProxy: 25, 43, 110, 143, 195, 443, 465, 587, 700, 993, 995,
+  1883, 5222
+  * TargetSslProxy: 25, 43, 110, 143, 195, 443, 465, 587, 700, 993, 995,
+  1883, 5222
+  * TargetVpnGateway: 500, 4500
+
+##### `ports`
+
+  This field is used along with the backend_service field for internal
+  load balancing.
+  When the load balancing scheme is INTERNAL, a single port or a comma
+  separated list of ports can be configured. Only packets addressed to
+  these ports will be forwarded to the backends configured with this
+  forwarding rule.
+  You may specify a maximum of up to 5 ports.
+
+##### `subnetwork`
+
+  A reference to Subnetwork resource
+
+##### `target`
+
+  A reference to TargetPool resource
+
+##### `region`
+
+Required.  A reference to Region resource
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource.
+
 #### `gcompute_global_address`
 
 Represents a Global Address resource. Global addresses are used for
@@ -1638,6 +2065,188 @@ gcompute_global_address { 'id-of-resource':
 * `id`: Output only.
   The unique identifier for the resource. This identifier is defined by
   the server.
+
+* `region`: Output only.
+  A reference to Region resource
+
+#### `gcompute_global_forwarding_rule`
+
+Represents a GlobalForwardingRule resource. Global forwarding rules are
+used to forward traffic to the correct load balancer for HTTP load
+balancing. Global forwarding rules can only be used for HTTP load
+balancing.
+
+For more information, see
+https://cloud.google.com/compute/docs/load-balancing/http/
+
+
+#### Example
+
+```puppet
+gcompute_global_forwarding_rule { 'test1':
+  ensure      => present,
+  ip_address  => gcompute_global_address_ref(
+    'my-app-lb-address',
+    'google.com:graphite-playground'
+  ),
+  ip_protocol => 'TCP',
+  port_range  => '80',
+  target      => gcompute_target_http_proxy_ref(
+    'my-http-proxy',
+    'google.com:graphite-playground'
+  ),
+  project     => 'google.com:graphite-playground',
+  credential  => 'mycred',
+}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_global_forwarding_rule { 'id-of-resource':
+  backend_service       => reference to gcompute_backend_service,
+  creation_timestamp    => time,
+  description           => string,
+  id                    => integer,
+  ip_address            => string,
+  ip_protocol           => 'TCP', 'UDP', 'ESP', 'AH', 'SCTP' or 'ICMP',
+  ip_version            => 'IPV4' or 'IPV6',
+  load_balancing_scheme => 'INTERNAL' or 'EXTERNAL',
+  name                  => string,
+  network               => reference to gcompute_network,
+  port_range            => string,
+  ports                 => [
+    string,
+    ...
+  ],
+  region                => reference to gcompute_region,
+  subnetwork            => reference to gcompute_subnetwork,
+  target                => string,
+  project               => string,
+  credential            => reference to gauth_credential,
+}
+```
+
+##### `description`
+
+  An optional description of this resource. Provide this property when
+  you create the resource.
+
+##### `ip_address`
+
+  The IP address that this forwarding rule is serving on behalf of.
+  Addresses are restricted based on the forwarding rule's load balancing
+  scheme (EXTERNAL or INTERNAL) and scope (global or regional).
+  When the load balancing scheme is EXTERNAL, for global forwarding
+  rules, the address must be a global IP, and for regional forwarding
+  rules, the address must live in the same region as the forwarding
+  rule. If this field is empty, an ephemeral IPv4 address from the same
+  scope (global or regional) will be assigned. A regional forwarding
+  rule supports IPv4 only. A global forwarding rule supports either IPv4
+  or IPv6.
+  When the load balancing scheme is INTERNAL, this can only be an RFC
+  1918 IP address belonging to the network/subnet configured for the
+  forwarding rule. By default, if this field is empty, an ephemeral
+  internal IP address will be automatically allocated from the IP range
+  of the subnet or network configured for this forwarding rule.
+  An address can be specified either by a literal IP address or a URL
+  reference to an existing Address resource. The following examples are
+  all valid:
+  * 100.1.2.3
+  * https://www.googleapis.com/compute/v1/projects/project
+  /regions/region/addresses/address
+  * projects/project/regions/region/addresses/address
+  * regions/region/addresses/address
+  * global/addresses/address
+  * address
+
+##### `ip_protocol`
+
+  The IP protocol to which this rule applies. Valid options are TCP,
+  UDP, ESP, AH, SCTP or ICMP.
+  When the load balancing scheme is INTERNAL, only TCP and UDP are
+  valid.
+
+##### `backend_service`
+
+  A reference to BackendService resource
+
+##### `ip_version`
+
+  The IP Version that will be used by this forwarding rule. Valid
+  options are IPV4 or IPV6. This can only be specified for a global
+  forwarding rule.
+
+##### `load_balancing_scheme`
+
+  This signifies what the ForwardingRule will be used for and can only
+  take the following values: INTERNAL, EXTERNAL The value of INTERNAL
+  means that this will be used for Internal Network Load Balancing (TCP,
+  UDP). The value of EXTERNAL means that this will be used for External
+  Load Balancing (HTTP(S) LB, External TCP/UDP LB, SSL Proxy)
+
+##### `name`
+
+Required.  Name of the resource; provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035. Specifically, the name must be 1-63 characters long and match
+  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the last
+  character, which cannot be a dash.
+
+##### `network`
+
+  A reference to Network resource
+
+##### `port_range`
+
+  This field is used along with the target field for TargetHttpProxy,
+  TargetHttpsProxy, TargetSslProxy, TargetTcpProxy, TargetVpnGateway,
+  TargetPool, TargetInstance.
+  Applicable only when IPProtocol is TCP, UDP, or SCTP, only packets
+  addressed to ports in the specified range will be forwarded to target.
+  Forwarding rules with the same [IPAddress, IPProtocol] pair must have
+  disjoint port ranges.
+  Some types of forwarding target have constraints on the acceptable
+  ports:
+  * TargetHttpProxy: 80, 8080
+  * TargetHttpsProxy: 443
+  * TargetTcpProxy: 25, 43, 110, 143, 195, 443, 465, 587, 700, 993, 995,
+  1883, 5222
+  * TargetSslProxy: 25, 43, 110, 143, 195, 443, 465, 587, 700, 993, 995,
+  1883, 5222
+  * TargetVpnGateway: 500, 4500
+
+##### `ports`
+
+  This field is used along with the backend_service field for internal
+  load balancing.
+  When the load balancing scheme is INTERNAL, a single port or a comma
+  separated list of ports can be configured. Only packets addressed to
+  these ports will be forwarded to the backends configured with this
+  forwarding rule.
+  You may specify a maximum of up to 5 ports.
+
+##### `subnetwork`
+
+  A reference to Subnetwork resource
+
+##### `target`
+
+  This target must be a global load balancing resource. The forwarded
+  traffic must be of a type appropriate to the target object.
+  Valid types: HTTP_PROXY, HTTPS_PROXY, SSL_PROXY, TCP_PROXY
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource.
 
 * `region`: Output only.
   A reference to Region resource
@@ -2075,6 +2684,448 @@ gcompute_health_check { 'id-of-resource':
   The unique identifier for the resource. This identifier is defined by
   the server.
 
+#### `gcompute_instance_template`
+
+Defines an Instance Template resource that provides configuration settings
+for your virtual machine instances. Instance templates are not tied to the
+lifetime of an instance and can be used and reused as to deploy virtual
+machines. You can also use different templates to create different virtual
+machine configurations. Instance templates are required when you create a
+managed instance group.
+
+Tip: Disks should be set to autoDelete=true
+so that leftover disks are not left behind on machine deletion.
+
+
+#### Example
+
+```puppet
+# Power Tips:
+#   1) Remember to define the resources needed to allocate the VM:
+#      a) gcompute_disk_type (to be used in 'diskType' property)
+#      b) gcompute_machine_type (to be used in 'machine_type' property)
+#      c) gcompute_network (to be used in 'network_interfaces' property)
+#      d) gcompute_subnetwork (to be used in the 'subnetwork' property)
+#      e) gcompute_disk (to be used in the 'sourceDisk' property)
+#   2) Don't forget to define a source_image for the OS of the boot disk
+#      a) You can use the provided gcompute_image_family function to specify the
+#         latest version of an operating system of a given family
+#         e.g. Ubuntu 16.04
+gcompute_instance_template { 'instance-template':
+  ensure     => present,
+  properties => {
+    machine_type       => 'n1-standard-1',
+    disks              => [
+      {
+        # Tip: Auto delete will prevent disks from being left behind on
+        # deletion.
+        auto_delete       => true,
+        boot              => true,
+        initialize_params => {
+          source_image =>
+            gcompute_image_family('ubuntu-1604-lts', 'ubuntu-os-cloud'),
+        }
+      }
+    ],
+    metadata           => {
+      'startup-script-url' => 'gs://graphite-playground/bootstrap.sh',
+      'cost-center'        => '12345',
+    },
+    network_interfaces => [
+      {
+        access_configs => {
+          name => 'test-config',
+          type => 'ONE_TO_ONE_NAT',
+        },
+        network        => 'mynetwork-test',
+      }
+    ]
+  },
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_instance_template { 'id-of-resource':
+  creation_timestamp => time,
+  description        => string,
+  id                 => integer,
+  name               => string,
+  properties         => {
+    can_ip_forward     => boolean,
+    description        => string,
+    disks              => [
+      {
+        auto_delete         => boolean,
+        boot                => boolean,
+        device_name         => string,
+        disk_encryption_key => {
+          raw_key           => string,
+          rsa_encrypted_key => string,
+          sha256            => string,
+        },
+        index               => integer,
+        initialize_params   => {
+          disk_name                   => string,
+          disk_size_gb                => integer,
+          disk_type                   => reference to gcompute_disk_type,
+          source_image                => string,
+          source_image_encryption_key => {
+            raw_key => string,
+            sha256  => string,
+          },
+        },
+        interface           => 'SCSI' or 'NVME',
+        mode                => 'READ_WRITE' or 'READ_ONLY',
+        source              => reference to gcompute_disk,
+        type                => 'SCRATCH' or 'PERSISTENT',
+      },
+      ...
+    ],
+    guest_accelerators => [
+      {
+        accelerator_count => integer,
+        accelerator_type  => string,
+      },
+      ...
+    ],
+    machine_type       => reference to gcompute_machine_type,
+    metadata           => namevalues,
+    network_interfaces => [
+      {
+        access_configs  => [
+          {
+            name   => string,
+            nat_ip => reference to gcompute_address,
+            type   => ONE_TO_ONE_NAT,
+          },
+          ...
+        ],
+        alias_ip_ranges => [
+          {
+            ip_cidr_range         => string,
+            subnetwork_range_name => string,
+          },
+          ...
+        ],
+        name            => string,
+        network         => reference to gcompute_network,
+        network_ip      => string,
+        subnetwork      => reference to gcompute_subnetwork,
+      },
+      ...
+    ],
+    scheduling         => {
+      automatic_restart   => boolean,
+      on_host_maintenance => string,
+      preemptible         => boolean,
+    },
+    service_accounts   => [
+      {
+        email  => boolean,
+        scopes => [
+          string,
+          ...
+        ],
+      },
+      ...
+    ],
+    tags               => {
+      fingerprint => string,
+      items       => [
+        string,
+        ...
+      ],
+    },
+  },
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
+##### `description`
+
+  An optional description of this resource. Provide this property when
+  you create the resource.
+
+##### `name`
+
+Required.  Name of the resource. The name is 1-63 characters long
+  and complies with RFC1035.
+
+##### `properties`
+
+  The instance properties for this instance template.
+
+##### properties/can_ip_forward
+  Enables instances created based on this template to send packets
+  with source IP addresses other than their own and receive packets
+  with destination IP addresses other than their own. If these
+  instances will be used as an IP gateway or it will be set as the
+  next-hop in a Route resource, specify true. If unsure, leave this
+  set to false.
+
+##### properties/description
+  An optional text description for the instances that are created
+  from this instance template.
+
+##### properties/disks
+  An array of disks that are associated with the instances that are
+  created from this template.
+
+##### properties/disks[]/auto_delete
+  Specifies whether the disk will be auto-deleted when the
+  instance is deleted (but not when the disk is detached from
+  the instance).
+  Tip: Disks should be set to autoDelete=true
+  so that leftover disks are not left behind on machine
+  deletion.
+
+##### properties/disks[]/boot
+  Indicates that this is a boot disk. The virtual machine will
+  use the first partition of the disk for its root filesystem.
+
+##### properties/disks[]/device_name
+  Specifies a unique device name of your choice that is
+  reflected into the /dev/disk/by-id/google-* tree of a Linux
+  operating system running within the instance. This name can
+  be used to reference the device for mounting, resizing, and
+  so on, from within the instance.
+
+##### properties/disks[]/disk_encryption_key
+  Encrypts or decrypts a disk using a customer-supplied
+  encryption key.
+
+##### properties/disks[]/disk_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption key,
+  encoded in RFC 4648 base64 to either encrypt or decrypt
+  this resource.
+
+##### properties/disks[]/disk_encryption_key/rsa_encrypted_key
+  Specifies an RFC 4648 base64 encoded, RSA-wrapped
+  2048-bit customer-supplied encryption key to either
+  encrypt or decrypt this resource.
+
+##### properties/disks[]/disk_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
+  customer-supplied encryption key that protects this
+  resource.
+
+##### properties/disks[]/index
+  Assigns a zero-based index to this disk, where 0 is
+  reserved for the boot disk. For example, if you have many
+  disks attached to an instance, each disk would have a
+  unique index number. If not specified, the server will
+  choose an appropriate value.
+
+##### properties/disks[]/initialize_params
+Required.  Specifies the parameters for a new disk that will be
+  created alongside the new instance. Use initialization
+  parameters to create boot disks or local SSDs attached to
+  the new instance.
+
+##### properties/disks[]/initialize_params/disk_name
+  Specifies the disk name. If not specified, the default
+  is to use the name of the instance.
+
+##### properties/disks[]/initialize_params/disk_size_gb
+  Specifies the size of the disk in base-2 GB.
+
+##### properties/disks[]/initialize_params/disk_type
+  A reference to DiskType resource
+
+##### properties/disks[]/initialize_params/source_image
+  The source image to create this disk. When creating a
+  new instance, one of initializeParams.sourceImage or
+  disks.source is required.  To create a disk with one of
+  the public operating system images, specify the image
+  by its family name.
+
+##### properties/disks[]/initialize_params/source_image_encryption_key
+  The customer-supplied encryption key of the source
+  image. Required if the source image is protected by a
+  customer-supplied encryption key.
+  Instance templates do not store customer-supplied
+  encryption keys, so you cannot create disks for
+  instances in a managed instance group if the source
+  images are encrypted with your own keys.
+
+##### properties/disks[]/initialize_params/source_image_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption
+  key, encoded in RFC 4648 base64 to either encrypt
+  or decrypt this resource.
+
+##### properties/disks[]/initialize_params/source_image_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
+  customer-supplied encryption key that protects this
+  resource.
+
+##### properties/disks[]/interface
+  Specifies the disk interface to use for attaching this
+  disk, which is either SCSI or NVME. The default is SCSI.
+  Persistent disks must always use SCSI and the request will
+  fail if you attempt to attach a persistent disk in any
+  other format than SCSI.
+
+##### properties/disks[]/mode
+  The mode in which to attach this disk, either READ_WRITE or
+  READ_ONLY. If not specified, the default is to attach the
+  disk in READ_WRITE mode.
+
+##### properties/disks[]/source
+  A reference to Disk resource
+
+##### properties/disks[]/type
+  Specifies the type of the disk, either SCRATCH or
+  PERSISTENT. If not specified, the default is PERSISTENT.
+
+##### properties/machine_type
+Required.  A reference to MachineType resource
+
+##### properties/metadata
+  The metadata key/value pairs to assign to instances that are
+  created from this template. These pairs can consist of custom
+  metadata or predefined keys.
+
+##### properties/guest_accelerators
+  List of the type and count of accelerator cards attached to the
+  instance
+
+##### properties/guest_accelerators[]/accelerator_count
+  The number of the guest accelerator cards exposed to this
+  instance.
+
+##### properties/guest_accelerators[]/accelerator_type
+  Full or partial URL of the accelerator type resource to expose
+  to this instance.
+
+##### properties/network_interfaces
+  An array of configurations for this interface. This specifies
+  how this interface is configured to interact with other
+  network services, such as connecting to the internet. Only
+  one network interface is supported per instance.
+
+##### properties/network_interfaces[]/access_configs
+  An array of configurations for this interface. Currently, only
+  one access config, ONE_TO_ONE_NAT, is supported. If there are no
+  accessConfigs specified, then this instance will have no
+  external internet access.
+
+##### properties/network_interfaces[]/access_configs[]/name
+Required.  The name of this access configuration. The
+  default and recommended name is External NAT but you can
+  use any arbitrary string you would like. For example, My
+  external IP or Network Access.
+
+##### properties/network_interfaces[]/access_configs[]/nat_ip
+Required.  A reference to Address resource
+
+##### properties/network_interfaces[]/access_configs[]/type
+Required.  The type of configuration. The default and only option is
+  ONE_TO_ONE_NAT.
+
+##### properties/network_interfaces[]/alias_ip_ranges
+  An array of alias IP ranges for this network interface. Can
+  only be specified for network interfaces on subnet-mode
+  networks.
+
+##### properties/network_interfaces[]/alias_ip_ranges[]/ip_cidr_range
+  The IP CIDR range represented by this alias IP range.
+  This IP CIDR range must belong to the specified
+  subnetwork and cannot contain IP addresses reserved by
+  system or used by other network interfaces. This range
+  may be a single IP address (e.g. 10.2.3.4), a netmask
+  (e.g. /24) or a CIDR format string (e.g. 10.1.2.0/24).
+
+##### properties/network_interfaces[]/alias_ip_ranges[]/subnetwork_range_name
+  Optional subnetwork secondary range name specifying
+  the secondary range from which to allocate the IP
+  CIDR range for this alias IP range. If left
+  unspecified, the primary range of the subnetwork will
+  be used.
+
+##### properties/network_interfaces[]/name
+Output only.  The name of the network interface, generated by the
+  server. For network devices, these are eth0, eth1, etc
+
+##### properties/network_interfaces[]/network
+  A reference to Network resource
+
+##### properties/network_interfaces[]/network_ip
+  An IPv4 internal network address to assign to the
+  instance for this network interface. If not specified
+  by the user, an unused internal IP is assigned by the
+  system.
+
+##### properties/network_interfaces[]/subnetwork
+  A reference to Subnetwork resource
+
+##### properties/scheduling
+  Sets the scheduling options for this instance.
+
+##### properties/scheduling/automatic_restart
+  Specifies whether the instance should be automatically restarted
+  if it is terminated by Compute Engine (not terminated by a user).
+  You can only set the automatic restart option for standard
+  instances. Preemptible instances cannot be automatically
+  restarted.
+
+##### properties/scheduling/on_host_maintenance
+  Defines the maintenance behavior for this instance. For standard
+  instances, the default behavior is MIGRATE. For preemptible
+  instances, the default and only possible behavior is TERMINATE.
+  For more information, see Setting Instance Scheduling Options.
+
+##### properties/scheduling/preemptible
+  Defines whether the instance is preemptible. This can only be set
+  during instance creation, it cannot be set or changed after the
+  instance has been created.
+
+##### properties/service_accounts
+  A list of service accounts, with their specified scopes, authorized
+  for this instance. Only one service account per VM instance is
+  supported.
+
+##### properties/service_accounts[]/email
+  Email address of the service account.
+
+##### properties/service_accounts[]/scopes
+  The list of scopes to be made available for this service
+  account.
+
+##### properties/tags
+  A list of tags to apply to this instance. Tags are used to identify
+  valid sources or targets for network firewalls and are specified by
+  the client during instance creation. The tags can be later modified
+  by the setTags method. Each tag within the list must comply with
+  RFC1035.
+
+##### properties/tags/fingerprint
+  Specifies a fingerprint for this request, which is essentially a
+  hash of the metadata's contents and used for optimistic locking.
+  The fingerprint is initially generated by Compute Engine and
+  changes after every request to modify or update metadata. You
+  must always provide an up-to-date fingerprint hash in order to
+  update or change metadata.
+
+##### properties/tags/items
+  An array of tags. Each tag must be 1-63 characters long, and
+  comply with RFC1035.
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource. This identifier
+  is defined by the server.
+
 #### `gcompute_license`
 
 A License resource represents a software license. Licenses are used to
@@ -2369,12 +3420,13 @@ An instance is a virtual machine (VM) hosted on Google's infrastructure.
 ```puppet
 # Power Tips:
 #   1) Remember to define the resources needed to allocate the VM:
-#      a) gcompute_disk (to be used in 'disks' property)
-#      b) gcompute_network (to be used in 'network' property)
-#      c) gcompute_address (to be used in 'access_configs', if your machine
+#      a) gcompute_disk_type (to be used in 'diskType' property)
+#      b) gcompute_machine_type (to be used in 'machine_type' property)
+#      c) gcompute_network (to be used in 'network_interfaces' property)
+#      d) gcompute_subnetwork (to be used in the 'subnetwork' property)
+#      e) gcompute_disk (to be used in the 'sourceDisk' property)
+#      f) gcompute_address (to be used in 'access_configs', if your machine
 #         needs external ingress access)
-#      d) gcompute_zone (to determine where the VM will be allocated)
-#      e) gcompute_machine_type (to determine the kind of machine to be created)
 #   2) Don't forget to define a source_image for the OS of the boot disk
 #      a) You can use the provided gcompute_image_family function to specify the
 #         latest version of an operating system of a given family
@@ -2389,6 +3441,10 @@ gcompute_instance { 'instance-test':
       source      => 'instance-test-os-1'
     }
   ],
+  metadata           => {
+    'startup-script-url' => 'gs://graphite-playground/bootstrap.sh',
+    'cost-center'        => '12345',
+  },
   network_interfaces => [
     {
       network        => 'default',
@@ -2427,12 +3483,19 @@ gcompute_instance { 'id-of-resource':
       },
       index               => integer,
       initialize_params   => {
-        disk_name    => string,
-        disk_size_gb => integer,
-        disk_type    => integer,
-        source_image => integer,
+        disk_name                   => string,
+        disk_size_gb                => integer,
+        disk_type                   => reference to gcompute_disk_type,
+        source_image                => string,
+        source_image_encryption_key => {
+          raw_key => string,
+          sha256  => string,
+        },
       },
+      interface           => 'SCSI' or 'NVME',
+      mode                => 'READ_WRITE' or 'READ_ONLY',
       source              => reference to gcompute_disk,
+      type                => 'SCRATCH' or 'PERSISTENT',
     },
     ...
   ],
@@ -2446,11 +3509,12 @@ gcompute_instance { 'id-of-resource':
   id                 => integer,
   label_fingerprint  => string,
   machine_type       => reference to gcompute_machine_type,
+  metadata           => namevalues,
   min_cpu_platform   => string,
   name               => string,
   network_interfaces => [
     {
-      access_configs => [
+      access_configs  => [
         {
           name   => string,
           nat_ip => reference to gcompute_address,
@@ -2458,10 +3522,17 @@ gcompute_instance { 'id-of-resource':
         },
         ...
       ],
-      name           => string,
-      network        => reference to gcompute_network,
-      network_ip     => string,
-      subnetwork     => string,
+      alias_ip_ranges => [
+        {
+          ip_cidr_range         => string,
+          subnetwork_range_name => string,
+        },
+        ...
+      ],
+      name            => string,
+      network         => reference to gcompute_network,
+      network_ip      => string,
+      subnetwork      => reference to gcompute_subnetwork,
     },
     ...
   ],
@@ -2503,27 +3574,27 @@ gcompute_instance { 'id-of-resource':
 
 ##### `disks`
 
-  Persistent disks are durable storage devices that function similarly
-  to the physical disks in a desktop or a server. Compute Engine manages
-  the hardware behind these devices to ensure data redundancy and
-  optimize performance for you. Persistent disks are available as either
-  standard hard disk drives (HDD) or solid-state drives (SSD).
+  An array of disks that are associated with the instances that are
+  created from this template.
 
 ##### disks[]/auto_delete
   Specifies whether the disk will be auto-deleted when the
-  instance is deleted (but not when the disk is detached from the
-  instance).
+  instance is deleted (but not when the disk is detached from
+  the instance).
+  Tip: Disks should be set to autoDelete=true
+  so that leftover disks are not left behind on machine
+  deletion.
 
 ##### disks[]/boot
   Indicates that this is a boot disk. The virtual machine will
   use the first partition of the disk for its root filesystem.
 
 ##### disks[]/device_name
-  Specifies a unique device name of your choice that is reflected
-  into the /dev/disk/by-id/google-* tree of a Linux operating
-  system running within the instance. This name can be used to
-  reference the device for mounting, resizing, and so on, from
-  within the instance.
+  Specifies a unique device name of your choice that is
+  reflected into the /dev/disk/by-id/google-* tree of a Linux
+  operating system running within the instance. This name can
+  be used to reference the device for mounting, resizing, and
+  so on, from within the instance.
 
 ##### disks[]/disk_encryption_key
   Encrypts or decrypts a disk using a customer-supplied
@@ -2535,9 +3606,9 @@ gcompute_instance { 'id-of-resource':
   this resource.
 
 ##### disks[]/disk_encryption_key/rsa_encrypted_key
-  Specifies an RFC 4648 base64 encoded, RSA-wrapped 2048-bit
-  customer-supplied encryption key to either encrypt or
-  decrypt this resource.
+  Specifies an RFC 4648 base64 encoded, RSA-wrapped
+  2048-bit customer-supplied encryption key to either
+  encrypt or decrypt this resource.
 
 ##### disks[]/disk_encryption_key/sha256
 Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
@@ -2545,37 +3616,72 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   resource.
 
 ##### disks[]/index
-  Assigns a zero-based index to this disk, where 0 is reserved
-  for the boot disk. For example, if you have many disks attached
-  to an instance, each disk would have a unique index number. If
-  not specified, the server will choose an appropriate value.
-
-##### disks[]/source
-  A reference to Disk resource
+  Assigns a zero-based index to this disk, where 0 is
+  reserved for the boot disk. For example, if you have many
+  disks attached to an instance, each disk would have a
+  unique index number. If not specified, the server will
+  choose an appropriate value.
 
 ##### disks[]/initialize_params
-  Specifies the parameters for a new disk that will be created
-  alongside the new instance. Use initialization parameters to
-  create boot disks or local SSDs attached to the new instance.
+Required.  Specifies the parameters for a new disk that will be
+  created alongside the new instance. Use initialization
+  parameters to create boot disks or local SSDs attached to
+  the new instance.
 
 ##### disks[]/initialize_params/disk_name
-  Specifies the disk name. If not specified, the default is
-  to use the name of the instance.
+  Specifies the disk name. If not specified, the default
+  is to use the name of the instance.
 
 ##### disks[]/initialize_params/disk_size_gb
   Specifies the size of the disk in base-2 GB.
 
 ##### disks[]/initialize_params/disk_type
-  Specifies the disk type to use to create the instance. If
-  not specified, the default is pd-standard, specified using
-  the full URL.
+  A reference to DiskType resource
 
 ##### disks[]/initialize_params/source_image
-  The source image to create this disk. When creating a new
-  instance, one of initializeParams.sourceImage or
-  disks.source is required.  To create a disk with one of the
-  public operating system images, specify the image by its
-  family name.
+  The source image to create this disk. When creating a
+  new instance, one of initializeParams.sourceImage or
+  disks.source is required.  To create a disk with one of
+  the public operating system images, specify the image
+  by its family name.
+
+##### disks[]/initialize_params/source_image_encryption_key
+  The customer-supplied encryption key of the source
+  image. Required if the source image is protected by a
+  customer-supplied encryption key.
+  Instance templates do not store customer-supplied
+  encryption keys, so you cannot create disks for
+  instances in a managed instance group if the source
+  images are encrypted with your own keys.
+
+##### disks[]/initialize_params/source_image_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption
+  key, encoded in RFC 4648 base64 to either encrypt
+  or decrypt this resource.
+
+##### disks[]/initialize_params/source_image_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
+  customer-supplied encryption key that protects this
+  resource.
+
+##### disks[]/interface
+  Specifies the disk interface to use for attaching this
+  disk, which is either SCSI or NVME. The default is SCSI.
+  Persistent disks must always use SCSI and the request will
+  fail if you attempt to attach a persistent disk in any
+  other format than SCSI.
+
+##### disks[]/mode
+  The mode in which to attach this disk, either READ_WRITE or
+  READ_ONLY. If not specified, the default is to attach the
+  disk in READ_WRITE mode.
+
+##### disks[]/source
+  A reference to Disk resource
+
+##### disks[]/type
+  Specifies the type of the disk, either SCRATCH or
+  PERSISTENT. If not specified, the default is PERSISTENT.
 
 ##### `guest_accelerators`
 
@@ -2597,6 +3703,12 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   is initially generated by Compute Engine and changes after every
   request to modify or update metadata. You must always provide an
   up-to-date fingerprint hash in order to update or change metadata.
+
+##### `metadata`
+
+  The metadata key/value pairs to assign to instances that are
+  created from this template. These pairs can consist of custom
+  metadata or predefined keys.
 
 ##### `machine_type`
 
@@ -2620,10 +3732,10 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
 
 ##### `network_interfaces`
 
-  An array of configurations for this interface. This specifies how this
-  interface is configured to interact with other network services, such
-  as connecting to the internet. Only one network interface is supported
-  per instance.
+  An array of configurations for this interface. This specifies
+  how this interface is configured to interact with other
+  network services, such as connecting to the internet. Only
+  one network interface is supported per instance.
 
 ##### network_interfaces[]/access_configs
   An array of configurations for this interface. Currently, only
@@ -2632,9 +3744,10 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   external internet access.
 
 ##### network_interfaces[]/access_configs[]/name
-Required.  The name of this access configuration. The default and recommended name is
-  External NAT but you can use any arbitrary string you would like. For
-  example, My external IP or Network Access.
+Required.  The name of this access configuration. The
+  default and recommended name is External NAT but you can
+  use any arbitrary string you would like. For example, My
+  external IP or Network Access.
 
 ##### network_interfaces[]/access_configs[]/nat_ip
 Required.  A reference to Address resource
@@ -2643,24 +3756,41 @@ Required.  A reference to Address resource
 Required.  The type of configuration. The default and only option is
   ONE_TO_ONE_NAT.
 
+##### network_interfaces[]/alias_ip_ranges
+  An array of alias IP ranges for this network interface. Can
+  only be specified for network interfaces on subnet-mode
+  networks.
+
+##### network_interfaces[]/alias_ip_ranges[]/ip_cidr_range
+  The IP CIDR range represented by this alias IP range.
+  This IP CIDR range must belong to the specified
+  subnetwork and cannot contain IP addresses reserved by
+  system or used by other network interfaces. This range
+  may be a single IP address (e.g. 10.2.3.4), a netmask
+  (e.g. /24) or a CIDR format string (e.g. 10.1.2.0/24).
+
+##### network_interfaces[]/alias_ip_ranges[]/subnetwork_range_name
+  Optional subnetwork secondary range name specifying
+  the secondary range from which to allocate the IP
+  CIDR range for this alias IP range. If left
+  unspecified, the primary range of the subnetwork will
+  be used.
+
 ##### network_interfaces[]/name
-Output only.  The name of the network interface, generated by the server. For
-  network devices, these are eth0, eth1, etc
+Output only.  The name of the network interface, generated by the
+  server. For network devices, these are eth0, eth1, etc
 
 ##### network_interfaces[]/network
   A reference to Network resource
 
 ##### network_interfaces[]/network_ip
-  An IPv4 internal network address to assign to the instance for
-  this network interface. If not specified by the user, an unused
-  internal IP is assigned by the system.
+  An IPv4 internal network address to assign to the
+  instance for this network interface. If not specified
+  by the user, an unused internal IP is assigned by the
+  system.
 
 ##### network_interfaces[]/subnetwork
-  The URL of the Subnetwork resource for this instance. If the
-  network resource is in legacy mode, do not provide this
-  property.  If the network is in auto subnet mode, providing the
-  subnetwork is optional. If the network is in custom subnet
-  mode, then this field should be specified.
+  A reference to Subnetwork resource
 
 ##### `scheduling`
 
@@ -2846,6 +3976,187 @@ Required.  A reference to Zone resource
 
 * `id`: Output only.
   A unique identifier for this instance group.
+
+#### `gcompute_instance_group_manager`
+
+Creates a managed instance group using the information that you specify in
+the request. After the group is created, it schedules an action to create
+instances in the group using the specified instance template. This
+operation is marked as DONE when the group is created even if the
+instances in the group have not yet been created. You must separately
+verify the status of the individual instances.
+
+A managed instance group can have up to 1000 VM instances per group.
+
+
+#### Example
+
+```puppet
+gcompute_instance_group_manager { 'test1':
+  ensure             => present,
+  base_instance_name => 'test1-child',
+  instance_template  => 'instance-template',
+  target_size        => 3,
+  zone               => 'us-west1-a',
+  project            => 'google.com:graphite-playground',
+  credential         => 'mycred',
+}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_instance_group_manager { 'id-of-resource':
+  base_instance_name => string,
+  creation_timestamp => time,
+  current_actions    => {
+    abandoning               => integer,
+    creating                 => integer,
+    creating_without_retries => integer,
+    deleting                 => integer,
+    none                     => integer,
+    recreating               => integer,
+    refreshing               => integer,
+    restarting               => integer,
+  },
+  description        => string,
+  id                 => integer,
+  instance_group     => reference to gcompute_instance_group,
+  instance_template  => reference to gcompute_instance_template,
+  name               => string,
+  named_ports        => [
+    {
+      name => string,
+      port => integer,
+    },
+    ...
+  ],
+  region             => reference to gcompute_region,
+  target_pools       => [
+    reference to a gcompute_target_pool,
+    ...
+  ],
+  target_size        => integer,
+  zone               => reference to gcompute_zone,
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
+##### `base_instance_name`
+
+Required.  The base instance name to use for instances in this group. The value
+  must be 1-58 characters long. Instances are named by appending a
+  hyphen and a random four-character string to the base instance name.
+  The base instance name must comply with RFC1035.
+
+##### `description`
+
+  An optional description of this resource. Provide this property when
+  you create the resource.
+
+##### `instance_template`
+
+Required.  A reference to InstanceTemplate resource
+
+##### `name`
+
+Required.  The name of the managed instance group. The name must be 1-63
+  characters long, and comply with RFC1035.
+
+##### `named_ports`
+
+  Named ports configured for the Instance Groups complementary to this Instance
+  Group Manager.
+
+##### named_ports[]/name
+  The name for this named port. The name must be 1-63 characters
+  long, and comply with RFC1035.
+
+##### named_ports[]/port
+  The port number, which can be a value between 1 and 65535.
+
+##### `target_pools`
+
+  TargetPool resources to which instances in the instanceGroup field are
+  added. The target pools automatically apply to all of the instances in
+  the managed instance group.
+
+##### `target_size`
+
+  The target number of running instances for this managed instance
+  group. Deleting or abandoning instances reduces this number. Resizing
+  the group changes this number.
+
+##### `zone`
+
+Required.  A reference to Zone resource
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  The creation timestamp for this managed instance group in RFC3339
+  text format.
+
+* `current_actions`: Output only.
+  The list of instance actions and the number of instances in this
+  managed instance group that are scheduled for each of those actions.
+
+##### current_actions/abandoning
+Output only.  The total number of instances in the managed instance group that
+  are scheduled to be abandoned. Abandoning an instance removes it
+  from the managed instance group without deleting it.
+
+##### current_actions/creating
+Output only.  The number of instances in the managed instance group that are
+  scheduled to be created or are currently being created. If the
+  group fails to create any of these instances, it tries again until
+  it creates the instance successfully.
+  If you have disabled creation retries, this field will not be
+  populated; instead, the creatingWithoutRetries field will be
+  populated.
+
+##### current_actions/creating_without_retries
+Output only.  The number of instances that the managed instance group will
+  attempt to create. The group attempts to create each instance only
+  once. If the group fails to create any of these instances, it
+  decreases the group's targetSize value accordingly.
+
+##### current_actions/deleting
+Output only.  The number of instances in the managed instance group that are
+  scheduled to be deleted or are currently being deleted.
+
+##### current_actions/none
+Output only.  The number of instances in the managed instance group that are
+  running and have no scheduled actions.
+
+##### current_actions/recreating
+Output only.  The number of instances in the managed instance group that are
+  scheduled to be recreated or are currently being being recreated.
+  Recreating an instance deletes the existing root persistent disk
+  and creates a new disk from the image that is defined in the
+  instance template.
+
+##### current_actions/refreshing
+Output only.  The number of instances in the managed instance group that are
+  being reconfigured with properties that do not require a restart
+  or a recreate action. For example, setting or removing target
+  pools for the instance.
+
+##### current_actions/restarting
+Output only.  The number of instances in the managed instance group that are
+  scheduled to be restarted or are currently being restarted.
+
+* `id`: Output only.
+  A unique identifier for this resource
+
+* `instance_group`: Output only.
+  A reference to InstanceGroup resource
+
+* `region`: Output only.
+  A reference to Region resource
 
 #### `gcompute_machine_type`
 
@@ -3097,7 +4408,6 @@ zones
 
 ```puppet
 gcompute_region { 'us-west1':
-  ensure     => present,
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
 }
@@ -3198,9 +4508,8 @@ nextHopGateway, nextHopInstance, nextHopIp, or nextHopVpnTunnel.
 #### Example
 
 ```puppet
-# Subnetwork requires a network and a region, so define them in your manifest:
+# Route requires a network, so define them in your manifest:
 #   - gcompute_network { 'my-network': ensure => presnet }
-#   - gcompute_region { 'some-region': ensure => present }
 gcompute_route { 'corp-route':
   ensure           => present,
   dest_range       => '192.168.6.0/24',
@@ -3426,12 +4735,12 @@ of the network, even entire subnets, using firewall rules.
 
 ```puppet
 # Subnetwork requires a network and a region, so define them in your manifest:
-#   - gcompute_network { 'my-network': ensure => presnet }
-#   - gcompute_region { 'some-region': ensure => present }
+#   - gcompute_network { 'my-network': ensure => present, ... }
+#   - gcompute_region { 'some-region': ... }
 gcompute_subnetwork { 'servers':
   ensure        => present,
   ip_cidr_range => '172.16.0.0/16',
-  network       => 'my-network',
+  network       => 'mynetwork-subnetwork',
   region        => 'some-region',
   project       => 'google.com:graphite-playground',
   credential    => 'mycred',
@@ -3498,6 +4807,554 @@ gcompute_subnetwork { 'id-of-resource':
 ##### `region`
 
 Required.  A reference to Region resource
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource.
+
+#### `gcompute_target_http_proxy`
+
+Represents a TargetHttpProxy resource, which is used by one or more global
+forwarding rule to route incoming HTTP requests to a URL map.
+
+
+#### Example
+
+```puppet
+gcompute_target_http_proxy { 'my-http-proxy':
+  ensure     => present,
+  url_map    => 'my-url-map',
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_target_http_proxy { 'id-of-resource':
+  creation_timestamp => time,
+  description        => string,
+  id                 => integer,
+  name               => string,
+  url_map            => reference to gcompute_url_map,
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
+##### `description`
+
+  An optional description of this resource.
+
+##### `name`
+
+  Name of the resource. Provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035. Specifically, the name must be 1-63 characters long and match
+  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the last
+  character, which cannot be a dash.
+
+##### `url_map`
+
+  A reference to UrlMap resource
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource.
+
+#### `gcompute_target_https_proxy`
+
+Represents a TargetHttpsProxy resource, which is used by one or more
+global forwarding rule to route incoming HTTPS requests to a URL map.
+
+
+#### Example
+
+```puppet
+gcompute_target_https_proxy { 'my-https-proxy':
+  ensure           => present,
+  ssl_certificates => [
+    'sample-certificate',
+  ],
+  url_map          => 'my-url-map',
+  project          => 'google.com:graphite-playground',
+  credential       => 'mycred',
+}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_target_https_proxy { 'id-of-resource':
+  creation_timestamp => time,
+  description        => string,
+  id                 => integer,
+  name               => string,
+  ssl_certificates   => [
+    reference to a gcompute_ssl_certificate,
+    ...
+  ],
+  url_map            => reference to gcompute_url_map,
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
+##### `description`
+
+  An optional description of this resource.
+
+##### `name`
+
+  Name of the resource. Provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035. Specifically, the name must be 1-63 characters long and match
+  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the last
+  character, which cannot be a dash.
+
+##### `ssl_certificates`
+
+  A list of SslCertificate resources that are used to authenticate
+  connections between users and the load balancer. Currently, exactly
+  one SSL certificate must be specified.
+
+##### `url_map`
+
+  A reference to UrlMap resource
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource.
+
+#### `gcompute_target_pool`
+
+Represents a TargetPool resource, used for Load Balancing.
+
+#### Example
+
+```puppet
+gcompute_region { 'some-region':
+  name       => 'us-west1',
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+gcompute_target_pool { 'test1':
+  ensure     => present,
+  region     => 'some-region',
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
+}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_target_pool { 'id-of-resource':
+  backup_pool        => reference to gcompute_target_pool,
+  creation_timestamp => time,
+  description        => string,
+  failover_ratio     => double,
+  health_check       => reference to gcompute_http_health_check,
+  id                 => integer,
+  instances          => [
+    reference to a gcompute_instance,
+    ...
+  ],
+  name               => string,
+  region             => reference to gcompute_region,
+  session_affinity   => 'NONE', 'CLIENT_IP' or 'CLIENT_IP_PROTO',
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
+##### `backup_pool`
+
+  A reference to TargetPool resource
+
+##### `description`
+
+  An optional description of this resource.
+
+##### `failover_ratio`
+
+  This field is applicable only when the containing target pool is
+  serving a forwarding rule as the primary pool (i.e., not as a backup
+  pool to some other target pool). The value of the field must be in
+  [0, 1].
+  If set, backupPool must also be set. They together define the fallback
+  behavior of the primary target pool: if the ratio of the healthy
+  instances in the primary pool is at or below this number, traffic
+  arriving at the load-balanced IP will be directed to the backup pool.
+  In case where failoverRatio is not set or all the instances in the
+  backup pool are unhealthy, the traffic will be directed back to the
+  primary pool in the "force" mode, where traffic will be spread to the
+  healthy instances with the best effort, or to all instances when no
+  instance is healthy.
+
+##### `health_check`
+
+  A reference to HttpHealthCheck resource
+
+##### `instances`
+
+  A list of virtual machine instances serving this pool.
+  They must live in zones contained in the same region as this pool.
+
+##### `name`
+
+Required.  Name of the resource. Provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035. Specifically, the name must be 1-63 characters long and match
+  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the last
+  character, which cannot be a dash.
+
+##### `session_affinity`
+
+  Session affinity option. Must be one of these values:
+  - NONE: Connections from the same client IP may go to any instance in
+  the pool.
+  - CLIENT_IP: Connections from the same client IP will go to the same
+  instance in the pool while that instance remains healthy.
+  - CLIENT_IP_PROTO: Connections from the same client IP with the same
+  IP protocol will go to the same instance in the pool while that
+  instance remains healthy.
+
+##### `region`
+
+Required.  A reference to Region resource
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource.
+
+#### `gcompute_target_ssl_proxy`
+
+Represents a TargetSslProxy resource, which is used by one or more
+global forwarding rule to route incoming SSL requests to a backend
+service.
+
+
+#### Example
+
+```puppet
+gcompute_target_ssl_proxy { 'my-ssl-proxy':
+  ensure           => present,
+  proxy_header     => 'PROXY_V1',
+  service          => 'my-ssl-backend',
+  ssl_certificates => [
+    'sample-certificate',
+  ],
+  project          => 'google.com:graphite-playground',
+  credential       => 'mycred',
+}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_target_ssl_proxy { 'id-of-resource':
+  creation_timestamp => time,
+  description        => string,
+  id                 => integer,
+  name               => string,
+  proxy_header       => 'NONE' or 'PROXY_V1',
+  service            => reference to gcompute_backend_service,
+  ssl_certificates   => [
+    reference to a gcompute_ssl_certificate,
+    ...
+  ],
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
+##### `description`
+
+  An optional description of this resource.
+
+##### `name`
+
+  Name of the resource. Provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035. Specifically, the name must be 1-63 characters long and match
+  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the last
+  character, which cannot be a dash.
+
+##### `proxy_header`
+
+  Specifies the type of proxy header to append before sending data to
+  the backend, either NONE or PROXY_V1. The default is NONE.
+
+##### `service`
+
+  A reference to BackendService resource
+
+##### `ssl_certificates`
+
+  A list of SslCertificate resources that are used to authenticate
+  connections between users and the load balancer. Currently, exactly
+  one SSL certificate must be specified.
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource.
+
+#### `gcompute_target_tcp_proxy`
+
+Represents a TargetTcpProxy resource, which is used by one or more
+global forwarding rule to route incoming TCP requests to a Backend
+service.
+
+
+#### Example
+
+```puppet
+gcompute_target_tcp_proxy { 'my-tcp-proxy':
+  ensure       => present,
+  proxy_header => 'PROXY_V1',
+  service      => 'my-tcp-backend',
+  project      => 'google.com:graphite-playground',
+  credential   => 'mycred',
+}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_target_tcp_proxy { 'id-of-resource':
+  creation_timestamp => time,
+  description        => string,
+  id                 => integer,
+  name               => string,
+  proxy_header       => 'NONE' or 'PROXY_V1',
+  service            => reference to gcompute_backend_service,
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
+##### `description`
+
+  An optional description of this resource.
+
+##### `name`
+
+  Name of the resource. Provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035. Specifically, the name must be 1-63 characters long and match
+  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the last
+  character, which cannot be a dash.
+
+##### `proxy_header`
+
+  Specifies the type of proxy header to append before sending data to
+  the backend, either NONE or PROXY_V1. The default is NONE.
+
+##### `service`
+
+  A reference to BackendService resource
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource.
+
+#### `gcompute_url_map`
+
+UrlMaps are used to route requests to a backend service based on rules
+that you define for the host and path of an incoming URL.
+
+
+#### Example
+
+```puppet
+gcompute_url_map { 'my-url-map':
+  ensure          => present,
+  default_service => 'my-app-backend',
+  project         => 'google.com:graphite-playground',
+  credential      => 'mycred',
+}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_url_map { 'id-of-resource':
+  creation_timestamp => time,
+  default_service    => reference to gcompute_backend_service,
+  description        => string,
+  host_rules         => [
+    {
+      description  => string,
+      hosts        => [
+        string,
+        ...
+      ],
+      path_matcher => string,
+    },
+    ...
+  ],
+  id                 => integer,
+  name               => string,
+  path_matchers      => [
+    {
+      default_service => reference to gcompute_backend_service,
+      description     => string,
+      name            => string,
+      path_rules      => [
+        {
+          paths   => [
+            string,
+            ...
+          ],
+          service => reference to gcompute_backend_service,
+        },
+        ...
+      ],
+    },
+    ...
+  ],
+  tests              => [
+    {
+      description => string,
+      host        => string,
+      path        => string,
+      service     => reference to gcompute_backend_service,
+    },
+    ...
+  ],
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
+##### `default_service`
+
+Required.  A reference to BackendService resource
+
+##### `description`
+
+  An optional description of this resource. Provide this property when
+  you create the resource.
+
+##### `host_rules`
+
+  The list of HostRules to use against the URL.
+
+##### host_rules[]/description
+  An optional description of this resource. Provide this property
+  when you create the resource.
+
+##### host_rules[]/hosts
+  The list of host patterns to match. They must be valid
+  hostnames, except * will match any string of ([a-z0-9-.]*). In
+  that case, * must be the first character and must be followed in
+  the pattern by either - or ..
+
+##### host_rules[]/path_matcher
+  The name of the PathMatcher to use to match the path portion of
+  the URL if the hostRule matches the URL's host portion.
+
+##### `name`
+
+  Name of the resource. Provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035. Specifically, the name must be 1-63 characters long and match
+  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the last
+  character, which cannot be a dash.
+
+##### `path_matchers`
+
+  The list of named PathMatchers to use against the URL.
+
+##### path_matchers[]/default_service
+  A reference to BackendService resource
+
+##### path_matchers[]/description
+  An optional description of this resource.
+
+##### path_matchers[]/name
+  The name to which this PathMatcher is referred by the HostRule.
+
+##### path_matchers[]/path_rules
+  The list of path rules.
+
+##### path_matchers[]/path_rules[]/paths
+  The list of path patterns to match. Each must start with /
+  and the only place a * is allowed is at the end following
+  a /. The string fed to the path matcher does not include
+  any text after the first ? or #, and those chars are not
+  allowed here.
+
+##### path_matchers[]/path_rules[]/service
+  A reference to BackendService resource
+
+##### `tests`
+
+  The list of expected URL mappings. Request to update this UrlMap will
+  succeed only if all of the test cases pass.
+
+##### tests[]/description
+  Description of this test case.
+
+##### tests[]/host
+  Host portion of the URL.
+
+##### tests[]/path
+  Path portion of the URL.
+
+##### tests[]/service
+  A reference to BackendService resource
 
 
 ##### Output-only properties
@@ -3604,6 +5461,109 @@ Output only.  The deprecation state of this resource. This can be DEPRECATED,
 ### Functions
 
 
+#### `gcompute_address_ip`
+
+  Returns the IP address associated with the Address managed by a
+  `gcompute_address` resource.
+
+##### Arguments
+
+  - `name`:
+    the name of the address resource
+
+  - `region`:
+    the region where the address resource is allocated
+
+  - `project`:
+    the project name where resource is allocated
+
+  - `cred`:
+    the credential to use to authorize the information request
+
+##### Examples
+
+```puppet
+gcompute_address_ip('my-server', 'us-central1', 'myproject', $fn_auth)
+```
+
+##### Notes
+
+  The credential parameter should be allocated with a
+  `gauth_credential_*_for_function` call.
+
+
+#### `gcompute_address_ref`
+
+  Builds a reference to the IP address associated with the Address managed
+  by a `gcompute_address` resource.
+
+##### Arguments
+
+  - `name`:
+    the name of the address resource
+
+  - `region`:
+    the region where the address resource is allocated
+
+  - `project`:
+    the project name where resource is allocated
+
+##### Examples
+
+```puppet
+gcompute_address_ref('my-server', 'us-central1', 'myproject')
+```
+
+##### Notes
+
+  This function is useful for when a reference to a resource that have
+  multiple facts, such as `gcompute_forwarding_rule { ip_address }`
+
+
+#### `gcompute_global_address_ref`
+
+  Builds a reference to the global IP address associated with the Address
+  managed by a `gcompute_global_address` resource.
+
+##### Arguments
+
+  - `name`:
+    the name of the address resource
+
+  - `project`:
+    the project name where resource is allocated
+
+##### Examples
+
+```puppet
+gcompute_global_address_ref('my-server', 'myproject')
+```
+
+##### Notes
+
+  This function is useful for when a reference to a resource that have
+  multiple facts, such as `gcompute_global_forwarding_rule { ip_address }`
+
+
+#### `gcompute_health_check_ref`
+
+  Builds a reference to a health check to be used in the backend service.
+
+##### Arguments
+
+  - `name`:
+    the name of the health check
+
+  - `project_name`:
+    the name of the project that hosts the check
+
+##### Examples
+
+```puppet
+gcompute_health_check_ref('my-hc', 'my-project')
+```
+
+
 #### `gcompute_image_family`
 
   Builds the family resource identifier required to uniquely identify the
@@ -3612,7 +5572,7 @@ Output only.  The deprecation state of this resource. This can be DEPRECATED,
 
 ##### Arguments
 
-  - `image_family`:
+  - `family_name`:
     the name of the family, e.g. ubuntu-1604-lts
 
   - `project_name`:
@@ -3628,6 +5588,123 @@ gcompute_image_family('ubuntu-1604-lts', 'ubuntu-os-cloud')
 ```puppet
 gcompute_image_family('my-web-server', 'my-project')
 ```
+
+##### Notes
+
+  Note: In the case of private images, your credentials will need to have
+  the proper permissions to access the image.
+  To get a list of supported families you can use the gcloud utility:
+  gcloud compute images list
+
+
+#### `gcompute_target_http_proxy_ref`
+
+  Builds a reference to a target HTTP proxy to be used in the global
+  forwarding rule.
+
+##### Arguments
+
+  - `name`:
+    the name of the proxy
+
+  - `project_name`:
+    the name of the project that hosts the proxy
+
+##### Examples
+
+```puppet
+gcompute_target_http_proxy_ref('my-http-proxy', 'my-project')
+```
+
+
+### Bolt Tasks
+
+
+#### `tasks/reset.rb`
+
+  Resets a Google Compute Engine VM instance
+
+This task takes inputs as JSON from standard input.
+
+##### Arguments
+
+  - `name`:
+    The name of the instance to reset
+
+  - `zone`:
+    The zone where your instance resides
+
+  - `project`:
+    The project that hosts the VM instance
+
+  - `credential`:
+    Path to a service account credentials file
+
+
+#### `tasks/instance.sh`
+
+  Because sometimes you just want a quick way to get (or destroy) an
+  instance
+
+This task takes inputs as JSON from standard input.
+
+##### Arguments
+
+  - `name`:
+    Name of the machine to create (or delete) (default: bolt-<random>)
+
+  - `image_family`:
+    An indication of which image family to launch the instance from
+    (format: <familyname>:<organization>) (default: centos-7:centos-cloud)
+
+  - `size_gb`:
+    The size of the VM disk (in GB) (default: 50)
+
+  - `machine_type`:
+    The type of the machine to create (default: n1-standard-1)
+
+  - `allocate_static_ip`:
+    If true it will allocate a static IP for the machine (default: false)
+
+  - `network_name`:
+    The network to connect the VM to (default: default)
+
+  - `zone`:
+    The zone where your instance resides (default: us-west1-c)
+
+  - `project`:
+    The project you have credentials for and will houses your instance
+
+  - `credential`:
+    Path to a service account credentials file
+
+  - `ensure`:
+    If you'd wish to quickly delete an instance instead of creating one
+    (default: present)
+
+
+#### `tasks/snapshot.rb`
+
+  Create a snapshot of a Google Compute Engine Disk
+
+This task takes inputs as JSON from standard input.
+
+##### Arguments
+
+  - `name`:
+    The name of the disk to create snapshot
+
+  - `target`:
+    The name of the disk snapshot (default: <name>-<timestamp>)
+
+  - `zone`:
+    The zone where your disk resides
+
+  - `project`:
+    The project that hosts the disk
+
+  - `credential`:
+    Path to a service account credentials file
 
 
 ## Limitations
@@ -3712,18 +5789,28 @@ Variable                | Side Effect
 [`gcompute_disk_type`]: #gcompute_disk_type
 [`gcompute_disk`]: #gcompute_disk
 [`gcompute_firewall`]: #gcompute_firewall
+[`gcompute_forwarding_rule`]: #gcompute_forwarding_rule
 [`gcompute_global_address`]: #gcompute_global_address
+[`gcompute_global_forwarding_rule`]: #gcompute_global_forwarding_rule
 [`gcompute_http_health_check`]: #gcompute_http_health_check
 [`gcompute_https_health_check`]: #gcompute_https_health_check
 [`gcompute_health_check`]: #gcompute_health_check
+[`gcompute_instance_template`]: #gcompute_instance_template
 [`gcompute_license`]: #gcompute_license
 [`gcompute_image`]: #gcompute_image
 [`gcompute_instance`]: #gcompute_instance
 [`gcompute_instance_group`]: #gcompute_instance_group
+[`gcompute_instance_group_manager`]: #gcompute_instance_group_manager
 [`gcompute_machine_type`]: #gcompute_machine_type
 [`gcompute_network`]: #gcompute_network
 [`gcompute_region`]: #gcompute_region
 [`gcompute_route`]: #gcompute_route
 [`gcompute_ssl_certificate`]: #gcompute_ssl_certificate
 [`gcompute_subnetwork`]: #gcompute_subnetwork
+[`gcompute_target_http_proxy`]: #gcompute_target_http_proxy
+[`gcompute_target_https_proxy`]: #gcompute_target_https_proxy
+[`gcompute_target_pool`]: #gcompute_target_pool
+[`gcompute_target_ssl_proxy`]: #gcompute_target_ssl_proxy
+[`gcompute_target_tcp_proxy`]: #gcompute_target_tcp_proxy
+[`gcompute_url_map`]: #gcompute_url_map
 [`gcompute_zone`]: #gcompute_zone

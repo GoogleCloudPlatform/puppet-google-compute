@@ -40,8 +40,11 @@ module Google
         attr_reader :device_name
         attr_reader :disk_encryption_key
         attr_reader :index
-        attr_reader :source
         attr_reader :initialize_params
+        attr_reader :interface
+        attr_reader :mode
+        attr_reader :source
+        attr_reader :type
 
         def to_json(_arg = nil)
           {
@@ -50,8 +53,11 @@ module Google
             'deviceName' => device_name,
             'diskEncryptionKey' => disk_encryption_key,
             'index' => index,
+            'initializeParams' => initialize_params,
+            'interface' => interface,
+            'mode' => mode,
             'source' => source,
-            'initializeParams' => initialize_params
+            'type' => type
           }.reject { |_k, v| v.nil? }.to_json
         end
 
@@ -62,8 +68,11 @@ module Google
             device_name: device_name,
             disk_encryption_key: disk_encryption_key,
             index: index,
+            initialize_params: initialize_params,
+            interface: interface,
+            mode: mode,
             source: source,
-            initialize_params: initialize_params
+            type: type
           }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
@@ -95,8 +104,11 @@ module Google
             { self: device_name, other: other.device_name },
             { self: disk_encryption_key, other: other.disk_encryption_key },
             { self: index, other: other.index },
+            { self: initialize_params, other: other.initialize_params },
+            { self: interface, other: other.interface },
+            { self: mode, other: other.mode },
             { self: source, other: other.source },
-            { self: initialize_params, other: other.initialize_params }
+            { self: type, other: other.type }
           ]
         end
       end
@@ -116,12 +128,16 @@ module Google
               args['diskEncryptionKey']
             )
           @index = Google::Compute::Property::Integer.api_munge(args['index'])
-          @source =
-            Google::Compute::Property::DiskSelfLinkRef.api_munge(args['source'])
           @initialize_params =
             Google::Compute::Property::InstancInitialParams.api_munge(
               args['initializeParams']
             )
+          @interface =
+            Google::Compute::Property::Enum.api_munge(args['interface'])
+          @mode = Google::Compute::Property::Enum.api_munge(args['mode'])
+          @source =
+            Google::Compute::Property::DiskSelfLinkRef.api_munge(args['source'])
+          @type = Google::Compute::Property::Enum.api_munge(args['type'])
         end
         # rubocop:enable Metrics/MethodLength
       end
@@ -142,13 +158,17 @@ module Google
             )
           @index =
             Google::Compute::Property::Integer.unsafe_munge(args['index'])
-          @source = Google::Compute::Property::DiskSelfLinkRef.unsafe_munge(
-            args['source']
-          )
           @initialize_params =
             Google::Compute::Property::InstancInitialParams.unsafe_munge(
               args['initialize_params']
             )
+          @interface =
+            Google::Compute::Property::Enum.unsafe_munge(args['interface'])
+          @mode = Google::Compute::Property::Enum.unsafe_munge(args['mode'])
+          @source = Google::Compute::Property::DiskSelfLinkRef.unsafe_munge(
+            args['source']
+          )
+          @type = Google::Compute::Property::Enum.unsafe_munge(args['type'])
         end
         # rubocop:enable Metrics/MethodLength
       end

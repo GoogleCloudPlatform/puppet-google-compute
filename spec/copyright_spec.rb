@@ -16,8 +16,8 @@ require 'find'
 require 'copyright'
 
 describe 'ensure files have copyright notice' do
-  let(:my_path) { File.expand_path(File.dirname(__FILE__)) }
-  let(:my_root) { File.expand_path('..', File.dirname(__FILE__)) }
+  let(:my_path) { File.expand_path(__dir__) }
+  let(:my_root) { File.expand_path('..', __dir__) }
   it do
     files = Find.find(File.expand_path(File.join(my_path, '..')))
                 .select { |f| File.file?(f) }

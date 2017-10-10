@@ -51,26 +51,38 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               allow(Time).to receive(:now).and_return(
                 Time.new(2017, 1, 2, 3, 4, 5)
               )
-              expect_network_get_success 1,
-                                         name: 'title0',
-                                         disk: 'selflink(resource(disk,0))'
-              expect_network_get_success 2,
-                                         name: 'title1',
-                                         disk: 'selflink(resource(disk,1))'
-              expect_network_get_success 3,
-                                         name: 'title2',
-                                         disk: 'selflink(resource(disk,2))'
-              expect_network_get_success_disk 1
-              expect_network_get_success_disk 2
-              expect_network_get_success_disk 3
+              expect_network_get_success 1, name: 'title0'
+              expect_network_get_success 2, name: 'title1'
+              expect_network_get_success 3, name: 'title2'
               expect_network_get_success_zone 1
               expect_network_get_success_zone 2
               expect_network_get_success_zone 3
+              expect_network_get_success_disk 1, zone: 'test name#0 data'
+              expect_network_get_success_disk 2, zone: 'test name#1 data'
+              expect_network_get_success_disk 3, zone: 'test name#2 data'
             end
 
             let(:catalog) do
               apply_with_error_check(
                 <<-MANIFEST
+                gcompute_zone { 'resource(zone,0)':
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_zone { 'resource(zone,1)':
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_zone { 'resource(zone,2)':
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
                 gcompute_disk { 'resource(disk,0)':
                   ensure     => present,
                   name       => 'test name#0 data',
@@ -91,24 +103,6 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                   ensure     => present,
                   name       => 'test name#2 data',
                   zone       => 'resource(zone,2)',
-                  project    => 'test project#2 data',
-                  credential => 'cred2',
-                }
-
-                gcompute_zone { 'resource(zone,0)':
-                  name       => 'test name#0 data',
-                  project    => 'test project#0 data',
-                  credential => 'cred0',
-                }
-
-                gcompute_zone { 'resource(zone,1)':
-                  name       => 'test name#1 data',
-                  project    => 'test project#1 data',
-                  credential => 'cred1',
-                }
-
-                gcompute_zone { 'resource(zone,2)':
-                  name       => 'test name#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
                 }
@@ -424,20 +418,38 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               allow(Time).to receive(:now).and_return(
                 Time.new(2017, 1, 2, 3, 4, 5)
               )
-              expect_network_get_success 1, disk: 'selflink(resource(disk,0))'
-              expect_network_get_success 2, disk: 'selflink(resource(disk,1))'
-              expect_network_get_success 3, disk: 'selflink(resource(disk,2))'
-              expect_network_get_success_disk 1
-              expect_network_get_success_disk 2
-              expect_network_get_success_disk 3
+              expect_network_get_success 1
+              expect_network_get_success 2
+              expect_network_get_success 3
               expect_network_get_success_zone 1
               expect_network_get_success_zone 2
               expect_network_get_success_zone 3
+              expect_network_get_success_disk 1, zone: 'test name#0 data'
+              expect_network_get_success_disk 2, zone: 'test name#1 data'
+              expect_network_get_success_disk 3, zone: 'test name#2 data'
             end
 
             let(:catalog) do
               apply_with_error_check(
                 <<-MANIFEST
+                gcompute_zone { 'resource(zone,0)':
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_zone { 'resource(zone,1)':
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_zone { 'resource(zone,2)':
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
                 gcompute_disk { 'resource(disk,0)':
                   ensure     => present,
                   name       => 'test name#0 data',
@@ -458,24 +470,6 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                   ensure     => present,
                   name       => 'test name#2 data',
                   zone       => 'resource(zone,2)',
-                  project    => 'test project#2 data',
-                  credential => 'cred2',
-                }
-
-                gcompute_zone { 'resource(zone,0)':
-                  name       => 'test name#0 data',
-                  project    => 'test project#0 data',
-                  credential => 'cred0',
-                }
-
-                gcompute_zone { 'resource(zone,1)':
-                  name       => 'test name#1 data',
-                  project    => 'test project#1 data',
-                  credential => 'cred1',
-                }
-
-                gcompute_zone { 'resource(zone,2)':
-                  name       => 'test name#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
                 }
@@ -827,9 +821,7 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
         # Ensure present: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      name: 'title0',
-                                      disk: 'selflink(resource(disk,0))'
+            expect_network_get_failed 1, name: 'title0'
             expect_network_create \
               1,
               {
@@ -864,28 +856,25 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                 'sourceDiskId' => 'test source_disk_id#0 data',
                 'sourceType' => 'RAW'
               },
-              name: 'title0',
-              disk: 'selflink(resource(disk,0))'
-            expect_network_get_async 1,
-                                     name: 'title0',
-                                     disk: 'selflink(resource(disk,0))'
-            expect_network_get_success_disk 1
+              name: 'title0'
+            expect_network_get_async 1, name: 'title0'
             expect_network_get_success_zone 1
+            expect_network_get_success_disk 1, zone: 'test name#0 data'
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
-              gcompute_disk { 'resource(disk,0)':
-                ensure     => present,
+              gcompute_zone { 'resource(zone,0)':
                 name       => 'test name#0 data',
-                zone       => 'resource(zone,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
 
-              gcompute_zone { 'resource(zone,0)':
+              gcompute_disk { 'resource(disk,0)':
+                ensure     => present,
                 name       => 'test name#0 data',
+                zone       => 'resource(zone,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -943,60 +932,57 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
         # Ensure present: resource missing, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            expect_network_get_failed 1, disk: 'selflink(resource(disk,0))'
+            expect_network_get_failed 1
             expect_network_create \
               1,
-              {
-                'kind' => 'compute#image',
-                'description' => 'test description#0 data',
-                'diskSizeGb' => 450_092_159,
-                'family' => 'test family#0 data',
-                'guestOsFeatures' => [
-                  {
-                    'type' => 'VIRTIO_SCSI_MULTIQUEUE'
-                  },
-                  {
-                    'type' => 'VIRTIO_SCSI_MULTIQUEUE'
-                  }
-                ],
-                'imageEncryptionKey' => {
-                  'rawKey' => 'test raw_key#0 data',
-                  'sha256' => 'test sha256#0 data'
+              'kind' => 'compute#image',
+              'description' => 'test description#0 data',
+              'diskSizeGb' => 450_092_159,
+              'family' => 'test family#0 data',
+              'guestOsFeatures' => [
+                {
+                  'type' => 'VIRTIO_SCSI_MULTIQUEUE'
                 },
-                'licenses' => %w[ww xx],
-                'name' => 'test name#0 data',
-                'rawDisk' => {
-                  'containerType' => 'TAR',
-                  'sha1Checksum' => 'test sha1_checksum#0 data',
-                  'source' => 'test source#0 data'
-                },
-                'sourceDisk' => 'selflink(resource(disk,0))',
-                'sourceDiskEncryptionKey' => {
-                  'rawKey' => 'test raw_key#0 data',
-                  'sha256' => 'test sha256#0 data'
-                },
-                'sourceDiskId' => 'test source_disk_id#0 data',
-                'sourceType' => 'RAW'
+                {
+                  'type' => 'VIRTIO_SCSI_MULTIQUEUE'
+                }
+              ],
+              'imageEncryptionKey' => {
+                'rawKey' => 'test raw_key#0 data',
+                'sha256' => 'test sha256#0 data'
               },
-              disk: 'selflink(resource(disk,0))'
-            expect_network_get_async 1, disk: 'selflink(resource(disk,0))'
-            expect_network_get_success_disk 1
+              'licenses' => %w[ww xx],
+              'name' => 'test name#0 data',
+              'rawDisk' => {
+                'containerType' => 'TAR',
+                'sha1Checksum' => 'test sha1_checksum#0 data',
+                'source' => 'test source#0 data'
+              },
+              'sourceDisk' => 'selflink(resource(disk,0))',
+              'sourceDiskEncryptionKey' => {
+                'rawKey' => 'test raw_key#0 data',
+                'sha256' => 'test sha256#0 data'
+              },
+              'sourceDiskId' => 'test source_disk_id#0 data',
+              'sourceType' => 'RAW'
+            expect_network_get_async 1
             expect_network_get_success_zone 1
+            expect_network_get_success_disk 1, zone: 'test name#0 data'
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
-              gcompute_disk { 'resource(disk,0)':
-                ensure     => present,
+              gcompute_zone { 'resource(zone,0)':
                 name       => 'test name#0 data',
-                zone       => 'resource(zone,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
 
-              gcompute_zone { 'resource(zone,0)':
+              gcompute_disk { 'resource(disk,0)':
+                ensure     => present,
                 name       => 'test name#0 data',
+                zone       => 'resource(zone,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }

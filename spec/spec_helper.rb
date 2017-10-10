@@ -43,6 +43,7 @@ SimpleCov.start
 # Add test path to the search libs
 
 $LOAD_PATH.unshift(File.expand_path('.'))
+$LOAD_PATH.unshift(File.expand_path('./spec/stubs'))
 
 #----------------------------------------------------------
 # Block all network traffic

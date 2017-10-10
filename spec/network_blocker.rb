@@ -131,7 +131,7 @@ module Net
         blocker = Google::Compute::NetworkBlocker.instance
         if !args.empty? && args[0].is_a?(Net::HTTPGenericRequest)
           allow_terms = blocker.allowed_request
-          allow_terms.keys.each do |key|
+          allow_terms.each_key do |key|
             case key
             when :uri
               request_allowed &&= args[0].uri == allow_terms[:uri]

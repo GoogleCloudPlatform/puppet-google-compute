@@ -51,27 +51,18 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
               allow(Time).to receive(:now).and_return(
                 Time.new(2017, 1, 2, 3, 4, 5)
               )
-              expect_network_get_success \
-                1,
-                name: 'title0',
-                instance_group: 'selflink(resource(instance_group,0))',
-                region: 'selflink(resource(region,0))'
-              expect_network_get_success \
-                2,
-                name: 'title1',
-                instance_group: 'selflink(resource(instance_group,1))',
-                region: 'selflink(resource(region,1))'
-              expect_network_get_success \
-                3,
-                name: 'title2',
-                instance_group: 'selflink(resource(instance_group,2))',
-                region: 'selflink(resource(region,2))'
-              expect_network_get_success_instance_group 1
-              expect_network_get_success_instance_group 2
-              expect_network_get_success_instance_group 3
+              expect_network_get_success 1, name: 'title0'
+              expect_network_get_success 2, name: 'title1'
+              expect_network_get_success 3, name: 'title2'
               expect_network_get_success_zone 1
               expect_network_get_success_zone 2
               expect_network_get_success_zone 3
+              expect_network_get_success_instance_group 1,
+                                                        zone: 'test name#0 data'
+              expect_network_get_success_instance_group 2,
+                                                        zone: 'test name#1 data'
+              expect_network_get_success_instance_group 3,
+                                                        zone: 'test name#2 data'
               expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
@@ -80,6 +71,24 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
             let(:catalog) do
               apply_with_error_check(
                 <<-MANIFEST
+                gcompute_zone { 'resource(zone,0)':
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_zone { 'resource(zone,1)':
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_zone { 'resource(zone,2)':
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
                 gcompute_instance_group { 'resource(instance_group,0)':
                   ensure     => present,
                   name       => 'test name#0 data',
@@ -100,24 +109,6 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   ensure     => present,
                   name       => 'test name#2 data',
                   zone       => 'resource(zone,2)',
-                  project    => 'test project#2 data',
-                  credential => 'cred2',
-                }
-
-                gcompute_zone { 'resource(zone,0)':
-                  name       => 'test name#0 data',
-                  project    => 'test project#0 data',
-                  credential => 'cred0',
-                }
-
-                gcompute_zone { 'resource(zone,1)':
-                  name       => 'test name#1 data',
-                  project    => 'test project#1 data',
-                  credential => 'cred1',
-                }
-
-                gcompute_zone { 'resource(zone,2)':
-                  name       => 'test name#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
                 }
@@ -165,6 +156,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_rate                     => 800708425,
                       max_rate_per_instance        => 34507065.0,
                       max_utilization              => 21920426.93,
+                    },
+                    {
+                      balancing_mode               => 'CONNECTION',
+                      capacity_scaler              => 79867290.98,
+                      description                  => 'test description#2 data',
+                      group                        => 'resource(instance_group,2)',
+                      max_connections              => 2472613258,
+                      max_connections_per_instance => 8249457907,
+                      max_rate                     => 1201062638,
+                      max_rate_per_instance        => 51760597.51,
+                      max_utilization              => 32880640.39,
                     },
                   ],
                   cdn_policy              => {
@@ -217,6 +219,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_rate_per_instance        => 51760597.51,
                       max_utilization              => 32880640.39,
                     },
+                    {
+                      balancing_mode               => 'UTILIZATION',
+                      capacity_scaler              => 106489721.31,
+                      description                  => 'test description#3 data',
+                      group                        => 'resource(instance_group,0)',
+                      max_connections              => 3296817678,
+                      max_connections_per_instance => 10999277209,
+                      max_rate                     => 1601416850,
+                      max_rate_per_instance        => 69014130.1,
+                      max_utilization              => 43840853.86,
+                    },
                   ],
                   cdn_policy              => {
                     cache_key_policy => {
@@ -267,6 +280,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_rate                     => 1601416850,
                       max_rate_per_instance        => 69014130.1,
                       max_utilization              => 43840853.86,
+                    },
+                    {
+                      balancing_mode               => 'RATE',
+                      capacity_scaler              => 133112151.64,
+                      description                  => 'test description#4 data',
+                      group                        => 'resource(instance_group,1)',
+                      max_connections              => 4121022097,
+                      max_connections_per_instance => 13749096511,
+                      max_rate                     => 2001771063,
+                      max_rate_per_instance        => 86267662.51,
+                      max_utilization              => 54801067.32,
                     },
                   ],
                   cdn_policy              => {
@@ -472,24 +496,18 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
               allow(Time).to receive(:now).and_return(
                 Time.new(2017, 1, 2, 3, 4, 5)
               )
-              expect_network_get_success \
-                1,
-                instance_group: 'selflink(resource(instance_group,0))',
-                region: 'selflink(resource(region,0))'
-              expect_network_get_success \
-                2,
-                instance_group: 'selflink(resource(instance_group,1))',
-                region: 'selflink(resource(region,1))'
-              expect_network_get_success \
-                3,
-                instance_group: 'selflink(resource(instance_group,2))',
-                region: 'selflink(resource(region,2))'
-              expect_network_get_success_instance_group 1
-              expect_network_get_success_instance_group 2
-              expect_network_get_success_instance_group 3
+              expect_network_get_success 1
+              expect_network_get_success 2
+              expect_network_get_success 3
               expect_network_get_success_zone 1
               expect_network_get_success_zone 2
               expect_network_get_success_zone 3
+              expect_network_get_success_instance_group 1,
+                                                        zone: 'test name#0 data'
+              expect_network_get_success_instance_group 2,
+                                                        zone: 'test name#1 data'
+              expect_network_get_success_instance_group 3,
+                                                        zone: 'test name#2 data'
               expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
@@ -498,6 +516,24 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
             let(:catalog) do
               apply_with_error_check(
                 <<-MANIFEST
+                gcompute_zone { 'resource(zone,0)':
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_zone { 'resource(zone,1)':
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_zone { 'resource(zone,2)':
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
                 gcompute_instance_group { 'resource(instance_group,0)':
                   ensure     => present,
                   name       => 'test name#0 data',
@@ -518,24 +554,6 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   ensure     => present,
                   name       => 'test name#2 data',
                   zone       => 'resource(zone,2)',
-                  project    => 'test project#2 data',
-                  credential => 'cred2',
-                }
-
-                gcompute_zone { 'resource(zone,0)':
-                  name       => 'test name#0 data',
-                  project    => 'test project#0 data',
-                  credential => 'cred0',
-                }
-
-                gcompute_zone { 'resource(zone,1)':
-                  name       => 'test name#1 data',
-                  project    => 'test project#1 data',
-                  credential => 'cred1',
-                }
-
-                gcompute_zone { 'resource(zone,2)':
-                  name       => 'test name#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
                 }
@@ -583,6 +601,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_rate                     => 800708425,
                       max_rate_per_instance        => 34507065.0,
                       max_utilization              => 21920426.93,
+                    },
+                    {
+                      balancing_mode               => 'CONNECTION',
+                      capacity_scaler              => 79867290.98,
+                      description                  => 'test description#2 data',
+                      group                        => 'resource(instance_group,2)',
+                      max_connections              => 2472613258,
+                      max_connections_per_instance => 8249457907,
+                      max_rate                     => 1201062638,
+                      max_rate_per_instance        => 51760597.51,
+                      max_utilization              => 32880640.39,
                     },
                   ],
                   cdn_policy              => {
@@ -636,6 +665,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_rate_per_instance        => 51760597.51,
                       max_utilization              => 32880640.39,
                     },
+                    {
+                      balancing_mode               => 'UTILIZATION',
+                      capacity_scaler              => 106489721.31,
+                      description                  => 'test description#3 data',
+                      group                        => 'resource(instance_group,0)',
+                      max_connections              => 3296817678,
+                      max_connections_per_instance => 10999277209,
+                      max_rate                     => 1601416850,
+                      max_rate_per_instance        => 69014130.1,
+                      max_utilization              => 43840853.86,
+                    },
                   ],
                   cdn_policy              => {
                     cache_key_policy => {
@@ -687,6 +727,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                       max_rate                     => 1601416850,
                       max_rate_per_instance        => 69014130.1,
                       max_utilization              => 43840853.86,
+                    },
+                    {
+                      balancing_mode               => 'RATE',
+                      capacity_scaler              => 133112151.64,
+                      description                  => 'test description#4 data',
+                      group                        => 'resource(instance_group,1)',
+                      max_connections              => 4121022097,
+                      max_connections_per_instance => 13749096511,
+                      max_rate                     => 2001771063,
+                      max_rate_per_instance        => 86267662.51,
+                      max_utilization              => 54801067.32,
                     },
                   ],
                   cdn_policy              => {
@@ -926,11 +977,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
         # Ensure present: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed \
-              1,
-              name: 'title0',
-              instance_group: 'selflink(resource(instance_group,0))',
-              region: 'selflink(resource(region,0))'
+            expect_network_get_failed 1, name: 'title0'
             expect_network_create \
               1,
               {
@@ -958,6 +1005,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                     'maxRate' => 800_708_425,
                     'maxRatePerInstance' => 34_507_065.0,
                     'maxUtilization' => 21_920_426.93
+                  },
+                  {
+                    'balancingMode' => 'CONNECTION',
+                    'capacityScaler' => 79_867_290.98,
+                    'description' => 'test description#2 data',
+                    'group' => 'selflink(resource(instance_group,2))',
+                    'maxConnections' => 2_472_613_258,
+                    'maxConnectionsPerInstance' => 8_249_457_907,
+                    'maxRate' => 1_201_062_638,
+                    'maxRatePerInstance' => 51_760_597.51,
+                    'maxUtilization' => 32_880_640.39
                   }
                 ],
                 'cdnPolicy' => {
@@ -982,24 +1040,41 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                 'sessionAffinity' => 'NONE',
                 'timeoutSec' => 2_704_031_721
               },
-              name: 'title0',
-              instance_group: 'selflink(resource(instance_group,0))',
-              region: 'selflink(resource(region,0))'
-            expect_network_get_async \
-              1,
-              name: 'title0',
-              instance_group: 'selflink(resource(instance_group,0))',
-              region: 'selflink(resource(region,0))'
-            expect_network_get_success_instance_group 1
-            expect_network_get_success_instance_group 2
+              name: 'title0'
+            expect_network_get_async 1, name: 'title0'
             expect_network_get_success_zone 1
             expect_network_get_success_zone 2
+            expect_network_get_success_zone 3
+            expect_network_get_success_instance_group 1,
+                                                      zone: 'test name#0 data'
+            expect_network_get_success_instance_group 2,
+                                                      zone: 'test name#1 data'
+            expect_network_get_success_instance_group 3,
+                                                      zone: 'test name#2 data'
             expect_network_get_success_region 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_zone { 'resource(zone,0)':
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_zone { 'resource(zone,1)':
+                name       => 'test name#1 data',
+                project    => 'test project#1 data',
+                credential => 'cred1',
+              }
+
+              gcompute_zone { 'resource(zone,2)':
+                name       => 'test name#2 data',
+                project    => 'test project#2 data',
+                credential => 'cred2',
+              }
+
               gcompute_instance_group { 'resource(instance_group,0)':
                 ensure     => present,
                 name       => 'test name#0 data',
@@ -1016,16 +1091,12 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                 credential => 'cred1',
               }
 
-              gcompute_zone { 'resource(zone,0)':
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
-              }
-
-              gcompute_zone { 'resource(zone,1)':
-                name       => 'test name#1 data',
-                project    => 'test project#1 data',
-                credential => 'cred1',
+              gcompute_instance_group { 'resource(instance_group,2)':
+                ensure     => present,
+                name       => 'test name#2 data',
+                zone       => 'resource(zone,2)',
+                project    => 'test project#2 data',
+                credential => 'cred2',
               }
 
               gcompute_region { 'resource(region,0)':
@@ -1059,6 +1130,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                     max_rate                     => 800708425,
                     max_rate_per_instance        => 34507065.0,
                     max_utilization              => 21920426.93,
+                  },
+                  {
+                    balancing_mode               => 'CONNECTION',
+                    capacity_scaler              => 79867290.98,
+                    description                  => 'test description#2 data',
+                    group                        => 'resource(instance_group,2)',
+                    max_connections              => 2472613258,
+                    max_connections_per_instance => 8249457907,
+                    max_rate                     => 1201062638,
+                    max_rate_per_instance        => 51760597.51,
+                    max_utilization              => 32880640.39,
                   },
                 ],
                 cdn_policy              => {
@@ -1105,77 +1187,101 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
         # Ensure present: resource missing, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            expect_network_get_failed \
-              1,
-              instance_group: 'selflink(resource(instance_group,0))',
-              region: 'selflink(resource(region,0))'
+            expect_network_get_failed 1
             expect_network_create \
               1,
-              {
-                'kind' => 'compute#backendService',
-                'affinityCookieTtlSec' => 1_612_732_832,
-                'backends' => [
-                  {
-                    'balancingMode' => 'UTILIZATION',
-                    'capacityScaler' => 26_622_430.32,
-                    'description' => 'test description#0 data',
-                    'group' => 'selflink(resource(instance_group,0))',
-                    'maxConnections' => 824_204_419,
-                    'maxConnectionsPerInstance' => 2_749_819_302,
-                    'maxRate' => 400_354_212,
-                    'maxRatePerInstance' => 17_253_532.5,
-                    'maxUtilization' => 10_960_213.46
-                  },
-                  {
-                    'balancingMode' => 'RATE',
-                    'capacityScaler' => 53_244_860.65,
-                    'description' => 'test description#1 data',
-                    'group' => 'selflink(resource(instance_group,1))',
-                    'maxConnections' => 1_648_408_839,
-                    'maxConnectionsPerInstance' => 5_499_638_604,
-                    'maxRate' => 800_708_425,
-                    'maxRatePerInstance' => 34_507_065.0,
-                    'maxUtilization' => 21_920_426.93
-                  }
-                ],
-                'cdnPolicy' => {
-                  'cacheKeyPolicy' => {
-                    'includeHost' => true,
-                    'includeProtocol' => true,
-                    'includeQueryString' => true,
-                    'queryStringBlacklist' => %w[pp qq rr ss tt],
-                    'queryStringWhitelist' => %w[dd ee ff gg hh]
-                  }
+              'kind' => 'compute#backendService',
+              'affinityCookieTtlSec' => 1_612_732_832,
+              'backends' => [
+                {
+                  'balancingMode' => 'UTILIZATION',
+                  'capacityScaler' => 26_622_430.32,
+                  'description' => 'test description#0 data',
+                  'group' => 'selflink(resource(instance_group,0))',
+                  'maxConnections' => 824_204_419,
+                  'maxConnectionsPerInstance' => 2_749_819_302,
+                  'maxRate' => 400_354_212,
+                  'maxRatePerInstance' => 17_253_532.5,
+                  'maxUtilization' => 10_960_213.46
                 },
-                'connectionDraining' => {
-                  'drainingTimeoutSec' => 2_005_106_437
+                {
+                  'balancingMode' => 'RATE',
+                  'capacityScaler' => 53_244_860.65,
+                  'description' => 'test description#1 data',
+                  'group' => 'selflink(resource(instance_group,1))',
+                  'maxConnections' => 1_648_408_839,
+                  'maxConnectionsPerInstance' => 5_499_638_604,
+                  'maxRate' => 800_708_425,
+                  'maxRatePerInstance' => 34_507_065.0,
+                  'maxUtilization' => 21_920_426.93
                 },
-                'description' => 'test description#0 data',
-                'enableCDN' => true,
-                'healthChecks' => %w[rr ss tt uu vv],
-                'name' => 'test name#0 data',
-                'portName' => 'test port_name#0 data',
-                'protocol' => 'HTTP',
-                'region' => 'selflink(resource(region,0))',
-                'sessionAffinity' => 'NONE',
-                'timeoutSec' => 2_704_031_721
+                {
+                  'balancingMode' => 'CONNECTION',
+                  'capacityScaler' => 79_867_290.98,
+                  'description' => 'test description#2 data',
+                  'group' => 'selflink(resource(instance_group,2))',
+                  'maxConnections' => 2_472_613_258,
+                  'maxConnectionsPerInstance' => 8_249_457_907,
+                  'maxRate' => 1_201_062_638,
+                  'maxRatePerInstance' => 51_760_597.51,
+                  'maxUtilization' => 32_880_640.39
+                }
+              ],
+              'cdnPolicy' => {
+                'cacheKeyPolicy' => {
+                  'includeHost' => true,
+                  'includeProtocol' => true,
+                  'includeQueryString' => true,
+                  'queryStringBlacklist' => %w[pp qq rr ss tt],
+                  'queryStringWhitelist' => %w[dd ee ff gg hh]
+                }
               },
-              instance_group: 'selflink(resource(instance_group,0))',
-              region: 'selflink(resource(region,0))'
-            expect_network_get_async \
-              1,
-              instance_group: 'selflink(resource(instance_group,0))',
-              region: 'selflink(resource(region,0))'
-            expect_network_get_success_instance_group 1
-            expect_network_get_success_instance_group 2
+              'connectionDraining' => {
+                'drainingTimeoutSec' => 2_005_106_437
+              },
+              'description' => 'test description#0 data',
+              'enableCDN' => true,
+              'healthChecks' => %w[rr ss tt uu vv],
+              'name' => 'test name#0 data',
+              'portName' => 'test port_name#0 data',
+              'protocol' => 'HTTP',
+              'region' => 'selflink(resource(region,0))',
+              'sessionAffinity' => 'NONE',
+              'timeoutSec' => 2_704_031_721
+            expect_network_get_async 1
             expect_network_get_success_zone 1
             expect_network_get_success_zone 2
+            expect_network_get_success_zone 3
+            expect_network_get_success_instance_group 1,
+                                                      zone: 'test name#0 data'
+            expect_network_get_success_instance_group 2,
+                                                      zone: 'test name#1 data'
+            expect_network_get_success_instance_group 3,
+                                                      zone: 'test name#2 data'
             expect_network_get_success_region 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_zone { 'resource(zone,0)':
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_zone { 'resource(zone,1)':
+                name       => 'test name#1 data',
+                project    => 'test project#1 data',
+                credential => 'cred1',
+              }
+
+              gcompute_zone { 'resource(zone,2)':
+                name       => 'test name#2 data',
+                project    => 'test project#2 data',
+                credential => 'cred2',
+              }
+
               gcompute_instance_group { 'resource(instance_group,0)':
                 ensure     => present,
                 name       => 'test name#0 data',
@@ -1192,16 +1298,12 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                 credential => 'cred1',
               }
 
-              gcompute_zone { 'resource(zone,0)':
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
-              }
-
-              gcompute_zone { 'resource(zone,1)':
-                name       => 'test name#1 data',
-                project    => 'test project#1 data',
-                credential => 'cred1',
+              gcompute_instance_group { 'resource(instance_group,2)':
+                ensure     => present,
+                name       => 'test name#2 data',
+                zone       => 'resource(zone,2)',
+                project    => 'test project#2 data',
+                credential => 'cred2',
               }
 
               gcompute_region { 'resource(region,0)':
@@ -1235,6 +1337,17 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                     max_rate                     => 800708425,
                     max_rate_per_instance        => 34507065.0,
                     max_utilization              => 21920426.93,
+                  },
+                  {
+                    balancing_mode               => 'CONNECTION',
+                    capacity_scaler              => 79867290.98,
+                    description                  => 'test description#2 data',
+                    group                        => 'resource(instance_group,2)',
+                    max_connections              => 2472613258,
+                    max_connections_per_instance => 8249457907,
+                    max_rate                     => 1201062638,
+                    max_rate_per_instance        => 51760597.51,
+                    max_utilization              => 32880640.39,
                   },
                 ],
                 cdn_policy              => {
@@ -1444,6 +1557,25 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
     end
   end
 
+  context '#exports' do
+    context 'exports all properties' do
+      let(:resource1) { create_type 1 }
+      before do
+        expect_network_get_success 1
+        described_class.prefetch(title0: resource1)
+      end
+
+      subject { resource1.exports }
+
+      let(:expected_results) do
+        {
+          self_link: 'selflink(resource(backend_service,0))'
+        }
+      end
+      it { is_expected.to eq(expected_results) }
+    end
+  end
+
   private
 
   def expect_network_get_success(id, data = {})
@@ -1650,6 +1782,19 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
         data
       )
     )
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_zone
+    expect_network_get_success_zone 1
+
+    resource = Puppet::Type.type(:gcompute_zone).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .prefetch(resource: resource)
   end
 
   def expect_network_get_success_region(id, data = {})

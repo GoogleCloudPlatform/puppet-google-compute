@@ -34,20 +34,22 @@ require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_region) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     Represents a Region resource. A region is a specific geographical location
     where you can run your resources. Each region has one or more zones
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
-    [self[:credential]]
+    credential = self[:credential]
+    raise "#{ref}: required property 'credential' is missing" if credential.nil?
+    [credential]
   end
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -64,45 +66,45 @@ Puppet::Type.newtype(:gcompute_region) do
   end
 
   newproperty(:deprecated_deleted, parent: Google::Compute::Property::Time) do
-    desc <<-EOT
+    desc <<-DOC
       An optional RFC3339 timestamp on or after which the deprecation state of
       this resource will be changed to DELETED. (output only)
-    EOT
+    DOC
   end
 
   newproperty(:deprecated_deprecated,
               parent: Google::Compute::Property::Time) do
-    desc <<-EOT
+    desc <<-DOC
       An optional RFC3339 timestamp on or after which the deprecation state of
       this resource will be changed to DEPRECATED. (output only)
-    EOT
+    DOC
   end
 
   newproperty(:deprecated_obsolete, parent: Google::Compute::Property::Time) do
-    desc <<-EOT
+    desc <<-DOC
       An optional RFC3339 timestamp on or after which the deprecation state of
       this resource will be changed to OBSOLETE. (output only)
-    EOT
+    DOC
   end
 
   newproperty(:deprecated_replacement,
               parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       The URL of the suggested replacement for a deprecated resource. The
       suggested replacement resource must be the same kind of resource as the
       deprecated resource. (output only)
-    EOT
+    DOC
   end
 
   newproperty(:deprecated_state, parent: Google::Compute::Property::Enum) do
-    desc <<-EOT
+    desc <<-DOC
       The deprecation state of this resource. This can be DEPRECATED, OBSOLETE,
       or DELETED. Operations which create a new resource using a DEPRECATED
       resource will return successfully, but with a warning indicating the
       deprecated resource and recommending its replacement. Operations which
       use OBSOLETE or DELETED resources will be rejected and result in an
       error. (output only)
-    EOT
+    DOC
     newvalue(:DEPRECATED)
     newvalue(:OBSOLETE)
     newvalue(:DELETED)

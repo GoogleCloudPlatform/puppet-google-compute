@@ -97,7 +97,7 @@ gcompute_machine_type { 'n1-standard-1':
 
 # Ensures the 'instance-test-ip' external IP address exists. If it does not
 # exist it will allocate an ephemeral one.
-gcompute_address { 'instance-test-ip':
+gcompute_address { 'puppet-e2e-instance-test-ip':
   region     => 'us-central1',
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
@@ -113,13 +113,17 @@ gcompute_instance { 'puppet-e2e-instance-test':
       source      => 'puppet-e2e-instance-test-os-1'
     }
   ],
+  metadata           => {
+    'startup-script-url' => 'gs://graphite-playground/bootstrap.sh',
+    'cost-center'        => '12345',
+  },
   network_interfaces => [
     {
       network        => 'puppet-e2e-default',
       access_configs => [
         {
           name   => 'External NAT',
-          nat_ip => 'instance-test-ip',
+          nat_ip => 'puppet-e2e-instance-test-ip',
           type   => 'ONE_TO_ONE_NAT',
         },
       ],

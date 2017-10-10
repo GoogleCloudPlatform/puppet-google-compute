@@ -33,7 +33,7 @@ require 'google/compute/property/time'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_firewall) do
-  @doc = <<-EOT
+  @doc = <<-DOC
     Each network has its own firewall controlling access to and from the
     instances. All traffic to instances, even from other instances, is blocked
     by the firewall unless firewall rules are created to allow it. The default
@@ -42,19 +42,21 @@ Puppet::Type.newtype(:gcompute_firewall) do
     firewall rules except for a default "allow" rule for outgoing traffic and a
     default "deny" for incoming traffic. For all networks except the default
     network, you must create any firewall rules you need.
-  EOT
+  DOC
 
   autorequire(:gauth_credential) do
-    [self[:credential]]
+    credential = self[:credential]
+    raise "#{ref}: required property 'credential' is missing" if credential.nil?
+    [credential]
   end
 
   ensurable
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -68,10 +70,10 @@ Puppet::Type.newtype(:gcompute_firewall) do
 
   newproperty(:allowed,
               parent: Google::Compute::Property::FirewallAllowedArray) do
-    desc <<-EOT
+    desc <<-DOC
       The list of ALLOW rules specified by this firewall. Each rule specifies a
       protocol and port-range tuple that describes a permitted connection.
-    EOT
+    DOC
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
@@ -79,10 +81,10 @@ Puppet::Type.newtype(:gcompute_firewall) do
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       An optional description of this resource. Provide this property when you
       create the resource.
-    EOT
+    DOC
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
@@ -90,7 +92,7 @@ Puppet::Type.newtype(:gcompute_firewall) do
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       Name of the resource. Provided by the client when the resource is
       created. The name must be 1-63 characters long, and comply with RFC1035.
       Specifically, the name must be 1-63 characters long and match the regular
@@ -98,11 +100,11 @@ Puppet::Type.newtype(:gcompute_firewall) do
       must be a lowercase letter, and all following characters must be a dash,
       lowercase letter, or digit, except the last character, which cannot be a
       dash.
-    EOT
+    DOC
   end
 
   newproperty(:network, parent: Google::Compute::Property::String) do
-    desc <<-EOT
+    desc <<-DOC
       URL of the network resource for this firewall rule. If not specified when
       creating a firewall rule, the default network is used:
       global/networks/default If you choose to specify this property, you can
@@ -111,11 +113,11 @@ Puppet::Type.newtype(:gcompute_firewall) do
       https://www.googleapis.com/compute/v1/projects/myproject/global/
       networks/my-network  projects/myproject/global/networks/my-network
       global/networks/default
-    EOT
+    DOC
   end
 
   newproperty(:source_ranges, parent: Google::Compute::Property::StringArray) do
-    desc <<-EOT
+    desc <<-DOC
       If source ranges are specified, the firewall will apply only to traffic
       that has source IP address in these ranges. These ranges must be
       expressed in CIDR format. One or both of sourceRanges and sourceTags may
@@ -124,11 +126,11 @@ Puppet::Type.newtype(:gcompute_firewall) do
       belongs to a tag listed in the sourceTags property. The connection does
       not need to match both properties for the firewall to apply. Only IPv4 is
       supported.
-    EOT
+    DOC
   end
 
   newproperty(:source_tags, parent: Google::Compute::Property::StringArray) do
-    desc <<-EOT
+    desc <<-DOC
       If source tags are specified, the firewall will apply only to traffic
       with source IP that belongs to a tag listed in source tags. Source tags
       cannot be used to control traffic to an instance's external IP address.
@@ -138,15 +140,15 @@ Puppet::Type.newtype(:gcompute_firewall) do
       sourceRanges OR the source IP that belongs to a tag listed in the
       sourceTags property. The connection does not need to match both
       properties for the firewall to apply.
-    EOT
+    DOC
   end
 
   newproperty(:target_tags, parent: Google::Compute::Property::StringArray) do
-    desc <<-EOT
+    desc <<-DOC
       A list of instance tags indicating sets of instances located in the
       network that may make network connections as specified in allowed[]. If
       no targetTags are specified, the firewall rule applies to all instances
       on the specified network.
-    EOT
+    DOC
   end
 end

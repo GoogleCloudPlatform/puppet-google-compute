@@ -19,9 +19,11 @@ module Google
     # Converts all keys to symbols
     def self.camelize_keys(source)
       result = source.clone
+      # rubocop:disable Performance/HashEachMethods
       result.keys.each do |k|
         result[Google::StringUtils.camelize(k.to_s)] = result.delete(k)
       end
+      # rubocop:enable Performance/HashEachMethods
       result
     end
 

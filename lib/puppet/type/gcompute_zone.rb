@@ -38,14 +38,16 @@ Puppet::Type.newtype(:gcompute_zone) do
   @doc = 'Represents a Zone resource.'
 
   autorequire(:gauth_credential) do
-    [self[:credential]]
+    credential = self[:credential]
+    raise "#{ref}: required property 'credential' is missing" if credential.nil?
+    [credential]
   end
 
   newparam :credential do
-    desc <<-EOT
+    desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
       Platform.
-    EOT
+    DESC
   end
 
   newparam(:project) do
@@ -62,9 +64,9 @@ Puppet::Type.newtype(:gcompute_zone) do
   end
 
   newproperty(:deprecated, parent: Google::Compute::Property::ZoneDeprecated) do
-    desc <<-EOT
+    desc <<-DOC
       The deprecation status associated with this machine type. (output only)
-    EOT
+    DOC
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do

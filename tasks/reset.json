@@ -1,0 +1,23 @@
+{
+  "description": "Resets a Google Compute Engine VM instance",
+  "supports_noop": false,
+  "input_method": "stdin",
+  "parameters": {
+    "name": {
+      "description": "The name of the instance to reset",
+      "type": "String[1]"
+    },
+    "zone": {
+      "description": "The zone where your instance resides",
+      "type": "String[1]"
+    },
+    "project": {
+      "description": "The project that hosts the VM instance",
+      "type": "String[1]"
+    },
+    "credential": {
+      "description": "Path to a service account credentials file",
+      "type": "String[1]"
+    }
+  }
+}

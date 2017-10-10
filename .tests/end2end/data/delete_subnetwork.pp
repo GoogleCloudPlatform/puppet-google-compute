@@ -63,7 +63,7 @@ gcompute_region { 'puppet-e2e-some-region':
 
 gcompute_subnetwork { 'puppet-e2e-servers':
   ensure     => absent,
-  region     => 'some-region',
+  region     => 'puppet-e2e-some-region',
   project    => 'google.com:graphite-playground',
   credential => 'mycred',
 }

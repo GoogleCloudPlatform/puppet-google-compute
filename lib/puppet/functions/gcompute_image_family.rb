@@ -30,7 +30,7 @@
 # function as `source_image` of a `gcompute_instance` resource.
 #
 # Arguments:
-#   - image_family: string
+#   - family_name: string
 #     the name of the family, e.g. ubuntu-1604-lts
 #   - project_name: string
 #     the name of the project that hosts the family,

@@ -51,21 +51,15 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               allow(Time).to receive(:now).and_return(
                 Time.new(2017, 1, 2, 3, 4, 5)
               )
-              expect_network_get_success \
-                1,
-                name: 'title0',
-                network: 'selflink(resource(network,0))',
-                region: 'test name#0 data'
-              expect_network_get_success \
-                2,
-                name: 'title1',
-                network: 'selflink(resource(network,1))',
-                region: 'test name#1 data'
-              expect_network_get_success \
-                3,
-                name: 'title2',
-                network: 'selflink(resource(network,2))',
-                region: 'test name#2 data'
+              expect_network_get_success 1,
+                                         name: 'title0',
+                                         region: 'test name#0 data'
+              expect_network_get_success 2,
+                                         name: 'title1',
+                                         region: 'test name#1 data'
+              expect_network_get_success 3,
+                                         name: 'title2',
+                                         region: 'test name#2 data'
               expect_network_get_success_network 1
               expect_network_get_success_network 2
               expect_network_get_success_network 3
@@ -301,18 +295,9 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               allow(Time).to receive(:now).and_return(
                 Time.new(2017, 1, 2, 3, 4, 5)
               )
-              expect_network_get_success \
-                1,
-                network: 'selflink(resource(network,0))',
-                region: 'test name#0 data'
-              expect_network_get_success \
-                2,
-                network: 'selflink(resource(network,1))',
-                region: 'test name#1 data'
-              expect_network_get_success \
-                3,
-                network: 'selflink(resource(network,2))',
-                region: 'test name#2 data'
+              expect_network_get_success 1, region: 'test name#0 data'
+              expect_network_get_success 2, region: 'test name#1 data'
+              expect_network_get_success 3, region: 'test name#2 data'
               expect_network_get_success_network 1
               expect_network_get_success_network 2
               expect_network_get_success_network 3
@@ -586,7 +571,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
           before(:each) do
             expect_network_get_failed 1,
                                       name: 'title0',
-                                      network: 'selflink(resource(network,0))',
                                       region: 'test name#0 data'
             expect_network_create \
               1,
@@ -601,11 +585,9 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 'region' => 'test name#0 data'
               },
               name: 'title0',
-              network: 'selflink(resource(network,0))',
               region: 'test name#0 data'
             expect_network_get_async 1,
                                      name: 'title0',
-                                     network: 'selflink(resource(network,0))',
                                      region: 'test name#0 data'
             expect_network_get_success_network 1
             expect_network_get_success_region 1
@@ -658,9 +640,7 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
         # Ensure present: resource missing, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      network: 'selflink(resource(network,0))',
-                                      region: 'test name#0 data'
+            expect_network_get_failed 1, region: 'test name#0 data'
             expect_network_create \
               1,
               {
@@ -673,11 +653,8 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 'privateIpGoogleAccess' => true,
                 'region' => 'test name#0 data'
               },
-              network: 'selflink(resource(network,0))',
               region: 'test name#0 data'
-            expect_network_get_async 1,
-                                     network: 'selflink(resource(network,0))',
-                                     region: 'test name#0 data'
+            expect_network_get_async 1, region: 'test name#0 data'
             expect_network_get_success_network 1
             expect_network_get_success_region 1
           end
@@ -734,7 +711,9 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
         # Ensure absent: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1, name: 'title0'
+            expect_network_get_failed 1,
+                                      name: 'title0',
+                                      region: 'test name#0 data'
             expect_network_get_success_region 1
           end
 
@@ -774,7 +753,7 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
         # Ensure absent: resource missing, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            expect_network_get_failed 1
+            expect_network_get_failed 1, region: 'test name#0 data'
             expect_network_get_success_region 1
           end
 
@@ -817,7 +796,9 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
         # Ensure absent: resource exists, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_success 1, name: 'title0'
+            expect_network_get_success 1,
+                                       name: 'title0',
+                                       region: 'test name#0 data'
             expect_network_delete 1, 'title0', region: 'test name#0 data'
             expect_network_get_async 1,
                                      name: 'title0',
@@ -861,7 +842,7 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
         # Ensure absent: resource exists, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            expect_network_get_success 1
+            expect_network_get_success 1, region: 'test name#0 data'
             expect_network_delete 1, nil, region: 'test name#0 data'
             expect_network_get_async 1, region: 'test name#0 data'
             expect_network_get_success_region 1

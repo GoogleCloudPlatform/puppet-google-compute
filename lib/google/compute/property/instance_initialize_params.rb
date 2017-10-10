@@ -38,13 +38,15 @@ module Google
         attr_reader :disk_size_gb
         attr_reader :disk_type
         attr_reader :source_image
+        attr_reader :source_image_encryption_key
 
         def to_json(_arg = nil)
           {
             'diskName' => disk_name,
             'diskSizeGb' => disk_size_gb,
             'diskType' => disk_type,
-            'sourceImage' => source_image
+            'sourceImage' => source_image,
+            'sourceImageEncryptionKey' => source_image_encryption_key
           }.reject { |_k, v| v.nil? }.to_json
         end
 
@@ -53,7 +55,8 @@ module Google
             disk_name: disk_name,
             disk_size_gb: disk_size_gb,
             disk_type: disk_type,
-            source_image: source_image
+            source_image: source_image,
+            source_image_encryption_key: source_image_encryption_key
           }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end
 
@@ -83,7 +86,11 @@ module Google
             { self: disk_name, other: other.disk_name },
             { self: disk_size_gb, other: other.disk_size_gb },
             { self: disk_type, other: other.disk_type },
-            { self: source_image, other: other.source_image }
+            { self: source_image, other: other.source_image },
+            {
+              self: source_image_encryption_key,
+              other: other.source_image_encryption_key
+            }
           ]
         end
       end
@@ -96,10 +103,15 @@ module Google
             Google::Compute::Property::String.api_munge(args['diskName'])
           @disk_size_gb =
             Google::Compute::Property::Integer.api_munge(args['diskSizeGb'])
-          @disk_type =
-            Google::Compute::Property::Integer.api_munge(args['diskType'])
+          @disk_type = Google::Compute::Property::DiskTypeSelfLinkRef.api_munge(
+            args['diskType']
+          )
           @source_image =
-            Google::Compute::Property::Integer.api_munge(args['sourceImage'])
+            Google::Compute::Property::String.api_munge(args['sourceImage'])
+          @source_image_encryption_key =
+            Google::Compute::Property::InstSourImagEncrKey.api_munge(
+              args['sourceImageEncryptionKey']
+            )
         end
       end
 
@@ -113,10 +125,15 @@ module Google
             args['disk_size_gb']
           )
           @disk_type =
-            Google::Compute::Property::Integer.unsafe_munge(args['disk_type'])
-          @source_image = Google::Compute::Property::Integer.unsafe_munge(
-            args['source_image']
-          )
+            Google::Compute::Property::DiskTypeSelfLinkRef.unsafe_munge(
+              args['disk_type']
+            )
+          @source_image =
+            Google::Compute::Property::String.unsafe_munge(args['source_image'])
+          @source_image_encryption_key =
+            Google::Compute::Property::InstSourImagEncrKey.unsafe_munge(
+              args['source_image_encryption_key']
+            )
         end
       end
     end
