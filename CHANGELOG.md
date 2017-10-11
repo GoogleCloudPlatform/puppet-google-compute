@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 (2017-10-11)
+
+### Fixes
+
+- #0001: Boolean[1] might be invalid
+
 ## 0.2.0 (2017-10-10)
 
 ### New features
