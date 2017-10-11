@@ -13,7 +13,7 @@
     },
     "size_gb": {
       "description": "The size of the VM disk (in GB) (default: 50)",
-      "type": "Optional[Integer[1]]"
+      "type": "Optional[Integer]"
     },
     "machine_type": {
       "description": "The type of the machine to create (default: n1-standard-1)",
@@ -21,7 +21,7 @@
     },
     "allocate_static_ip": {
       "description": "If true it will allocate a static IP for the machine (default: false)",
-      "type": "Optional[Boolean[1]]"
+      "type": "Optional[Boolean]"
     },
     "network_name": {
       "description": "The network to connect the VM to (default: default)",
@@ -41,7 +41,7 @@
     },
     "ensure": {
       "description": "If you'd wish to quickly delete an instance instead of creating one (default: present)",
-      "type": "Optional[String[1]]"
+      "type": "Optional[Enum['present', 'absent']]"
     }
   }
 }
