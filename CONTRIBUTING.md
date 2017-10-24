@@ -106,6 +106,7 @@ puppet-codegen:
   * .tests/end2end/data/delete_instance_template.pp
   * .tests/end2end/data/delete_network.pp
   * .tests/end2end/data/delete_route.pp
+  * .tests/end2end/data/delete_snapshot.pp
   * .tests/end2end/data/delete_ssl_certificate.pp
   * .tests/end2end/data/delete_subnetwork.pp
   * .tests/end2end/data/delete_target_http_proxy.pp
@@ -137,6 +138,7 @@ puppet-codegen:
   * .tests/end2end/data/network~legacy.pp
   * .tests/end2end/data/region.pp
   * .tests/end2end/data/route.pp
+  * .tests/end2end/data/snapshot.pp
   * .tests/end2end/data/ssl_certificate.pp
   * .tests/end2end/data/subnetwork.pp
   * .tests/end2end/data/target_http_proxy.pp
@@ -169,6 +171,7 @@ puppet-codegen:
   * examples/delete_instance_template.pp
   * examples/delete_network.pp
   * examples/delete_route.pp
+  * examples/delete_snapshot.pp
   * examples/delete_ssl_certificate.pp
   * examples/delete_subnetwork.pp
   * examples/delete_target_http_proxy.pp
@@ -200,6 +203,7 @@ puppet-codegen:
   * examples/network~legacy.pp
   * examples/region.pp
   * examples/route.pp
+  * examples/snapshot.pp
   * examples/ssl_certificate.pp
   * examples/subnetwork.pp
   * examples/target_http_proxy.pp
@@ -275,6 +279,7 @@ puppet-codegen:
   * lib/google/compute/property/instancetemplate_source_image_encryption_key.rb
   * lib/google/compute/property/instancetemplate_tags.rb
   * lib/google/compute/property/integer.rb
+  * lib/google/compute/property/license_selflink.rb
   * lib/google/compute/property/machinetype_deprecated.rb
   * lib/google/compute/property/machinetype_name.rb
   * lib/google/compute/property/machinetype_selflink.rb
@@ -282,6 +287,8 @@ puppet-codegen:
   * lib/google/compute/property/network_selflink.rb
   * lib/google/compute/property/region_name.rb
   * lib/google/compute/property/region_selflink.rb
+  * lib/google/compute/property/snapshot_snapshot_encryption_key.rb
+  * lib/google/compute/property/snapshot_source_disk_encryption_key.rb
   * lib/google/compute/property/sslcertificate_selflink.rb
   * lib/google/compute/property/string.rb
   * lib/google/compute/property/string_array.rb
@@ -328,6 +335,7 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_network/google.rb
   * lib/puppet/provider/gcompute_region/google.rb
   * lib/puppet/provider/gcompute_route/google.rb
+  * lib/puppet/provider/gcompute_snapshot/google.rb
   * lib/puppet/provider/gcompute_ssl_certificate/google.rb
   * lib/puppet/provider/gcompute_subnetwork/google.rb
   * lib/puppet/provider/gcompute_target_http_proxy/google.rb
@@ -359,6 +367,7 @@ puppet-codegen:
   * lib/puppet/type/gcompute_network.rb
   * lib/puppet/type/gcompute_region.rb
   * lib/puppet/type/gcompute_route.rb
+  * lib/puppet/type/gcompute_snapshot.rb
   * lib/puppet/type/gcompute_ssl_certificate.rb
   * lib/puppet/type/gcompute_subnetwork.rb
   * lib/puppet/type/gcompute_target_http_proxy.rb
@@ -510,6 +519,12 @@ puppet-codegen:
   * spec/data/network/gcompute_route/success2~title.yaml
   * spec/data/network/gcompute_route/success3~name.yaml
   * spec/data/network/gcompute_route/success3~title.yaml
+  * spec/data/network/gcompute_snapshot/success1~name.yaml
+  * spec/data/network/gcompute_snapshot/success1~title.yaml
+  * spec/data/network/gcompute_snapshot/success2~name.yaml
+  * spec/data/network/gcompute_snapshot/success2~title.yaml
+  * spec/data/network/gcompute_snapshot/success3~name.yaml
+  * spec/data/network/gcompute_snapshot/success3~title.yaml
   * spec/data/network/gcompute_ssl_certificate/success1~name.yaml
   * spec/data/network/gcompute_ssl_certificate/success1~title.yaml
   * spec/data/network/gcompute_ssl_certificate/success2~name.yaml
@@ -587,6 +602,7 @@ puppet-codegen:
   * spec/gcompute_network_provider_spec.rb
   * spec/gcompute_region_provider_spec.rb
   * spec/gcompute_route_provider_spec.rb
+  * spec/gcompute_snapshot_provider_spec.rb
   * spec/gcompute_ssl_certificate_provider_spec.rb
   * spec/gcompute_subnetwork_provider_spec.rb
   * spec/gcompute_target_http_proxy_provider_spec.rb

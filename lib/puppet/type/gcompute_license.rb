@@ -27,6 +27,7 @@
 
 require 'google/compute/property/boolean'
 require 'google/compute/property/string'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_license) do
@@ -72,5 +73,10 @@ Puppet::Type.newtype(:gcompute_license) do
     DOC
     newvalue(:true)
     newvalue(:false)
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end

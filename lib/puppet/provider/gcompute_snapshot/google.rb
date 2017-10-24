@@ -25,17 +25,25 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/api/gcompute_disk'
 require 'google/compute/network/delete'
 require 'google/compute/network/get'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
-require 'google/compute/property/boolean'
+require 'google/compute/property/disk_name'
+require 'google/compute/property/integer'
+require 'google/compute/property/license_selflink'
+require 'google/compute/property/snapshot_snapshot_encryption_key'
+require 'google/compute/property/snapshot_source_disk_encryption_key'
 require 'google/compute/property/string'
+require 'google/compute/property/string_array'
+require 'google/compute/property/time'
+require 'google/compute/property/zone_name'
 require 'google/hash_utils'
 require 'google/object_store'
 require 'puppet'
 
-Puppet::Type.type(:gcompute_license).provide(:google) do
+Puppet::Type.type(:gcompute_snapshot).provide(:google) do
   mk_resource_methods
 
   def self.instances
@@ -52,9 +60,9 @@ Puppet::Type.type(:gcompute_license).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource), 'compute#license')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#snapshot')
       resource.provider = present(name, fetch) unless fetch.nil?
-      Google::ObjectStore.instance.add(:gcompute_license, resource)
+      Google::ObjectStore.instance.add(:gcompute_snapshot, resource)
     end
   end
 
@@ -66,10 +74,50 @@ Puppet::Type.type(:gcompute_license).provide(:google) do
 
   def self.fetch_to_hash(fetch)
     {
+      creation_timestamp:
+        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      id: Google::Compute::Property::Integer.api_munge(fetch['id']),
+      disk_size_gb:
+        Google::Compute::Property::Integer.api_munge(fetch['diskSizeGb']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      charges_use_fee:
-        Google::Compute::Property::Boolean.api_munge(fetch['chargesUseFee'])
+      description:
+        Google::Compute::Property::String.api_munge(fetch['description']),
+      storage_bytes:
+        Google::Compute::Property::Integer.api_munge(fetch['storageBytes']),
+      licenses: Google::Compute::Property::LicenSelfLinkRefArray.api_munge(
+        fetch['licenses']
+      ),
+      labels: Google::Compute::Property::StringArray.api_munge(fetch['labels'])
     }.reject { |_, v| v.nil? }
+  end
+
+  def exists?
+    debug("exists? #{@property_hash[:ensure] == :present}")
+    @property_hash[:ensure] == :present
+  end
+
+  def create
+    debug('create')
+    @created = true
+    disk = Google::Compute::Api::Disk.new(resource[:source].resource,
+                                          resource[:zone].resource,
+                                          resource[:project],
+                                          fetch_auth(resource))
+    # TODO(nelsonjr): Wait for operation to complete
+    disk.snapshot(
+      resource[:name],
+      Google::HashUtils.symbolize_keys(JSON.parse(resource_to_request))
+    )
+    @property_hash[:ensure] = :present
+  end
+
+  def destroy
+    debug('destroy')
+    @deleted = true
+    delete_req = Google::Compute::Network::Delete.new(self_link(@resource),
+                                                      fetch_auth(@resource))
+    wait_for_operation delete_req.send, @resource
+    @property_hash[:ensure] = :absent
   end
 
   def flush
@@ -80,7 +128,7 @@ Puppet::Type.type(:gcompute_license).provide(:google) do
                                                    fetch_auth(@resource),
                                                    'application/json',
                                                    resource_to_request)
-    return_if_object update_req.send, 'compute#license'
+    wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)
@@ -99,34 +147,37 @@ Puppet::Type.type(:gcompute_license).provide(:google) do
 
   private
 
-  # Hashes have :true or :false which to_json converts to strings
-  def sym_to_bool(value)
-    if value == :true
-      true
-    elsif value == :false
-      false
-    else
-      value
-    end
-  end
-
   def self.resource_to_hash(resource)
     {
       project: resource[:project],
       name: resource[:name],
-      kind: 'compute#license',
-      charges_use_fee: resource[:charges_use_fee]
+      kind: 'compute#snapshot',
+      creation_timestamp: resource[:creation_timestamp],
+      id: resource[:id],
+      disk_size_gb: resource[:disk_size_gb],
+      description: resource[:description],
+      storage_bytes: resource[:storage_bytes],
+      licenses: resource[:licenses],
+      labels: resource[:labels],
+      source: resource[:source],
+      zone: resource[:zone],
+      snapshot_encryption_key: resource[:snapshot_encryption_key],
+      source_disk_encryption_key: resource[:source_disk_encryption_key]
     }.reject { |_, v| v.nil? }
   end
 
   def resource_to_request
     request = {
-      kind: 'compute#license'
+      kind: 'compute#snapshot',
+      name: @resource[:name],
+      description: @resource[:description],
+      licenses: @resource[:licenses],
+      labels: @resource[:labels],
+      source: @resource[:source],
+      zone: @resource[:zone],
+      snapshotEncryptionKey: @resource[:snapshot_encryption_key],
+      sourceDiskEncryptionKey: @resource[:source_disk_encryption_key]
     }.reject { |_, v| v.nil? }
-
-    # Convert boolean symbols into JSON compatible value.
-    request = request.inject({}) { |h, (k, v)| h.merge(k => sym_to_bool(v)) }
-
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json
   end
@@ -148,7 +199,7 @@ Puppet::Type.type(:gcompute_license).provide(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        '/projects/{{project}}/global/licenses',
+        'projects/{{project}}/global/snapshots',
         data
       )
     )
@@ -162,7 +213,7 @@ Puppet::Type.type(:gcompute_license).provide(:google) do
     URI.join(
       'https://www.googleapis.com/compute/v1/',
       expand_variables(
-        '/projects/{{project}}/global/licenses/{{name}}',
+        'projects/{{project}}/global/snapshots/{{name}}',
         data
       )
     )
@@ -211,6 +262,57 @@ Puppet::Type.type(:gcompute_license).provide(:google) do
       template.gsub!(/{{#{v}}}/, CGI.escape(data[v].to_s))
     end
     template
+  end
+
+  def expand_variables(template, var_data, extra_data = {})
+    self.class.expand_variables(template, var_data, extra_data)
+  end
+
+  def fetch_resource(resource, self_link, kind)
+    self.class.fetch_resource(resource, self_link, kind)
+  end
+
+  def async_op_url(data, extra_data = {})
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables(
+        'projects/{{project}}/global/operations/{{op_id}}',
+        data, extra_data
+      )
+    )
+  end
+
+  def wait_for_operation(response, resource)
+    op_result = return_if_object(response, 'compute#operation')
+    return if op_result.nil?
+    status = ::Google::HashUtils.navigate(op_result, %w[status])
+    fetch_resource(
+      resource,
+      URI.parse(::Google::HashUtils.navigate(wait_for_completion(status,
+                                                                 op_result,
+                                                                 resource),
+                                             %w[targetLink])),
+      'compute#snapshot'
+    )
+  end
+
+  def wait_for_completion(status, op_result, resource)
+    op_id = ::Google::HashUtils.navigate(op_result, %w[name])
+    op_uri = async_op_url(resource, op_id: op_id)
+    while status != 'DONE'
+      debug("Waiting for completion of operation #{op_id}")
+      raise_if_errors op_result, %w[error errors], 'message'
+      sleep 1.0
+      raise "Invalid result '#{status}' on gcompute_snapshot." \
+        unless %w[PENDING RUNNING DONE].include?(status)
+      op_result = fetch_resource(resource, op_uri, 'compute#operation')
+      status = ::Google::HashUtils.navigate(op_result, %w[status])
+    end
+    op_result
+  end
+
+  def raise_if_errors(response, err_path, msg_field)
+    self.class.raise_if_errors(response, err_path, msg_field)
   end
 
   def self.fetch_resource(resource, self_link, kind)
