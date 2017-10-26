@@ -139,9 +139,7 @@ module Google
             args['machineType']
           )
           @metadata =
-            Google::Compute::Property::InstancTemplatMetadat.api_munge(
-              args['metadata']
-            )
+            Google::Compute::Property::NameValues.api_munge(args['metadata'])
           @guest_accelerators =
             Google::Compute::Property::InstaTemplGuestAccelArray.api_munge(
               args['guestAccelerators']
@@ -184,9 +182,7 @@ module Google
               args['machine_type']
             )
           @metadata =
-            Google::Compute::Property::InstancTemplatMetadat.unsafe_munge(
-              args['metadata']
-            )
+            Google::Compute::Property::NameValues.unsafe_munge(args['metadata'])
           @guest_accelerators =
             Google::Compute::Property::InstaTemplGuestAccelArray.unsafe_munge(
               args['guest_accelerators']

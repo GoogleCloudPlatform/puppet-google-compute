@@ -32,6 +32,7 @@ require 'google/compute/network/put'
 require 'google/compute/property/boolean'
 require 'google/compute/property/string'
 require 'google/hash_utils'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_license).provide(:google) do
@@ -53,11 +54,13 @@ Puppet::Type.type(:gcompute_license).provide(:google) do
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource), 'compute#license')
       resource.provider = present(name, fetch) unless fetch.nil?
+      Google::ObjectStore.instance.add(:gcompute_license, resource)
     end
   end
 
   def self.present(name, fetch)
     result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+    result.instance_variable_set(:@fetched, fetch)
     result
   end
 
@@ -85,6 +88,12 @@ Puppet::Type.type(:gcompute_license).provide(:google) do
     @dirty[field] = {
       from: from,
       to: to
+    }
+  end
+
+  def exports
+    {
+      self_link: @fetched['selfLink']
     }
   end
 

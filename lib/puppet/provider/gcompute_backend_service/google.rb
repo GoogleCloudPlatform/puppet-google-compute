@@ -43,6 +43,7 @@ require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
 require 'google/hash_utils'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_backend_service).provide(:google) do
@@ -65,6 +66,7 @@ Puppet::Type.type(:gcompute_backend_service).provide(:google) do
       fetch = fetch_resource(resource, self_link(resource),
                              'compute#backendService')
       resource.provider = present(name, fetch) unless fetch.nil?
+      Google::ObjectStore.instance.add(:gcompute_backend_service, resource)
     end
   end
 
@@ -156,6 +158,12 @@ Puppet::Type.type(:gcompute_backend_service).provide(:google) do
     @dirty[field] = {
       from: from,
       to: to
+    }
+  end
+
+  def exports
+    {
+      self_link: @fetched['selfLink']
     }
   end
 

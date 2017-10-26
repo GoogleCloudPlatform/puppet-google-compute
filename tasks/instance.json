@@ -1,0 +1,47 @@
+{
+  "description": "Because sometimes you just want a quick way to get (or destroy) an instance",
+  "supports_noop": false,
+  "input_method": "stdin",
+  "parameters": {
+    "name": {
+      "description": "Name of the machine to create (or delete) (default: bolt-<random>)",
+      "type": "Optional[String[1]]"
+    },
+    "image_family": {
+      "description": "An indication of which image family to launch the instance from (format: <familyname>:<organization>) (default: centos-7:centos-cloud)",
+      "type": "Optional[String[1]]"
+    },
+    "size_gb": {
+      "description": "The size of the VM disk (in GB) (default: 50)",
+      "type": "Optional[Integer]"
+    },
+    "machine_type": {
+      "description": "The type of the machine to create (default: n1-standard-1)",
+      "type": "Optional[String[1]]"
+    },
+    "allocate_static_ip": {
+      "description": "If true it will allocate a static IP for the machine (default: false)",
+      "type": "Optional[Boolean]"
+    },
+    "network_name": {
+      "description": "The network to connect the VM to (default: default)",
+      "type": "Optional[String[1]]"
+    },
+    "zone": {
+      "description": "The zone where your instance resides (default: us-west1-c)",
+      "type": "Optional[String[1]]"
+    },
+    "project": {
+      "description": "The project you have credentials for and will houses your instance",
+      "type": "String[1]"
+    },
+    "credential": {
+      "description": "Path to a service account credentials file",
+      "type": "String[1]"
+    },
+    "ensure": {
+      "description": "If you'd wish to quickly delete an instance instead of creating one (default: present)",
+      "type": "Optional[Enum['present', 'absent']]"
+    }
+  }
+}

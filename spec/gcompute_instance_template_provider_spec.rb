@@ -338,11 +338,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                     ],
                     machine_type       => 'resource(machine_type,0)',
                     metadata           => {
-                      items => {
-                        'test items#1 data' => 'test items#1 data',
-                        'test items#2 data' => 7591567804,
-                        'test items#3 data' => 'test items#3 data',
-                      },
+                      'test metadata#1 data' => 'test metadata#1 data',
+                      'test metadata#2 data' => 2666715473,
+                      'test metadata#3 data' => 'test metadata#3 data',
                     },
                     network_interfaces => [
                       {
@@ -515,12 +513,11 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                     ],
                     machine_type       => 'resource(machine_type,1)',
                     metadata           => {
-                      items => {
-                        'test items#2 data' => 'test items#2 data',
-                        'test items#3 data' => 10122090405,
-                        'test items#4 data' => 'test items#4 data',
-                        'test items#5 data' => 15183135608,
-                      },
+                      'test metadata#2 data' => 'test metadata#2 data',
+                      'test metadata#3 data' => 3555620630,
+                      'test metadata#4 data' => 'test metadata#4 data',
+                      'test metadata#5 data' => 5333430946,
+                      'test metadata#6 data' => 'test metadata#6 data',
                     },
                     network_interfaces => [
                       {
@@ -695,10 +692,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                     ],
                     machine_type       => 'resource(machine_type,2)',
                     metadata           => {
-                      items => {
-                        'test items#3 data' => 'test items#3 data',
-                        'test items#4 data' => 12652613006,
-                      },
+                      'test metadata#3 data' => 'test metadata#3 data',
+                      'test metadata#4 data' => 4444525788,
+                      'test metadata#5 data' => 'test metadata#5 data',
                     },
                     network_interfaces => [
                       {
@@ -1188,11 +1184,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                     ],
                     machine_type       => 'resource(machine_type,0)',
                     metadata           => {
-                      items => {
-                        'test items#1 data' => 'test items#1 data',
-                        'test items#2 data' => 7591567804,
-                        'test items#3 data' => 'test items#3 data',
-                      },
+                      'test metadata#1 data' => 'test metadata#1 data',
+                      'test metadata#2 data' => 2666715473,
+                      'test metadata#3 data' => 'test metadata#3 data',
                     },
                     network_interfaces => [
                       {
@@ -1366,12 +1360,11 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                     ],
                     machine_type       => 'resource(machine_type,1)',
                     metadata           => {
-                      items => {
-                        'test items#2 data' => 'test items#2 data',
-                        'test items#3 data' => 10122090405,
-                        'test items#4 data' => 'test items#4 data',
-                        'test items#5 data' => 15183135608,
-                      },
+                      'test metadata#2 data' => 'test metadata#2 data',
+                      'test metadata#3 data' => 3555620630,
+                      'test metadata#4 data' => 'test metadata#4 data',
+                      'test metadata#5 data' => 5333430946,
+                      'test metadata#6 data' => 'test metadata#6 data',
                     },
                     network_interfaces => [
                       {
@@ -1547,10 +1540,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                     ],
                     machine_type       => 'resource(machine_type,2)',
                     metadata           => {
-                      items => {
-                        'test items#3 data' => 'test items#3 data',
-                        'test items#4 data' => 12652613006,
-                      },
+                      'test metadata#3 data' => 'test metadata#3 data',
+                      'test metadata#4 data' => 4444525788,
+                      'test metadata#5 data' => 'test metadata#5 data',
                     },
                     network_interfaces => [
                       {
@@ -1850,11 +1842,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                   ],
                   'machineType' => 'test name#0 data',
                   'metadata' => {
-                    'items' => {
-                      'test items#1 data' => 'test items#1 data',
-                      'test items#2 data' => 7_591_567_804,
-                      'test items#3 data' => 'test items#3 data'
-                    }
+                    'test metadata#1 data' => 'test metadata#1 data',
+                    'test metadata#2 data' => 2_666_715_473,
+                    'test metadata#3 data' => 'test metadata#3 data'
                   },
                   'guestAccelerators' => [
                     {
@@ -2238,11 +2228,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                   ],
                   machine_type       => 'resource(machine_type,0)',
                   metadata           => {
-                    items => {
-                      'test items#1 data' => 'test items#1 data',
-                      'test items#2 data' => 7591567804,
-                      'test items#3 data' => 'test items#3 data',
-                    },
+                    'test metadata#1 data' => 'test metadata#1 data',
+                    'test metadata#2 data' => 2666715473,
+                    'test metadata#3 data' => 'test metadata#3 data',
                   },
                   network_interfaces => [
                     {
@@ -2454,11 +2442,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                 ],
                 'machineType' => 'test name#0 data',
                 'metadata' => {
-                  'items' => {
-                    'test items#1 data' => 'test items#1 data',
-                    'test items#2 data' => 7_591_567_804,
-                    'test items#3 data' => 'test items#3 data'
-                  }
+                  'test metadata#1 data' => 'test metadata#1 data',
+                  'test metadata#2 data' => 2_666_715_473,
+                  'test metadata#3 data' => 'test metadata#3 data'
                 },
                 'guestAccelerators' => [
                   {
@@ -2841,11 +2827,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                   ],
                   machine_type       => 'resource(machine_type,0)',
                   metadata           => {
-                    items => {
-                      'test items#1 data' => 'test items#1 data',
-                      'test items#2 data' => 7591567804,
-                      'test items#3 data' => 'test items#3 data',
-                    },
+                    'test metadata#1 data' => 'test metadata#1 data',
+                    'test metadata#2 data' => 2666715473,
+                    'test metadata#3 data' => 'test metadata#3 data',
                   },
                   network_interfaces => [
                     {
@@ -3155,6 +3139,25 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
     end
   end
 
+  context '#exports' do
+    context 'exports all properties' do
+      let(:resource1) { create_type 1 }
+      before do
+        expect_network_get_success 1
+        described_class.prefetch(title0: resource1)
+      end
+
+      subject { resource1.exports }
+
+      let(:expected_results) do
+        {
+          self_link: 'selflink(resource(instance_template,0))'
+        }
+      end
+      it { is_expected.to eq(expected_results) }
+    end
+  end
+
   private
 
   def expect_network_get_success(id, data = {})
@@ -3222,6 +3225,8 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
       [k.is_a?(Symbol) ? k.id2name : k, v]
     end]
 
+    # Encode the object to conform with the API
+    expected_body = encode_request(expected_body)
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
@@ -3363,6 +3368,19 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
     )
   end
 
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_zone
+    expect_network_get_success_zone 1
+
+    resource = Puppet::Type.type(:gcompute_zone).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .prefetch(resource: resource)
+  end
+
   def expect_network_get_success_disk(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_disk("success#{id}~" \
@@ -3463,6 +3481,19 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
     )
   end
 
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_zone
+    expect_network_get_success_zone 1
+
+    resource = Puppet::Type.type(:gcompute_zone).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .prefetch(resource: resource)
+  end
+
   def expect_network_get_success_machine_type(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_machine_type("success#{id}~" \
@@ -3514,6 +3545,19 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
     )
   end
 
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_machine_type
+    expect_network_get_success_machine_type 1
+
+    resource = Puppet::Type.type(:gcompute_machine_type).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_machine_type).provider(:google)
+                .prefetch(resource: resource)
+  end
+
   def expect_network_get_success_zone(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_zone("success#{id}~" \
@@ -3561,6 +3605,19 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
         data
       )
     )
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_zone
+    expect_network_get_success_zone 1
+
+    resource = Puppet::Type.type(:gcompute_zone).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .prefetch(resource: resource)
   end
 
   def expect_network_get_success_address(id, data = {})
@@ -3614,6 +3671,19 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
     )
   end
 
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_address
+    expect_network_get_success_address 1
+
+    resource = Puppet::Type.type(:gcompute_address).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_address).provider(:google)
+                .prefetch(resource: resource)
+  end
+
   def expect_network_get_success_region(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_region("success#{id}~" \
@@ -3661,6 +3731,19 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
         data
       )
     )
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_region
+    expect_network_get_success_region 1
+
+    resource = Puppet::Type.type(:gcompute_region).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .prefetch(resource: resource)
   end
 
   def expect_network_get_success_network(id, data = {})
@@ -3812,6 +3895,19 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
     )
   end
 
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_region
+    expect_network_get_success_region 1
+
+    resource = Puppet::Type.type(:gcompute_region).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .prefetch(resource: resource)
+  end
+
   def debug(message)
     puts(message) if ENV['RSPEC_DEBUG']
   end
@@ -3891,6 +3987,11 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
   def expand_variables(template, data, extra_data = {})
     Puppet::Type.type(:gcompute_instance_template).provider(:google)
                 .expand_variables(template, data, extra_data)
+  end
+
+  def encode_request(resource)
+    Puppet::Type.type(:gcompute_instance_template).provider(:google)
+                .encode_request(resource)
   end
 
   def collection(data)

@@ -1,6 +1,6 @@
 {
   "name": "google-gcompute",
-  "version": "0.1.1",
+  "version": "0.2.2",
   "author": "Google",
   "summary": "A Puppet module to manage Google Compute Engine resources",
   "license": "Apache-2.0",
@@ -65,13 +65,7 @@
   "dependencies": [
     {
       "name": "google/gauth",
-      "version_requirement": "< 0.2.0"
-    }
-  ],
-  "requirements": [
-    {
-      "name": "google/gauth",
-      "version_requirement": "< 0.2.0"
+      "version_requirement": ">= 0.2.0 < 0.3.0"
     }
   ],
   "tags": [

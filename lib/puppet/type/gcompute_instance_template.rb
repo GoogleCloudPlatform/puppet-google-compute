@@ -36,7 +36,6 @@ require 'google/compute/property/instancetemplate_disk_encryption_key'
 require 'google/compute/property/instancetemplate_disks'
 require 'google/compute/property/instancetemplate_guest_accelerators'
 require 'google/compute/property/instancetemplate_initialize_params'
-require 'google/compute/property/instancetemplate_metadata'
 require 'google/compute/property/instancetemplate_network_interfaces'
 require 'google/compute/property/instancetemplate_properties'
 require 'google/compute/property/instancetemplate_scheduling'
@@ -51,6 +50,7 @@ require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/subnetwork_selflink'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_instance_template) do
@@ -65,7 +65,9 @@ Puppet::Type.newtype(:gcompute_instance_template) do
   DOC
 
   autorequire(:gauth_credential) do
-    [self[:credential]]
+    credential = self[:credential]
+    raise "#{ref}: required property 'credential' is missing" if credential.nil?
+    [credential]
   end
 
   ensurable
@@ -114,5 +116,10 @@ Puppet::Type.newtype(:gcompute_instance_template) do
   newproperty(:properties,
               parent: Google::Compute::Property::InstancTemplatPropert) do
     desc 'The instance properties for this instance template.'
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end

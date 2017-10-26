@@ -1,0 +1,27 @@
+{
+  "description": "Create a snapshot of a Google Compute Engine Disk",
+  "supports_noop": false,
+  "input_method": "stdin",
+  "parameters": {
+    "name": {
+      "description": "The name of the disk to create snapshot",
+      "type": "String[1]"
+    },
+    "target": {
+      "description": "The name of the disk snapshot (default: <name>-<timestamp>)",
+      "type": "Optional[String[1]]"
+    },
+    "zone": {
+      "description": "The zone where your disk resides",
+      "type": "String[1]"
+    },
+    "project": {
+      "description": "The project that hosts the disk",
+      "type": "String[1]"
+    },
+    "credential": {
+      "description": "Path to a service account credentials file",
+      "type": "String[1]"
+    }
+  }
+}

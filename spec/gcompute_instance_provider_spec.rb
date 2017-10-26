@@ -342,11 +342,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   label_fingerprint  => 'test label_fingerprint#0 data',
                   machine_type       => 'resource(machine_type,0)',
                   metadata           => {
-                    items => {
-                      'test items#1 data' => 'test items#1 data',
-                      'test items#2 data' => 7591567804,
-                      'test items#3 data' => 'test items#3 data',
-                    },
+                    'test metadata#1 data' => 'test metadata#1 data',
+                    'test metadata#2 data' => 2666715473,
+                    'test metadata#3 data' => 'test metadata#3 data',
                   },
                   min_cpu_platform   => 'test min_cpu_platform#0 data',
                   network_interfaces => [
@@ -518,12 +516,11 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   label_fingerprint  => 'test label_fingerprint#1 data',
                   machine_type       => 'resource(machine_type,1)',
                   metadata           => {
-                    items => {
-                      'test items#2 data' => 'test items#2 data',
-                      'test items#3 data' => 10122090405,
-                      'test items#4 data' => 'test items#4 data',
-                      'test items#5 data' => 15183135608,
-                    },
+                    'test metadata#2 data' => 'test metadata#2 data',
+                    'test metadata#3 data' => 3555620630,
+                    'test metadata#4 data' => 'test metadata#4 data',
+                    'test metadata#5 data' => 5333430946,
+                    'test metadata#6 data' => 'test metadata#6 data',
                   },
                   min_cpu_platform   => 'test min_cpu_platform#1 data',
                   network_interfaces => [
@@ -697,10 +694,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   label_fingerprint  => 'test label_fingerprint#2 data',
                   machine_type       => 'resource(machine_type,2)',
                   metadata           => {
-                    items => {
-                      'test items#3 data' => 'test items#3 data',
-                      'test items#4 data' => 12652613006,
-                    },
+                    'test metadata#3 data' => 'test metadata#3 data',
+                    'test metadata#4 data' => 4444525788,
+                    'test metadata#5 data' => 'test metadata#5 data',
                   },
                   min_cpu_platform   => 'test min_cpu_platform#2 data',
                   network_interfaces => [
@@ -845,7 +841,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#0 data'
                   )
               end
-              # TODO(nelsonjr): Implement complex nested property object test.
+              # TODO(nelsonjr): Implement complex namevalues property test.
               # it 'metadata' do
               #   # Add test code here
               # end
@@ -918,7 +914,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#1 data'
                   )
               end
-              # TODO(nelsonjr): Implement complex nested property object test.
+              # TODO(nelsonjr): Implement complex namevalues property test.
               # it 'metadata' do
               #   # Add test code here
               # end
@@ -991,7 +987,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#2 data'
                   )
               end
-              # TODO(nelsonjr): Implement complex nested property object test.
+              # TODO(nelsonjr): Implement complex namevalues property test.
               # it 'metadata' do
               #   # Add test code here
               # end
@@ -1335,11 +1331,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   label_fingerprint  => 'test label_fingerprint#0 data',
                   machine_type       => 'resource(machine_type,0)',
                   metadata           => {
-                    items => {
-                      'test items#1 data' => 'test items#1 data',
-                      'test items#2 data' => 7591567804,
-                      'test items#3 data' => 'test items#3 data',
-                    },
+                    'test metadata#1 data' => 'test metadata#1 data',
+                    'test metadata#2 data' => 2666715473,
+                    'test metadata#3 data' => 'test metadata#3 data',
                   },
                   min_cpu_platform   => 'test min_cpu_platform#0 data',
                   name               => 'test name#0 data',
@@ -1512,12 +1506,11 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   label_fingerprint  => 'test label_fingerprint#1 data',
                   machine_type       => 'resource(machine_type,1)',
                   metadata           => {
-                    items => {
-                      'test items#2 data' => 'test items#2 data',
-                      'test items#3 data' => 10122090405,
-                      'test items#4 data' => 'test items#4 data',
-                      'test items#5 data' => 15183135608,
-                    },
+                    'test metadata#2 data' => 'test metadata#2 data',
+                    'test metadata#3 data' => 3555620630,
+                    'test metadata#4 data' => 'test metadata#4 data',
+                    'test metadata#5 data' => 5333430946,
+                    'test metadata#6 data' => 'test metadata#6 data',
                   },
                   min_cpu_platform   => 'test min_cpu_platform#1 data',
                   name               => 'test name#1 data',
@@ -1692,10 +1685,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                   label_fingerprint  => 'test label_fingerprint#2 data',
                   machine_type       => 'resource(machine_type,2)',
                   metadata           => {
-                    items => {
-                      'test items#3 data' => 'test items#3 data',
-                      'test items#4 data' => 12652613006,
-                    },
+                    'test metadata#3 data' => 'test metadata#3 data',
+                    'test metadata#4 data' => 4444525788,
+                    'test metadata#5 data' => 'test metadata#5 data',
                   },
                   min_cpu_platform   => 'test min_cpu_platform#2 data',
                   name               => 'test name#2 data',
@@ -1841,7 +1833,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#0 data'
                   )
               end
-              # TODO(nelsonjr): Implement complex nested property object test.
+              # TODO(nelsonjr): Implement complex namevalues property test.
               # it 'metadata' do
               #   # Add test code here
               # end
@@ -1914,7 +1906,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#1 data'
                   )
               end
-              # TODO(nelsonjr): Implement complex nested property object test.
+              # TODO(nelsonjr): Implement complex namevalues property test.
               # it 'metadata' do
               #   # Add test code here
               # end
@@ -1987,7 +1979,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                     label_fingerprint: 'test label_fingerprint#2 data'
                   )
               end
-              # TODO(nelsonjr): Implement complex nested property object test.
+              # TODO(nelsonjr): Implement complex namevalues property test.
               # it 'metadata' do
               #   # Add test code here
               # end
@@ -2160,11 +2152,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 ],
                 'labelFingerprint' => 'test label_fingerprint#0 data',
                 'metadata' => {
-                  'items' => {
-                    'test items#1 data' => 'test items#1 data',
-                    'test items#2 data' => 7_591_567_804,
-                    'test items#3 data' => 'test items#3 data'
-                  }
+                  'test metadata#1 data' => 'test metadata#1 data',
+                  'test metadata#2 data' => 2_666_715_473,
+                  'test metadata#3 data' => 'test metadata#3 data'
                 },
                 'machineType' => 'selflink(resource(machine_type,0))',
                 'minCpuPlatform' => 'test min_cpu_platform#0 data',
@@ -2531,11 +2521,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 label_fingerprint  => 'test label_fingerprint#0 data',
                 machine_type       => 'resource(machine_type,0)',
                 metadata           => {
-                  items => {
-                    'test items#1 data' => 'test items#1 data',
-                    'test items#2 data' => 7591567804,
-                    'test items#3 data' => 'test items#3 data',
-                  },
+                  'test metadata#1 data' => 'test metadata#1 data',
+                  'test metadata#2 data' => 2666715473,
+                  'test metadata#3 data' => 'test metadata#3 data',
                 },
                 min_cpu_platform   => 'test min_cpu_platform#0 data',
                 network_interfaces => [
@@ -2762,11 +2750,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 ],
                 'labelFingerprint' => 'test label_fingerprint#0 data',
                 'metadata' => {
-                  'items' => {
-                    'test items#1 data' => 'test items#1 data',
-                    'test items#2 data' => 7_591_567_804,
-                    'test items#3 data' => 'test items#3 data'
-                  }
+                  'test metadata#1 data' => 'test metadata#1 data',
+                  'test metadata#2 data' => 2_666_715_473,
+                  'test metadata#3 data' => 'test metadata#3 data'
                 },
                 'machineType' => 'selflink(resource(machine_type,0))',
                 'minCpuPlatform' => 'test min_cpu_platform#0 data',
@@ -3132,11 +3118,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 label_fingerprint  => 'test label_fingerprint#0 data',
                 machine_type       => 'resource(machine_type,0)',
                 metadata           => {
-                  items => {
-                    'test items#1 data' => 'test items#1 data',
-                    'test items#2 data' => 7591567804,
-                    'test items#3 data' => 'test items#3 data',
-                  },
+                  'test metadata#1 data' => 'test metadata#1 data',
+                  'test metadata#2 data' => 2666715473,
+                  'test metadata#3 data' => 'test metadata#3 data',
                 },
                 min_cpu_platform   => 'test min_cpu_platform#0 data',
                 name               => 'test name#0 data',
@@ -3483,6 +3467,26 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
     end
   end
 
+  context '#exports' do
+    context 'exports all properties' do
+      let(:resource1) { create_type 1 }
+      before do
+        prefetch_zone
+        expect_network_get_success 1
+        described_class.prefetch(title0: resource1)
+      end
+
+      subject { resource1.exports }
+
+      let(:expected_results) do
+        {
+          self_link: 'selflink(resource(instance,0))'
+        }
+      end
+      it { is_expected.to eq(expected_results) }
+    end
+  end
+
   private
 
   def expect_network_get_success(id, data = {})
@@ -3550,6 +3554,8 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
       [k.is_a?(Symbol) ? k.id2name : k, v]
     end]
 
+    # Encode the object to conform with the API
+    expected_body = encode_request(expected_body)
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
@@ -3691,6 +3697,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
     )
   end
 
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_zone
+    expect_network_get_success_zone 1
+
+    resource = Puppet::Type.type(:gcompute_zone).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .prefetch(resource: resource)
+  end
+
   def expect_network_get_success_disk(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_disk("success#{id}~" \
@@ -3789,6 +3808,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
         data
       )
     )
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_zone
+    expect_network_get_success_zone 1
+
+    resource = Puppet::Type.type(:gcompute_zone).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .prefetch(resource: resource)
   end
 
   def expect_network_get_success_machine_type(id, data = {})
@@ -3891,6 +3923,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
     )
   end
 
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_zone
+    expect_network_get_success_zone 1
+
+    resource = Puppet::Type.type(:gcompute_zone).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .prefetch(resource: resource)
+  end
+
   def expect_network_get_success_address(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_address("success#{id}~" \
@@ -3942,6 +3987,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
     )
   end
 
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_address
+    expect_network_get_success_address 1
+
+    resource = Puppet::Type.type(:gcompute_address).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_address).provider(:google)
+                .prefetch(resource: resource)
+  end
+
   def expect_network_get_success_region(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_region("success#{id}~" \
@@ -3989,6 +4047,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
         data
       )
     )
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_region
+    expect_network_get_success_region 1
+
+    resource = Puppet::Type.type(:gcompute_region).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .prefetch(resource: resource)
   end
 
   def expect_network_get_success_network(id, data = {})
@@ -4140,6 +4211,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
     )
   end
 
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_region
+    expect_network_get_success_region 1
+
+    resource = Puppet::Type.type(:gcompute_region).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .prefetch(resource: resource)
+  end
+
   def expect_network_get_success_zone(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_zone("success#{id}~" \
@@ -4187,6 +4271,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
         data
       )
     )
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_zone
+    expect_network_get_success_zone 1
+
+    resource = Puppet::Type.type(:gcompute_zone).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .prefetch(resource: resource)
   end
 
   def debug(message)
@@ -4275,6 +4372,11 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
   def expand_variables(template, data, extra_data = {})
     Puppet::Type.type(:gcompute_instance).provider(:google)
                 .expand_variables(template, data, extra_data)
+  end
+
+  def encode_request(resource)
+    Puppet::Type.type(:gcompute_instance).provider(:google)
+                .encode_request(resource)
   end
 
   def collection(data)

@@ -62,10 +62,16 @@ labelFingerprint: test label_fingerprint#1 data
 machineType: selflink(resource(machine_type,1))
 metadata:
   items:
-    test items#2 data: test items#2 data
-    test items#3 data: 10122090405
-    test items#4 data: test items#4 data
-    test items#5 data: 15183135608
+    - key: test metadata#2 data
+      value: test metadata#2 data
+    - key: test metadata#3 data
+      value: 3555620630
+    - key: test metadata#4 data
+      value: test metadata#4 data
+    - key: test metadata#3 data
+      value: 5333430946
+    - key: test metadata#6 data
+      value: test metadata#6 data
 minCpuPlatform: test min_cpu_platform#1 data
 networkInterfaces:
 - accessConfigs:

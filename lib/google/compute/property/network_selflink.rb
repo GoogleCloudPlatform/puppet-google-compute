@@ -25,8 +25,8 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'puppet/property'
 require 'google/object_store'
+require 'puppet/property'
 
 module Google
   module Compute

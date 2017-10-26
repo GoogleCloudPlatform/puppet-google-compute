@@ -38,6 +38,7 @@ require 'google/compute/property/region_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_backend_service) do
@@ -47,7 +48,9 @@ Puppet::Type.newtype(:gcompute_backend_service) do
   DOC
 
   autorequire(:gauth_credential) do
-    [self[:credential]]
+    credential = self[:credential]
+    raise "#{ref}: required property 'credential' is missing" if credential.nil?
+    [credential]
   end
 
   ensurable
@@ -182,5 +185,10 @@ Puppet::Type.newtype(:gcompute_backend_service) do
       How many seconds to wait for the backend before considering it a failed
       request. Default is 30 seconds. Valid range is [1, 86400].
     DOC
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end
