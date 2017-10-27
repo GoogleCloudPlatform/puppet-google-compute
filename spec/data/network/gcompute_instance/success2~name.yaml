@@ -21,8 +21,7 @@
 #     changes will be clobbered when the file is regenerated.
 #
 #     Please read more about how to change this file in README.md and
-#     CONTRIBUTING.md located at the root of this package.
-#
+#     CONTRIBUTING.md located at the root of this package.  
 # ----------------------------------------------------------------------------
 
 ---
@@ -68,7 +67,7 @@ metadata:
       value: 3555620630
     - key: test metadata#4 data
       value: test metadata#4 data
-    - key: test metadata#3 data
+    - key: test metadata#5 data
       value: 5333430946
     - key: test metadata#6 data
       value: test metadata#6 data

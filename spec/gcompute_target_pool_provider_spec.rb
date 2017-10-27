@@ -164,7 +164,7 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
                   description      => 'test description#0 data',
                   failover_ratio   => 14369408.15,
                   health_check     => 'resource(http_health_check,0)',
-                  instances        => ['resource(instance,1)'],
+                  instances        => ['resource(instance,0)'],
                   region           => 'resource(region,0)',
                   session_affinity => 'NONE',
                   project          => 'test project#0 data',
@@ -177,7 +177,7 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
                   description      => 'test description#1 data',
                   failover_ratio   => 28738816.31,
                   health_check     => 'resource(http_health_check,1)',
-                  instances        => ['resource(instance,1)', 'resource(instance,2)', 'resource(instance,3)'],
+                  instances        => ['resource(instance,0)', 'resource(instance,1)', 'resource(instance,2)'],
                   region           => 'resource(region,1)',
                   session_affinity => 'CLIENT_IP',
                   project          => 'test project#1 data',
@@ -190,7 +190,7 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
                   description      => 'test description#2 data',
                   failover_ratio   => 43108224.47,
                   health_check     => 'resource(http_health_check,2)',
-                  instances        => ['resource(instance,1)'],
+                  instances        => ['resource(instance,0)'],
                   region           => 'resource(region,2)',
                   session_affinity => 'CLIENT_IP_PROTO',
                   project          => 'test project#2 data',
@@ -354,7 +354,7 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
                   description      => 'test description#0 data',
                   failover_ratio   => 14369408.15,
                   health_check     => 'resource(http_health_check,0)',
-                  instances        => ['resource(instance,1)'],
+                  instances        => ['resource(instance,0)'],
                   name             => 'test name#0 data',
                   region           => 'resource(region,0)',
                   session_affinity => 'NONE',
@@ -368,7 +368,7 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
                   description      => 'test description#1 data',
                   failover_ratio   => 28738816.31,
                   health_check     => 'resource(http_health_check,1)',
-                  instances        => ['resource(instance,1)', 'resource(instance,2)', 'resource(instance,3)'],
+                  instances        => ['resource(instance,0)', 'resource(instance,1)', 'resource(instance,2)'],
                   name             => 'test name#1 data',
                   region           => 'resource(region,1)',
                   session_affinity => 'CLIENT_IP',
@@ -382,7 +382,7 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
                   description      => 'test description#2 data',
                   failover_ratio   => 43108224.47,
                   health_check     => 'resource(http_health_check,2)',
-                  instances        => ['resource(instance,1)'],
+                  instances        => ['resource(instance,0)'],
                   name             => 'test name#2 data',
                   region           => 'resource(region,2)',
                   session_affinity => 'CLIENT_IP_PROTO',
@@ -485,7 +485,7 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
                 'failoverRatio' => 14_369_408.15,
                 'healthCheck' => 'selflink(resource(http_health_check,0))',
                 'instances' => [
-                  'self_link(resource(instance,1))'
+                  'selflink(resource(instance,0))'
                 ],
                 'name' => 'title0',
                 'sessionAffinity' => 'NONE'
@@ -537,7 +537,7 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
                 description      => 'test description#0 data',
                 failover_ratio   => 14369408.15,
                 health_check     => 'resource(http_health_check,0)',
-                instances        => ['resource(instance,1)'],
+                instances        => ['resource(instance,0)'],
                 region           => 'resource(region,0)',
                 session_affinity => 'NONE',
                 project          => 'test project#0 data',
@@ -575,7 +575,7 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
                 'failoverRatio' => 14_369_408.15,
                 'healthCheck' => 'selflink(resource(http_health_check,0))',
                 'instances' => [
-                  'self_link(resource(instance,1))'
+                  'selflink(resource(instance,0))'
                 ],
                 'name' => 'test name#0 data',
                 'sessionAffinity' => 'NONE'
@@ -624,7 +624,7 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
                 description      => 'test description#0 data',
                 failover_ratio   => 14369408.15,
                 health_check     => 'resource(http_health_check,0)',
-                instances        => ['resource(instance,1)'],
+                instances        => ['resource(instance,0)'],
                 name             => 'test name#0 data',
                 region           => 'resource(region,0)',
                 session_affinity => 'NONE',
@@ -1132,19 +1132,6 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
     )
   end
 
-  # Creates and prefetch type so exports can be resolved without network access.
-  def prefetch_zone
-    expect_network_get_success_zone 1
-
-    resource = Puppet::Type.type(:gcompute_zone).new(
-      project: 'test project#0 data',
-      name: 'test name#0 data'
-    )
-
-    Puppet::Type.type(:gcompute_zone).provider(:google)
-                .prefetch(resource: resource)
-  end
-
   def expect_network_get_success_region(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_region("success#{id}~" \
@@ -1194,6 +1181,28 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
     )
   end
 
+  def debug(message)
+    puts(message) if ENV['RSPEC_DEBUG']
+  end
+
+  def debug_network(message)
+    puts("Network #{message}") \
+      if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_zone
+    expect_network_get_success_zone 1
+
+    resource = Puppet::Type.type(:gcompute_zone).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .prefetch(resource: resource)
+  end
+
   # Creates and prefetch type so exports can be resolved without network access.
   def prefetch_region
     expect_network_get_success_region 1
@@ -1205,15 +1214,6 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
 
     Puppet::Type.type(:gcompute_region).provider(:google)
                 .prefetch(resource: resource)
-  end
-
-  def debug(message)
-    puts(message) if ENV['RSPEC_DEBUG']
-  end
-
-  def debug_network(message)
-    puts("Network #{message}") \
-      if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
   end
 
   def expand_variables_http_health_check(template, data, ext_dat = {})

@@ -189,7 +189,7 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
                       port => 3797560683,
                     },
                   ],
-                  target_pools       => ['resource(target_pool,1)', 'resource(target_pool,2)', 'resource(target_pool,3)'],
+                  target_pools       => ['resource(target_pool,0)', 'resource(target_pool,1)', 'resource(target_pool,2)'],
                   target_size        => 2400322293,
                   zone               => 'resource(zone,0)',
                   project            => 'test project#0 data',
@@ -223,7 +223,7 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
                       port => 4557072820,
                     },
                   ],
-                  target_pools       => ['resource(target_pool,1)', 'resource(target_pool,2)'],
+                  target_pools       => ['resource(target_pool,0)', 'resource(target_pool,1)'],
                   target_size        => 4800644586,
                   zone               => 'resource(zone,1)',
                   project            => 'test project#1 data',
@@ -257,7 +257,7 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
                       port => 5316584956,
                     },
                   ],
-                  target_pools       => ['resource(target_pool,1)', 'resource(target_pool,2)'],
+                  target_pools       => ['resource(target_pool,0)', 'resource(target_pool,1)'],
                   target_size        => 7200966879,
                   zone               => 'resource(zone,2)',
                   project            => 'test project#2 data',
@@ -572,7 +572,7 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
                       port => 3797560683,
                     },
                   ],
-                  target_pools       => ['resource(target_pool,1)', 'resource(target_pool,2)', 'resource(target_pool,3)'],
+                  target_pools       => ['resource(target_pool,0)', 'resource(target_pool,1)', 'resource(target_pool,2)'],
                   target_size        => 2400322293,
                   zone               => 'resource(zone,0)',
                   project            => 'test project#0 data',
@@ -607,7 +607,7 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
                       port => 4557072820,
                     },
                   ],
-                  target_pools       => ['resource(target_pool,1)', 'resource(target_pool,2)'],
+                  target_pools       => ['resource(target_pool,0)', 'resource(target_pool,1)'],
                   target_size        => 4800644586,
                   zone               => 'resource(zone,1)',
                   project            => 'test project#1 data',
@@ -642,7 +642,7 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
                       port => 5316584956,
                     },
                   ],
-                  target_pools       => ['resource(target_pool,1)', 'resource(target_pool,2)'],
+                  target_pools       => ['resource(target_pool,0)', 'resource(target_pool,1)'],
                   target_size        => 7200966879,
                   zone               => 'resource(zone,2)',
                   project            => 'test project#2 data',
@@ -892,9 +892,9 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
                   }
                 ],
                 'targetPools' => [
-                  'self_link(resource(target_pool,1))',
-                  'self_link(resource(target_pool,2))',
-                  'self_link(resource(target_pool,3))'
+                  'selflink(resource(target_pool,0))',
+                  'selflink(resource(target_pool,1))',
+                  'selflink(resource(target_pool,2))'
                 ],
                 'targetSize' => 2_400_322_293
               },
@@ -996,7 +996,7 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
                     port => 3797560683,
                   },
                 ],
-                target_pools       => ['resource(target_pool,1)', 'resource(target_pool,2)', 'resource(target_pool,3)'],
+                target_pools       => ['resource(target_pool,0)', 'resource(target_pool,1)', 'resource(target_pool,2)'],
                 target_size        => 2400322293,
                 zone               => 'resource(zone,0)',
                 project            => 'test project#0 data',
@@ -1055,9 +1055,9 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
                   }
                 ],
                 'targetPools' => [
-                  'self_link(resource(target_pool,1))',
-                  'self_link(resource(target_pool,2))',
-                  'self_link(resource(target_pool,3))'
+                  'selflink(resource(target_pool,0))',
+                  'selflink(resource(target_pool,1))',
+                  'selflink(resource(target_pool,2))'
                 ],
                 'targetSize' => 2_400_322_293
               },
@@ -1159,7 +1159,7 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
                     port => 3797560683,
                   },
                 ],
-                target_pools       => ['resource(target_pool,1)', 'resource(target_pool,2)', 'resource(target_pool,3)'],
+                target_pools       => ['resource(target_pool,0)', 'resource(target_pool,1)', 'resource(target_pool,2)'],
                 target_size        => 2400322293,
                 zone               => 'resource(zone,0)',
                 project            => 'test project#0 data',

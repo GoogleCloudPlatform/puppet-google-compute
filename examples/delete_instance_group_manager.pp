@@ -61,8 +61,8 @@ gcompute_zone { 'us-west1-a':
 }
 
 gcompute_instance_group_manager { 'test1':
-  ensure             => absent,
-  zone               => 'us-west1-a',
-  project            => 'google.com:graphite-playground',
-  credential         => 'mycred',
+  ensure     => absent,
+  zone       => 'us-west1-a',
+  project    => 'google.com:graphite-playground',
+  credential => 'mycred',
 }

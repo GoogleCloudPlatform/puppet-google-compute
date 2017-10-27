@@ -874,6 +874,15 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
     )
   end
 
+  def debug(message)
+    puts(message) if ENV['RSPEC_DEBUG']
+  end
+
+  def debug_network(message)
+    puts("Network #{message}") \
+      if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
+  end
+
   # Creates and prefetch type so exports can be resolved without network access.
   def prefetch_region
     expect_network_get_success_region 1
@@ -885,15 +894,6 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
 
     Puppet::Type.type(:gcompute_region).provider(:google)
                 .prefetch(resource: resource)
-  end
-
-  def debug(message)
-    puts(message) if ENV['RSPEC_DEBUG']
-  end
-
-  def debug_network(message)
-    puts("Network #{message}") \
-      if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
   end
 
   def expand_variables_region(template, data, ext_dat = {})

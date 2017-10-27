@@ -38,7 +38,7 @@ labels:
 - mm
 - nn
 licenses:
-- "'self_link(resource(license,1))'"
+- selflink(resource(license,0))
 project: "'test project#2 data'"
 snapshotEncryptionKey:
   rawKey: test raw_key#2 data

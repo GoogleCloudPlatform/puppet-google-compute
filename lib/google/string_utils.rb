@@ -39,7 +39,7 @@ module Google
     end
 
     def self.symbolize(key)
-      key.to_sym rescue key
+      key.to_sym unless key.nil?
     end
   end
 end

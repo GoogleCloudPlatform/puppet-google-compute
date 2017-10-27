@@ -57,9 +57,9 @@ namedPorts:
 project: "'test project#0 data'"
 region: selflink(resource(region,0))
 targetPools:
-- "'self_link(resource(target_pool,1))'"
-- "'self_link(resource(target_pool,2))'"
-- "'self_link(resource(target_pool,3))'"
+- selflink(resource(target_pool,0))
+- selflink(resource(target_pool,1))
+- selflink(resource(target_pool,2))
 targetSize: 2400322293
 zone: test name#0 data
 selfLink: selflink(resource(instance_group_manager,0))

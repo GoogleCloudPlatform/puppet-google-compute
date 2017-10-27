@@ -1491,7 +1491,7 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
     context 'exports all properties' do
       let(:resource1) { create_type 1 }
       before do
-        prefetch_default_service
+        prefetch_backend_service
         expect_network_get_success 1
         described_class.prefetch(title0: resource1)
       end
@@ -1664,19 +1664,6 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
     )
   end
 
-  # Creates and prefetch type so exports can be resolved without network access.
-  def prefetch_backend_service
-    expect_network_get_success_backend_service 1
-
-    resource = Puppet::Type.type(:gcompute_backend_service).new(
-      project: 'test project#0 data',
-      name: 'test name#0 data'
-    )
-
-    Puppet::Type.type(:gcompute_backend_service).provider(:google)
-                .prefetch(resource: resource)
-  end
-
   def expect_network_get_success_backend_service(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_backend_service("success#{id}~" \
@@ -1831,6 +1818,19 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
   def debug_network(message)
     puts("Network #{message}") \
       if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_backend_service
+    expect_network_get_success_backend_service 1
+
+    resource = Puppet::Type.type(:gcompute_backend_service).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_backend_service).provider(:google)
+                .prefetch(resource: resource)
   end
 
   def expand_variables_backend_service(template, data, ext_dat = {})

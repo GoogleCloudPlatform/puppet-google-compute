@@ -1531,19 +1531,6 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
     )
   end
 
-  # Creates and prefetch type so exports can be resolved without network access.
-  def prefetch_region
-    expect_network_get_success_region 1
-
-    resource = Puppet::Type.type(:gcompute_region).new(
-      project: 'test project#0 data',
-      name: 'test name#0 data'
-    )
-
-    Puppet::Type.type(:gcompute_region).provider(:google)
-                .prefetch(resource: resource)
-  end
-
   def expect_network_get_success_zone(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_zone("success#{id}~" \
@@ -1593,6 +1580,28 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
     )
   end
 
+  def debug(message)
+    puts(message) if ENV['RSPEC_DEBUG']
+  end
+
+  def debug_network(message)
+    puts("Network #{message}") \
+      if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_region
+    expect_network_get_success_region 1
+
+    resource = Puppet::Type.type(:gcompute_region).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .prefetch(resource: resource)
+  end
+
   # Creates and prefetch type so exports can be resolved without network access.
   def prefetch_zone
     expect_network_get_success_zone 1
@@ -1604,15 +1613,6 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
 
     Puppet::Type.type(:gcompute_zone).provider(:google)
                 .prefetch(resource: resource)
-  end
-
-  def debug(message)
-    puts(message) if ENV['RSPEC_DEBUG']
-  end
-
-  def debug_network(message)
-    puts("Network #{message}") \
-      if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
   end
 
   def expand_variables_network(template, data, ext_dat = {})

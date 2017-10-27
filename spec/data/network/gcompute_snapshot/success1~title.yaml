@@ -36,9 +36,9 @@ labels:
 - kk
 - ll
 licenses:
-- "'self_link(resource(license,1))'"
-- "'self_link(resource(license,2))'"
-- "'self_link(resource(license,3))'"
+- selflink(resource(license,0))
+- selflink(resource(license,1))
+- selflink(resource(license,2))
 project: "'test project#0 data'"
 snapshotEncryptionKey:
   rawKey: test raw_key#0 data

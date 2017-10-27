@@ -132,7 +132,7 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
                   ensure                     => present,
                   description                => 'test description#0 data',
                   labels                     => ['kk', 'll'],
-                  licenses                   => ['resource(license,1)', 'resource(license,2)', 'resource(license,3)'],
+                  licenses                   => ['resource(license,0)', 'resource(license,1)', 'resource(license,2)'],
                   snapshot_encryption_key    => {
                     raw_key => 'test raw_key#0 data',
                     sha256  => 'test sha256#0 data',
@@ -151,7 +151,7 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
                   ensure                     => present,
                   description                => 'test description#1 data',
                   labels                     => ['xx', 'yy', 'zz'],
-                  licenses                   => ['resource(license,1)', 'resource(license,2)', 'resource(license,3)'],
+                  licenses                   => ['resource(license,0)', 'resource(license,1)', 'resource(license,2)'],
                   snapshot_encryption_key    => {
                     raw_key => 'test raw_key#1 data',
                     sha256  => 'test sha256#1 data',
@@ -170,7 +170,7 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
                   ensure                     => present,
                   description                => 'test description#2 data',
                   labels                     => ['kk', 'll', 'mm', 'nn'],
-                  licenses                   => ['resource(license,1)'],
+                  licenses                   => ['resource(license,0)'],
                   snapshot_encryption_key    => {
                     raw_key => 'test raw_key#2 data',
                     sha256  => 'test sha256#2 data',
@@ -369,7 +369,7 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
                   ensure                     => present,
                   description                => 'test description#0 data',
                   labels                     => ['kk', 'll'],
-                  licenses                   => ['resource(license,1)', 'resource(license,2)', 'resource(license,3)'],
+                  licenses                   => ['resource(license,0)', 'resource(license,1)', 'resource(license,2)'],
                   name                       => 'test name#0 data',
                   snapshot_encryption_key    => {
                     raw_key => 'test raw_key#0 data',
@@ -389,7 +389,7 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
                   ensure                     => present,
                   description                => 'test description#1 data',
                   labels                     => ['xx', 'yy', 'zz'],
-                  licenses                   => ['resource(license,1)', 'resource(license,2)', 'resource(license,3)'],
+                  licenses                   => ['resource(license,0)', 'resource(license,1)', 'resource(license,2)'],
                   name                       => 'test name#1 data',
                   snapshot_encryption_key    => {
                     raw_key => 'test raw_key#1 data',
@@ -409,7 +409,7 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
                   ensure                     => present,
                   description                => 'test description#2 data',
                   labels                     => ['kk', 'll', 'mm', 'nn'],
-                  licenses                   => ['resource(license,1)'],
+                  licenses                   => ['resource(license,0)'],
                   name                       => 'test name#2 data',
                   snapshot_encryption_key    => {
                     raw_key => 'test raw_key#2 data',
@@ -569,9 +569,9 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
                 'name' => 'title0',
                 'description' => 'test description#0 data',
                 'licenses' => [
-                  'self_link(resource(license,1))',
-                  'self_link(resource(license,2))',
-                  'self_link(resource(license,3))'
+                  'selflink(resource(license,0))',
+                  'selflink(resource(license,1))',
+                  'selflink(resource(license,2))'
                 ],
                 'labels' => %w[kk ll],
                 'source' => 'test name#0 data',
@@ -633,7 +633,7 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
                 ensure                     => present,
                 description                => 'test description#0 data',
                 labels                     => ['kk', 'll'],
-                licenses                   => ['resource(license,1)', 'resource(license,2)', 'resource(license,3)'],
+                licenses                   => ['resource(license,0)', 'resource(license,1)', 'resource(license,2)'],
                 snapshot_encryption_key    => {
                   raw_key => 'test raw_key#0 data',
                   sha256  => 'test sha256#0 data',
@@ -674,9 +674,9 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
               'name' => 'test name#0 data',
               'description' => 'test description#0 data',
               'licenses' => [
-                'self_link(resource(license,1))',
-                'self_link(resource(license,2))',
-                'self_link(resource(license,3))'
+                'selflink(resource(license,0))',
+                'selflink(resource(license,1))',
+                'selflink(resource(license,2))'
               ],
               'labels' => %w[kk ll],
               'source' => 'test name#0 data',
@@ -736,7 +736,7 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
                 ensure                     => present,
                 description                => 'test description#0 data',
                 labels                     => ['kk', 'll'],
-                licenses                   => ['resource(license,1)', 'resource(license,2)', 'resource(license,3)'],
+                licenses                   => ['resource(license,0)', 'resource(license,1)', 'resource(license,2)'],
                 name                       => 'test name#0 data',
                 snapshot_encryption_key    => {
                   raw_key => 'test raw_key#0 data',
@@ -1209,19 +1209,6 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
     )
   end
 
-  # Creates and prefetch type so exports can be resolved without network access.
-  def prefetch_zone
-    expect_network_get_success_zone 1
-
-    resource = Puppet::Type.type(:gcompute_zone).new(
-      project: 'test project#0 data',
-      name: 'test name#0 data'
-    )
-
-    Puppet::Type.type(:gcompute_zone).provider(:google)
-                .prefetch(resource: resource)
-  end
-
   def expect_network_get_success_zone(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_zone("success#{id}~" \
@@ -1278,6 +1265,19 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
   def debug_network(message)
     puts("Network #{message}") \
       if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_zone
+    expect_network_get_success_zone 1
+
+    resource = Puppet::Type.type(:gcompute_zone).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .prefetch(resource: resource)
   end
 
   def expand_variables_license(template, data, ext_dat = {})

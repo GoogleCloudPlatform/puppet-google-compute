@@ -35,9 +35,9 @@ description: test description#1 data
 failoverRatio: 28738816.31
 healthCheck: selflink(resource(http_health_check,1))
 instances:
-- "'self_link(resource(instance,1))'"
-- "'self_link(resource(instance,2))'"
-- "'self_link(resource(instance,3))'"
+- selflink(resource(instance,0))
+- selflink(resource(instance,1))
+- selflink(resource(instance,2))
 project: "'test project#1 data'"
 region: test name#1 data
 sessionAffinity: CLIENT_IP

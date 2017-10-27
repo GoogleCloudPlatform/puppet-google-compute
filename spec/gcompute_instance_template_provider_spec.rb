@@ -1777,218 +1777,225 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
         # Ensure present: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            # rubocop:disable Metrics/LineLength
-            expect_network_get_failed 1, name: 'title0'
-            expect_network_create \
-              1,
-              {
-                'kind' => 'compute#instanceTemplate',
+            expect_network_get_failed 1,
+                                      name: 'title0'
+            expect_network_create   1,
+              'kind' => 'compute#instanceTemplate',
+              'description' => 'test description#0 data',
+              'name' => 'title0',
+              'properties' => {
+                'canIpForward' => true,
                 'description' => 'test description#0 data',
-                'name' => 'title0',
-                'properties' => {
-                  'canIpForward' => true,
-                  'description' => 'test description#0 data',
-                  'disks' => [
-                    {
-                      'autoDelete' => true,
-                      'boot' => true,
-                      'deviceName' => 'test device_name#0 data',
-                      'diskEncryptionKey' => {
+                'disks' => [
+                  {
+                    'autoDelete' => true,
+                    'boot' => true,
+                    'deviceName' => 'test device_name#0 data',
+                    'diskEncryptionKey' => {
+                      'rawKey' => 'test raw_key#0 data',
+                      'rsaEncryptedKey' => 'test rsa_encrypted_key#0 data',
+                      'sha256' => 'test sha256#0 data'
+                    },
+                    'index' => 1_443_881_260,
+                    'initializeParams' => {
+                      'diskName' => 'test disk_name#0 data',
+                      'diskSizeGb' => 450_092_159,
+                      'diskType' => 'selflink(resource(disk_type,0))',
+                      'sourceImage' => 'test source_image#0 data',
+                      'sourceImageEncryptionKey' => {
                         'rawKey' => 'test raw_key#0 data',
-                        'rsaEncryptedKey' => 'test rsa_encrypted_key#0 data',
                         'sha256' => 'test sha256#0 data'
-                      },
-                      'index' => 1_443_881_260,
-                      'initializeParams' => {
-                        'diskName' => 'test disk_name#0 data',
-                        'diskSizeGb' => 450_092_159,
-                        'diskType' => 'selflink(resource(disk_type,0))',
-                        'sourceImage' => 'test source_image#0 data',
-                        'sourceImageEncryptionKey' => {
-                          'rawKey' => 'test raw_key#0 data',
-                          'sha256' => 'test sha256#0 data'
-                        }
-                      },
-                      'interface' => 'SCSI',
-                      'mode' => 'READ_WRITE',
-                      'source' => 'test name#0 data',
-                      'type' => 'SCRATCH'
+                      }
                     },
-                    {
-                      'autoDelete' => false,
-                      'boot' => false,
-                      'deviceName' => 'test device_name#1 data',
-                      'diskEncryptionKey' => {
+                    'interface' => 'SCSI',
+                    'mode' => 'READ_WRITE',
+                    'source' => 'test name#0 data',
+                    'type' => 'SCRATCH'
+                  },
+                  {
+                    'autoDelete' => false,
+                    'boot' => false,
+                    'deviceName' => 'test device_name#1 data',
+                    'diskEncryptionKey' => {
+                      'rawKey' => 'test raw_key#1 data',
+                      'rsaEncryptedKey' => 'test rsa_encrypted_key#1 data',
+                      'sha256' => 'test sha256#1 data'
+                    },
+                    'index' => 2_887_762_520,
+                    'initializeParams' => {
+                      'diskName' => 'test disk_name#1 data',
+                      'diskSizeGb' => 900_184_319,
+                      'diskType' => 'selflink(resource(disk_type,1))',
+                      'sourceImage' => 'test source_image#1 data',
+                      'sourceImageEncryptionKey' => {
                         'rawKey' => 'test raw_key#1 data',
-                        'rsaEncryptedKey' => 'test rsa_encrypted_key#1 data',
                         'sha256' => 'test sha256#1 data'
-                      },
-                      'index' => 2_887_762_520,
-                      'initializeParams' => {
-                        'diskName' => 'test disk_name#1 data',
-                        'diskSizeGb' => 900_184_319,
-                        'diskType' => 'selflink(resource(disk_type,1))',
-                        'sourceImage' => 'test source_image#1 data',
-                        'sourceImageEncryptionKey' => {
-                          'rawKey' => 'test raw_key#1 data',
-                          'sha256' => 'test sha256#1 data'
-                        }
-                      },
-                      'interface' => 'NVME',
-                      'mode' => 'READ_ONLY',
-                      'source' => 'test name#1 data',
-                      'type' => 'PERSISTENT'
-                    }
-                  ],
-                  'machineType' => 'test name#0 data',
-                  'metadata' => {
-                    'test metadata#1 data' => 'test metadata#1 data',
-                    'test metadata#2 data' => 2_666_715_473,
-                    'test metadata#3 data' => 'test metadata#3 data'
-                  },
-                  'guestAccelerators' => [
-                    {
-                      'acceleratorCount' => 2_697_554_557,
-                      'acceleratorType' => 'test accelerator_type#0 data'
+                      }
                     },
-                    {
-                      'acceleratorCount' => 5_395_109_114,
-                      'acceleratorType' => 'test accelerator_type#1 data'
-                    },
-                    {
-                      'acceleratorCount' => 8_092_663_672,
-                      'acceleratorType' => 'test accelerator_type#2 data'
-                    },
-                    {
-                      'acceleratorCount' => 10_790_218_229,
-                      'acceleratorType' => 'test accelerator_type#3 data'
-                    }
-                  ],
-                  'networkInterfaces' => [
-                    {
-                      'accessConfigs' => [
-                        {
-                          'name' => 'test name#0 data',
-                          'natIP' => 'test address#0 data',
-                          'type' => 'ONE_TO_ONE_NAT'
-                        }
-                      ],
-                      'aliasIpRanges' => [
-                        {
-                          'ipCidrRange' => 'test ip_cidr_range#0 data',
-                          'subnetworkRangeName' => 'test subnetwork_range_name#0 data'
-                        },
-                        {
-                          'ipCidrRange' => 'test ip_cidr_range#1 data',
-                          'subnetworkRangeName' => 'test subnetwork_range_name#1 data'
-                        },
-                        {
-                          'ipCidrRange' => 'test ip_cidr_range#2 data',
-                          'subnetworkRangeName' => 'test subnetwork_range_name#2 data'
-                        },
-                        {
-                          'ipCidrRange' => 'test ip_cidr_range#3 data',
-                          'subnetworkRangeName' => 'test subnetwork_range_name#3 data'
-                        }
-                      ],
-                      'name' => 'test name#0 data',
-                      'network' => 'selflink(resource(network,0))',
-                      'networkIP' => 'test network_ip#0 data',
-                      'subnetwork' => 'selflink(resource(subnetwork,0))'
-                    },
-                    {
-                      'accessConfigs' => [
-                        {
-                          'name' => 'test name#1 data',
-                          'natIP' => 'test address#1 data',
-                          'type' => 'ONE_TO_ONE_NAT'
-                        },
-                        {
-                          'name' => 'test name#2 data',
-                          'natIP' => 'test address#2 data',
-                          'type' => 'ONE_TO_ONE_NAT'
-                        }
-                      ],
-                      'aliasIpRanges' => [
-                        {
-                          'ipCidrRange' => 'test ip_cidr_range#1 data',
-                          'subnetworkRangeName' => 'test subnetwork_range_name#1 data'
-                        },
-                        {
-                          'ipCidrRange' => 'test ip_cidr_range#2 data',
-                          'subnetworkRangeName' => 'test subnetwork_range_name#2 data'
-                        },
-                        {
-                          'ipCidrRange' => 'test ip_cidr_range#3 data',
-                          'subnetworkRangeName' => 'test subnetwork_range_name#3 data'
-                        }
-                      ],
-                      'name' => 'test name#1 data',
-                      'network' => 'selflink(resource(network,1))',
-                      'networkIP' => 'test network_ip#1 data',
-                      'subnetwork' => 'selflink(resource(subnetwork,1))'
-                    },
-                    {
-                      'accessConfigs' => [
-                        {
-                          'name' => 'test name#2 data',
-                          'natIP' => 'test address#2 data',
-                          'type' => 'ONE_TO_ONE_NAT'
-                        },
-                        {
-                          'name' => 'test name#3 data',
-                          'natIP' => 'test address#0 data',
-                          'type' => 'ONE_TO_ONE_NAT'
-                        },
-                        {
-                          'name' => 'test name#4 data',
-                          'natIP' => 'test address#1 data',
-                          'type' => 'ONE_TO_ONE_NAT'
-                        }
-                      ],
-                      'aliasIpRanges' => [
-                        {
-                          'ipCidrRange' => 'test ip_cidr_range#2 data',
-                          'subnetworkRangeName' => 'test subnetwork_range_name#2 data'
-                        },
-                        {
-                          'ipCidrRange' => 'test ip_cidr_range#3 data',
-                          'subnetworkRangeName' => 'test subnetwork_range_name#3 data'
-                        }
-                      ],
-                      'name' => 'test name#2 data',
-                      'network' => 'selflink(resource(network,2))',
-                      'networkIP' => 'test network_ip#2 data',
-                      'subnetwork' => 'selflink(resource(subnetwork,2))'
-                    }
-                  ],
-                  'scheduling' => {
-                    'automaticRestart' => true,
-                    'onHostMaintenance' => 'test on_host_maintenance#0 data',
-                    'preemptible' => true
-                  },
-                  'serviceAccounts' => [
-                    {
-                      'email' => true,
-                      'scopes' => %w[rr ss tt uu vv]
-                    },
-                    {
-                      'email' => false,
-                      'scopes' => %w[ll mm nn oo pp]
-                    },
-                    {
-                      'email' => true,
-                      'scopes' => %w[ee ff gg hh]
-                    }
-                  ],
-                  'tags' => {
-                    'fingerprint' => 'test fingerprint#0 data',
-                    'items' => %w[hh ii jj]
+                    'interface' => 'NVME',
+                    'mode' => 'READ_ONLY',
+                    'source' => 'test name#1 data',
+                    'type' => 'PERSISTENT'
                   }
+                ],
+                'machineType' => 'test name#0 data',
+                'metadata' => {
+                  'items' => [
+                    {
+                      'key' => 'test metadata#1 data',
+                      'value' => 'test metadata#1 data'
+                    },
+                    {
+                      'key' => 'test metadata#2 data',
+                      'value' => 2_666_715_473
+                    },
+                    {
+                      'key' => 'test metadata#3 data',
+                      'value' => 'test metadata#3 data'
+                    }
+                  ]
+                },
+                'guestAccelerators' => [
+                  {
+                    'acceleratorCount' => 2_697_554_557,
+                    'acceleratorType' => 'test accelerator_type#0 data'
+                  },
+                  {
+                    'acceleratorCount' => 5_395_109_114,
+                    'acceleratorType' => 'test accelerator_type#1 data'
+                  },
+                  {
+                    'acceleratorCount' => 8_092_663_672,
+                    'acceleratorType' => 'test accelerator_type#2 data'
+                  },
+                  {
+                    'acceleratorCount' => 10_790_218_229,
+                    'acceleratorType' => 'test accelerator_type#3 data'
+                  }
+                ],
+                'networkInterfaces' => [
+                  {
+                    'accessConfigs' => [
+                      {
+                        'name' => 'test name#0 data',
+                        'natIP' => 'test address#0 data',
+                        'type' => 'ONE_TO_ONE_NAT'
+                      }
+                    ],
+                    'aliasIpRanges' => [
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#0 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#0 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#1 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#1 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#2 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#2 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#3 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#3 data'
+                      }
+                    ],
+                    'name' => 'test name#0 data',
+                    'network' => 'selflink(resource(network,0))',
+                    'networkIP' => 'test network_ip#0 data',
+                    'subnetwork' => 'selflink(resource(subnetwork,0))'
+                  },
+                  {
+                    'accessConfigs' => [
+                      {
+                        'name' => 'test name#1 data',
+                        'natIP' => 'test address#1 data',
+                        'type' => 'ONE_TO_ONE_NAT'
+                      },
+                      {
+                        'name' => 'test name#2 data',
+                        'natIP' => 'test address#2 data',
+                        'type' => 'ONE_TO_ONE_NAT'
+                      }
+                    ],
+                    'aliasIpRanges' => [
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#1 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#1 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#2 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#2 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#3 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#3 data'
+                      }
+                    ],
+                    'name' => 'test name#1 data',
+                    'network' => 'selflink(resource(network,1))',
+                    'networkIP' => 'test network_ip#1 data',
+                    'subnetwork' => 'selflink(resource(subnetwork,1))'
+                  },
+                  {
+                    'accessConfigs' => [
+                      {
+                        'name' => 'test name#2 data',
+                        'natIP' => 'test address#2 data',
+                        'type' => 'ONE_TO_ONE_NAT'
+                      },
+                      {
+                        'name' => 'test name#3 data',
+                        'natIP' => 'test address#0 data',
+                        'type' => 'ONE_TO_ONE_NAT'
+                      },
+                      {
+                        'name' => 'test name#4 data',
+                        'natIP' => 'test address#1 data',
+                        'type' => 'ONE_TO_ONE_NAT'
+                      }
+                    ],
+                    'aliasIpRanges' => [
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#2 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#2 data'
+                      },
+                      {
+                        'ipCidrRange' => 'test ip_cidr_range#3 data',
+                        'subnetworkRangeName' => 'test subnetwork_range_name#3 data'
+                      }
+                    ],
+                    'name' => 'test name#2 data',
+                    'network' => 'selflink(resource(network,2))',
+                    'networkIP' => 'test network_ip#2 data',
+                    'subnetwork' => 'selflink(resource(subnetwork,2))'
+                  }
+                ],
+                'scheduling' => {
+                  'automaticRestart' => true,
+                  'onHostMaintenance' => 'test on_host_maintenance#0 data',
+                  'preemptible' => true
+                },
+                'serviceAccounts' => [
+                  {
+                    'email' => true,
+                    'scopes' => %w[rr ss tt uu vv]
+                  },
+                  {
+                    'email' => false,
+                    'scopes' => %w[ll mm nn oo pp]
+                  },
+                  {
+                    'email' => true,
+                    'scopes' => %w[ee ff gg hh]
+                  }
+                ],
+                'tags' => {
+                  'fingerprint' => 'test fingerprint#0 data',
+                  'items' => %w[hh ii jj]
                 }
-              },
-              name: 'title0'
-            expect_network_get_async 1, name: 'title0'
+              }
+            expect_network_get_async 1
             expect_network_get_success_zone 1
             expect_network_get_success_zone 2
             expect_network_get_success_disk_type 1, zone: 'test name#0 data'
@@ -2008,7 +2015,6 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
             expect_network_get_success_subnetwork 1, region: 'test name#0 data'
             expect_network_get_success_subnetwork 2, region: 'test name#1 data'
             expect_network_get_success_subnetwork 3, region: 'test name#2 data'
-            # rubocop:enable Metrics/LineLength
           end
 
           subject do
@@ -2378,10 +2384,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
         # Ensure present: resource missing, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            # rubocop:disable Metrics/LineLength
-            expect_network_get_failed 1
-            expect_network_create \
-              1,
+            expect_network_get_failed 1,
+                                      name: 'test name#0 data'
+            expect_network_create   1,
               'kind' => 'compute#instanceTemplate',
               'description' => 'test description#0 data',
               'name' => 'test name#0 data',
@@ -2442,9 +2447,20 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                 ],
                 'machineType' => 'test name#0 data',
                 'metadata' => {
-                  'test metadata#1 data' => 'test metadata#1 data',
-                  'test metadata#2 data' => 2_666_715_473,
-                  'test metadata#3 data' => 'test metadata#3 data'
+                  'items' => [
+                    {
+                      'key' => 'test metadata#1 data',
+                      'value' => 'test metadata#1 data'
+                    },
+                    {
+                      'key' => 'test metadata#2 data',
+                      'value' => 2_666_715_473
+                    },
+                    {
+                      'key' => 'test metadata#3 data',
+                      'value' => 'test metadata#3 data'
+                    }
+                  ]
                 },
                 'guestAccelerators' => [
                   {
@@ -2606,7 +2622,6 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
             expect_network_get_success_subnetwork 1, region: 'test name#0 data'
             expect_network_get_success_subnetwork 2, region: 'test name#1 data'
             expect_network_get_success_subnetwork 3, region: 'test name#2 data'
-            # rubocop:enable Metrics/LineLength
           end
 
           subject do
@@ -3368,19 +3383,6 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
     )
   end
 
-  # Creates and prefetch type so exports can be resolved without network access.
-  def prefetch_zone
-    expect_network_get_success_zone 1
-
-    resource = Puppet::Type.type(:gcompute_zone).new(
-      project: 'test project#0 data',
-      name: 'test name#0 data'
-    )
-
-    Puppet::Type.type(:gcompute_zone).provider(:google)
-                .prefetch(resource: resource)
-  end
-
   def expect_network_get_success_disk(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_disk("success#{id}~" \
@@ -3481,19 +3483,6 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
     )
   end
 
-  # Creates and prefetch type so exports can be resolved without network access.
-  def prefetch_zone
-    expect_network_get_success_zone 1
-
-    resource = Puppet::Type.type(:gcompute_zone).new(
-      project: 'test project#0 data',
-      name: 'test name#0 data'
-    )
-
-    Puppet::Type.type(:gcompute_zone).provider(:google)
-                .prefetch(resource: resource)
-  end
-
   def expect_network_get_success_machine_type(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_machine_type("success#{id}~" \
@@ -3545,19 +3534,6 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
     )
   end
 
-  # Creates and prefetch type so exports can be resolved without network access.
-  def prefetch_machine_type
-    expect_network_get_success_machine_type 1
-
-    resource = Puppet::Type.type(:gcompute_machine_type).new(
-      project: 'test project#0 data',
-      name: 'test name#0 data'
-    )
-
-    Puppet::Type.type(:gcompute_machine_type).provider(:google)
-                .prefetch(resource: resource)
-  end
-
   def expect_network_get_success_zone(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_zone("success#{id}~" \
@@ -3605,19 +3581,6 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
         data
       )
     )
-  end
-
-  # Creates and prefetch type so exports can be resolved without network access.
-  def prefetch_zone
-    expect_network_get_success_zone 1
-
-    resource = Puppet::Type.type(:gcompute_zone).new(
-      project: 'test project#0 data',
-      name: 'test name#0 data'
-    )
-
-    Puppet::Type.type(:gcompute_zone).provider(:google)
-                .prefetch(resource: resource)
   end
 
   def expect_network_get_success_address(id, data = {})
@@ -3671,19 +3634,6 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
     )
   end
 
-  # Creates and prefetch type so exports can be resolved without network access.
-  def prefetch_address
-    expect_network_get_success_address 1
-
-    resource = Puppet::Type.type(:gcompute_address).new(
-      project: 'test project#0 data',
-      name: 'test name#0 data'
-    )
-
-    Puppet::Type.type(:gcompute_address).provider(:google)
-                .prefetch(resource: resource)
-  end
-
   def expect_network_get_success_region(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_region("success#{id}~" \
@@ -3731,19 +3681,6 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
         data
       )
     )
-  end
-
-  # Creates and prefetch type so exports can be resolved without network access.
-  def prefetch_region
-    expect_network_get_success_region 1
-
-    resource = Puppet::Type.type(:gcompute_region).new(
-      project: 'test project#0 data',
-      name: 'test name#0 data'
-    )
-
-    Puppet::Type.type(:gcompute_region).provider(:google)
-                .prefetch(resource: resource)
   end
 
   def expect_network_get_success_network(id, data = {})
@@ -3895,6 +3832,80 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
     )
   end
 
+  def debug(message)
+    puts(message) if ENV['RSPEC_DEBUG']
+  end
+
+  def debug_network(message)
+    puts("Network #{message}") \
+      if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_zone
+    expect_network_get_success_zone 1
+
+    resource = Puppet::Type.type(:gcompute_zone).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .prefetch(resource: resource)
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_zone
+    expect_network_get_success_zone 1
+
+    resource = Puppet::Type.type(:gcompute_zone).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .prefetch(resource: resource)
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_machine_type
+    expect_network_get_success_machine_type 1
+
+    resource = Puppet::Type.type(:gcompute_machine_type).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_machine_type).provider(:google)
+                .prefetch(resource: resource)
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_zone
+    expect_network_get_success_zone 1
+
+    resource = Puppet::Type.type(:gcompute_zone).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .prefetch(resource: resource)
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_address
+    expect_network_get_success_address 1
+
+    resource = Puppet::Type.type(:gcompute_address).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_address).provider(:google)
+                .prefetch(resource: resource)
+  end
+
   # Creates and prefetch type so exports can be resolved without network access.
   def prefetch_region
     expect_network_get_success_region 1
@@ -3908,13 +3919,17 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                 .prefetch(resource: resource)
   end
 
-  def debug(message)
-    puts(message) if ENV['RSPEC_DEBUG']
-  end
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_region
+    expect_network_get_success_region 1
 
-  def debug_network(message)
-    puts("Network #{message}") \
-      if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
+    resource = Puppet::Type.type(:gcompute_region).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_region).provider(:google)
+                .prefetch(resource: resource)
   end
 
   def expand_variables_disk_type(template, data, ext_dat = {})

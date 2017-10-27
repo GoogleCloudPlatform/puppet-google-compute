@@ -114,8 +114,8 @@ gcompute_instance { 'puppet-e2e-instance-test':
     }
   ],
   metadata           => {
-    'startup-script-url' => 'gs://graphite-playground/bootstrap.sh',
-    'cost-center'        => '12345',
+    startup-script-url   => 'gs://graphite-playground/bootstrap.sh',
+    cost-center          => '12345',
   },
   network_interfaces => [
     {

@@ -92,8 +92,8 @@ gcompute_instance_template { 'instance-template':
       {
         access_configs => [
           {
-            name => 'External NAT',
-            type => 'ONE_TO_ONE_NAT',
+          name => 'External NAT',
+          type => 'ONE_TO_ONE_NAT',
           },
         ],
         network        => 'mynetwork-test',

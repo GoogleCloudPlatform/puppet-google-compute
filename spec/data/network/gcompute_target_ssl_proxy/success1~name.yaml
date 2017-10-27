@@ -35,5 +35,5 @@ project: "'test project#0 data'"
 proxyHeader: NONE
 service: selflink(resource(backend_service,0))
 sslCertificates:
-- "'self_link(resource(ssl_certificate,1))'"
+- selflink(resource(ssl_certificate,0))
 selfLink: selflink(resource(target_ssl_proxy,0))

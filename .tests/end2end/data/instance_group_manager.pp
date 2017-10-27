@@ -92,8 +92,8 @@ gcompute_instance_template { 'puppet-e2e-instance-template':
       {
         access_configs => [
           {
-            name => 'External NAT',
-            type => 'ONE_TO_ONE_NAT',
+          name => 'External NAT',
+          type => 'ONE_TO_ONE_NAT',
           },
         ],
         network        => 'puppet-e2e-mynetwork-test',
