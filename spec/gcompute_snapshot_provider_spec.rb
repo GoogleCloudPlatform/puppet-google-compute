@@ -562,8 +562,7 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
         context 'title == name (pass)' do
           before(:each) do
             expect_network_get_failed 1, name: 'title0'
-            expect_network_create \
-              1,
+            expect_network_create   1,
               {
                 'kind' => 'compute#snapshot',
                 'name' => 'title0',
@@ -585,8 +584,9 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
                   'sha256' => 'test sha256#0 data'
                 }
               },
-              name: 'title0'
-            expect_network_get_async 1, name: 'title0'
+              name: 'test name#0 data'
+            # TODO(alexstephen): Make this async
+            #expect_network_get_async 1, name: 'title0'
             expect_network_get_success_license 1
             expect_network_get_success_license 2
             expect_network_get_success_license 3
@@ -667,29 +667,32 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
         # Ensure present: resource missing, ignore, has name, pass
         context 'title != name (pass)' do
           before(:each) do
-            expect_network_get_failed 1
-            expect_network_create \
-              1,
-              'kind' => 'compute#snapshot',
-              'name' => 'test name#0 data',
-              'description' => 'test description#0 data',
-              'licenses' => [
-                'selflink(resource(license,0))',
-                'selflink(resource(license,1))',
-                'selflink(resource(license,2))'
-              ],
-              'labels' => %w[kk ll],
-              'source' => 'test name#0 data',
-              'zone' => 'test name#0 data',
-              'snapshotEncryptionKey' => {
-                'rawKey' => 'test raw_key#0 data',
-                'sha256' => 'test sha256#0 data'
+            expect_network_get_failed 1, name: 'test name#0 data'
+            expect_network_create   1,
+              {
+                'kind' => 'compute#snapshot',
+                'name' => 'test name#0 data',
+                'description' => 'test description#0 data',
+                'licenses' => [
+                  'selflink(resource(license,0))',
+                  'selflink(resource(license,1))',
+                  'selflink(resource(license,2))'
+                ],
+                'labels' => %w[kk ll],
+                'source' => 'test name#0 data',
+                'zone' => 'test name#0 data',
+                'snapshotEncryptionKey' => {
+                  'rawKey' => 'test raw_key#0 data',
+                  'sha256' => 'test sha256#0 data'
+                },
+                'sourceDiskEncryptionKey' => {
+                  'rawKey' => 'test raw_key#0 data',
+                  'sha256' => 'test sha256#0 data'
+                }
               },
-              'sourceDiskEncryptionKey' => {
-                'rawKey' => 'test raw_key#0 data',
-                'sha256' => 'test sha256#0 data'
-              }
-            expect_network_get_async 1
+              name: 'test name#0 data', disk: 'test name#0 data'
+            # TODO(alexstephen): Make this async.
+            #expect_network_get_async 1
             expect_network_get_success_license 1
             expect_network_get_success_license 2
             expect_network_get_success_license 3
@@ -1009,28 +1012,6 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
     Net::HTTPNotFound.new(1.0, 404, 'Not Found')
   end
 
-  def expect_network_create(id, expected_body, data = {})
-    merged_uri = uri_data(id).merge(data)
-    body = { kind: 'compute#operation',
-             status: 'DONE', targetLink: self_link(merged_uri) }.to_json
-
-    # Remove refs that are also part of the body
-    expected_body = Hash[expected_body.map do |k, v|
-      [k.is_a?(Symbol) ? k.id2name : k, v]
-    end]
-
-    request = double('request')
-    allow(request).to receive(:send).and_return(http_success(body))
-
-    debug_network "!! POST #{collection(merged_uri)}"
-    expect(Google::Compute::Network::Post).to receive(:new)
-      .with(collection(merged_uri), instance_of(Google::FakeAuthorization),
-            'application/json', expected_body.to_json) do |args|
-      debug_network ">> POST #{args} = body(#{body})"
-      request
-    end
-  end
-
   def expect_network_delete(id, name = nil, data = {})
     delete_data = uri_data(id).merge(data)
     delete_data[:name] = name unless name.nil?
@@ -1315,6 +1296,44 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
   def expand_variables(template, data, extra_data = {})
     Puppet::Type.type(:gcompute_snapshot).provider(:google)
                 .expand_variables(template, data, extra_data)
+  end
+
+  def expect_network_create(id, expected_body, data = {})
+    default_props = {
+      zone: 'test name#0 data',
+      project: 'test project#0 data'
+    }
+
+    merged_uri = uri_data(id).merge(default_props).merge(data)
+    body = { kind: 'compute#operation',
+             status: 'DONE', targetLink: self_link(merged_uri) }.to_json
+    # Remove refs that are also part of the body
+    expected_body = Hash[expected_body.map do |k, v|
+      [k.is_a?(Symbol) ? k.id2name : k, v]
+    end]
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! POST #{collection(merged_uri)}"
+    expect(Google::Compute::Network::Post).to receive(:new)
+      .with(gcompute_disk_snapshot_uri(merged_uri),
+            instance_of(Google::FakeAuthorization),
+            'application/json', expected_body.to_json) do |args|
+      debug_network ">> POST #{args} = body(#{body})"
+      request
+    end
+  end
+
+  def gcompute_disk_snapshot_uri(data)
+    URI.parse(
+      format(
+        '%s/%s',
+        Puppet::Type.type(:gcompute_disk).provider(:google).self_link(
+          name: data[:name], zone: data[:zone], project: data[:project]
+        ), 'createSnapshot'
+      )
+    )
   end
 
   def collection(data)
