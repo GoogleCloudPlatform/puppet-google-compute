@@ -103,9 +103,8 @@ module Google
             Google::Compute::Property::String.api_munge(args['diskName'])
           @disk_size_gb =
             Google::Compute::Property::Integer.api_munge(args['diskSizeGb'])
-          @disk_type = Google::Compute::Property::DiskTypeSelfLinkRef.api_munge(
-            args['diskType']
-          )
+          @disk_type =
+            Google::Compute::Property::String.api_munge(args['diskName'])
           @source_image =
             Google::Compute::Property::String.api_munge(args['sourceImage'])
           @source_image_encryption_key =
@@ -125,9 +124,7 @@ module Google
             args['disk_size_gb']
           )
           @disk_type =
-            Google::Compute::Property::DiskTypeSelfLinkRef.unsafe_munge(
-              args['disk_type']
-            )
+            Google::Compute::Property::String.api_munge(args['diskName'])
           @source_image =
             Google::Compute::Property::String.unsafe_munge(args['source_image'])
           @source_image_encryption_key =
