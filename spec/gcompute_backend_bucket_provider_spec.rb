@@ -64,7 +64,6 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                   bucket_name => 'test bucket_name#0 data',
                   description => 'test description#0 data',
                   enable_cdn  => true,
-                  id          => 2149500871,
                   project     => 'test project#0 data',
                   credential  => 'cred0',
                 }
@@ -74,7 +73,6 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                   bucket_name => 'test bucket_name#1 data',
                   description => 'test description#1 data',
                   enable_cdn  => false,
-                  id          => 4299001743,
                   project     => 'test project#1 data',
                   credential  => 'cred1',
                 }
@@ -84,7 +82,6 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                   bucket_name => 'test bucket_name#2 data',
                   description => 'test description#2 data',
                   enable_cdn  => true,
-                  id          => 6448502614,
                   project     => 'test project#2 data',
                   credential  => 'cred2',
                 }
@@ -197,7 +194,6 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                   bucket_name => 'test bucket_name#0 data',
                   description => 'test description#0 data',
                   enable_cdn  => true,
-                  id          => 2149500871,
                   name        => 'test name#0 data',
                   project     => 'test project#0 data',
                   credential  => 'cred0',
@@ -208,7 +204,6 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                   bucket_name => 'test bucket_name#1 data',
                   description => 'test description#1 data',
                   enable_cdn  => false,
-                  id          => 4299001743,
                   name        => 'test name#1 data',
                   project     => 'test project#1 data',
                   credential  => 'cred1',
@@ -219,7 +214,6 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                   bucket_name => 'test bucket_name#2 data',
                   description => 'test description#2 data',
                   enable_cdn  => true,
-                  id          => 6448502614,
                   name        => 'test name#2 data',
                   project     => 'test project#2 data',
                   credential  => 'cred2',
@@ -361,7 +355,6 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                 'bucketName' => 'test bucket_name#0 data',
                 'description' => 'test description#0 data',
                 'enableCdn' => true,
-                'id' => 2_149_500_871,
                 'name' => 'title0'
               },
               name: 'title0'
@@ -376,7 +369,6 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                 bucket_name => 'test bucket_name#0 data',
                 description => 'test description#0 data',
                 enable_cdn  => true,
-                id          => 2149500871,
                 project     => 'test project#0 data',
                 credential  => 'cred0',
               }
@@ -408,7 +400,6 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
               'bucketName' => 'test bucket_name#0 data',
               'description' => 'test description#0 data',
               'enableCdn' => true,
-              'id' => 2_149_500_871,
               'name' => 'test name#0 data'
             expect_network_get_async 1
           end
@@ -421,7 +412,6 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
                 bucket_name => 'test bucket_name#0 data',
                 description => 'test description#0 data',
                 enable_cdn  => true,
-                id          => 2149500871,
                 name        => 'test name#0 data',
                 project     => 'test project#0 data',
                 credential  => 'cred0',
@@ -458,9 +448,10 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_backend_bucket { 'title0':
-                ensure     => absent,
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure      => absent,
+                bucket_name => 'test bucket_name#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_backend_bucket[title0]')
@@ -490,10 +481,11 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_backend_bucket { 'title0':
-                ensure     => absent,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure      => absent,
+                bucket_name => 'test bucket_name#0 data',
+                name        => 'test name#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_backend_bucket[title0]')
@@ -527,9 +519,10 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_backend_bucket { 'title0':
-                ensure     => absent,
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure      => absent,
+                bucket_name => 'test bucket_name#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_backend_bucket[title0]')
@@ -561,10 +554,11 @@ describe Puppet::Type.type(:gcompute_backend_bucket).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_backend_bucket { 'title0':
-                ensure     => absent,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure      => absent,
+                bucket_name => 'test bucket_name#0 data',
+                name        => 'test name#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_backend_bucket[title0]')

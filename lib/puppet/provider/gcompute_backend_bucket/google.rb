@@ -155,7 +155,6 @@ Puppet::Type.type(:gcompute_backend_bucket).provide(:google) do
       bucketName: @resource[:bucket_name],
       description: @resource[:description],
       enableCdn: @resource[:enable_cdn],
-      id: @resource[:id],
       name: @resource[:name]
     }.reject { |_, v| v.nil? }
 

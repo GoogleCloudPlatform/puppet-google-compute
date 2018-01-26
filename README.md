@@ -1086,7 +1086,7 @@ gcompute_backend_bucket { 'id-of-resource':
 
 ##### `bucket_name`
 
-  Cloud Storage bucket name.
+Required.  Cloud Storage bucket name.
 
 ##### `description`
 
@@ -1097,16 +1097,12 @@ gcompute_backend_bucket { 'id-of-resource':
 
   If true, enable Cloud CDN for this BackendBucket.
 
-##### `id`
-
-  Unique identifier for the resource.
-
 ##### `name`
 
-  Name of the resource. Provided by the client when the resource is
+Required.  Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035.  Specifically, the name must be 1-63 characters long and
-  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the
   last character, which cannot be a dash.
@@ -1116,6 +1112,9 @@ gcompute_backend_bucket { 'id-of-resource':
 
 * `creation_timestamp`: Output only.
   Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  Unique identifier for the resource.
 
 #### `gcompute_backend_service`
 
@@ -1337,7 +1336,7 @@ gcompute_backend_service { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -1567,7 +1566,7 @@ gcompute_disk { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -1808,7 +1807,7 @@ Required.  The IP protocol to which this rule applies. The protocol type is
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -2081,7 +2080,7 @@ gcompute_global_address { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035.  Specifically, the name must be 1-63 characters long and
-  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -2351,7 +2350,7 @@ gcompute_http_health_check { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035.  Specifically, the name must be 1-63 characters long and
-  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the
   last character, which cannot be a dash.
@@ -2454,7 +2453,7 @@ gcompute_https_health_check { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035.  Specifically, the name must be 1-63 characters long and
-  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the
   last character, which cannot be a dash.
@@ -2580,7 +2579,7 @@ gcompute_health_check { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035.  Specifically, the name must be 1-63 characters long and
-  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the
   last character, which cannot be a dash.
@@ -3343,7 +3342,7 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   Name of the resource; provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and
-  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the
   last character, which cannot be a dash.
@@ -3758,7 +3757,7 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   creating the resource. The resource name must be 1-63 characters long,
   and comply with RFC1035. Specifically, the name must be 1-63
   characters long and match the regular expression
-  [a-z]([-a-z0-9]*[a-z0-9])? which means the first character must be a
+  `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a
   lowercase letter, and all following characters must be a dash,
   lowercase letter, or digit, except the last character, which cannot
   be a dash.
@@ -4404,7 +4403,7 @@ gcompute_network { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -4586,7 +4585,7 @@ gcompute_route { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035.  Specifically, the name must be 1-63 characters long and
-  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the
   last character, which cannot be a dash.
@@ -4708,7 +4707,7 @@ gcompute_snapshot { 'id-of-resource':
 Required.  Name of the resource; provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -4865,7 +4864,7 @@ gcompute_ssl_certificate { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -4968,7 +4967,7 @@ gcompute_subnetwork { 'id-of-resource':
   The name of the resource, provided by the client when initially
   creating the resource. The name must be 1-63 characters long, and
   comply with RFC1035. Specifically, the name must be 1-63 characters
-  long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which
+  long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which
   means the first character must be a lowercase letter, and all
   following characters must be a dash, lowercase letter, or digit,
   except the last character, which cannot be a dash.
@@ -5036,7 +5035,7 @@ gcompute_target_http_proxy { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -5102,7 +5101,7 @@ gcompute_target_https_proxy { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -5208,7 +5207,7 @@ gcompute_target_pool { 'id-of-resource':
 Required.  Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -5288,7 +5287,7 @@ gcompute_target_ssl_proxy { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -5361,7 +5360,7 @@ gcompute_target_tcp_proxy { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -5486,7 +5485,7 @@ Required.  A reference to BackendService resource
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
