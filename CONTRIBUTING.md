@@ -634,7 +634,7 @@ puppet-codegen:
 The list below contains all the files that were automatically sourced from a
 central location:
 
-  * .tests/README.md
+  * .tools/README.md
   * Gemfile.lock
   * LICENSE
   * spec/data/poor_example.pp
