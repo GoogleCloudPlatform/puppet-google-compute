@@ -562,13 +562,31 @@ describe Puppet::Type.type(:gcompute_target_http_proxy).provider(:google) do
         context 'title == name (pass)' do
           before(:each) do
             expect_network_get_failed 1, name: 'title0'
+            expect_network_get_success_backend_service 1
+            expect_network_get_success_url_map 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_backend_service { 'resource(backend_service,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_url_map { 'resource(url_map,0)':
+                ensure          => present,
+                default_service => 'resource(backend_service,0)',
+                name            => 'test name#0 data',
+                project         => 'test project#0 data',
+                credential      => 'cred0',
+              }
+
               gcompute_target_http_proxy { 'title0':
                 ensure     => absent,
+                url_map    => 'resource(url_map,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -594,14 +612,32 @@ describe Puppet::Type.type(:gcompute_target_http_proxy).provider(:google) do
         context 'title != name (pass)' do
           before(:each) do
             expect_network_get_failed 1
+            expect_network_get_success_backend_service 1
+            expect_network_get_success_url_map 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_backend_service { 'resource(backend_service,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_url_map { 'resource(url_map,0)':
+                ensure          => present,
+                default_service => 'resource(backend_service,0)',
+                name            => 'test name#0 data',
+                project         => 'test project#0 data',
+                credential      => 'cred0',
+              }
+
               gcompute_target_http_proxy { 'title0':
                 ensure     => absent,
                 name       => 'test name#0 data',
+                url_map    => 'resource(url_map,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -631,13 +667,31 @@ describe Puppet::Type.type(:gcompute_target_http_proxy).provider(:google) do
             expect_network_get_success 1, name: 'title0'
             expect_network_delete 1, 'title0'
             expect_network_get_async 1, name: 'title0'
+            expect_network_get_success_backend_service 1
+            expect_network_get_success_url_map 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_backend_service { 'resource(backend_service,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_url_map { 'resource(url_map,0)':
+                ensure          => present,
+                default_service => 'resource(backend_service,0)',
+                name            => 'test name#0 data',
+                project         => 'test project#0 data',
+                credential      => 'cred0',
+              }
+
               gcompute_target_http_proxy { 'title0':
                 ensure     => absent,
+                url_map    => 'resource(url_map,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -665,14 +719,32 @@ describe Puppet::Type.type(:gcompute_target_http_proxy).provider(:google) do
             expect_network_get_success 1
             expect_network_delete 1
             expect_network_get_async 1
+            expect_network_get_success_backend_service 1
+            expect_network_get_success_url_map 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_backend_service { 'resource(backend_service,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_url_map { 'resource(url_map,0)':
+                ensure          => present,
+                default_service => 'resource(backend_service,0)',
+                name            => 'test name#0 data',
+                project         => 'test project#0 data',
+                credential      => 'cred0',
+              }
+
               gcompute_target_http_proxy { 'title0':
                 ensure     => absent,
                 name       => 'test name#0 data',
+                url_map    => 'resource(url_map,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }

@@ -29,6 +29,7 @@ require 'google/compute/property/boolean'
 require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_backend_bucket) do
@@ -99,5 +100,10 @@ Puppet::Type.newtype(:gcompute_backend_bucket) do
       lowercase letter, or digit, except the last character, which cannot be a
       dash.
     DOC
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end

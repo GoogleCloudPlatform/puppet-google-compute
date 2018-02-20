@@ -34,6 +34,7 @@ require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
 require 'google/hash_utils'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_backend_bucket).provide(:google) do
@@ -55,16 +56,20 @@ Puppet::Type.type(:gcompute_backend_bucket).provide(:google) do
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource),
                              'compute#backendBucket')
-      resource.provider = present(name, fetch) unless fetch.nil?
+      resource.provider = present(name, fetch, resource) unless fetch.nil?
+      Google::ObjectStore.instance.add(:gcompute_backend_bucket, resource)
     end
   end
 
-  def self.present(name, fetch)
-    result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+  def self.present(name, fetch, resource)
+    result = new(
+      { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
+    )
+    result.instance_variable_set(:@fetched, fetch)
     result
   end
 
-  def self.fetch_to_hash(fetch)
+  def self.fetch_to_hash(fetch, resource)
     {
       bucket_name:
         Google::Compute::Property::String.api_munge(fetch['bucketName']),
@@ -75,7 +80,7 @@ Puppet::Type.type(:gcompute_backend_bucket).provide(:google) do
       enable_cdn:
         Google::Compute::Property::Boolean.api_munge(fetch['enableCdn']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      name: Google::Compute::Property::String.api_munge(fetch['name'])
+      name: resource[:name]
     }.reject { |_, v| v.nil? }
   end
 
@@ -91,7 +96,7 @@ Puppet::Type.type(:gcompute_backend_bucket).provide(:google) do
                                                     fetch_auth(@resource),
                                                     'application/json',
                                                     resource_to_request)
-    wait_for_operation create_req.send, @resource
+    @fetched = wait_for_operation create_req.send, @resource
     @property_hash[:ensure] = :present
   end
 
@@ -112,7 +117,7 @@ Puppet::Type.type(:gcompute_backend_bucket).provide(:google) do
                                                    fetch_auth(@resource),
                                                    'application/json',
                                                    resource_to_request)
-    wait_for_operation update_req.send, @resource
+    @fetched = wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)
@@ -120,6 +125,12 @@ Puppet::Type.type(:gcompute_backend_bucket).provide(:google) do
     @dirty[field] = {
       from: from,
       to: to
+    }
+  end
+
+  def exports
+    {
+      self_link: @fetched['selfLink']
     }
   end
 
