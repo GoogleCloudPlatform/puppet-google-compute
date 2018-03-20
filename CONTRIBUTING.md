@@ -636,9 +636,11 @@ central location:
 
   * .tools/README.md
   * Gemfile.lock
+  * lib/google/compute/api/gcompute_instance_manifest.rb
   * LICENSE
   * spec/data/poor_example.pp
   * spec/stubs/google/authorization.rb
+  * tasks/instance-to-manifest.rb
 
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
 [rubocop]: https://rubocop.readthedocs.io/en/latest/
