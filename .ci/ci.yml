@@ -171,6 +171,7 @@ jobs:
             file: magic-modules/.ci/unit-tests/puppet.yml
             params:
               PRODUCT: compute
+              EXCLUDE_PATTERN: spec/gcompute_instance_group_manager_provider_spec.rb,spec/gcompute_instance_provider_spec.rb,spec/gcompute_instance_template_provider_spec.rb,spec/gcompute_target_https_proxy_provider_spec.rb,spec/gcompute_target_ssl_proxy_provider_spec.rb
 
     - name: create-prs
       plan:
