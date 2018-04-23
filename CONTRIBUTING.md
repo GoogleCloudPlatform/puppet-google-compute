@@ -85,67 +85,69 @@ puppet-codegen:
 
   * .gitignore
   * .rubocop.yml
-  * .tests/end2end/data/address.pp
-  * .tests/end2end/data/backend_bucket.pp
-  * .tests/end2end/data/backend_service.pp
-  * .tests/end2end/data/delete_address.pp
-  * .tests/end2end/data/delete_backend_bucket.pp
-  * .tests/end2end/data/delete_backend_service.pp
-  * .tests/end2end/data/delete_disk.pp
-  * .tests/end2end/data/delete_firewall.pp
-  * .tests/end2end/data/delete_forwarding_rule.pp
-  * .tests/end2end/data/delete_global_address.pp
-  * .tests/end2end/data/delete_global_forwarding_rule.pp
-  * .tests/end2end/data/delete_health_check.pp
-  * .tests/end2end/data/delete_http_health_check.pp
-  * .tests/end2end/data/delete_https_health_check.pp
-  * .tests/end2end/data/delete_image.pp
-  * .tests/end2end/data/delete_instance.pp
-  * .tests/end2end/data/delete_instance_group.pp
-  * .tests/end2end/data/delete_instance_group_manager.pp
-  * .tests/end2end/data/delete_instance_template.pp
-  * .tests/end2end/data/delete_network.pp
-  * .tests/end2end/data/delete_route.pp
-  * .tests/end2end/data/delete_ssl_certificate.pp
-  * .tests/end2end/data/delete_subnetwork.pp
-  * .tests/end2end/data/delete_target_http_proxy.pp
-  * .tests/end2end/data/delete_target_https_proxy.pp
-  * .tests/end2end/data/delete_target_pool.pp
-  * .tests/end2end/data/delete_target_ssl_proxy.pp
-  * .tests/end2end/data/delete_target_tcp_proxy.pp
-  * .tests/end2end/data/delete_url_map.pp
-  * .tests/end2end/data/disk.pp
-  * .tests/end2end/data/disk_type.pp
-  * .tests/end2end/data/firewall.pp
-  * .tests/end2end/data/firewall~change1.pp
-  * .tests/end2end/data/forwarding_rule.pp
-  * .tests/end2end/data/global_address.pp
-  * .tests/end2end/data/global_forwarding_rule.pp
-  * .tests/end2end/data/health_check.pp
-  * .tests/end2end/data/http_health_check.pp
-  * .tests/end2end/data/https_health_check.pp
-  * .tests/end2end/data/image.pp
-  * .tests/end2end/data/instance.pp
-  * .tests/end2end/data/instance_group.pp
-  * .tests/end2end/data/instance_group_manager.pp
-  * .tests/end2end/data/instance_template.pp
-  * .tests/end2end/data/license.pp
-  * .tests/end2end/data/machine_type.pp
-  * .tests/end2end/data/network~auto.pp
-  * .tests/end2end/data/network~convert_to_custom.pp
-  * .tests/end2end/data/network~custom.pp
-  * .tests/end2end/data/network~legacy.pp
-  * .tests/end2end/data/region.pp
-  * .tests/end2end/data/route.pp
-  * .tests/end2end/data/ssl_certificate.pp
-  * .tests/end2end/data/subnetwork.pp
-  * .tests/end2end/data/target_http_proxy.pp
-  * .tests/end2end/data/target_https_proxy.pp
-  * .tests/end2end/data/target_pool.pp
-  * .tests/end2end/data/target_ssl_proxy.pp
-  * .tests/end2end/data/target_tcp_proxy.pp
-  * .tests/end2end/data/url_map.pp
-  * .tests/end2end/data/zone.pp
+  * .tools/end2end/data/address.pp
+  * .tools/end2end/data/backend_bucket.pp
+  * .tools/end2end/data/backend_service.pp
+  * .tools/end2end/data/delete_address.pp
+  * .tools/end2end/data/delete_backend_bucket.pp
+  * .tools/end2end/data/delete_backend_service.pp
+  * .tools/end2end/data/delete_disk.pp
+  * .tools/end2end/data/delete_firewall.pp
+  * .tools/end2end/data/delete_forwarding_rule.pp
+  * .tools/end2end/data/delete_global_address.pp
+  * .tools/end2end/data/delete_global_forwarding_rule.pp
+  * .tools/end2end/data/delete_health_check.pp
+  * .tools/end2end/data/delete_http_health_check.pp
+  * .tools/end2end/data/delete_https_health_check.pp
+  * .tools/end2end/data/delete_image.pp
+  * .tools/end2end/data/delete_instance.pp
+  * .tools/end2end/data/delete_instance_group.pp
+  * .tools/end2end/data/delete_instance_group_manager.pp
+  * .tools/end2end/data/delete_instance_template.pp
+  * .tools/end2end/data/delete_network.pp
+  * .tools/end2end/data/delete_route.pp
+  * .tools/end2end/data/delete_snapshot.pp
+  * .tools/end2end/data/delete_ssl_certificate.pp
+  * .tools/end2end/data/delete_subnetwork.pp
+  * .tools/end2end/data/delete_target_http_proxy.pp
+  * .tools/end2end/data/delete_target_https_proxy.pp
+  * .tools/end2end/data/delete_target_pool.pp
+  * .tools/end2end/data/delete_target_ssl_proxy.pp
+  * .tools/end2end/data/delete_target_tcp_proxy.pp
+  * .tools/end2end/data/delete_url_map.pp
+  * .tools/end2end/data/disk.pp
+  * .tools/end2end/data/disk_type.pp
+  * .tools/end2end/data/firewall.pp
+  * .tools/end2end/data/firewall~change1.pp
+  * .tools/end2end/data/forwarding_rule.pp
+  * .tools/end2end/data/global_address.pp
+  * .tools/end2end/data/global_forwarding_rule.pp
+  * .tools/end2end/data/health_check.pp
+  * .tools/end2end/data/http_health_check.pp
+  * .tools/end2end/data/https_health_check.pp
+  * .tools/end2end/data/image.pp
+  * .tools/end2end/data/instance.pp
+  * .tools/end2end/data/instance_group.pp
+  * .tools/end2end/data/instance_group_manager.pp
+  * .tools/end2end/data/instance_template.pp
+  * .tools/end2end/data/license.pp
+  * .tools/end2end/data/machine_type.pp
+  * .tools/end2end/data/network~auto.pp
+  * .tools/end2end/data/network~convert_to_custom.pp
+  * .tools/end2end/data/network~custom.pp
+  * .tools/end2end/data/network~legacy.pp
+  * .tools/end2end/data/region.pp
+  * .tools/end2end/data/route.pp
+  * .tools/end2end/data/snapshot.pp
+  * .tools/end2end/data/ssl_certificate.pp
+  * .tools/end2end/data/subnetwork.pp
+  * .tools/end2end/data/target_http_proxy.pp
+  * .tools/end2end/data/target_https_proxy.pp
+  * .tools/end2end/data/target_pool.pp
+  * .tools/end2end/data/target_ssl_proxy.pp
+  * .tools/end2end/data/target_tcp_proxy.pp
+  * .tools/end2end/data/url_map.pp
+  * .tools/end2end/data/zone.pp
   * CHANGELOG.md
   * CONTRIBUTING.md
   * examples/address.pp
@@ -169,6 +171,7 @@ puppet-codegen:
   * examples/delete_instance_template.pp
   * examples/delete_network.pp
   * examples/delete_route.pp
+  * examples/delete_snapshot.pp
   * examples/delete_ssl_certificate.pp
   * examples/delete_subnetwork.pp
   * examples/delete_target_http_proxy.pp
@@ -200,6 +203,7 @@ puppet-codegen:
   * examples/network~legacy.pp
   * examples/region.pp
   * examples/route.pp
+  * examples/snapshot.pp
   * examples/ssl_certificate.pp
   * examples/subnetwork.pp
   * examples/target_http_proxy.pp
@@ -275,6 +279,7 @@ puppet-codegen:
   * lib/google/compute/property/instancetemplate_source_image_encryption_key.rb
   * lib/google/compute/property/instancetemplate_tags.rb
   * lib/google/compute/property/integer.rb
+  * lib/google/compute/property/license_selflink.rb
   * lib/google/compute/property/machinetype_deprecated.rb
   * lib/google/compute/property/machinetype_name.rb
   * lib/google/compute/property/machinetype_selflink.rb
@@ -282,6 +287,8 @@ puppet-codegen:
   * lib/google/compute/property/network_selflink.rb
   * lib/google/compute/property/region_name.rb
   * lib/google/compute/property/region_selflink.rb
+  * lib/google/compute/property/snapshot_snapshot_encryption_key.rb
+  * lib/google/compute/property/snapshot_source_disk_encryption_key.rb
   * lib/google/compute/property/sslcertificate_selflink.rb
   * lib/google/compute/property/string.rb
   * lib/google/compute/property/string_array.rb
@@ -328,6 +335,7 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_network/google.rb
   * lib/puppet/provider/gcompute_region/google.rb
   * lib/puppet/provider/gcompute_route/google.rb
+  * lib/puppet/provider/gcompute_snapshot/google.rb
   * lib/puppet/provider/gcompute_ssl_certificate/google.rb
   * lib/puppet/provider/gcompute_subnetwork/google.rb
   * lib/puppet/provider/gcompute_target_http_proxy/google.rb
@@ -359,6 +367,7 @@ puppet-codegen:
   * lib/puppet/type/gcompute_network.rb
   * lib/puppet/type/gcompute_region.rb
   * lib/puppet/type/gcompute_route.rb
+  * lib/puppet/type/gcompute_snapshot.rb
   * lib/puppet/type/gcompute_ssl_certificate.rb
   * lib/puppet/type/gcompute_subnetwork.rb
   * lib/puppet/type/gcompute_target_http_proxy.rb
@@ -510,6 +519,12 @@ puppet-codegen:
   * spec/data/network/gcompute_route/success2~title.yaml
   * spec/data/network/gcompute_route/success3~name.yaml
   * spec/data/network/gcompute_route/success3~title.yaml
+  * spec/data/network/gcompute_snapshot/success1~name.yaml
+  * spec/data/network/gcompute_snapshot/success1~title.yaml
+  * spec/data/network/gcompute_snapshot/success2~name.yaml
+  * spec/data/network/gcompute_snapshot/success2~title.yaml
+  * spec/data/network/gcompute_snapshot/success3~name.yaml
+  * spec/data/network/gcompute_snapshot/success3~title.yaml
   * spec/data/network/gcompute_ssl_certificate/success1~name.yaml
   * spec/data/network/gcompute_ssl_certificate/success1~title.yaml
   * spec/data/network/gcompute_ssl_certificate/success2~name.yaml
@@ -587,6 +602,7 @@ puppet-codegen:
   * spec/gcompute_network_provider_spec.rb
   * spec/gcompute_region_provider_spec.rb
   * spec/gcompute_route_provider_spec.rb
+  * spec/gcompute_snapshot_provider_spec.rb
   * spec/gcompute_ssl_certificate_provider_spec.rb
   * spec/gcompute_subnetwork_provider_spec.rb
   * spec/gcompute_target_http_proxy_provider_spec.rb
@@ -618,7 +634,7 @@ puppet-codegen:
 The list below contains all the files that were automatically sourced from a
 central location:
 
-  * .tests/README.md
+  * .tools/README.md
   * Gemfile.lock
   * LICENSE
   * spec/data/poor_example.pp

@@ -27,10 +27,12 @@ module Google
 
         # TODO(nelsonjr): Implement this as gcompute_disk_snapshot { }
         # TODO(nelsonjr): Make this function wait for the operation to complete
-        def snapshot(target)
+        def snapshot(target, properties = {})
           snapshot_request = ::Google::Compute::Network::Post.new(
             gcompute_disk_snapshot, @cred, 'application/json',
-            { name: target }.to_json
+            # Ordering of 'kind' must be moved so that testing
+            # expectations do not fail.
+            { kind: properties[:kind], name: target }.merge(properties).to_json
           )
           response = JSON.parse(snapshot_request.send.body)
           raise Puppet::Error, response['error']['errors'][0]['message'] \
@@ -42,10 +44,11 @@ module Google
         def gcompute_disk_snapshot
           URI.parse(
             format(
-              '%s/%s',
-              Puppet::Type.type(:gcompute_disk).provider(:google).self_link(
-                name: @name, zone: @zone, project: @project
-              ), 'createSnapshot'
+              '%<self_link>s/%<method>s',
+              self_link: Puppet::Type.type(:gcompute_disk).provider(:google)
+                                     .self_link(name: @name, zone: @zone,
+                                                project: @project),
+              method: 'createSnapshot'
             )
           )
         end
