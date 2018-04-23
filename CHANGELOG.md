@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2 (2017-10-25)
+
+### New features
+
+- Added support for `gcompute_snapshot` resources.
+
 ## 0.2.1 (2017-10-11)
 
 ### Fixes

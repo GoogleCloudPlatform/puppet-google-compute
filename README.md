@@ -299,8 +299,8 @@ gcompute_instance_template { 'instance-template':
       }
     ],
     metadata           => {
-      'startup-script-url' => 'gs://graphite-playground/bootstrap.sh',
-      'cost-center'        => '12345',
+      'startup-script-url'   => 'gs://graphite-playground/bootstrap.sh',
+      'cost-center'          => '12345',
     },
     network_interfaces => [
       {
@@ -368,8 +368,8 @@ gcompute_instance { 'instance-test':
     }
   ],
   metadata           => {
-    'startup-script-url' => 'gs://graphite-playground/bootstrap.sh',
-    'cost-center'        => '12345',
+    startup-script-url   => 'gs://graphite-playground/bootstrap.sh',
+    cost-center          => '12345',
   },
   network_interfaces => [
     {
@@ -497,6 +497,25 @@ gcompute_route { 'corp-route':
   tags             => ['backends', 'databases'],
   project          => 'google.com:graphite-playground',
   credential       => 'mycred',
+}
+
+```
+
+#### `gcompute_snapshot`
+
+```puppet
+gcompute_snapshot { 'data-disk-snapshot-1':
+  ensure                     => present,
+  snapshot_encryption_key    => {
+    raw_key => 'VGhpcyBpcyBhbiBlbmNyeXB0ZWQgc25hcHNob3QhISE=',
+  },
+  source_disk_encryption_key => {
+    raw_key => 'SGVsbG8gZnJvbSBHb29nbGUgQ2xvdWQgUGxhdGZvcm0=',
+  },
+  source                     => 'data-disk-1',
+  zone                       => 'us-central1-a',
+  project                    => 'google.com:graphite-playground',
+  credential                 => 'mycred',
 }
 
 ```
@@ -857,6 +876,20 @@ gcompute_zone { 'us-central1-a':
     sending virtual machine's routing table will be dropped.
     A Routes resources must have exactly one specification of either
     nextHopGateway, nextHopInstance, nextHopIp, or nextHopVpnTunnel.
+* [`gcompute_snapshot`][]:
+    Represents a Persistent Disk Snapshot resource.
+    Use snapshots to back up data from your persistent disks. Snapshots are
+    different from public images and custom images, which are used
+    primarily
+    to create instances or configure instance templates. Snapshots are
+    useful
+    for periodic backup of the data on your persistent disks. You can
+    create
+    snapshots from persistent disks even while they are attached to running
+    instances.
+    Snapshots are incremental, so you can create regular snapshots on a
+    persistent disk faster and at a much lower cost than if you regularly
+    created a full image of the disk.
 * [`gcompute_ssl_certificate`][]:
     An SslCertificate resource. This resource provides a mechanism to
     upload
@@ -993,7 +1026,12 @@ gcompute_address { 'id-of-resource':
 
 ##### `name`
 
-  Name of the resource.
+  Name of the resource. The name must be 1-63 characters long, and
+  comply with RFC1035. Specifically, the name must be 1-63 characters
+  long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])?
+  which means the first character must be a lowercase letter, and all
+  following characters must be a dash, lowercase letter, or digit,
+  except the last character, which cannot be a dash.
 
 ##### `region`
 
@@ -1053,7 +1091,7 @@ gcompute_backend_bucket { 'id-of-resource':
 
 ##### `bucket_name`
 
-  Cloud Storage bucket name.
+Required.  Cloud Storage bucket name.
 
 ##### `description`
 
@@ -1064,16 +1102,12 @@ gcompute_backend_bucket { 'id-of-resource':
 
   If true, enable Cloud CDN for this BackendBucket.
 
-##### `id`
-
-  Unique identifier for the resource.
-
 ##### `name`
 
-  Name of the resource. Provided by the client when the resource is
+Required.  Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035.  Specifically, the name must be 1-63 characters long and
-  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the
   last character, which cannot be a dash.
@@ -1083,6 +1117,9 @@ gcompute_backend_bucket { 'id-of-resource':
 
 * `creation_timestamp`: Output only.
   Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  Unique identifier for the resource.
 
 #### `gcompute_backend_service`
 
@@ -1304,7 +1341,7 @@ gcompute_backend_service { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -1534,7 +1571,7 @@ gcompute_disk { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -1775,7 +1812,7 @@ Required.  The IP protocol to which this rule applies. The protocol type is
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -2045,10 +2082,10 @@ gcompute_global_address { 'id-of-resource':
 
 ##### `name`
 
-  Name of the resource. Provided by the client when the resource is
+Required.  Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035.  Specifically, the name must be 1-63 characters long and
-  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -2315,10 +2352,10 @@ gcompute_http_health_check { 'id-of-resource':
 
 ##### `name`
 
-  Name of the resource. Provided by the client when the resource is
+Required.  Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035.  Specifically, the name must be 1-63 characters long and
-  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the
   last character, which cannot be a dash.
@@ -2418,10 +2455,10 @@ gcompute_https_health_check { 'id-of-resource':
 
 ##### `name`
 
-  Name of the resource. Provided by the client when the resource is
+Required.  Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035.  Specifically, the name must be 1-63 characters long and
-  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the
   last character, which cannot be a dash.
@@ -2547,7 +2584,7 @@ gcompute_health_check { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035.  Specifically, the name must be 1-63 characters long and
-  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the
   last character, which cannot be a dash.
@@ -2728,8 +2765,8 @@ gcompute_instance_template { 'instance-template':
       }
     ],
     metadata           => {
-      'startup-script-url' => 'gs://graphite-playground/bootstrap.sh',
-      'cost-center'        => '12345',
+      'startup-script-url'   => 'gs://graphite-playground/bootstrap.sh',
+      'cost-center'          => '12345',
     },
     network_interfaces => [
       {
@@ -3307,10 +3344,10 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
 
 ##### `name`
 
-  Name of the resource; provided by the client when the resource is
+Required.  Name of the resource; provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and
-  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the
   last character, which cannot be a dash.
@@ -3442,8 +3479,8 @@ gcompute_instance { 'instance-test':
     }
   ],
   metadata           => {
-    'startup-script-url' => 'gs://graphite-playground/bootstrap.sh',
-    'cost-center'        => '12345',
+    startup-script-url   => 'gs://graphite-playground/bootstrap.sh',
+    cost-center          => '12345',
   },
   network_interfaces => [
     {
@@ -3725,7 +3762,7 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   creating the resource. The resource name must be 1-63 characters long,
   and comply with RFC1035. Specifically, the name must be 1-63
   characters long and match the regular expression
-  [a-z]([-a-z0-9]*[a-z0-9])? which means the first character must be a
+  `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character must be a
   lowercase letter, and all following characters must be a dash,
   lowercase letter, or digit, except the last character, which cannot
   be a dash.
@@ -4371,7 +4408,7 @@ gcompute_network { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -4553,7 +4590,7 @@ gcompute_route { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035.  Specifically, the name must be 1-63 characters long and
-  match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the
   last character, which cannot be a dash.
@@ -4601,6 +4638,151 @@ gcompute_route { 'id-of-resource':
 
   URL to a VpnTunnel that should handle matching packets.
 
+
+#### `gcompute_snapshot`
+
+Represents a Persistent Disk Snapshot resource.
+
+Use snapshots to back up data from your persistent disks. Snapshots are
+different from public images and custom images, which are used primarily
+to create instances or configure instance templates. Snapshots are useful
+for periodic backup of the data on your persistent disks. You can create
+snapshots from persistent disks even while they are attached to running
+instances.
+
+Snapshots are incremental, so you can create regular snapshots on a
+persistent disk faster and at a much lower cost than if you regularly
+created a full image of the disk.
+
+
+#### Example
+
+```puppet
+gcompute_snapshot { 'data-disk-snapshot-1':
+  ensure                     => present,
+  snapshot_encryption_key    => {
+    raw_key => 'VGhpcyBpcyBhbiBlbmNyeXB0ZWQgc25hcHNob3QhISE=',
+  },
+  source_disk_encryption_key => {
+    raw_key => 'SGVsbG8gZnJvbSBHb29nbGUgQ2xvdWQgUGxhdGZvcm0=',
+  },
+  source                     => 'data-disk-1',
+  zone                       => 'us-central1-a',
+  project                    => 'google.com:graphite-playground',
+  credential                 => 'mycred',
+}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_snapshot { 'id-of-resource':
+  creation_timestamp         => time,
+  description                => string,
+  disk_size_gb               => integer,
+  id                         => integer,
+  labels                     => [
+    string,
+    ...
+  ],
+  licenses                   => [
+    reference to a gcompute_license,
+    ...
+  ],
+  name                       => string,
+  snapshot_encryption_key    => {
+    raw_key => string,
+    sha256  => string,
+  },
+  source                     => reference to gcompute_disk,
+  source_disk_encryption_key => {
+    raw_key => string,
+    sha256  => string,
+  },
+  storage_bytes              => integer,
+  zone                       => reference to gcompute_zone,
+  project                    => string,
+  credential                 => reference to gauth_credential,
+}
+```
+
+##### `name`
+
+Required.  Name of the resource; provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035. Specifically, the name must be 1-63 characters long and match
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
+  first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the last
+  character, which cannot be a dash.
+
+##### `description`
+
+  An optional description of this resource.
+
+##### `licenses`
+
+  A list of public visible licenses that apply to this snapshot. This
+  can be because the original image had licenses attached (such as a
+  Windows image).  snapshotEncryptionKey nested object Encrypts the
+  snapshot using a customer-supplied encryption key.
+
+##### `labels`
+
+  Labels to apply to this snapshot.
+
+##### `source`
+
+  A reference to Disk resource
+
+##### `zone`
+
+  A reference to Zone resource
+
+##### `snapshot_encryption_key`
+
+  The customer-supplied encryption key of the snapshot. Required if the
+  source snapshot is protected by a customer-supplied encryption key.
+
+##### snapshot_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption key, encoded in
+  RFC 4648 base64 to either encrypt or decrypt this resource.
+
+##### snapshot_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
+  encryption key that protects this resource.
+
+##### `source_disk_encryption_key`
+
+  The customer-supplied encryption key of the source snapshot. Required
+  if the source snapshot is protected by a customer-supplied encryption
+  key.
+
+##### source_disk_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption key, encoded in
+  RFC 4648 base64 to either encrypt or decrypt this resource.
+
+##### source_disk_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
+  encryption key that protects this resource.
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource.
+
+* `disk_size_gb`: Output only.
+  Size of the snapshot, specified in GB.
+
+* `storage_bytes`: Output only.
+  A size of the the storage used by the snapshot. As snapshots share
+  storage, this number is expected to change with snapshot
+  creation/deletion.
 
 #### `gcompute_ssl_certificate`
 
@@ -4687,7 +4869,7 @@ gcompute_ssl_certificate { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -4790,7 +4972,7 @@ gcompute_subnetwork { 'id-of-resource':
   The name of the resource, provided by the client when initially
   creating the resource. The name must be 1-63 characters long, and
   comply with RFC1035. Specifically, the name must be 1-63 characters
-  long and match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which
+  long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which
   means the first character must be a lowercase letter, and all
   following characters must be a dash, lowercase letter, or digit,
   except the last character, which cannot be a dash.
@@ -4855,17 +5037,17 @@ gcompute_target_http_proxy { 'id-of-resource':
 
 ##### `name`
 
-  Name of the resource. Provided by the client when the resource is
+Required.  Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
 
 ##### `url_map`
 
-  A reference to UrlMap resource
+Required.  A reference to UrlMap resource
 
 
 ##### Output-only properties
@@ -4921,23 +5103,23 @@ gcompute_target_https_proxy { 'id-of-resource':
 
 ##### `name`
 
-  Name of the resource. Provided by the client when the resource is
+Required.  Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
 
 ##### `ssl_certificates`
 
-  A list of SslCertificate resources that are used to authenticate
+Required.  A list of SslCertificate resources that are used to authenticate
   connections between users and the load balancer. Currently, exactly
   one SSL certificate must be specified.
 
 ##### `url_map`
 
-  A reference to UrlMap resource
+Required.  A reference to UrlMap resource
 
 
 ##### Output-only properties
@@ -5030,7 +5212,7 @@ gcompute_target_pool { 'id-of-resource':
 Required.  Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -5110,7 +5292,7 @@ gcompute_target_ssl_proxy { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -5183,7 +5365,7 @@ gcompute_target_tcp_proxy { 'id-of-resource':
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -5308,7 +5490,7 @@ Required.  A reference to BackendService resource
   Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
-  the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+  the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
@@ -5725,16 +5907,16 @@ Testing on other platforms has been minimal and cannot be guaranteed.
 
 ### Automatically Generated Files
 
-Some files in this package are automatically generated by puppet-codegen.
+Some files in this package are automatically generated by
+[Magic Modules][magic-modules].
 
 We use a code compiler to produce this module in order to avoid repetitive tasks
 and improve code quality. This means all Google Cloud Platform Puppet modules
 use the same underlying authentication, logic, test generation, style checks,
 etc.
 
-Note: Currently `puppet-codegen` is not yet generally available, but it will
-be made open source soon. Stay tuned. Please learn more about the way to change
-autogenerated files by reading the [CONTRIBUTING.md][] file.
+Learn more about the way to change autogenerated files by reading the
+[CONTRIBUTING.md][] file.
 
 ### Contributing
 
@@ -5777,6 +5959,7 @@ Variable                | Side Effect
 `RSPEC_DEBUG=1`         | Prints debug related to the tests being run.
 `RSPEC_HTTP_VERBOSE=1`  | Prints network expectations and access.
 
+[magic-modules]: https://github.com/GoogleCloudPlatform/magic-modules
 [CONTRIBUTING.md]: CONTRIBUTING.md
 [bundle-forge]: https://forge.puppet.com/google/cloud
 [`google-gauth`]: https://github.com/GoogleCloudPlatform/puppet-google-auth
@@ -5805,6 +5988,7 @@ Variable                | Side Effect
 [`gcompute_network`]: #gcompute_network
 [`gcompute_region`]: #gcompute_region
 [`gcompute_route`]: #gcompute_route
+[`gcompute_snapshot`]: #gcompute_snapshot
 [`gcompute_ssl_certificate`]: #gcompute_ssl_certificate
 [`gcompute_subnetwork`]: #gcompute_subnetwork
 [`gcompute_target_http_proxy`]: #gcompute_target_http_proxy
