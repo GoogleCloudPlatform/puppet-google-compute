@@ -31,6 +31,7 @@ require 'google/compute/property/integer'
 require 'google/compute/property/sslcertificate_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_target_ssl_proxy) do
@@ -108,5 +109,10 @@ Puppet::Type.newtype(:gcompute_target_ssl_proxy) do
       connections between users and the load balancer. Currently, exactly one
       SSL certificate must be specified.
     DOC
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end
