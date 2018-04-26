@@ -1411,20 +1411,22 @@ gcompute_disk_type { 'pd-standard':
 
 ```puppet
 gcompute_disk_type { 'id-of-resource':
-  creation_timestamp     => time,
-  default_disk_size_gb   => integer,
-  deprecated_deleted     => time,
-  deprecated_deprecated  => time,
-  deprecated_obsolete    => time,
-  deprecated_replacement => string,
-  deprecated_state       => 'DEPRECATED', 'OBSOLETE' or 'DELETED',
-  description            => string,
-  id                     => integer,
-  name                   => string,
-  valid_disk_size        => string,
-  zone                   => reference to gcompute_zone,
-  project                => string,
-  credential             => reference to gauth_credential,
+  creation_timestamp   => time,
+  default_disk_size_gb => integer,
+  deprecated           => {
+    deleted     => time,
+    deprecated  => time,
+    obsolete    => time,
+    replacement => string,
+    state       => 'DEPRECATED', 'OBSOLETE' or 'DELETED',
+  },
+  description          => string,
+  id                   => integer,
+  name                 => string,
+  valid_disk_size      => string,
+  zone                 => reference to gcompute_zone,
+  project              => string,
+  credential           => reference to gauth_credential,
 }
 ```
 
@@ -1445,25 +1447,28 @@ Required.  A reference to Zone resource
 * `default_disk_size_gb`: Output only.
   Server-defined default disk size in GB.
 
-* `deprecated_deleted`: Output only.
-  An optional RFC3339 timestamp on or after which the deprecation state
+* `deprecated`: Output only.
+  The deprecation status associated with this disk type.
+
+##### deprecated/deleted
+Output only.  An optional RFC3339 timestamp on or after which the deprecation state
   of this resource will be changed to DELETED.
 
-* `deprecated_deprecated`: Output only.
-  An optional RFC3339 timestamp on or after which the deprecation state
+##### deprecated/deprecated
+Output only.  An optional RFC3339 timestamp on or after which the deprecation state
   of this resource will be changed to DEPRECATED.
 
-* `deprecated_obsolete`: Output only.
-  An optional RFC3339 timestamp on or after which the deprecation state
+##### deprecated/obsolete
+Output only.  An optional RFC3339 timestamp on or after which the deprecation state
   of this resource will be changed to OBSOLETE.
 
-* `deprecated_replacement`: Output only.
-  The URL of the suggested replacement for a deprecated resource. The
+##### deprecated/replacement
+Output only.  The URL of the suggested replacement for a deprecated resource. The
   suggested replacement resource must be the same kind of resource as
   the deprecated resource.
 
-* `deprecated_state`: Output only.
-  The deprecation state of this resource. This can be DEPRECATED,
+##### deprecated/state
+Output only.  The deprecation state of this resource. This can be DEPRECATED,
   OBSOLETE, or DELETED. Operations which create a new resource using a
   DEPRECATED resource will return successfully, but with a warning
   indicating the deprecated resource and recommending its replacement.
@@ -4455,21 +4460,23 @@ gcompute_region { 'us-west1':
 
 ```puppet
 gcompute_region { 'id-of-resource':
-  creation_timestamp     => time,
-  deprecated_deleted     => time,
-  deprecated_deprecated  => time,
-  deprecated_obsolete    => time,
-  deprecated_replacement => string,
-  deprecated_state       => 'DEPRECATED', 'OBSOLETE' or 'DELETED',
-  description            => string,
-  id                     => integer,
-  name                   => string,
-  zones                  => [
+  creation_timestamp => time,
+  deprecated         => {
+    deleted     => time,
+    deprecated  => time,
+    obsolete    => time,
+    replacement => string,
+    state       => 'DEPRECATED', 'OBSOLETE' or 'DELETED',
+  },
+  description        => string,
+  id                 => integer,
+  name               => string,
+  zones              => [
     string,
     ...
   ],
-  project                => string,
-  credential             => reference to gauth_credential,
+  project            => string,
+  credential         => reference to gauth_credential,
 }
 ```
 
@@ -4483,25 +4490,28 @@ gcompute_region { 'id-of-resource':
 * `creation_timestamp`: Output only.
   Creation timestamp in RFC3339 text format.
 
-* `deprecated_deleted`: Output only.
+* `deprecated`: Output only.
+  The deprecation state of this resource.
+
+##### deprecated/deleted
   An optional RFC3339 timestamp on or after which the deprecation state
   of this resource will be changed to DELETED.
 
-* `deprecated_deprecated`: Output only.
-  An optional RFC3339 timestamp on or after which the deprecation state
+##### deprecated/deprecated
+Output only.  An optional RFC3339 timestamp on or after which the deprecation state
   of this resource will be changed to DEPRECATED.
 
-* `deprecated_obsolete`: Output only.
-  An optional RFC3339 timestamp on or after which the deprecation state
+##### deprecated/obsolete
+Output only.  An optional RFC3339 timestamp on or after which the deprecation state
   of this resource will be changed to OBSOLETE.
 
-* `deprecated_replacement`: Output only.
-  The URL of the suggested replacement for a deprecated resource. The
+##### deprecated/replacement
+Output only.  The URL of the suggested replacement for a deprecated resource. The
   suggested replacement resource must be the same kind of resource as
   the deprecated resource.
 
-* `deprecated_state`: Output only.
-  The deprecation state of this resource. This can be DEPRECATED,
+##### deprecated/state
+Output only.  The deprecation state of this resource. This can be DEPRECATED,
   OBSOLETE, or DELETED. Operations which create a new resource using a
   DEPRECATED resource will return successfully, but with a warning
   indicating the deprecated resource and recommending its replacement.
@@ -5289,7 +5299,7 @@ gcompute_target_ssl_proxy { 'id-of-resource':
 
 ##### `name`
 
-  Name of the resource. Provided by the client when the resource is
+Required.  Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
   the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
@@ -5304,11 +5314,11 @@ gcompute_target_ssl_proxy { 'id-of-resource':
 
 ##### `service`
 
-  A reference to BackendService resource
+Required.  A reference to BackendService resource
 
 ##### `ssl_certificates`
 
-  A list of SslCertificate resources that are used to authenticate
+Required.  A list of SslCertificate resources that are used to authenticate
   connections between users and the load balancer. Currently, exactly
   one SSL certificate must be specified.
 

@@ -235,6 +235,7 @@ puppet-codegen:
   * lib/google/compute/property/disk_selflink.rb
   * lib/google/compute/property/disk_source_image_encryption_key.rb
   * lib/google/compute/property/disk_source_snapshot_encryption_key.rb
+  * lib/google/compute/property/disktype_deprecated.rb
   * lib/google/compute/property/disktype_selflink.rb
   * lib/google/compute/property/double.rb
   * lib/google/compute/property/enum.rb
@@ -285,6 +286,7 @@ puppet-codegen:
   * lib/google/compute/property/machinetype_selflink.rb
   * lib/google/compute/property/namevalues.rb
   * lib/google/compute/property/network_selflink.rb
+  * lib/google/compute/property/region_deprecated.rb
   * lib/google/compute/property/region_name.rb
   * lib/google/compute/property/region_selflink.rb
   * lib/google/compute/property/snapshot_snapshot_encryption_key.rb

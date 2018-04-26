@@ -119,8 +119,10 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
     unless @dirty.keys == [:auto_create_subnetworks]
-      raise ['Network specification mismatch and cannot be edited.',
-             'The only allowed change is from Auto to Custom type.'].join(' ')
+      raise [
+        'Network specification mismatch and cannot be edited.',
+        'The only allowed change is from Auto to Custom type.'
+      ].join(' ')
     end
     handle_auto_to_custom_change
   end
