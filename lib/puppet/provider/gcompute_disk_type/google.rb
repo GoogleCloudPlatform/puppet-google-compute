@@ -29,6 +29,7 @@ require 'google/compute/network/delete'
 require 'google/compute/network/get'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
+require 'google/compute/property/disktype_deprecated'
 require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/string'
@@ -75,20 +76,8 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
       default_disk_size_gb: Google::Compute::Property::Integer.api_munge(
         fetch['defaultDiskSizeGb']
       ),
-      deprecated_deleted: Google::Compute::Property::Time.api_munge(
-        Google::HashUtils.navigate(fetch, %w[deprecated deleted])
-      ),
-      deprecated_deprecated: Google::Compute::Property::Time.api_munge(
-        Google::HashUtils.navigate(fetch, %w[deprecated deprecated])
-      ),
-      deprecated_obsolete: Google::Compute::Property::Time.api_munge(
-        Google::HashUtils.navigate(fetch, %w[deprecated obsolete])
-      ),
-      deprecated_replacement: Google::Compute::Property::String.api_munge(
-        Google::HashUtils.navigate(fetch, %w[deprecated replacement])
-      ),
-      deprecated_state: Google::Compute::Property::Enum.api_munge(
-        Google::HashUtils.navigate(fetch, %w[deprecated state])
+      deprecated: Google::Compute::Property::DiskTypeDepreca.api_munge(
+        fetch['deprecated']
       ),
       description:
         Google::Compute::Property::String.api_munge(fetch['description']),
@@ -134,11 +123,7 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
       kind: 'compute#diskType',
       creation_timestamp: resource[:creation_timestamp],
       default_disk_size_gb: resource[:default_disk_size_gb],
-      deprecated_deleted: resource[:deprecated_deleted],
-      deprecated_deprecated: resource[:deprecated_deprecated],
-      deprecated_obsolete: resource[:deprecated_obsolete],
-      deprecated_replacement: resource[:deprecated_replacement],
-      deprecated_state: resource[:deprecated_state],
+      deprecated: resource[:deprecated],
       description: resource[:description],
       id: resource[:id],
       valid_disk_size: resource[:valid_disk_size],

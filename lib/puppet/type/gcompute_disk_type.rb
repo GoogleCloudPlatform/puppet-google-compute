@@ -25,6 +25,7 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/disktype_deprecated'
 require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/string'
@@ -81,49 +82,9 @@ Puppet::Type.newtype(:gcompute_disk_type) do
     desc 'Server-defined default disk size in GB. (output only)'
   end
 
-  newproperty(:deprecated_deleted, parent: Google::Compute::Property::Time) do
-    desc <<-DOC
-      An optional RFC3339 timestamp on or after which the deprecation state of
-      this resource will be changed to DELETED. (output only)
-    DOC
-  end
-
-  newproperty(:deprecated_deprecated,
-              parent: Google::Compute::Property::Time) do
-    desc <<-DOC
-      An optional RFC3339 timestamp on or after which the deprecation state of
-      this resource will be changed to DEPRECATED. (output only)
-    DOC
-  end
-
-  newproperty(:deprecated_obsolete, parent: Google::Compute::Property::Time) do
-    desc <<-DOC
-      An optional RFC3339 timestamp on or after which the deprecation state of
-      this resource will be changed to OBSOLETE. (output only)
-    DOC
-  end
-
-  newproperty(:deprecated_replacement,
-              parent: Google::Compute::Property::String) do
-    desc <<-DOC
-      The URL of the suggested replacement for a deprecated resource. The
-      suggested replacement resource must be the same kind of resource as the
-      deprecated resource. (output only)
-    DOC
-  end
-
-  newproperty(:deprecated_state, parent: Google::Compute::Property::Enum) do
-    desc <<-DOC
-      The deprecation state of this resource. This can be DEPRECATED, OBSOLETE,
-      or DELETED. Operations which create a new resource using a DEPRECATED
-      resource will return successfully, but with a warning indicating the
-      deprecated resource and recommending its replacement. Operations which
-      use OBSOLETE or DELETED resources will be rejected and result in an
-      error. (output only)
-    DOC
-    newvalue(:DEPRECATED)
-    newvalue(:OBSOLETE)
-    newvalue(:DELETED)
+  newproperty(:deprecated,
+              parent: Google::Compute::Property::DiskTypeDepreca) do
+    desc 'The deprecation status associated with this disk type. (output only)'
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do
