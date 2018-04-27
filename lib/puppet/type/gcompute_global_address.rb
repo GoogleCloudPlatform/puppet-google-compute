@@ -25,7 +25,6 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/region_selflink'
 require 'google/compute/property/string'
@@ -97,15 +96,6 @@ Puppet::Type.newtype(:gcompute_global_address) do
       lowercase letter, or digit, except the last character, which cannot be a
       dash.
     DOC
-  end
-
-  newproperty(:ip_version, parent: Google::Compute::Property::Enum) do
-    desc <<-DOC
-      The IP Version that will be used by this address. Valid options are IPV4
-      or IPV6. The default value is IPV4.
-    DOC
-    newvalue(:IPV4)
-    newvalue(:IPV6)
   end
 
   newproperty(:region, parent: Google::Compute::Property::RegioSelfLinkRef) do
