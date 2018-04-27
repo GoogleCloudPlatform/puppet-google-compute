@@ -2073,6 +2073,7 @@ gcompute_global_address { 'id-of-resource':
   creation_timestamp => time,
   description        => string,
   id                 => integer,
+  ip_version         => 'IPV4' or 'IPV6',
   name               => string,
   region             => reference to gcompute_region,
   project            => string,
@@ -2094,6 +2095,11 @@ Required.  Name of the resource. Provided by the client when the resource is
   the first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
+
+##### `ip_version`
+
+  The IP Version that will be used by this address. Valid options are
+  IPV4 or IPV6. The default value is IPV4.
 
 
 ##### Output-only properties
