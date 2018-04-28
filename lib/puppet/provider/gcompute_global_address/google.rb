@@ -35,6 +35,7 @@ require 'google/compute/property/region_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
 require 'google/hash_utils'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_global_address).provide(:google) do
@@ -56,11 +57,13 @@ Puppet::Type.type(:gcompute_global_address).provide(:google) do
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource), 'compute#address')
       resource.provider = present(name, fetch) unless fetch.nil?
+      Google::ObjectStore.instance.add(:gcompute_global_address, resource)
     end
   end
 
   def self.present(name, fetch)
     result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+    result.instance_variable_set(:@fetched, fetch)
     result
   end
 
@@ -91,7 +94,7 @@ Puppet::Type.type(:gcompute_global_address).provide(:google) do
                                                     fetch_auth(@resource),
                                                     'application/json',
                                                     resource_to_request)
-    wait_for_operation create_req.send, @resource
+    @fetched = wait_for_operation create_req.send, @resource
     @property_hash[:ensure] = :present
   end
 
@@ -112,7 +115,7 @@ Puppet::Type.type(:gcompute_global_address).provide(:google) do
                                                    fetch_auth(@resource),
                                                    'application/json',
                                                    resource_to_request)
-    wait_for_operation update_req.send, @resource
+    @fetched = wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)
@@ -120,6 +123,12 @@ Puppet::Type.type(:gcompute_global_address).provide(:google) do
     @dirty[field] = {
       from: from,
       to: to
+    }
+  end
+
+  def exports
+    {
+      self_link: @fetched['selfLink']
     }
   end
 
