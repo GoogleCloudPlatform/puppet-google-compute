@@ -30,6 +30,7 @@ require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_target_tcp_proxy) do
@@ -98,5 +99,10 @@ Puppet::Type.newtype(:gcompute_target_tcp_proxy) do
   newproperty(:service,
               parent: Google::Compute::Property::BackServSelfLinkRef) do
     desc 'A reference to BackendService resource'
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end
