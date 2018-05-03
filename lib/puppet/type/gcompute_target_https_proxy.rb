@@ -30,6 +30,7 @@ require 'google/compute/property/sslcertificate_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
 require 'google/compute/property/urlmap_selflink'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_target_https_proxy) do
@@ -97,5 +98,10 @@ Puppet::Type.newtype(:gcompute_target_https_proxy) do
 
   newproperty(:url_map, parent: Google::Compute::Property::UrlMapSelfLinkRef) do
     desc 'A reference to UrlMap resource'
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end

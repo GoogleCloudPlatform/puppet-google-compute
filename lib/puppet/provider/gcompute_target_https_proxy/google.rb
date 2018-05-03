@@ -35,6 +35,7 @@ require 'google/compute/property/string'
 require 'google/compute/property/time'
 require 'google/compute/property/urlmap_selflink'
 require 'google/hash_utils'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_target_https_proxy).provide(:google) do
@@ -56,29 +57,32 @@ Puppet::Type.type(:gcompute_target_https_proxy).provide(:google) do
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource),
                              'compute#targetHttpsProxy')
-      resource.provider = present(name, fetch) unless fetch.nil?
+      resource.provider = present(name, fetch, resource) unless fetch.nil?
+      Google::ObjectStore.instance.add(:gcompute_target_https_proxy, resource)
     end
   end
 
-  def self.present(name, fetch)
-    result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+  def self.present(name, fetch, resource)
+    result = new(
+      { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
+    )
+    result.instance_variable_set(:@fetched, fetch)
     result
   end
 
-  def self.fetch_to_hash(fetch)
+  def self.fetch_to_hash(fetch, resource)
     {
       creation_timestamp:
         Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      name: Google::Compute::Property::String.api_munge(fetch['name']),
       ssl_certificates:
         Google::Compute::Property::SslCertSelfLinkRefArray.api_munge(
           fetch['sslCertificates']
         ),
       url_map:
-        Google::Compute::Property::UrlMapSelfLinkRef.api_munge(fetch['urlMap'])
+        Google::Compute::Property::UrlMapSelfLinkRef.api_munge(fetch['urlMap']),
+      description: resource[:description],
+      name: resource[:name]
     }.reject { |_, v| v.nil? }
   end
 
@@ -94,7 +98,7 @@ Puppet::Type.type(:gcompute_target_https_proxy).provide(:google) do
                                                     fetch_auth(@resource),
                                                     'application/json',
                                                     resource_to_request)
-    wait_for_operation create_req.send, @resource
+    @fetched = wait_for_operation create_req.send, @resource
     @property_hash[:ensure] = :present
   end
 
@@ -115,7 +119,7 @@ Puppet::Type.type(:gcompute_target_https_proxy).provide(:google) do
                                                    fetch_auth(@resource),
                                                    'application/json',
                                                    resource_to_request)
-    wait_for_operation update_req.send, @resource
+    @fetched = wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)
@@ -123,6 +127,12 @@ Puppet::Type.type(:gcompute_target_https_proxy).provide(:google) do
     @dirty[field] = {
       from: from,
       to: to
+    }
+  end
+
+  def exports
+    {
+      self_link: @fetched['selfLink']
     }
   end
 
