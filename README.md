@@ -2971,7 +2971,7 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   choose an appropriate value.
 
 ##### properties/disks[]/initialize_params
-Required.  Specifies the parameters for a new disk that will be
+  Specifies the parameters for a new disk that will be
   created alongside the new instance. Use initialization
   parameters to create boot disks or local SSDs attached to
   the new instance.
@@ -3671,7 +3671,7 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   choose an appropriate value.
 
 ##### disks[]/initialize_params
-Required.  Specifies the parameters for a new disk that will be
+  Specifies the parameters for a new disk that will be
   created alongside the new instance. Use initialization
   parameters to create boot disks or local SSDs attached to
   the new instance.
