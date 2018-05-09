@@ -1952,8 +1952,8 @@ gcompute_forwarding_rule { 'id-of-resource':
   reference to an existing Address resource. The following examples are
   all valid:
   * 100.1.2.3
-  * https://www.googleapis.com/compute/v1/projects/project
-  /regions/region/addresses/address
+  * https://www.googleapis.com/compute/v1/projects/project/regions/
+  region/addresses/address
   * projects/project/regions/region/addresses/address
   * regions/region/addresses/address
   * global/addresses/address
@@ -2202,8 +2202,8 @@ gcompute_global_forwarding_rule { 'id-of-resource':
   reference to an existing Address resource. The following examples are
   all valid:
   * 100.1.2.3
-  * https://www.googleapis.com/compute/v1/projects/project
-  /regions/region/addresses/address
+  * https://www.googleapis.com/compute/v1/projects/project/regions/
+  region/addresses/address
   * projects/project/regions/region/addresses/address
   * regions/region/addresses/address
   * global/addresses/address
