@@ -61,23 +61,22 @@ Puppet::Type.type(:gcompute_target_pool).provide(:google) do
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource),
                              'compute#targetPool')
-      resource.provider = present(name, fetch) unless fetch.nil?
+      resource.provider = present(name, fetch, resource) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_target_pool, resource)
     end
   end
 
-  def self.present(name, fetch)
-    result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+  def self.present(name, fetch, resource)
+    result = new(
+      { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
+    )
     result.instance_variable_set(:@fetched, fetch)
     result
   end
 
   # rubocop:disable Metrics/MethodLength
-  def self.fetch_to_hash(fetch)
+  def self.fetch_to_hash(fetch, resource)
     {
-      backup_pool: Google::Compute::Property::TargPoolSelfLinkRef.api_munge(
-        fetch['backupPool']
-      ),
       creation_timestamp:
         Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       description:
@@ -91,9 +90,9 @@ Puppet::Type.type(:gcompute_target_pool).provide(:google) do
       instances: Google::Compute::Property::InstaSelfLinkRefArray.api_munge(
         fetch['instances']
       ),
-      name: Google::Compute::Property::String.api_munge(fetch['name']),
-      session_affinity:
-        Google::Compute::Property::Enum.api_munge(fetch['sessionAffinity'])
+      backup_pool: resource[:backup_pool],
+      name: resource[:name],
+      session_affinity: resource[:session_affinity]
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength
