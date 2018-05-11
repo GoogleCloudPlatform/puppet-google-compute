@@ -88,7 +88,7 @@ Puppet::Type.newtype(:gcompute_instance) do
   end
 
   newparam(:zone, parent: Google::Compute::Property::ZoneNameRef) do
-    desc 'A reference to Zone resource'
+    desc 'A reference to the zone where the machine resides.'
   end
 
   newproperty(:can_ip_forward, parent: Google::Compute::Property::Boolean) do
@@ -150,7 +150,7 @@ Puppet::Type.newtype(:gcompute_instance) do
 
   newproperty(:machine_type,
               parent: Google::Compute::Property::MachTypeSelfLinkRef) do
-    desc 'A reference to MachineType resource'
+    desc 'A reference to a machine type which defines VM kind.'
   end
 
   newproperty(:min_cpu_platform, parent: Google::Compute::Property::String) do

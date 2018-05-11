@@ -167,7 +167,10 @@ Puppet::Type.newtype(:gcompute_image) do
 
   newproperty(:source_disk,
               parent: Google::Compute::Property::DiskSelfLinkRef) do
-    desc 'A reference to Disk resource'
+    desc <<-DOC
+      Refers to a gcompute_disk object You must provide either this property or
+      the rawDisk.source property but not both to create an image.
+    DOC
   end
 
   newproperty(:source_disk_encryption_key,

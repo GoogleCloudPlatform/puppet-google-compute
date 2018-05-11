@@ -82,7 +82,7 @@ Puppet::Type.newtype(:gcompute_zone) do
   end
 
   newproperty(:region, parent: Google::Compute::Property::RegioSelfLinkRef) do
-    desc 'A reference to Region resource (output only)'
+    desc 'The region where the zone is located. (output only)'
   end
 
   newproperty(:status, parent: Google::Compute::Property::Enum) do

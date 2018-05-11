@@ -70,7 +70,7 @@ Puppet::Type.newtype(:gcompute_disk_type) do
   end
 
   newparam(:zone, parent: Google::Compute::Property::ZoneNameRef) do
-    desc 'A reference to Zone resource'
+    desc 'A reference to the zone where the disk type resides.'
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do

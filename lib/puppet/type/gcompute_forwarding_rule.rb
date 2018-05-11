@@ -75,7 +75,10 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
   end
 
   newparam(:region, parent: Google::Compute::Property::RegionNameRef) do
-    desc 'A reference to Region resource'
+    desc <<-DOC
+      A reference to the region where the regional forwarding rule resides.
+      This field is not applicable to global forwarding rules.
+    DOC
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
@@ -135,7 +138,10 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
 
   newproperty(:backend_service,
               parent: Google::Compute::Property::BackServSelfLinkRef) do
-    desc 'A reference to BackendService resource'
+    desc <<-DOC
+      A reference to a BackendService to receive the matched traffic. This is
+      used for internal load balancing. (not used for external load balancing)
+    DOC
   end
 
   newproperty(:ip_version, parent: Google::Compute::Property::Enum) do
@@ -174,7 +180,12 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
   end
 
   newproperty(:network, parent: Google::Compute::Property::NetwoSelfLinkRef) do
-    desc 'A reference to Network resource'
+    desc <<-DOC
+      For internal load balancing, this field identifies the network that the
+      load balanced IP should belong to for this Forwarding Rule. If this field
+      is not specified, the default network will be used. This field is not
+      used for external load balancing.
+    DOC
   end
 
   newproperty(:port_range, parent: Google::Compute::Property::String) do
@@ -205,11 +216,25 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
 
   newproperty(:subnetwork,
               parent: Google::Compute::Property::SubneSelfLinkRef) do
-    desc 'A reference to Subnetwork resource'
+    desc <<-DOC
+      A reference to a subnetwork. For internal load balancing, this field
+      identifies the subnetwork that the load balanced IP should belong to for
+      this Forwarding Rule. If the network specified is in auto subnet mode,
+      this field is optional. However, if the network is in custom subnet mode,
+      a subnetwork must be specified. This field is not used for external load
+      balancing.
+    DOC
   end
 
   newproperty(:target,
               parent: Google::Compute::Property::TargPoolSelfLinkRef) do
-    desc 'A reference to TargetPool resource'
+    desc <<-DOC
+      A reference to a TargetPool resource to receive the matched traffic. For
+      regional forwarding rules, this target must live in the same region as
+      the forwarding rule. For global forwarding rules, this target must be a
+      global load balancing resource. The forwarded traffic must be of a type
+      appropriate to the target object. This field is not used for internal
+      load balancing.
+    DOC
   end
 end

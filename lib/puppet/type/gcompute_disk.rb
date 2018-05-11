@@ -83,7 +83,7 @@ Puppet::Type.newtype(:gcompute_disk) do
   end
 
   newparam(:zone, parent: Google::Compute::Property::ZoneNameRef) do
-    desc 'A reference to Zone resource'
+    desc 'A reference to the zone where the disk resides.'
   end
 
   newparam(:disk_encryption_key,

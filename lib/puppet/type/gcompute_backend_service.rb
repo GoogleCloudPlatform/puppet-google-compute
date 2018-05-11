@@ -162,7 +162,10 @@ Puppet::Type.newtype(:gcompute_backend_service) do
   end
 
   newproperty(:region, parent: Google::Compute::Property::RegioSelfLinkRef) do
-    desc 'A reference to Region resource'
+    desc <<-DOC
+      The region where the regional backend service resides. This field is not
+      applicable to global backend services.
+    DOC
   end
 
   newproperty(:session_affinity, parent: Google::Compute::Property::Enum) do

@@ -99,7 +99,7 @@ Puppet::Type.newtype(:gcompute_target_ssl_proxy) do
 
   newproperty(:service,
               parent: Google::Compute::Property::BackServSelfLinkRef) do
-    desc 'A reference to BackendService resource'
+    desc 'A reference to the BackendService resource.'
   end
 
   newproperty(:ssl_certificates,
