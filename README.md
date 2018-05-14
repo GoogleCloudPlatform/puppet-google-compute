@@ -1035,7 +1035,8 @@ gcompute_address { 'id-of-resource':
 
 ##### `region`
 
-Required.  A reference to Region resource
+Required.  URL of the region where the regional address resides.
+  This field is not applicable to global addresses.
 
 
 ##### Output-only properties
@@ -1238,7 +1239,14 @@ gcompute_backend_service { 'id-of-resource':
   Provide this property when you create the resource.
 
 ##### backends[]/group
-  A reference to InstanceGroup resource
+  This instance group defines the list of instances that serve
+  traffic. Member virtual machine instances from each instance
+  group must live in the same zone as the instance group itself.
+  No two backends in a backend service are allowed to use same
+  Instance Group resource.
+  When the BackendService has load balancing scheme INTERNAL, the
+  instance group must be in a zone within the same region as the
+  BackendService.
 
 ##### backends[]/max_connections
   The max number of simultaneous connections for the group. Can
@@ -1362,7 +1370,8 @@ gcompute_backend_service { 'id-of-resource':
 
 ##### `region`
 
-  A reference to Region resource
+  The region where the regional backend service resides.
+  This field is not applicable to global backend services.
 
 ##### `session_affinity`
 
@@ -1436,7 +1445,7 @@ gcompute_disk_type { 'id-of-resource':
 
 ##### `zone`
 
-Required.  A reference to Zone resource
+Required.  A reference to the zone where the disk type resides.
 
 
 ##### Output-only properties
@@ -1612,7 +1621,7 @@ gcompute_disk { 'id-of-resource':
 
 ##### `zone`
 
-Required.  A reference to Zone resource
+Required.  A reference to the zone where the disk resides.
 
 ##### `disk_encryption_key`
 
@@ -1968,7 +1977,9 @@ gcompute_forwarding_rule { 'id-of-resource':
 
 ##### `backend_service`
 
-  A reference to BackendService resource
+  A reference to a BackendService to receive the matched traffic.
+  This is used for internal load balancing.
+  (not used for external load balancing)
 
 ##### `ip_version`
 
@@ -1996,7 +2007,10 @@ Required.  Name of the resource; provided by the client when the resource is
 
 ##### `network`
 
-  A reference to Network resource
+  For internal load balancing, this field identifies the network that
+  the load balanced IP should belong to for this Forwarding Rule. If
+  this field is not specified, the default network will be used.
+  This field is not used for external load balancing.
 
 ##### `port_range`
 
@@ -2029,15 +2043,27 @@ Required.  Name of the resource; provided by the client when the resource is
 
 ##### `subnetwork`
 
-  A reference to Subnetwork resource
+  A reference to a subnetwork.
+  For internal load balancing, this field identifies the subnetwork that
+  the load balanced IP should belong to for this Forwarding Rule.
+  If the network specified is in auto subnet mode, this field is
+  optional. However, if the network is in custom subnet mode, a
+  subnetwork must be specified.
+  This field is not used for external load balancing.
 
 ##### `target`
 
-  A reference to TargetPool resource
+  A reference to a TargetPool resource to receive the matched traffic.
+  For regional forwarding rules, this target must live in the same
+  region as the forwarding rule. For global forwarding rules, this
+  target must be a global load balancing resource. The forwarded traffic
+  must be of a type appropriate to the target object.
+  This field is not used for internal load balancing.
 
 ##### `region`
 
-Required.  A reference to Region resource
+Required.  A reference to the region where the regional forwarding rule resides.
+  This field is not applicable to global forwarding rules.
 
 
 ##### Output-only properties
@@ -2115,7 +2141,7 @@ Required.  Name of the resource. Provided by the client when the resource is
   the server.
 
 * `region`: Output only.
-  A reference to Region resource
+  A reference to the region where the regional address resides.
 
 #### `gcompute_global_forwarding_rule`
 
@@ -2218,7 +2244,9 @@ gcompute_global_forwarding_rule { 'id-of-resource':
 
 ##### `backend_service`
 
-  A reference to BackendService resource
+  A reference to a BackendService to receive the matched traffic.
+  This is used for internal load balancing.
+  (not used for external load balancing)
 
 ##### `ip_version`
 
@@ -2246,7 +2274,10 @@ Required.  Name of the resource; provided by the client when the resource is
 
 ##### `network`
 
-  A reference to Network resource
+  For internal load balancing, this field identifies the network that
+  the load balanced IP should belong to for this Forwarding Rule. If
+  this field is not specified, the default network will be used.
+  This field is not used for external load balancing.
 
 ##### `port_range`
 
@@ -2279,7 +2310,13 @@ Required.  Name of the resource; provided by the client when the resource is
 
 ##### `subnetwork`
 
-  A reference to Subnetwork resource
+  A reference to a subnetwork.
+  For internal load balancing, this field identifies the subnetwork that
+  the load balanced IP should belong to for this Forwarding Rule.
+  If the network specified is in auto subnet mode, this field is
+  optional. However, if the network is in custom subnet mode, a
+  subnetwork must be specified.
+  This field is not used for external load balancing.
 
 ##### `target`
 
@@ -2297,7 +2334,8 @@ Required.  Name of the resource; provided by the client when the resource is
   The unique identifier for the resource.
 
 * `region`: Output only.
-  A reference to Region resource
+  A reference to the region where the regional forwarding rule resides.
+  This field is not applicable to global forwarding rules.
 
 #### `gcompute_http_health_check`
 
@@ -2984,7 +3022,9 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   Specifies the size of the disk in base-2 GB.
 
 ##### properties/disks[]/initialize_params/disk_type
-  A reference to DiskType resource
+  Reference to a gcompute_disk_type resource.
+  Specifies the disk type to use to create the instance.
+  If not specified, the default is pd-standard.
 
 ##### properties/disks[]/initialize_params/source_image
   The source image to create this disk. When creating a
@@ -3025,14 +3065,20 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   disk in READ_WRITE mode.
 
 ##### properties/disks[]/source
-  A reference to Disk resource
+  Reference to a gcompute_disk resource. When creating a new instance,
+  one of initializeParams.sourceImage or disks.source is required.
+  If desired, you can also attach existing non-root
+  persistent disks using this property. This field is only
+  applicable for persistent disks.
+  Note that for InstanceTemplate, specify the disk name, not
+  the URL for the disk.
 
 ##### properties/disks[]/type
   Specifies the type of the disk, either SCRATCH or
   PERSISTENT. If not specified, the default is PERSISTENT.
 
 ##### properties/machine_type
-Required.  A reference to MachineType resource
+Required.  Reference to a gcompute_machine_type resource.
 
 ##### properties/metadata
   The metadata key/value pairs to assign to instances that are
@@ -3070,7 +3116,13 @@ Required.  The name of this access configuration. The
   external IP or Network Access.
 
 ##### properties/network_interfaces[]/access_configs[]/nat_ip
-Required.  A reference to Address resource
+Required.  Specifies the title of a gcompute_address.
+  An external IP address associated with this instance.
+  Specify an unused static external IP address available to
+  the project or leave this field undefined to use an IP
+  from a shared ephemeral IP address pool. If you specify a
+  static external IP address, it must live in the same
+  region as the zone of the instance.
 
 ##### properties/network_interfaces[]/access_configs[]/type
 Required.  The type of configuration. The default and only option is
@@ -3101,7 +3153,11 @@ Output only.  The name of the network interface, generated by the
   server. For network devices, these are eth0, eth1, etc
 
 ##### properties/network_interfaces[]/network
-  A reference to Network resource
+  Specifies the title of an existing gcompute_network.  When creating
+  an instance, if neither the network nor the subnetwork is specified,
+  the default network global/networks/default is used; if the network
+  is not specified but the subnetwork is specified, the network is
+  inferred.
 
 ##### properties/network_interfaces[]/network_ip
   An IPv4 internal network address to assign to the
@@ -3110,7 +3166,12 @@ Output only.  The name of the network interface, generated by the
   system.
 
 ##### properties/network_interfaces[]/subnetwork
-  A reference to Subnetwork resource
+  Reference to a gcompute_subnetwork resource.
+  If the network resource is in legacy mode, do not
+  provide this property.  If the network is in auto
+  subnet mode, providing the subnetwork is optional. If
+  the network is in custom subnet mode, then this field
+  should be specified.
 
 ##### properties/scheduling
   Sets the scheduling options for this instance.
@@ -3384,7 +3445,9 @@ Required.  Name of the resource; provided by the client when the resource is
 
 ##### `source_disk`
 
-  A reference to Disk resource
+  Refers to a gcompute_disk object
+  You must provide either this property or the
+  rawDisk.source property but not both to create an image.
 
 ##### `source_disk_encryption_key`
 
@@ -3684,7 +3747,9 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   Specifies the size of the disk in base-2 GB.
 
 ##### disks[]/initialize_params/disk_type
-  A reference to DiskType resource
+  Reference to a gcompute_disk_type resource.
+  Specifies the disk type to use to create the instance.
+  If not specified, the default is pd-standard.
 
 ##### disks[]/initialize_params/source_image
   The source image to create this disk. When creating a
@@ -3725,7 +3790,11 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   disk in READ_WRITE mode.
 
 ##### disks[]/source
-  A reference to Disk resource
+  Reference to a gcompute_disk resource. When creating a new instance,
+  one of initializeParams.sourceImage or disks.source is required.
+  If desired, you can also attach existing non-root
+  persistent disks using this property. This field is only
+  applicable for persistent disks.
 
 ##### disks[]/type
   Specifies the type of the disk, either SCRATCH or
@@ -3760,7 +3829,7 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
 
 ##### `machine_type`
 
-  A reference to MachineType resource
+  A reference to a machine type which defines VM kind.
 
 ##### `min_cpu_platform`
 
@@ -3798,7 +3867,13 @@ Required.  The name of this access configuration. The
   external IP or Network Access.
 
 ##### network_interfaces[]/access_configs[]/nat_ip
-Required.  A reference to Address resource
+Required.  Specifies the title of a gcompute_address.
+  An external IP address associated with this instance.
+  Specify an unused static external IP address available to
+  the project or leave this field undefined to use an IP
+  from a shared ephemeral IP address pool. If you specify a
+  static external IP address, it must live in the same
+  region as the zone of the instance.
 
 ##### network_interfaces[]/access_configs[]/type
 Required.  The type of configuration. The default and only option is
@@ -3829,7 +3904,11 @@ Output only.  The name of the network interface, generated by the
   server. For network devices, these are eth0, eth1, etc
 
 ##### network_interfaces[]/network
-  A reference to Network resource
+  Specifies the title of an existing gcompute_network.  When creating
+  an instance, if neither the network nor the subnetwork is specified,
+  the default network global/networks/default is used; if the network
+  is not specified but the subnetwork is specified, the network is
+  inferred.
 
 ##### network_interfaces[]/network_ip
   An IPv4 internal network address to assign to the
@@ -3838,7 +3917,12 @@ Output only.  The name of the network interface, generated by the
   system.
 
 ##### network_interfaces[]/subnetwork
-  A reference to Subnetwork resource
+  Reference to a gcompute_subnetwork resource.
+  If the network resource is in legacy mode, do not
+  provide this property.  If the network is in auto
+  subnet mode, providing the subnetwork is optional. If
+  the network is in custom subnet mode, then this field
+  should be specified.
 
 ##### `scheduling`
 
@@ -3897,7 +3981,7 @@ Output only.  The name of the network interface, generated by the
 
 ##### `zone`
 
-Required.  A reference to Zone resource
+Required.  A reference to the zone where the machine resides.
 
 
 ##### Output-only properties
@@ -4002,19 +4086,20 @@ gcompute_instance_group { 'id-of-resource':
 
 ##### `network`
 
-  A reference to Network resource
+  The network to which all instances in the instance group belong.
 
 ##### `region`
 
-  A reference to Region resource
+  The region where the instance group is located
+  (for regional resources).
 
 ##### `subnetwork`
 
-  A reference to Subnetwork resource
+  The subnetwork to which all instances in the instance group belong.
 
 ##### `zone`
 
-Required.  A reference to Zone resource
+Required.  A reference to the zone where the instance group resides.
 
 
 ##### Output-only properties
@@ -4106,7 +4191,9 @@ Required.  The base instance name to use for instances in this group. The value
 
 ##### `instance_template`
 
-Required.  A reference to InstanceTemplate resource
+Required.  The instance template that is specified for this managed instance
+  group. The group uses this template to create all new instances in the
+  managed instance group.
 
 ##### `name`
 
@@ -4139,7 +4226,7 @@ Required.  The name of the managed instance group. The name must be 1-63
 
 ##### `zone`
 
-Required.  A reference to Zone resource
+Required.  The zone the managed instance group resides.
 
 
 ##### Output-only properties
@@ -4201,10 +4288,11 @@ Output only.  The number of instances in the managed instance group that are
   A unique identifier for this resource
 
 * `instance_group`: Output only.
-  A reference to InstanceGroup resource
+  The instance group being managed
 
 * `region`: Output only.
-  A reference to Region resource
+  The region this managed instance group resides
+  (for regional resources).
 
 #### `gcompute_machine_type`
 
@@ -4256,7 +4344,7 @@ gcompute_machine_type { 'id-of-resource':
 
 ##### `zone`
 
-Required.  A reference to Zone resource
+Required.  The zone the machine type is defined.
 
 
 ##### Output-only properties
@@ -4613,7 +4701,7 @@ gcompute_route { 'id-of-resource':
 
 ##### `network`
 
-  A reference to Network resource
+  The network that this route applies to.
 
 ##### `priority`
 
@@ -4750,11 +4838,11 @@ Required.  Name of the resource; provided by the client when the resource is
 
 ##### `source`
 
-  A reference to Disk resource
+  A reference to the disk used to create this snapshot.
 
 ##### `zone`
 
-  A reference to Zone resource
+  A reference to the zone where the disk is hosted.
 
 ##### `snapshot_encryption_key`
 
@@ -4995,7 +5083,8 @@ gcompute_subnetwork { 'id-of-resource':
 
 ##### `network`
 
-  A reference to Network resource
+  The network this subnet belongs to.
+  Only networks that are in the distributed mode can have subnetworks.
 
 ##### `private_ip_google_access`
 
@@ -5004,7 +5093,8 @@ gcompute_subnetwork { 'id-of-resource':
 
 ##### `region`
 
-Required.  A reference to Region resource
+Required.  URL of the region where the regional address resides.
+  This field is not applicable to global addresses.
 
 
 ##### Output-only properties
@@ -5063,7 +5153,8 @@ Required.  Name of the resource. Provided by the client when the resource is
 
 ##### `url_map`
 
-Required.  A reference to UrlMap resource
+Required.  A reference to the UrlMap resource that defines the mapping from URL
+  to the BackendService.
 
 
 ##### Output-only properties
@@ -5135,7 +5226,8 @@ Required.  A list of SslCertificate resources that are used to authenticate
 
 ##### `url_map`
 
-Required.  A reference to UrlMap resource
+Required.  A reference to the UrlMap resource that defines the mapping from URL
+  to the BackendService.
 
 
 ##### Output-only properties
@@ -5192,7 +5284,18 @@ gcompute_target_pool { 'id-of-resource':
 
 ##### `backup_pool`
 
-  A reference to TargetPool resource
+  This field is applicable only when the containing target pool is
+  serving a forwarding rule as the primary pool, and its failoverRatio
+  field is properly set to a value between [0, 1].
+  backupPool and failoverRatio together define the fallback behavior of
+  the primary target pool: if the ratio of the healthy instances in the
+  primary pool is at or below failoverRatio, traffic arriving at the
+  load-balanced IP will be directed to the backup pool.
+  In case where failoverRatio and backupPool are not set, or all the
+  instances in the backup pool are unhealthy, the traffic will be
+  directed back to the primary pool in the "force" mode, where traffic
+  will be spread to the healthy instances with the best effort, or to
+  all instances when no instance is healthy.
 
 ##### `description`
 
@@ -5216,7 +5319,10 @@ gcompute_target_pool { 'id-of-resource':
 
 ##### `health_check`
 
-  A reference to HttpHealthCheck resource
+  A reference to a HttpHealthCheck resource.
+  A member instance in this pool is considered healthy if and only if
+  the health checks pass. If not specified it means all member instances
+  will be considered healthy at all times.
 
 ##### `instances`
 
@@ -5246,7 +5352,7 @@ Required.  Name of the resource. Provided by the client when the resource is
 
 ##### `region`
 
-Required.  A reference to Region resource
+Required.  The region where the target pool resides.
 
 
 ##### Output-only properties
@@ -5320,7 +5426,7 @@ Required.  Name of the resource. Provided by the client when the resource is
 
 ##### `service`
 
-Required.  A reference to BackendService resource
+Required.  A reference to the BackendService resource.
 
 ##### `ssl_certificates`
 
@@ -5393,7 +5499,7 @@ Required.  Name of the resource. Provided by the client when the resource is
 
 ##### `service`
 
-Required.  A reference to BackendService resource
+Required.  A reference to the BackendService resource.
 
 
 ##### Output-only properties
@@ -5476,7 +5582,7 @@ gcompute_url_map { 'id-of-resource':
 
 ##### `default_service`
 
-Required.  A reference to BackendService resource
+Required.  A reference to BackendService resource if none of the hostRules match.
 
 ##### `description`
 
@@ -5516,7 +5622,9 @@ Required.  A reference to BackendService resource
   The list of named PathMatchers to use against the URL.
 
 ##### path_matchers[]/default_service
-  A reference to BackendService resource
+  A reference to a BackendService resource. This will be used if
+  none of the pathRules defined by this PathMatcher is matched by
+  the URL's path portion.
 
 ##### path_matchers[]/description
   An optional description of this resource.
@@ -5535,7 +5643,8 @@ Required.  A reference to BackendService resource
   allowed here.
 
 ##### path_matchers[]/path_rules[]/service
-  A reference to BackendService resource
+  A reference to the BackendService resource if this rule is
+  matched.
 
 ##### `tests`
 
@@ -5552,7 +5661,8 @@ Required.  A reference to BackendService resource
   Path portion of the URL.
 
 ##### tests[]/service
-  A reference to BackendService resource
+  A reference to expected BackendService resource the given URL should be
+  mapped to.
 
 
 ##### Output-only properties
@@ -5650,7 +5760,7 @@ Output only.  The deprecation state of this resource. This can be DEPRECATED,
   The unique identifier for the resource.
 
 * `region`: Output only.
-  A reference to Region resource
+  The region where the zone is located.
 
 * `status`: Output only.
   The status of the zone.

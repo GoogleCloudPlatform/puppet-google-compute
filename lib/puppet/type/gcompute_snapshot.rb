@@ -85,11 +85,11 @@ Puppet::Type.newtype(:gcompute_snapshot) do
   end
 
   newparam(:source, parent: Google::Compute::Property::DiskNameRef) do
-    desc 'A reference to Disk resource'
+    desc 'A reference to the disk used to create this snapshot.'
   end
 
   newparam(:zone, parent: Google::Compute::Property::ZoneNameRef) do
-    desc 'A reference to Zone resource'
+    desc 'A reference to the zone where the disk is hosted.'
   end
 
   newparam(:snapshot_encryption_key,

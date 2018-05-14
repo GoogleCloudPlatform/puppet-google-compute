@@ -110,7 +110,10 @@ Puppet::Type.newtype(:gcompute_global_address) do
   end
 
   newproperty(:region, parent: Google::Compute::Property::RegioSelfLinkRef) do
-    desc 'A reference to Region resource (output only)'
+    desc <<-DOC
+      A reference to the region where the regional address resides. (output
+      only)
+    DOC
   end
 
   # Returns all properties that a provider can export to other resources

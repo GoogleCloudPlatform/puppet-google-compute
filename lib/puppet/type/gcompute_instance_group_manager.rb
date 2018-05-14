@@ -79,7 +79,7 @@ Puppet::Type.newtype(:gcompute_instance_group_manager) do
   end
 
   newparam(:zone, parent: Google::Compute::Property::ZoneNameRef) do
-    desc 'A reference to Zone resource'
+    desc 'The zone the managed instance group resides.'
   end
 
   newproperty(:base_instance_name, parent: Google::Compute::Property::String) do
@@ -120,12 +120,16 @@ Puppet::Type.newtype(:gcompute_instance_group_manager) do
 
   newproperty(:instance_group,
               parent: Google::Compute::Property::InstGrouSelfLinkRef) do
-    desc 'A reference to InstanceGroup resource (output only)'
+    desc 'The instance group being managed (output only)'
   end
 
   newproperty(:instance_template,
               parent: Google::Compute::Property::InstTempSelfLinkRef) do
-    desc 'A reference to InstanceTemplate resource'
+    desc <<-DOC
+      The instance template that is specified for this managed instance group.
+      The group uses this template to create all new instances in the managed
+      instance group.
+    DOC
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
@@ -144,7 +148,10 @@ Puppet::Type.newtype(:gcompute_instance_group_manager) do
   end
 
   newproperty(:region, parent: Google::Compute::Property::RegioSelfLinkRef) do
-    desc 'A reference to Region resource (output only)'
+    desc <<-DOC
+      The region this managed instance group resides (for regional resources).
+      (output only)
+    DOC
   end
 
   newproperty(:target_pools,

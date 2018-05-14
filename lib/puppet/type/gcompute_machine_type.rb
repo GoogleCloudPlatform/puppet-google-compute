@@ -121,7 +121,7 @@ Puppet::Type.newtype(:gcompute_machine_type) do
   end
 
   newproperty(:zone, parent: Google::Compute::Property::ZoneNameRef) do
-    desc 'A reference to Zone resource'
+    desc 'The zone the machine type is defined.'
   end
 
   # Returns all properties that a provider can export to other resources

@@ -78,7 +78,10 @@ Puppet::Type.newtype(:gcompute_address) do
   end
 
   newparam(:region, parent: Google::Compute::Property::RegionNameRef) do
-    desc 'A reference to Region resource'
+    desc <<-DOC
+      URL of the region where the regional address resides. This field is not
+      applicable to global addresses.
+    DOC
   end
 
   newproperty(:address, parent: Google::Compute::Property::String) do

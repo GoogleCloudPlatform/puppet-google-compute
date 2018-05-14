@@ -73,7 +73,9 @@ Puppet::Type.newtype(:gcompute_url_map) do
 
   newproperty(:default_service,
               parent: Google::Compute::Property::BackServSelfLinkRef) do
-    desc 'A reference to BackendService resource'
+    desc <<-DOC
+      A reference to BackendService resource if none of the hostRules match.
+    DOC
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do

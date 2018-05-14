@@ -75,7 +75,7 @@ Puppet::Type.newtype(:gcompute_instance_group) do
   end
 
   newparam(:zone, parent: Google::Compute::Property::ZoneNameRef) do
-    desc 'A reference to Zone resource'
+    desc 'A reference to the zone where the instance group resides.'
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
@@ -112,16 +112,18 @@ Puppet::Type.newtype(:gcompute_instance_group) do
   end
 
   newproperty(:network, parent: Google::Compute::Property::NetwoSelfLinkRef) do
-    desc 'A reference to Network resource'
+    desc 'The network to which all instances in the instance group belong.'
   end
 
   newproperty(:region, parent: Google::Compute::Property::RegioSelfLinkRef) do
-    desc 'A reference to Region resource'
+    desc <<-DOC
+      The region where the instance group is located (for regional resources).
+    DOC
   end
 
   newproperty(:subnetwork,
               parent: Google::Compute::Property::SubneSelfLinkRef) do
-    desc 'A reference to Subnetwork resource'
+    desc 'The subnetwork to which all instances in the instance group belong.'
   end
 
   # Returns all properties that a provider can export to other resources

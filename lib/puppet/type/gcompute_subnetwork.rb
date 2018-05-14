@@ -126,7 +126,10 @@ Puppet::Type.newtype(:gcompute_subnetwork) do
   end
 
   newproperty(:network, parent: Google::Compute::Property::NetwoSelfLinkRef) do
-    desc 'A reference to Network resource'
+    desc <<-DOC
+      The network this subnet belongs to. Only networks that are in the
+      distributed mode can have subnetworks.
+    DOC
   end
 
   newproperty(:private_ip_google_access,
@@ -140,7 +143,10 @@ Puppet::Type.newtype(:gcompute_subnetwork) do
   end
 
   newproperty(:region, parent: Google::Compute::Property::RegionNameRef) do
-    desc 'A reference to Region resource'
+    desc <<-DOC
+      URL of the region where the regional address resides. This field is not
+      applicable to global addresses.
+    DOC
   end
 
   # Returns all properties that a provider can export to other resources

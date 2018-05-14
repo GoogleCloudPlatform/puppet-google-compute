@@ -98,7 +98,7 @@ Puppet::Type.newtype(:gcompute_target_tcp_proxy) do
 
   newproperty(:service,
               parent: Google::Compute::Property::BackServSelfLinkRef) do
-    desc 'A reference to BackendService resource'
+    desc 'A reference to the BackendService resource.'
   end
 
   # Returns all properties that a provider can export to other resources
