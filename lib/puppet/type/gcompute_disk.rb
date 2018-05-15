@@ -29,6 +29,7 @@ require 'google/compute/property/disk_disk_encryption_key'
 require 'google/compute/property/disk_source_image_encryption_key'
 require 'google/compute/property/disk_source_snapshot_encryption_key'
 require 'google/compute/property/integer'
+require 'google/compute/property/namevalues'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
@@ -172,6 +173,10 @@ Puppet::Type.newtype(:gcompute_disk) do
     desc 'Last dettach timestamp in RFC3339 text format. (output only)'
   end
 
+  newproperty(:labels, parent: Google::Compute::Property::NameValues) do
+    desc 'Labels to apply to this disk. A list of key->value pairs.'
+  end
+
   newproperty(:licenses, parent: Google::Compute::Property::StringArray) do
     desc 'Any applicable publicly visible licenses.'
   end
@@ -219,7 +224,7 @@ Puppet::Type.newtype(:gcompute_disk) do
   newproperty(:type, parent: Google::Compute::Property::String) do
     desc <<-DOC
       URL of the disk type resource describing which disk type to use to create
-      the disk. Provide this when creating the disk. (output only)
+      the disk. Provide this when creating the disk.
     DOC
   end
 

@@ -33,6 +33,7 @@ require 'google/compute/property/disk_disk_encryption_key'
 require 'google/compute/property/disk_source_image_encryption_key'
 require 'google/compute/property/disk_source_snapshot_encryption_key'
 require 'google/compute/property/integer'
+require 'google/compute/property/namevalues'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
@@ -84,6 +85,7 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
         Google::Compute::Property::Time.api_munge(fetch['lastAttachTimestamp']),
       last_detach_timestamp:
         Google::Compute::Property::Time.api_munge(fetch['lastDetachTimestamp']),
+      labels: Google::Compute::Property::NameValues.api_munge(fetch['labels']),
       licenses:
         Google::Compute::Property::StringArray.api_munge(fetch['licenses']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
@@ -155,6 +157,7 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
       id: resource[:id],
       last_attach_timestamp: resource[:last_attach_timestamp],
       last_detach_timestamp: resource[:last_detach_timestamp],
+      labels: resource[:labels],
       licenses: resource[:licenses],
       size_gb: resource[:size_gb],
       source_image: resource[:source_image],
@@ -175,10 +178,12 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
     request = {
       kind: 'compute#disk',
       description: @resource[:description],
+      labels: @resource[:labels],
       licenses: @resource[:licenses],
       name: @resource[:name],
       sizeGb: @resource[:size_gb],
       sourceImage: @resource[:source_image],
+      type: @resource[:type],
       diskEncryptionKey: @resource[:disk_encryption_key],
       sourceImageEncryptionKey: @resource[:source_image_encryption_key],
       sourceSnapshotEncryptionKey: @resource[:source_snapshot_encryption_key]

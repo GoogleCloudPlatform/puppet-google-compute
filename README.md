@@ -1540,6 +1540,7 @@ gcompute_disk { 'id-of-resource':
     sha256  => string,
   },
   id                             => integer,
+  labels                         => namevalues,
   last_attach_timestamp          => time,
   last_detach_timestamp          => time,
   licenses                       => [
@@ -1575,6 +1576,10 @@ gcompute_disk { 'id-of-resource':
 
   An optional description of this resource. Provide this property when
   you create the resource.
+
+##### `labels`
+
+  Labels to apply to this disk.  A list of key->value pairs.
 
 ##### `licenses`
 
@@ -1618,6 +1623,11 @@ gcompute_disk { 'id-of-resource':
   returns the latest version of the image in that family. Replace the
   image name with family/family-name:
   global/images/family/my-private-family
+
+##### `type`
+
+  URL of the disk type resource describing which disk type to use to
+  create the disk. Provide this when creating the disk.
 
 ##### `zone`
 
@@ -1694,10 +1704,6 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
 
 * `last_detach_timestamp`: Output only.
   Last dettach timestamp in RFC3339 text format.
-
-* `type`: Output only.
-  URL of the disk type resource describing which disk type to use to
-  create the disk. Provide this when creating the disk.
 
 * `users`: Output only.
   Links to the users of the disk (attached instances) in form:
