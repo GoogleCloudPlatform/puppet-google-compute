@@ -88,10 +88,10 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
       labels: Google::Compute::Property::NameValues.api_munge(fetch['labels']),
       licenses:
         Google::Compute::Property::StringArray.api_munge(fetch['licenses']),
-      name: Google::Compute::Property::String.api_munge(fetch['name']),
       size_gb: Google::Compute::Property::Integer.api_munge(fetch['sizeGb']),
       type: Google::Compute::Property::String.api_munge(fetch['type']),
       users: Google::Compute::Property::StringArray.api_munge(fetch['users']),
+      name: resource[:name],
       source_image: resource[:source_image]
     }.reject { |_, v| v.nil? }
   end
