@@ -37,7 +37,7 @@ ENV['TZ'] = 'UTC'
 # Setup code coverage
 
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start unless ENV['DISABLE_COVERAGE']
 
 #----------------------------------------------------------
 # Add test path to the search libs
