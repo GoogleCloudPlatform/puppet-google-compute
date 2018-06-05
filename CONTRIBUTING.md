@@ -304,9 +304,6 @@ puppet-codegen:
   * lib/google/compute/property/urlmap_tests.rb
   * lib/google/compute/property/zone_deprecated.rb
   * lib/google/compute/property/zone_name.rb
-  * lib/google/hash_utils.rb
-  * lib/google/object_store.rb
-  * lib/google/string_utils.rb
   * lib/puppet/functions/gcompute_address_ip.rb
   * lib/puppet/functions/gcompute_address_ref.rb
   * lib/puppet/functions/gcompute_global_address_ref.rb
@@ -383,12 +380,6 @@ puppet-codegen:
   * README.md
   * spec/.rubocop.yml
   * spec/bundle.rb
-  * spec/copyright.rb
-  * spec/copyright_spec.rb
-  * spec/data/copyright_bad1.rb
-  * spec/data/copyright_bad2.rb
-  * spec/data/copyright_good1.rb
-  * spec/data/copyright_good2.rb
   * spec/data/network/gcompute_address/success1~name.yaml
   * spec/data/network/gcompute_address/success1~title.yaml
   * spec/data/network/gcompute_address/success2~name.yaml
@@ -614,7 +605,6 @@ puppet-codegen:
   * spec/gcompute_target_tcp_proxy_provider_spec.rb
   * spec/gcompute_url_map_provider_spec.rb
   * spec/gcompute_zone_provider_spec.rb
-  * spec/hash_utils_spec.rb
   * spec/network_blocker.rb
   * spec/network_blocker_spec.rb
   * spec/network_delete_spec.rb
@@ -623,7 +613,6 @@ puppet-codegen:
   * spec/network_put_spec.rb
   * spec/puppetlint_spec.rb
   * spec/spec_helper.rb
-  * spec/string_utils_spec.rb
   * spec/test_constants.rb
   * tasks/instance.json
   * tasks/instance.sh
@@ -638,8 +627,19 @@ central location:
 
   * .tools/README.md
   * Gemfile.lock
+  * lib/google/hash_utils.rb
+  * lib/google/object_store.rb
+  * lib/google/string_utils.rb
   * LICENSE
+  * spec/copyright.rb
+  * spec/copyright_spec.rb
+  * spec/data/copyright_bad1.rb
+  * spec/data/copyright_bad2.rb
+  * spec/data/copyright_good1.rb
+  * spec/data/copyright_good2.rb
   * spec/data/poor_example.pp
+  * spec/hash_utils_spec.rb
+  * spec/string_utils_spec.rb
   * spec/stubs/google/authorization.rb
 
 [ruby-style-guide]: https://github.com/bbatsov/ruby-style-guide
