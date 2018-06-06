@@ -25,27 +25,33 @@
 #
 # ----------------------------------------------------------------------------
 
-# Defines a credential to be used when communicating with Google Cloud
-# Platform. The title of this credential is then used as the 'credential'
-# parameter in the gdns_managed_zone type.
+# Getting Started
+# ---------------
+# The following example requires two environment variables to be set:
+#     * cred_path - a path to a JSON service account file
+#     * project - the name of your GCP project
 #
-# For more information on the gauth_credential parameters and providers please
-# refer to its detailed documentation at:
-#
-#   https://forge.puppet.com/google/gauth
-#
-# For the sake of this example we set the parameter 'path' to point to the file
-# that contains your credential in JSON format. And for convenience this example
-# allows a variable named $cred_path to be provided to it. If running from the
-# command line you can pass it via Facter:
+# If running from the command line you can pass these via Facter:
 #
 #   FACTER_cred_path=/path/to/my/cred.json \
+#   FACTER_project='my-test-project'
 #       puppet apply .tools/end2end/data/target_ssl_proxy.pp
 #
 # For convenience you optionally can add it to your ~/.bash_profile (or the
 # respective .profile settings) environment:
 #
 #   export FACTER_cred_path=/path/to/my/cred.json
+#   export FACTER_project='my-test-project'
+#
+# Authenticating to GCP
+# ---------------------
+# `gauth_credential` defines a credential to be used when communicating with
+# Google Cloud Platform.
+#
+# For more information on the gauth_credential parameters and providers please
+# refer to its detailed documentation at:
+#
+#   https://forge.puppet.com/google/gauth
 #
 gauth_credential { 'mycred':
   path     => $cred_path, # e.g. '/home/nelsonjr/my_account.json'
@@ -56,14 +62,14 @@ gauth_credential { 'mycred':
 }
 
 gcompute_zone { 'us-central1-a':
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
 gcompute_instance_group { 'puppet-e2e-my-puppet-masters':
   ensure     => present,
   zone       => 'us-central1-a',
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -76,7 +82,7 @@ gcompute_backend_service { 'puppet-e2e-my-ssl-backend':
     gcompute_health_check_ref('another-hc', 'google.com:graphite-playground'),
   ],
   protocol      => 'SSL',
-  project       => 'google.com:graphite-playground',
+  project       => $project, # e.g. 'my-test-project'
   credential    => 'mycred',
 }
 
@@ -97,7 +103,7 @@ gcompute_backend_service { 'puppet-e2e-my-ssl-backend':
 gcompute_ssl_certificate { 'puppet-e2e-sample-certificate':
   ensure      => present,
   description => 'A certificate for test purposes only.',
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred',
   certificate => '-----BEGIN CERTIFICATE-----
 MIICqjCCAk+gAwIBAgIJAIuJ+0352Kq4MAoGCCqGSM49BAMCMIGwMQswCQYDVQQG
@@ -130,6 +136,6 @@ gcompute_target_ssl_proxy { 'puppet-e2e-my-ssl-proxy':
   ssl_certificates => [
     'puppet-e2e-sample-certificate',
   ],
-  project          => 'google.com:graphite-playground',
+  project          => $project, # e.g. 'my-test-project'
   credential       => 'mycred',
 }
