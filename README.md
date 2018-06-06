@@ -63,14 +63,14 @@ required gems.
 ```puppet
 gcompute_region { 'some-region':
   name       => 'us-west1',
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
 gcompute_address { 'test1':
   ensure     => present,
   region     => 'some-region',
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -84,7 +84,7 @@ gcompute_backend_bucket { 'be-bucket-connection':
   bucket_name => 'backend-bucket-test',
   description => 'A BackendBucket to connect LNB w/ Storage Bucket',
   enable_cdn  => true,
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred',
 }
 
@@ -106,7 +106,7 @@ gcompute_backend_service { 'my-app-backend':
   health_checks => [
     gcompute_health_check_ref('another-hc', 'google.com:graphite-playground'),
   ],
-  project       => 'google.com:graphite-playground',
+  project       => $project, # e.g. 'my-test-project'
   credential    => 'mycred',
 }
 
@@ -119,7 +119,7 @@ gcompute_disk_type { 'pd-standard':
   default_disk_size_gb => 500,
   deprecated_deleted   => undef, # undef = not deprecated
   zone                 => 'us-central1-a',
-  project              => 'google.com:graphite-playground',
+  project              => $project, # e.g. 'my-test-project'
   credential           => 'mycred',
 }
 
@@ -135,7 +135,7 @@ gcompute_disk { 'data-disk-1':
     raw_key => 'SGVsbG8gZnJvbSBHb29nbGUgQ2xvdWQgUGxhdGZvcm0=',
   },
   zone                => 'us-central1-a',
-  project             => 'google.com:graphite-playground',
+  project             => $project, # e.g. 'my-test-project'
   credential          => 'mycred',
 }
 
@@ -161,7 +161,7 @@ gcompute_firewall { 'test-fw-allow-ssh':
   source_tags => [
     'test-ssh-clients',
   ],
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred',
 }
 
@@ -180,7 +180,7 @@ gcompute_forwarding_rule { 'test1':
   port_range  => '80',
   target      => 'target-pool',
   region      => 'some-region',
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred',
 }
 
@@ -191,7 +191,7 @@ gcompute_forwarding_rule { 'test1':
 ```puppet
 gcompute_global_address { 'my-app-lb-address':
   ensure     => present,
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -212,7 +212,7 @@ gcompute_global_forwarding_rule { 'test1':
     'my-http-proxy',
     'google.com:graphite-playground'
   ),
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred',
 }
 
@@ -227,7 +227,7 @@ gcompute_http_health_check { 'my-app-http-hc':
   port                => 8080,
   timeout_sec         => 2,
   unhealthy_threshold => 5,
-  project             => 'google.com:graphite-playground',
+  project             => $project, # e.g. 'my-test-project'
   credential          => 'mycred',
 }
 
@@ -242,7 +242,7 @@ gcompute_https_health_check { 'my-app-https-hc':
   port                => 8080,
   timeout_sec         => 2,
   unhealthy_threshold => 5,
-  project             => 'google.com:graphite-playground',
+  project             => $project, # e.g. 'my-test-project'
   credential          => 'mycred',
 }
 
@@ -262,7 +262,7 @@ gcompute_health_check { 'my-app-tcp-hc':
   healthy_threshold   => 10,
   timeout_sec         => 2,
   unhealthy_threshold => 5,
-  project             => 'google.com:graphite-playground',
+  project             => $project, # e.g. 'my-test-project'
   credential          => 'mycred',
 }
 
@@ -312,7 +312,7 @@ gcompute_instance_template { 'instance-template':
       }
     ]
   },
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -322,7 +322,7 @@ gcompute_instance_template { 'instance-template':
 
 ```puppet
 gcompute_license { 'test-license':
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -335,7 +335,7 @@ gcompute_license { 'test-license':
 gcompute_image { 'test-image':
   ensure      => present,
   source_disk => 'data-disk-1',
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred'
 }
 
@@ -384,7 +384,7 @@ gcompute_instance { 'instance-test':
     }
   ],
   zone               => 'us-central1-a',
-  project            => 'google.com:graphite-playground',
+  project            => $project, # e.g. 'my-test-project'
   credential         => 'mycred',
 }
 
@@ -405,7 +405,7 @@ gcompute_instance_group { 'my-puppet-masters':
   ],
   network     => 'my-network',
   zone        => 'us-central1-a',
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred',
 }
 
@@ -420,7 +420,7 @@ gcompute_instance_group_manager { 'test1':
   instance_template  => 'instance-template',
   target_size        => 3,
   zone               => 'us-west1-a',
-  project            => 'google.com:graphite-playground',
+  project            => $project, # e.g. 'my-test-project'
   credential         => 'mycred',
 }
 
@@ -431,7 +431,7 @@ gcompute_instance_group_manager { 'test1':
 ```puppet
 gcompute_machine_type { 'n1-standard-1':
   zone       => 'us-central1-a',
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -443,14 +443,14 @@ gcompute_machine_type { 'n1-standard-1':
 # Automatically allocated network
 gcompute_network { "mynetwork-${network_id}":
   auto_create_subnetworks => true,
-  project                 => 'google.com:graphite-playground',
+  project                 => $project, # e.g. 'my-test-project'
   credential              => 'mycred',
 }
 
 # Manually allocated network
 gcompute_network { "mynetwork-${network_id}":
   auto_create_subnetworks => false,
-  project                 => 'google.com:graphite-playground',
+  project                 => $project, # e.g. 'my-test-project'
   credential              => 'mycred',
 }
 
@@ -461,14 +461,14 @@ gcompute_network { "mynetwork-${network_id}":
   # | auto_create_subnetworks => false,
   ipv4_range   => '192.168.0.0/16',
   gateway_ipv4 => '192.168.0.1',
-  project      => 'google.com:graphite-playground',
+  project      => $project, # e.g. 'my-test-project'
   credential   => 'mycred',
 }
 
 # Converting automatic to custom network
 gcompute_network { "mynetwork-${network_id}":
   auto_create_subnetworks => false,
-  project                 => 'google.com:graphite-playground',
+  project                 => $project, # e.g. 'my-test-project'
   credential              => 'mycred',
 }
 
@@ -478,7 +478,7 @@ gcompute_network { "mynetwork-${network_id}":
 
 ```puppet
 gcompute_region { 'us-west1':
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -495,7 +495,7 @@ gcompute_route { 'corp-route':
   next_hop_gateway => 'global/gateways/default-internet-gateway',
   network          => 'my-network',
   tags             => ['backends', 'databases'],
-  project          => 'google.com:graphite-playground',
+  project          => $project, # e.g. 'my-test-project'
   credential       => 'mycred',
 }
 
@@ -514,7 +514,7 @@ gcompute_snapshot { 'data-disk-snapshot-1':
   },
   source                     => 'data-disk-1',
   zone                       => 'us-central1-a',
-  project                    => 'google.com:graphite-playground',
+  project                    => $project, # e.g. 'my-test-project'
   credential                 => 'mycred',
 }
 
@@ -540,7 +540,7 @@ gcompute_snapshot { 'data-disk-snapshot-1':
 gcompute_ssl_certificate { 'sample-certificate':
   ensure      => present,
   description => 'A certificate for test purposes only.',
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred',
   certificate => '-----BEGIN CERTIFICATE-----
 MIICqjCCAk+gAwIBAgIJAIuJ+0352Kq4MAoGCCqGSM49BAMCMIGwMQswCQYDVQQG
@@ -579,7 +579,7 @@ gcompute_subnetwork { 'servers':
   ip_cidr_range => '172.16.0.0/16',
   network       => 'mynetwork-subnetwork',
   region        => 'some-region',
-  project       => 'google.com:graphite-playground',
+  project       => $project, # e.g. 'my-test-project'
   credential    => 'mycred',
 }
 
@@ -591,7 +591,7 @@ gcompute_subnetwork { 'servers':
 gcompute_target_http_proxy { 'my-http-proxy':
   ensure     => present,
   url_map    => 'my-url-map',
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -606,7 +606,7 @@ gcompute_target_https_proxy { 'my-https-proxy':
     'sample-certificate',
   ],
   url_map          => 'my-url-map',
-  project          => 'google.com:graphite-playground',
+  project          => $project, # e.g. 'my-test-project'
   credential       => 'mycred',
 }
 
@@ -617,14 +617,14 @@ gcompute_target_https_proxy { 'my-https-proxy':
 ```puppet
 gcompute_region { 'some-region':
   name       => 'us-west1',
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
 gcompute_target_pool { 'test1':
   ensure     => present,
   region     => 'some-region',
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -640,7 +640,7 @@ gcompute_target_ssl_proxy { 'my-ssl-proxy':
   ssl_certificates => [
     'sample-certificate',
   ],
-  project          => 'google.com:graphite-playground',
+  project          => $project, # e.g. 'my-test-project'
   credential       => 'mycred',
 }
 
@@ -653,7 +653,7 @@ gcompute_target_tcp_proxy { 'my-tcp-proxy':
   ensure       => present,
   proxy_header => 'PROXY_V1',
   service      => 'my-tcp-backend',
-  project      => 'google.com:graphite-playground',
+  project      => $project, # e.g. 'my-test-project'
   credential   => 'mycred',
 }
 
@@ -665,7 +665,7 @@ gcompute_target_tcp_proxy { 'my-tcp-proxy':
 gcompute_url_map { 'my-url-map':
   ensure          => present,
   default_service => 'my-app-backend',
-  project         => 'google.com:graphite-playground',
+  project         => $project, # e.g. 'my-test-project'
   credential      => 'mycred',
 }
 
@@ -675,7 +675,7 @@ gcompute_url_map { 'my-url-map':
 
 ```puppet
 gcompute_zone { 'us-central1-a':
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -983,14 +983,14 @@ static.
 ```puppet
 gcompute_region { 'some-region':
   name       => 'us-west1',
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
 gcompute_address { 'test1':
   ensure     => present,
   region     => 'some-region',
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -1069,7 +1069,7 @@ gcompute_backend_bucket { 'be-bucket-connection':
   bucket_name => 'backend-bucket-test',
   description => 'A BackendBucket to connect LNB w/ Storage Bucket',
   enable_cdn  => true,
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred',
 }
 
@@ -1144,7 +1144,7 @@ gcompute_backend_service { 'my-app-backend':
   health_checks => [
     gcompute_health_check_ref('another-hc', 'google.com:graphite-playground'),
   ],
-  project       => 'google.com:graphite-playground',
+  project       => $project, # e.g. 'my-test-project'
   credential    => 'mycred',
 }
 
@@ -1410,7 +1410,7 @@ gcompute_disk_type { 'pd-standard':
   default_disk_size_gb => 500,
   deprecated_deleted   => undef, # undef = not deprecated
   zone                 => 'us-central1-a',
-  project              => 'google.com:graphite-playground',
+  project              => $project, # e.g. 'my-test-project'
   credential           => 'mycred',
 }
 
@@ -1523,7 +1523,7 @@ gcompute_disk { 'data-disk-1':
     raw_key => 'SGVsbG8gZnJvbSBHb29nbGUgQ2xvdWQgUGxhdGZvcm0=',
   },
   zone                => 'us-central1-a',
-  project             => 'google.com:graphite-playground',
+  project             => $project, # e.g. 'my-test-project'
   credential          => 'mycred',
 }
 
@@ -1760,7 +1760,7 @@ gcompute_firewall { 'test-fw-allow-ssh':
   source_tags => [
     'test-ssh-clients',
   ],
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred',
 }
 
@@ -1908,7 +1908,7 @@ gcompute_forwarding_rule { 'test1':
   port_range  => '80',
   target      => 'target-pool',
   region      => 'some-region',
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred',
 }
 
@@ -2091,7 +2091,7 @@ HTTP(S) load balancing.
 ```puppet
 gcompute_global_address { 'my-app-lb-address':
   ensure     => present,
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -2175,7 +2175,7 @@ gcompute_global_forwarding_rule { 'test1':
     'my-http-proxy',
     'google.com:graphite-playground'
   ),
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred',
 }
 
@@ -2358,7 +2358,7 @@ gcompute_http_health_check { 'my-app-http-hc':
   port                => 8080,
   timeout_sec         => 2,
   unhealthy_threshold => 5,
-  project             => 'google.com:graphite-playground',
+  project             => $project, # e.g. 'my-test-project'
   credential          => 'mycred',
 }
 
@@ -2461,7 +2461,7 @@ gcompute_https_health_check { 'my-app-https-hc':
   port                => 8080,
   timeout_sec         => 2,
   unhealthy_threshold => 5,
-  project             => 'google.com:graphite-playground',
+  project             => $project, # e.g. 'my-test-project'
   credential          => 'mycred',
 }
 
@@ -2567,7 +2567,7 @@ gcompute_health_check { 'my-app-tcp-hc':
   healthy_threshold   => 10,
   timeout_sec         => 2,
   unhealthy_threshold => 5,
-  project             => 'google.com:graphite-playground',
+  project             => $project, # e.g. 'my-test-project'
   credential          => 'mycred',
 }
 
@@ -2833,7 +2833,7 @@ gcompute_instance_template { 'instance-template':
       }
     ]
   },
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -3252,7 +3252,7 @@ machine instances.
 
 ```puppet
 gcompute_license { 'test-license':
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -3307,7 +3307,7 @@ to create an instance.
 gcompute_image { 'test-image':
   ensure      => present,
   source_disk => 'data-disk-1',
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred'
 }
 
@@ -3575,7 +3575,7 @@ gcompute_instance { 'instance-test':
     }
   ],
   zone               => 'us-central1-a',
-  project            => 'google.com:graphite-playground',
+  project            => $project, # e.g. 'my-test-project'
   credential         => 'mycred',
 }
 
@@ -4033,7 +4033,7 @@ gcompute_instance_group { 'my-puppet-masters':
   ],
   network     => 'my-network',
   zone        => 'us-central1-a',
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred',
 }
 
@@ -4137,7 +4137,7 @@ gcompute_instance_group_manager { 'test1':
   instance_template  => 'instance-template',
   target_size        => 3,
   zone               => 'us-west1-a',
-  project            => 'google.com:graphite-playground',
+  project            => $project, # e.g. 'my-test-project'
   credential         => 'mycred',
 }
 
@@ -4312,7 +4312,7 @@ amount of memory or number of virtual CPUs.
 ```puppet
 gcompute_machine_type { 'n1-standard-1':
   zone       => 'us-central1-a',
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -4440,14 +4440,14 @@ advocate of IPv6 and it is an important future direction.
 # Automatically allocated network
 gcompute_network { "mynetwork-${network_id}":
   auto_create_subnetworks => true,
-  project                 => 'google.com:graphite-playground',
+  project                 => $project, # e.g. 'my-test-project'
   credential              => 'mycred',
 }
 
 # Manually allocated network
 gcompute_network { "mynetwork-${network_id}":
   auto_create_subnetworks => false,
-  project                 => 'google.com:graphite-playground',
+  project                 => $project, # e.g. 'my-test-project'
   credential              => 'mycred',
 }
 
@@ -4458,14 +4458,14 @@ gcompute_network { "mynetwork-${network_id}":
   # | auto_create_subnetworks => false,
   ipv4_range   => '192.168.0.0/16',
   gateway_ipv4 => '192.168.0.1',
-  project      => 'google.com:graphite-playground',
+  project      => $project, # e.g. 'my-test-project'
   credential   => 'mycred',
 }
 
 # Converting automatic to custom network
 gcompute_network { "mynetwork-${network_id}":
   auto_create_subnetworks => false,
-  project                 => 'google.com:graphite-playground',
+  project                 => $project, # e.g. 'my-test-project'
   credential              => 'mycred',
 }
 
@@ -4550,7 +4550,7 @@ zones
 
 ```puppet
 gcompute_region { 'us-west1':
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -4663,7 +4663,7 @@ gcompute_route { 'corp-route':
   next_hop_gateway => 'global/gateways/default-internet-gateway',
   network          => 'my-network',
   tags             => ['backends', 'databases'],
-  project          => 'google.com:graphite-playground',
+  project          => $project, # e.g. 'my-test-project'
   credential       => 'mycred',
 }
 
@@ -4778,7 +4778,7 @@ gcompute_snapshot { 'data-disk-snapshot-1':
   },
   source                     => 'data-disk-1',
   zone                       => 'us-central1-a',
-  project                    => 'google.com:graphite-playground',
+  project                    => $project, # e.g. 'my-test-project'
   credential                 => 'mycred',
 }
 
@@ -4921,7 +4921,7 @@ connections from the user.
 gcompute_ssl_certificate { 'sample-certificate':
   ensure      => present,
   description => 'A certificate for test purposes only.',
-  project     => 'google.com:graphite-playground',
+  project     => $project, # e.g. 'my-test-project'
   credential  => 'mycred',
   certificate => '-----BEGIN CERTIFICATE-----
 MIICqjCCAk+gAwIBAgIJAIuJ+0352Kq4MAoGCCqGSM49BAMCMIGwMQswCQYDVQQG
@@ -5034,7 +5034,7 @@ gcompute_subnetwork { 'servers':
   ip_cidr_range => '172.16.0.0/16',
   network       => 'mynetwork-subnetwork',
   region        => 'some-region',
-  project       => 'google.com:graphite-playground',
+  project       => $project, # e.g. 'my-test-project'
   credential    => 'mycred',
 }
 
@@ -5123,7 +5123,7 @@ forwarding rule to route incoming HTTP requests to a URL map.
 gcompute_target_http_proxy { 'my-http-proxy':
   ensure     => present,
   url_map    => 'my-url-map',
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -5186,7 +5186,7 @@ gcompute_target_https_proxy { 'my-https-proxy':
     'sample-certificate',
   ],
   url_map          => 'my-url-map',
-  project          => 'google.com:graphite-playground',
+  project          => $project, # e.g. 'my-test-project'
   credential       => 'mycred',
 }
 
@@ -5253,14 +5253,14 @@ Represents a TargetPool resource, used for Load Balancing.
 ```puppet
 gcompute_region { 'some-region':
   name       => 'us-west1',
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
 gcompute_target_pool { 'test1':
   ensure     => present,
   region     => 'some-region',
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
@@ -5386,7 +5386,7 @@ gcompute_target_ssl_proxy { 'my-ssl-proxy':
   ssl_certificates => [
     'sample-certificate',
   ],
-  project          => 'google.com:graphite-playground',
+  project          => $project, # e.g. 'my-test-project'
   credential       => 'mycred',
 }
 
@@ -5463,7 +5463,7 @@ gcompute_target_tcp_proxy { 'my-tcp-proxy':
   ensure       => present,
   proxy_header => 'PROXY_V1',
   service      => 'my-tcp-backend',
-  project      => 'google.com:graphite-playground',
+  project      => $project, # e.g. 'my-test-project'
   credential   => 'mycred',
 }
 
@@ -5528,7 +5528,7 @@ that you define for the host and path of an incoming URL.
 gcompute_url_map { 'my-url-map':
   ensure          => present,
   default_service => 'my-app-backend',
-  project         => 'google.com:graphite-playground',
+  project         => $project, # e.g. 'my-test-project'
   credential      => 'mycred',
 }
 
@@ -5687,7 +5687,7 @@ Represents a Zone resource.
 
 ```puppet
 gcompute_zone { 'us-central1-a':
-  project    => 'google.com:graphite-playground',
+  project    => $project, # e.g. 'my-test-project'
   credential => 'mycred',
 }
 
