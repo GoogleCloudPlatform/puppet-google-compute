@@ -35,6 +35,7 @@ require 'google/compute/property/string_array'
 require 'google/compute/property/subnetwork_selflink'
 require 'google/compute/property/targetpool_selflink'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_forwarding_rule) do
@@ -236,5 +237,10 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
       appropriate to the target object. This field is not used for internal
       load balancing.
     DOC
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end
