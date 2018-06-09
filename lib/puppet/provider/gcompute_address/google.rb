@@ -29,10 +29,12 @@ require 'google/compute/network/delete'
 require 'google/compute/network/get'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
+require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/region_name'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
+require 'google/compute/property/subnetwork_selflink'
 require 'google/compute/property/time'
 require 'google/hash_utils'
 require 'google/object_store'
@@ -70,12 +72,17 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
   def self.fetch_to_hash(fetch)
     {
       address: Google::Compute::Property::String.api_munge(fetch['address']),
+      address_type:
+        Google::Compute::Property::Enum.api_munge(fetch['addressType']),
       creation_timestamp:
         Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       description:
         Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
+      subnetwork: Google::Compute::Property::SubneSelfLinkRef.api_munge(
+        fetch['subnetwork']
+      ),
       users: Google::Compute::Property::StringArray.api_munge(fetch['users'])
     }.reject { |_, v| v.nil? }
   end
@@ -126,7 +133,8 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
 
   def exports
     {
-      address: @fetched['address']
+      address: @fetched['address'],
+      self_link: @fetched['selfLink']
     }
   end
 
@@ -138,9 +146,11 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
       name: resource[:name],
       kind: 'compute#address',
       address: resource[:address],
+      address_type: resource[:address_type],
       creation_timestamp: resource[:creation_timestamp],
       description: resource[:description],
       id: resource[:id],
+      subnetwork: resource[:subnetwork],
       users: resource[:users],
       region: resource[:region]
     }.reject { |_, v| v.nil? }
@@ -150,8 +160,10 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
     request = {
       kind: 'compute#address',
       address: @resource[:address],
+      addressType: @resource[:address_type],
       description: @resource[:description],
-      name: @resource[:name]
+      name: @resource[:name],
+      subnetwork: @resource[:subnetwork]
     }.reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json
