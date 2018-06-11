@@ -37,6 +37,7 @@ group :test do
   gem 'rspec'
   gem 'rspec-mocks'
   gem 'rspec-puppet'
+  gem 'parallel_tests'
   gem 'rubocop'
   gem 'simplecov'
 end
