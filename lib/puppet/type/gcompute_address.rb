@@ -25,10 +25,12 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/region_name'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
+require 'google/compute/property/subnetwork_selflink'
 require 'google/compute/property/time'
 require 'google/object_store'
 require 'puppet'
@@ -87,8 +89,18 @@ Puppet::Type.newtype(:gcompute_address) do
   newproperty(:address, parent: Google::Compute::Property::String) do
     desc <<-DOC
       The static external IP address represented by this resource. Only IPv4 is
-      supported.
+      supported. An address may only be specified for INTERNAL address types.
+      The IP address must be inside the specified subnetwork, if any.
     DOC
+  end
+
+  newproperty(:address_type, parent: Google::Compute::Property::Enum) do
+    desc <<-DOC
+      The type of address to reserve, either INTERNAL or EXTERNAL. If
+      unspecified, defaults to EXTERNAL.
+    DOC
+    newvalue(:INTERNAL)
+    newvalue(:EXTERNAL)
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
@@ -107,10 +119,20 @@ Puppet::Type.newtype(:gcompute_address) do
     desc <<-DOC
       Name of the resource. The name must be 1-63 characters long, and comply
       with RFC1035. Specifically, the name must be 1-63 characters long and
-      match the regular expression [a-z]([-a-z0-9]*[a-z0-9])? which means the
+      match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
       first character must be a lowercase letter, and all following characters
       must be a dash, lowercase letter, or digit, except the last character,
       which cannot be a dash.
+    DOC
+  end
+
+  newproperty(:subnetwork,
+              parent: Google::Compute::Property::SubneSelfLinkRef) do
+    desc <<-DOC
+      The URL of the subnetwork in which to reserve the address. If an IP
+      address is specified, it must be within the subnetwork's IP range. This
+      field can only be used with INTERNAL type with GCE_ENDPOINT/DNS_RESOLVER
+      purposes.
     DOC
   end
 
