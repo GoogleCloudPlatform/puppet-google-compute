@@ -874,7 +874,7 @@ gcompute_zone { 'us-central1-a':
     machine destination, a virtual machine gateway or a Compute
     Engine-operated gateway. Packets that do not match any route in the
     sending virtual machine's routing table will be dropped.
-    A Routes resources must have exactly one specification of either
+    A Route resource must have exactly one specification of either
     nextHopGateway, nextHopInstance, nextHopIp, or nextHopVpnTunnel.
 * [`gcompute_snapshot`][]:
     Represents a Persistent Disk Snapshot resource.
@@ -4664,7 +4664,7 @@ machine destination, a virtual machine gateway or a Compute
 Engine-operated gateway. Packets that do not match any route in the
 sending virtual machine's routing table will be dropped.
 
-A Routes resources must have exactly one specification of either
+A Route resource must have exactly one specification of either
 nextHopGateway, nextHopInstance, nextHopIp, or nextHopVpnTunnel.
 
 
@@ -4689,12 +4689,14 @@ gcompute_route { 'corp-route':
 
 ```puppet
 gcompute_route { 'id-of-resource':
+  description         => string,
   dest_range          => string,
   name                => string,
   network             => reference to gcompute_network,
   next_hop_gateway    => string,
   next_hop_instance   => string,
   next_hop_ip         => string,
+  next_hop_network    => string,
   next_hop_vpn_tunnel => string,
   priority            => integer,
   tags                => [
@@ -4708,12 +4710,17 @@ gcompute_route { 'id-of-resource':
 
 ##### `dest_range`
 
-  The destination range of outgoing packets that this route applies to.
+Required.  The destination range of outgoing packets that this route applies to.
   Only IPv4 is supported.
+
+##### `description`
+
+  An optional description of this resource. Provide this property
+  when you create the resource.
 
 ##### `name`
 
-  Name of the resource. Provided by the client when the resource is
+Required.  Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035.  Specifically, the name must be 1-63 characters long and
   match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
@@ -4723,7 +4730,7 @@ gcompute_route { 'id-of-resource':
 
 ##### `network`
 
-  The network that this route applies to.
+Required.  The network that this route applies to.
 
 ##### `priority`
 
@@ -4764,6 +4771,11 @@ gcompute_route { 'id-of-resource':
 
   URL to a VpnTunnel that should handle matching packets.
 
+
+##### Output-only properties
+
+* `next_hop_network`: Output only.
+  URL to a Network that should handle matching packets.
 
 #### `gcompute_snapshot`
 
