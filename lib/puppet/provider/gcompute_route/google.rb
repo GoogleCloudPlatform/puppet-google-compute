@@ -34,6 +34,7 @@ require 'google/compute/property/network_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/hash_utils'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_route).provide(:google) do
@@ -55,6 +56,7 @@ Puppet::Type.type(:gcompute_route).provide(:google) do
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource), 'compute#route')
       resource.provider = present(name, fetch, resource) unless fetch.nil?
+      Google::ObjectStore.instance.add(:gcompute_route, resource)
     end
   end
 
@@ -62,6 +64,7 @@ Puppet::Type.type(:gcompute_route).provide(:google) do
     result = new(
       { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
     )
+    result.instance_variable_set(:@fetched, fetch)
     result
   end
 
@@ -69,7 +72,11 @@ Puppet::Type.type(:gcompute_route).provide(:google) do
     {
       dest_range:
         Google::Compute::Property::String.api_munge(fetch['destRange']),
+      description:
+        Google::Compute::Property::String.api_munge(fetch['description']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
+      next_hop_network:
+        Google::Compute::Property::String.api_munge(fetch['nextHopNetwork']),
       network: resource[:network],
       priority: resource[:priority],
       tags: resource[:tags],
@@ -92,7 +99,7 @@ Puppet::Type.type(:gcompute_route).provide(:google) do
                                                     fetch_auth(@resource),
                                                     'application/json',
                                                     resource_to_request)
-    wait_for_operation create_req.send, @resource
+    @fetched = wait_for_operation create_req.send, @resource
     @property_hash[:ensure] = :present
   end
 
@@ -113,7 +120,7 @@ Puppet::Type.type(:gcompute_route).provide(:google) do
                                                    fetch_auth(@resource),
                                                    'application/json',
                                                    resource_to_request)
-    wait_for_operation update_req.send, @resource
+    @fetched = wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)
@@ -121,6 +128,12 @@ Puppet::Type.type(:gcompute_route).provide(:google) do
     @dirty[field] = {
       from: from,
       to: to
+    }
+  end
+
+  def exports
+    {
+      self_link: @fetched['selfLink']
     }
   end
 
@@ -132,13 +145,15 @@ Puppet::Type.type(:gcompute_route).provide(:google) do
       name: resource[:name],
       kind: 'compute#route',
       dest_range: resource[:dest_range],
+      description: resource[:description],
       network: resource[:network],
       priority: resource[:priority],
       tags: resource[:tags],
       next_hop_gateway: resource[:next_hop_gateway],
       next_hop_instance: resource[:next_hop_instance],
       next_hop_ip: resource[:next_hop_ip],
-      next_hop_vpn_tunnel: resource[:next_hop_vpn_tunnel]
+      next_hop_vpn_tunnel: resource[:next_hop_vpn_tunnel],
+      next_hop_network: resource[:next_hop_network]
     }.reject { |_, v| v.nil? }
   end
 
@@ -146,6 +161,7 @@ Puppet::Type.type(:gcompute_route).provide(:google) do
     request = {
       kind: 'compute#route',
       destRange: @resource[:dest_range],
+      description: @resource[:description],
       name: @resource[:name],
       network: @resource[:network],
       priority: @resource[:priority],

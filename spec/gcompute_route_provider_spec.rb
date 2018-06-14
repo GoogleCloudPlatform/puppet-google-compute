@@ -85,6 +85,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
 
                 gcompute_route { 'title0':
                   ensure              => present,
+                  description         => 'test description#0 data',
                   dest_range          => 'test dest_range#0 data',
                   network             => 'resource(network,0)',
                   next_hop_gateway    => 'test next_hop_gateway#0 data',
@@ -99,6 +100,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
 
                 gcompute_route { 'title1':
                   ensure              => present,
+                  description         => 'test description#1 data',
                   dest_range          => 'test dest_range#1 data',
                   network             => 'resource(network,1)',
                   next_hop_gateway    => 'test next_hop_gateway#1 data',
@@ -113,6 +115,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
 
                 gcompute_route { 'title2':
                   ensure              => present,
+                  description         => 'test description#2 data',
                   dest_range          => 'test dest_range#2 data',
                   network             => 'resource(network,2)',
                   next_hop_gateway    => 'test next_hop_gateway#2 data',
@@ -136,6 +139,10 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(dest_range: 'test dest_range#0 data')
+              end
+              it do
+                is_expected
+                  .to have_attributes(description: 'test description#0 data')
               end
               it { is_expected.to have_attributes(name: 'title0') }
               # TODO(alexstephen): Implement resourceref test.
@@ -166,6 +173,12 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                     next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#0 data'
                   )
               end
+              it do
+                is_expected
+                  .to have_attributes(
+                    next_hop_network: 'test next_hop_network#0 data'
+                  )
+              end
             end
 
             context 'Gcompute_route[title1]' do
@@ -176,6 +189,10 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(dest_range: 'test dest_range#1 data')
+              end
+              it do
+                is_expected
+                  .to have_attributes(description: 'test description#1 data')
               end
               it { is_expected.to have_attributes(name: 'title1') }
               # TODO(alexstephen): Implement resourceref test.
@@ -206,6 +223,12 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                     next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#1 data'
                   )
               end
+              it do
+                is_expected
+                  .to have_attributes(
+                    next_hop_network: 'test next_hop_network#1 data'
+                  )
+              end
             end
 
             context 'Gcompute_route[title2]' do
@@ -216,6 +239,10 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(dest_range: 'test dest_range#2 data')
+              end
+              it do
+                is_expected
+                  .to have_attributes(description: 'test description#2 data')
               end
               it { is_expected.to have_attributes(name: 'title2') }
               # TODO(alexstephen): Implement resourceref test.
@@ -244,6 +271,12 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                 is_expected
                   .to have_attributes(
                     next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#2 data'
+                  )
+              end
+              it do
+                is_expected
+                  .to have_attributes(
+                    next_hop_network: 'test next_hop_network#2 data'
                   )
               end
             end
@@ -299,6 +332,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
 
                 gcompute_route { 'title0':
                   ensure              => present,
+                  description         => 'test description#0 data',
                   dest_range          => 'test dest_range#0 data',
                   name                => 'test name#0 data',
                   network             => 'resource(network,0)',
@@ -314,6 +348,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
 
                 gcompute_route { 'title1':
                   ensure              => present,
+                  description         => 'test description#1 data',
                   dest_range          => 'test dest_range#1 data',
                   name                => 'test name#1 data',
                   network             => 'resource(network,1)',
@@ -329,6 +364,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
 
                 gcompute_route { 'title2':
                   ensure              => present,
+                  description         => 'test description#2 data',
                   dest_range          => 'test dest_range#2 data',
                   name                => 'test name#2 data',
                   network             => 'resource(network,2)',
@@ -353,6 +389,10 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(dest_range: 'test dest_range#0 data')
+              end
+              it do
+                is_expected
+                  .to have_attributes(description: 'test description#0 data')
               end
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               # TODO(alexstephen): Implement resourceref test.
@@ -383,6 +423,12 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                     next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#0 data'
                   )
               end
+              it do
+                is_expected
+                  .to have_attributes(
+                    next_hop_network: 'test next_hop_network#0 data'
+                  )
+              end
             end
 
             context 'Gcompute_route[title1]' do
@@ -393,6 +439,10 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(dest_range: 'test dest_range#1 data')
+              end
+              it do
+                is_expected
+                  .to have_attributes(description: 'test description#1 data')
               end
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               # TODO(alexstephen): Implement resourceref test.
@@ -423,6 +473,12 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                     next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#1 data'
                   )
               end
+              it do
+                is_expected
+                  .to have_attributes(
+                    next_hop_network: 'test next_hop_network#1 data'
+                  )
+              end
             end
 
             context 'Gcompute_route[title2]' do
@@ -433,6 +489,10 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               it do
                 is_expected
                   .to have_attributes(dest_range: 'test dest_range#2 data')
+              end
+              it do
+                is_expected
+                  .to have_attributes(description: 'test description#2 data')
               end
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               # TODO(alexstephen): Implement resourceref test.
@@ -461,6 +521,12 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                 is_expected
                   .to have_attributes(
                     next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#2 data'
+                  )
+              end
+              it do
+                is_expected
+                  .to have_attributes(
+                    next_hop_network: 'test next_hop_network#2 data'
                   )
               end
             end
@@ -521,6 +587,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               {
                 'kind' => 'compute#route',
                 'destRange' => 'test dest_range#0 data',
+                'description' => 'test description#0 data',
                 'name' => 'title0',
                 'network' => 'selflink(resource(network,0))',
                 'priority' => 1_108_918_677,
@@ -547,6 +614,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
 
               gcompute_route { 'title0':
                 ensure              => present,
+                description         => 'test description#0 data',
                 dest_range          => 'test dest_range#0 data',
                 network             => 'resource(network,0)',
                 next_hop_gateway    => 'test next_hop_gateway#0 data',
@@ -583,6 +651,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               1,
               'kind' => 'compute#route',
               'destRange' => 'test dest_range#0 data',
+              'description' => 'test description#0 data',
               'name' => 'test name#0 data',
               'network' => 'selflink(resource(network,0))',
               'priority' => 1_108_918_677,
@@ -607,6 +676,7 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
 
               gcompute_route { 'title0':
                 ensure              => present,
+                description         => 'test description#0 data',
                 dest_range          => 'test dest_range#0 data',
                 name                => 'test name#0 data',
                 network             => 'resource(network,0)',
@@ -644,13 +714,23 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
         context 'title == name (pass)' do
           before(:each) do
             expect_network_get_failed 1, name: 'title0'
+            expect_network_get_success_network 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_network { 'resource(network,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_route { 'title0':
                 ensure     => absent,
+                dest_range => 'test dest_range#0 data',
+                network    => 'resource(network,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -676,14 +756,24 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
         context 'title != name (pass)' do
           before(:each) do
             expect_network_get_failed 1
+            expect_network_get_success_network 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_network { 'resource(network,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_route { 'title0':
                 ensure     => absent,
+                dest_range => 'test dest_range#0 data',
                 name       => 'test name#0 data',
+                network    => 'resource(network,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -713,13 +803,23 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
             expect_network_get_success 1, name: 'title0'
             expect_network_delete 1, 'title0'
             expect_network_get_async 1, name: 'title0'
+            expect_network_get_success_network 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_network { 'resource(network,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_route { 'title0':
                 ensure     => absent,
+                dest_range => 'test dest_range#0 data',
+                network    => 'resource(network,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -747,14 +847,24 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
             expect_network_get_success 1
             expect_network_delete 1
             expect_network_get_async 1
+            expect_network_get_success_network 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_network { 'resource(network,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_route { 'title0':
                 ensure     => absent,
+                dest_range => 'test dest_range#0 data',
                 name       => 'test name#0 data',
+                network    => 'resource(network,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -798,6 +908,26 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
         before { subject.instance_variable_set(:@deleted, true) }
         it { expect { subject.flush }.not_to raise_error }
       end
+    end
+  end
+
+  context '#exports' do
+    context 'exports all properties' do
+      let(:resource1) { create_type 1 }
+      before do
+        prefetch_network
+        expect_network_get_success 1
+        described_class.prefetch(title0: resource1)
+      end
+
+      subject { resource1.exports }
+
+      let(:expected_results) do
+        {
+          self_link: 'selflink(resource(route,0))'
+        }
+      end
+      it { is_expected.to eq(expected_results) }
     end
   end
 
@@ -965,6 +1095,19 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
   def debug_network(message)
     puts("Network #{message}") \
       if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_network
+    expect_network_get_success_network 1
+
+    resource = Puppet::Type.type(:gcompute_network).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_network).provider(:google)
+                .prefetch(resource: resource)
   end
 
   def expand_variables_network(template, data, ext_dat = {})

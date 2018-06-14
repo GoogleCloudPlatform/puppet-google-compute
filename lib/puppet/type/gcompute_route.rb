@@ -29,6 +29,7 @@ require 'google/compute/property/integer'
 require 'google/compute/property/network_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_route) do
@@ -46,8 +47,8 @@ Puppet::Type.newtype(:gcompute_route) do
     then forwarded as specified by the next_hop field of the winning route --
     either to another virtual machine destination, a virtual machine gateway or
     a Compute Engine-operated gateway. Packets that do not match any route in
-    the sending virtual machine's routing table will be dropped. A Routes
-    resources must have exactly one specification of either nextHopGateway,
+    the sending virtual machine's routing table will be dropped. A Route
+    resource must have exactly one specification of either nextHopGateway,
     nextHopInstance, nextHopIp, or nextHopVpnTunnel.
   DOC
 
@@ -79,6 +80,13 @@ Puppet::Type.newtype(:gcompute_route) do
     desc <<-DOC
       The destination range of outgoing packets that this route applies to.
       Only IPv4 is supported.
+    DOC
+  end
+
+  newproperty(:description, parent: Google::Compute::Property::String) do
+    desc <<-DOC
+      An optional description of this resource. Provide this property when you
+      create the resource.
     DOC
   end
 
@@ -142,5 +150,14 @@ Puppet::Type.newtype(:gcompute_route) do
   newproperty(:next_hop_vpn_tunnel,
               parent: Google::Compute::Property::String) do
     desc 'URL to a VpnTunnel that should handle matching packets.'
+  end
+
+  newproperty(:next_hop_network, parent: Google::Compute::Property::String) do
+    desc 'URL to a Network that should handle matching packets. (output only)'
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end
