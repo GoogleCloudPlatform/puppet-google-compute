@@ -243,27 +243,33 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 }
 
                 gcompute_subnetwork { 'resource(subnetwork,0)':
-                  ensure     => present,
-                  name       => 'test name#0 data',
-                  region     => 'resource(region,0)',
-                  project    => 'test project#0 data',
-                  credential => 'cred0',
+                  ensure        => present,
+                  ip_cidr_range => 'test ip_cidr_range#0 data',
+                  name          => 'test name#0 data',
+                  network       => 'resource(network,0)',
+                  region        => 'resource(region,0)',
+                  project       => 'test project#0 data',
+                  credential    => 'cred0',
                 }
 
                 gcompute_subnetwork { 'resource(subnetwork,1)':
-                  ensure     => present,
-                  name       => 'test name#1 data',
-                  region     => 'resource(region,1)',
-                  project    => 'test project#1 data',
-                  credential => 'cred1',
+                  ensure        => present,
+                  ip_cidr_range => 'test ip_cidr_range#1 data',
+                  name          => 'test name#1 data',
+                  network       => 'resource(network,1)',
+                  region        => 'resource(region,1)',
+                  project       => 'test project#1 data',
+                  credential    => 'cred1',
                 }
 
                 gcompute_subnetwork { 'resource(subnetwork,2)':
-                  ensure     => present,
-                  name       => 'test name#2 data',
-                  region     => 'resource(region,2)',
-                  project    => 'test project#2 data',
-                  credential => 'cred2',
+                  ensure        => present,
+                  ip_cidr_range => 'test ip_cidr_range#2 data',
+                  name          => 'test name#2 data',
+                  network       => 'resource(network,2)',
+                  region        => 'resource(region,2)',
+                  project       => 'test project#2 data',
+                  credential    => 'cred2',
                 }
 
                 gcompute_instance { 'title0':
@@ -1232,27 +1238,33 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
                 }
 
                 gcompute_subnetwork { 'resource(subnetwork,0)':
-                  ensure     => present,
-                  name       => 'test name#0 data',
-                  region     => 'resource(region,0)',
-                  project    => 'test project#0 data',
-                  credential => 'cred0',
+                  ensure        => present,
+                  ip_cidr_range => 'test ip_cidr_range#0 data',
+                  name          => 'test name#0 data',
+                  network       => 'resource(network,0)',
+                  region        => 'resource(region,0)',
+                  project       => 'test project#0 data',
+                  credential    => 'cred0',
                 }
 
                 gcompute_subnetwork { 'resource(subnetwork,1)':
-                  ensure     => present,
-                  name       => 'test name#1 data',
-                  region     => 'resource(region,1)',
-                  project    => 'test project#1 data',
-                  credential => 'cred1',
+                  ensure        => present,
+                  ip_cidr_range => 'test ip_cidr_range#1 data',
+                  name          => 'test name#1 data',
+                  network       => 'resource(network,1)',
+                  region        => 'resource(region,1)',
+                  project       => 'test project#1 data',
+                  credential    => 'cred1',
                 }
 
                 gcompute_subnetwork { 'resource(subnetwork,2)':
-                  ensure     => present,
-                  name       => 'test name#2 data',
-                  region     => 'resource(region,2)',
-                  project    => 'test project#2 data',
-                  credential => 'cred2',
+                  ensure        => present,
+                  ip_cidr_range => 'test ip_cidr_range#2 data',
+                  name          => 'test name#2 data',
+                  network       => 'resource(network,2)',
+                  region        => 'resource(region,2)',
+                  project       => 'test project#2 data',
+                  credential    => 'cred2',
                 }
 
                 gcompute_instance { 'title0':
@@ -2431,27 +2443,33 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               }
 
               gcompute_subnetwork { 'resource(subnetwork,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                region     => 'resource(region,0)',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure        => present,
+                ip_cidr_range => 'test ip_cidr_range#0 data',
+                name          => 'test name#0 data',
+                network       => 'resource(network,0)',
+                region        => 'resource(region,0)',
+                project       => 'test project#0 data',
+                credential    => 'cred0',
               }
 
               gcompute_subnetwork { 'resource(subnetwork,1)':
-                ensure     => present,
-                name       => 'test name#1 data',
-                region     => 'resource(region,1)',
-                project    => 'test project#1 data',
-                credential => 'cred1',
+                ensure        => present,
+                ip_cidr_range => 'test ip_cidr_range#1 data',
+                name          => 'test name#1 data',
+                network       => 'resource(network,1)',
+                region        => 'resource(region,1)',
+                project       => 'test project#1 data',
+                credential    => 'cred1',
               }
 
               gcompute_subnetwork { 'resource(subnetwork,2)':
-                ensure     => present,
-                name       => 'test name#2 data',
-                region     => 'resource(region,2)',
-                project    => 'test project#2 data',
-                credential => 'cred2',
+                ensure        => present,
+                ip_cidr_range => 'test ip_cidr_range#2 data',
+                name          => 'test name#2 data',
+                network       => 'resource(network,2)',
+                region        => 'resource(region,2)',
+                project       => 'test project#2 data',
+                credential    => 'cred2',
               }
 
               gcompute_instance { 'title0':
@@ -3040,27 +3058,33 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               }
 
               gcompute_subnetwork { 'resource(subnetwork,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                region     => 'resource(region,0)',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure        => present,
+                ip_cidr_range => 'test ip_cidr_range#0 data',
+                name          => 'test name#0 data',
+                network       => 'resource(network,0)',
+                region        => 'resource(region,0)',
+                project       => 'test project#0 data',
+                credential    => 'cred0',
               }
 
               gcompute_subnetwork { 'resource(subnetwork,1)':
-                ensure     => present,
-                name       => 'test name#1 data',
-                region     => 'resource(region,1)',
-                project    => 'test project#1 data',
-                credential => 'cred1',
+                ensure        => present,
+                ip_cidr_range => 'test ip_cidr_range#1 data',
+                name          => 'test name#1 data',
+                network       => 'resource(network,1)',
+                region        => 'resource(region,1)',
+                project       => 'test project#1 data',
+                credential    => 'cred1',
               }
 
               gcompute_subnetwork { 'resource(subnetwork,2)':
-                ensure     => present,
-                name       => 'test name#2 data',
-                region     => 'resource(region,2)',
-                project    => 'test project#2 data',
-                credential => 'cred2',
+                ensure        => present,
+                ip_cidr_range => 'test ip_cidr_range#2 data',
+                name          => 'test name#2 data',
+                network       => 'resource(network,2)',
+                region        => 'resource(region,2)',
+                project       => 'test project#2 data',
+                credential    => 'cred2',
               }
 
               gcompute_instance { 'title0':
@@ -4118,6 +4142,55 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
     )
   end
 
+  def expect_network_get_success_network(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_network("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_network(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_network(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_network(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_network', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_network objects
+  def uri_data_network(id)
+    {
+      project: GoogleTests::Constants::N_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::N_PROJECT_DATA.size],
+      name: GoogleTests::Constants::N_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::N_NAME_DATA.size]
+    }
+  end
+
+  def self_link_network(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_network(
+        'projects/{{project}}/global/networks/{{name}}',
+        data
+      )
+    )
+  end
+
   def expect_network_get_success_region(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_region("success#{id}~" \
@@ -4291,6 +4364,19 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
   end
 
   # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_network
+    expect_network_get_success_network 1
+
+    resource = Puppet::Type.type(:gcompute_network).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_network).provider(:google)
+                .prefetch(resource: resource)
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
   def prefetch_region
     expect_network_get_success_region 1
 
@@ -4363,6 +4449,11 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
 
   def expand_variables_subnetwork(template, data, ext_dat = {})
     Puppet::Type.type(:gcompute_subnetwork).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
+  def expand_variables_network(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_network).provider(:google)
                 .expand_variables(template, data, ext_dat)
   end
 

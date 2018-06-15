@@ -95,8 +95,7 @@ Puppet::Type.newtype(:gcompute_subnetwork) do
   newproperty(:gateway_address, parent: Google::Compute::Property::String) do
     desc <<-DOC
       The gateway address for default routes to reach destination addresses
-      outside this subnetwork. This field can be set only at resource creation
-      time.
+      outside this subnetwork. (output only)
     DOC
   end
 
@@ -143,10 +142,7 @@ Puppet::Type.newtype(:gcompute_subnetwork) do
   end
 
   newproperty(:region, parent: Google::Compute::Property::RegionNameRef) do
-    desc <<-DOC
-      URL of the region where the regional address resides. This field is not
-      applicable to global addresses.
-    DOC
+    desc 'URL of the GCP region for this subnetwork.'
   end
 
   # Returns all properties that a provider can export to other resources
