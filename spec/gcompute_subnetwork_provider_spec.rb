@@ -113,7 +113,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 gcompute_subnetwork { 'title0':
                   ensure                   => present,
                   description              => 'test description#0 data',
-                  gateway_address          => 'test gateway_address#0 data',
                   ip_cidr_range            => 'test ip_cidr_range#0 data',
                   network                  => 'resource(network,0)',
                   private_ip_google_access => true,
@@ -125,7 +124,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 gcompute_subnetwork { 'title1':
                   ensure                   => present,
                   description              => 'test description#1 data',
-                  gateway_address          => 'test gateway_address#1 data',
                   ip_cidr_range            => 'test ip_cidr_range#1 data',
                   network                  => 'resource(network,1)',
                   private_ip_google_access => false,
@@ -137,7 +135,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 gcompute_subnetwork { 'title2':
                   ensure                   => present,
                   description              => 'test description#2 data',
-                  gateway_address          => 'test gateway_address#2 data',
                   ip_cidr_range            => 'test ip_cidr_range#2 data',
                   network                  => 'resource(network,2)',
                   private_ip_google_access => true,
@@ -351,7 +348,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 gcompute_subnetwork { 'title0':
                   ensure                   => present,
                   description              => 'test description#0 data',
-                  gateway_address          => 'test gateway_address#0 data',
                   ip_cidr_range            => 'test ip_cidr_range#0 data',
                   name                     => 'test name#0 data',
                   network                  => 'resource(network,0)',
@@ -364,7 +360,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 gcompute_subnetwork { 'title1':
                   ensure                   => present,
                   description              => 'test description#1 data',
-                  gateway_address          => 'test gateway_address#1 data',
                   ip_cidr_range            => 'test ip_cidr_range#1 data',
                   name                     => 'test name#1 data',
                   network                  => 'resource(network,1)',
@@ -377,7 +372,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 gcompute_subnetwork { 'title2':
                   ensure                   => present,
                   description              => 'test description#2 data',
-                  gateway_address          => 'test gateway_address#2 data',
                   ip_cidr_range            => 'test ip_cidr_range#2 data',
                   name                     => 'test name#2 data',
                   network                  => 'resource(network,2)',
@@ -577,7 +571,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               {
                 'kind' => 'compute#subnetwork',
                 'description' => 'test description#0 data',
-                'gatewayAddress' => 'test gateway_address#0 data',
                 'ipCidrRange' => 'test ip_cidr_range#0 data',
                 'name' => 'title0',
                 'network' => 'selflink(resource(network,0))',
@@ -612,7 +605,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               gcompute_subnetwork { 'title0':
                 ensure                   => present,
                 description              => 'test description#0 data',
-                gateway_address          => 'test gateway_address#0 data',
                 ip_cidr_range            => 'test ip_cidr_range#0 data',
                 network                  => 'resource(network,0)',
                 private_ip_google_access => true,
@@ -646,7 +638,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               {
                 'kind' => 'compute#subnetwork',
                 'description' => 'test description#0 data',
-                'gatewayAddress' => 'test gateway_address#0 data',
                 'ipCidrRange' => 'test ip_cidr_range#0 data',
                 'name' => 'test name#0 data',
                 'network' => 'selflink(resource(network,0))',
@@ -678,7 +669,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               gcompute_subnetwork { 'title0':
                 ensure                   => present,
                 description              => 'test description#0 data',
-                gateway_address          => 'test gateway_address#0 data',
                 ip_cidr_range            => 'test ip_cidr_range#0 data',
                 name                     => 'test name#0 data',
                 network                  => 'resource(network,0)',
@@ -714,12 +704,20 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
             expect_network_get_failed 1,
                                       name: 'title0',
                                       region: 'test name#0 data'
+            expect_network_get_success_network 1
             expect_network_get_success_region 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_network { 'resource(network,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_region { 'resource(region,0)':
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
@@ -727,10 +725,12 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               }
 
               gcompute_subnetwork { 'title0':
-                ensure     => absent,
-                region     => 'resource(region,0)',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure        => absent,
+                ip_cidr_range => 'test ip_cidr_range#0 data',
+                network       => 'resource(network,0)',
+                region        => 'resource(region,0)',
+                project       => 'test project#0 data',
+                credential    => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_subnetwork[title0]')
@@ -754,12 +754,20 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
         context 'title != name (pass)' do
           before(:each) do
             expect_network_get_failed 1, region: 'test name#0 data'
+            expect_network_get_success_network 1
             expect_network_get_success_region 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_network { 'resource(network,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_region { 'resource(region,0)':
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
@@ -767,11 +775,13 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               }
 
               gcompute_subnetwork { 'title0':
-                ensure     => absent,
-                name       => 'test name#0 data',
-                region     => 'resource(region,0)',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure        => absent,
+                ip_cidr_range => 'test ip_cidr_range#0 data',
+                name          => 'test name#0 data',
+                network       => 'resource(network,0)',
+                region        => 'resource(region,0)',
+                project       => 'test project#0 data',
+                credential    => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_subnetwork[title0]')
@@ -803,12 +813,20 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
             expect_network_get_async 1,
                                      name: 'title0',
                                      region: 'test name#0 data'
+            expect_network_get_success_network 1
             expect_network_get_success_region 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_network { 'resource(network,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_region { 'resource(region,0)':
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
@@ -816,10 +834,12 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               }
 
               gcompute_subnetwork { 'title0':
-                ensure     => absent,
-                region     => 'resource(region,0)',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure        => absent,
+                ip_cidr_range => 'test ip_cidr_range#0 data',
+                network       => 'resource(network,0)',
+                region        => 'resource(region,0)',
+                project       => 'test project#0 data',
+                credential    => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_subnetwork[title0]')
@@ -845,12 +865,20 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
             expect_network_get_success 1, region: 'test name#0 data'
             expect_network_delete 1, nil, region: 'test name#0 data'
             expect_network_get_async 1, region: 'test name#0 data'
+            expect_network_get_success_network 1
             expect_network_get_success_region 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_network { 'resource(network,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_region { 'resource(region,0)':
                 name       => 'test name#0 data',
                 project    => 'test project#0 data',
@@ -858,11 +886,13 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               }
 
               gcompute_subnetwork { 'title0':
-                ensure     => absent,
-                name       => 'test name#0 data',
-                region     => 'resource(region,0)',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure        => absent,
+                ip_cidr_range => 'test ip_cidr_range#0 data',
+                name          => 'test name#0 data',
+                network       => 'resource(network,0)',
+                region        => 'resource(region,0)',
+                project       => 'test project#0 data',
+                credential    => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_subnetwork[title0]')
@@ -911,6 +941,7 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
     context 'exports all properties' do
       let(:resource1) { create_type 1 }
       before do
+        prefetch_network
         prefetch_region
         expect_network_get_success 1
         described_class.prefetch(title0: resource1)
@@ -1140,6 +1171,19 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
   def debug_network(message)
     puts("Network #{message}") \
       if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
+  end
+
+  # Creates and prefetch type so exports can be resolved without network access.
+  def prefetch_network
+    expect_network_get_success_network 1
+
+    resource = Puppet::Type.type(:gcompute_network).new(
+      project: 'test project#0 data',
+      name: 'test name#0 data'
+    )
+
+    Puppet::Type.type(:gcompute_network).provider(:google)
+                .prefetch(resource: resource)
   end
 
   # Creates and prefetch type so exports can be resolved without network access.
