@@ -67,6 +67,7 @@ Puppet::Type.newtype(:gcompute_http_health_check) do
       How often (in seconds) to send a health check. The default value is 5
       seconds.
     DOC
+    defaultto 5
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do

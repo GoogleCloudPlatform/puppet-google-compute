@@ -101,6 +101,7 @@ Puppet::Type.newtype(:gcompute_address) do
     DOC
     newvalue(:INTERNAL)
     newvalue(:EXTERNAL)
+    defaultto 'EXTERNAL'
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
