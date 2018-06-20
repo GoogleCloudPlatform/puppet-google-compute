@@ -72,6 +72,7 @@ Puppet::Type.newtype(:gcompute_health_check) do
       How often (in seconds) to send a health check. The default value is 5
       seconds.
     DOC
+    defaultto 5
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
@@ -117,6 +118,7 @@ Puppet::Type.newtype(:gcompute_health_check) do
       is 5 seconds. It is invalid for timeoutSec to have greater value than
       checkIntervalSec.
     DOC
+    defaultto 5
   end
 
   newproperty(:unhealthy_threshold,
@@ -125,6 +127,7 @@ Puppet::Type.newtype(:gcompute_health_check) do
       A so-far healthy instance will be marked unhealthy after this many
       consecutive failures. The default value is 2.
     DOC
+    defaultto 2
   end
 
   newproperty(:type, parent: Google::Compute::Property::Enum) do
