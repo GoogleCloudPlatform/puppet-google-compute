@@ -85,7 +85,7 @@ module Google
       # Data is coming from the GCP API
       class InstancServiceAccountApi < InstancServiceAccount
         def initialize(args)
-          @email = Google::Compute::Property::Boolean.api_munge(args['email'])
+          @email = Google::Compute::Property::String.api_munge(args['email'])
           @scopes =
             Google::Compute::Property::StringArray.api_munge(args['scopes'])
         end
@@ -95,8 +95,7 @@ module Google
       # Data is coming from the Puppet manifest
       class InstancServiceAccountCatalog < InstancServiceAccount
         def initialize(args)
-          @email =
-            Google::Compute::Property::Boolean.unsafe_munge(args['email'])
+          @email = Google::Compute::Property::String.unsafe_munge(args['email'])
           @scopes =
             Google::Compute::Property::StringArray.unsafe_munge(args['scopes'])
         end
