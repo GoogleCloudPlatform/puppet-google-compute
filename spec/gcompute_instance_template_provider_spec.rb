@@ -453,15 +453,15 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                     },
                     service_accounts   => [
                       {
-                        email  => true,
+                        email  => 'test email#0 data',
                         scopes => ['rr', 'ss', 'tt', 'uu', 'vv'],
                       },
                       {
-                        email  => false,
+                        email  => 'test email#1 data',
                         scopes => ['ll', 'mm', 'nn', 'oo', 'pp'],
                       },
                       {
-                        email  => true,
+                        email  => 'test email#2 data',
                         scopes => ['ee', 'ff', 'gg', 'hh'],
                       },
                     ],
@@ -566,23 +566,23 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                     },
                     service_accounts   => [
                       {
-                        email  => false,
+                        email  => 'test email#1 data',
                         scopes => ['ll', 'mm', 'nn', 'oo', 'pp'],
                       },
                       {
-                        email  => true,
+                        email  => 'test email#2 data',
                         scopes => ['ee', 'ff', 'gg', 'hh'],
                       },
                       {
-                        email  => false,
+                        email  => 'test email#3 data',
                         scopes => ['ww', 'xx', 'yy', 'zz'],
                       },
                       {
-                        email  => true,
+                        email  => 'test email#4 data',
                         scopes => ['rr', 'ss', 'tt'],
                       },
                       {
-                        email  => false,
+                        email  => 'test email#5 data',
                         scopes => ['ll', 'mm', 'nn'],
                       },
                     ],
@@ -789,15 +789,15 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                     },
                     service_accounts   => [
                       {
-                        email  => true,
+                        email  => 'test email#2 data',
                         scopes => ['ee', 'ff', 'gg', 'hh'],
                       },
                       {
-                        email  => false,
+                        email  => 'test email#3 data',
                         scopes => ['ww', 'xx', 'yy', 'zz'],
                       },
                       {
-                        email  => true,
+                        email  => 'test email#4 data',
                         scopes => ['rr', 'ss', 'tt'],
                       },
                     ],
@@ -1305,15 +1305,15 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                     },
                     service_accounts   => [
                       {
-                        email  => true,
+                        email  => 'test email#0 data',
                         scopes => ['rr', 'ss', 'tt', 'uu', 'vv'],
                       },
                       {
-                        email  => false,
+                        email  => 'test email#1 data',
                         scopes => ['ll', 'mm', 'nn', 'oo', 'pp'],
                       },
                       {
-                        email  => true,
+                        email  => 'test email#2 data',
                         scopes => ['ee', 'ff', 'gg', 'hh'],
                       },
                     ],
@@ -1419,23 +1419,23 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                     },
                     service_accounts   => [
                       {
-                        email  => false,
+                        email  => 'test email#1 data',
                         scopes => ['ll', 'mm', 'nn', 'oo', 'pp'],
                       },
                       {
-                        email  => true,
+                        email  => 'test email#2 data',
                         scopes => ['ee', 'ff', 'gg', 'hh'],
                       },
                       {
-                        email  => false,
+                        email  => 'test email#3 data',
                         scopes => ['ww', 'xx', 'yy', 'zz'],
                       },
                       {
-                        email  => true,
+                        email  => 'test email#4 data',
                         scopes => ['rr', 'ss', 'tt'],
                       },
                       {
-                        email  => false,
+                        email  => 'test email#5 data',
                         scopes => ['ll', 'mm', 'nn'],
                       },
                     ],
@@ -1643,15 +1643,15 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                     },
                     service_accounts   => [
                       {
-                        email  => true,
+                        email  => 'test email#2 data',
                         scopes => ['ee', 'ff', 'gg', 'hh'],
                       },
                       {
-                        email  => false,
+                        email  => 'test email#3 data',
                         scopes => ['ww', 'xx', 'yy', 'zz'],
                       },
                       {
-                        email  => true,
+                        email  => 'test email#4 data',
                         scopes => ['rr', 'ss', 'tt'],
                       },
                     ],
@@ -2361,15 +2361,15 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                   },
                   service_accounts   => [
                     {
-                      email  => true,
+                      email  => 'test email#0 data',
                       scopes => ['rr', 'ss', 'tt', 'uu', 'vv'],
                     },
                     {
-                      email  => false,
+                      email  => 'test email#1 data',
                       scopes => ['ll', 'mm', 'nn', 'oo', 'pp'],
                     },
                     {
-                      email  => true,
+                      email  => 'test email#2 data',
                       scopes => ['ee', 'ff', 'gg', 'hh'],
                     },
                   ],
@@ -2975,15 +2975,15 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                   },
                   service_accounts   => [
                     {
-                      email  => true,
+                      email  => 'test email#0 data',
                       scopes => ['rr', 'ss', 'tt', 'uu', 'vv'],
                     },
                     {
-                      email  => false,
+                      email  => 'test email#1 data',
                       scopes => ['ll', 'mm', 'nn', 'oo', 'pp'],
                     },
                     {
-                      email  => true,
+                      email  => 'test email#2 data',
                       scopes => ['ee', 'ff', 'gg', 'hh'],
                     },
                   ],
