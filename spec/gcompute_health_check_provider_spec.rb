@@ -61,7 +61,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                 <<-MANIFEST
                 gcompute_health_check { 'title0':
                   ensure              => present,
-                  check_interval_sec  => 242040324,
+                  check_interval_sec  => 5,
                   description         => 'test description#0 data',
                   healthy_threshold   => 295703256,
                   http_health_check   => {
@@ -92,16 +92,16 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                     request      => 'test request#0 data',
                     response     => 'test response#0 data',
                   },
-                  timeout_sec         => 2704031721,
+                  timeout_sec         => 5,
                   type                => 'TCP',
-                  unhealthy_threshold => 1604513019,
+                  unhealthy_threshold => 2,
                   project             => 'test project#0 data',
                   credential          => 'cred0',
                 }
 
                 gcompute_health_check { 'title1':
                   ensure              => present,
-                  check_interval_sec  => 484080649,
+                  check_interval_sec  => 5,
                   description         => 'test description#1 data',
                   healthy_threshold   => 591406512,
                   http_health_check   => {
@@ -132,16 +132,16 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                     request      => 'test request#1 data',
                     response     => 'test response#1 data',
                   },
-                  timeout_sec         => 5408063442,
+                  timeout_sec         => 5,
                   type                => 'SSL',
-                  unhealthy_threshold => 3209026038,
+                  unhealthy_threshold => 2,
                   project             => 'test project#1 data',
                   credential          => 'cred1',
                 }
 
                 gcompute_health_check { 'title2':
                   ensure              => present,
-                  check_interval_sec  => 726120974,
+                  check_interval_sec  => 5,
                   description         => 'test description#2 data',
                   healthy_threshold   => 887109769,
                   http_health_check   => {
@@ -172,9 +172,9 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                     request      => 'test request#2 data',
                     response     => 'test response#2 data',
                   },
-                  timeout_sec         => 8112095164,
+                  timeout_sec         => 5,
                   type                => 'HTTP',
-                  unhealthy_threshold => 4813539057,
+                  unhealthy_threshold => 2,
                   project             => 'test project#2 data',
                   credential          => 'cred2',
                 }
@@ -187,9 +187,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                 catalog.resource('Gcompute_health_check[title0]').provider
               end
 
-              it do
-                is_expected.to have_attributes(check_interval_sec: 242_040_324)
-              end
+              it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
                   .to have_attributes(
@@ -206,11 +204,8 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
-              it { is_expected.to have_attributes(timeout_sec: 2_704_031_721) }
-              it do
-                is_expected
-                  .to have_attributes(unhealthy_threshold: 1_604_513_019)
-              end
+              it { is_expected.to have_attributes(timeout_sec: 5) }
+              it { is_expected.to have_attributes(unhealthy_threshold: 2) }
               it { is_expected.to have_attributes(type: 'TCP') }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'httpHealthCheck' do
@@ -235,9 +230,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                 catalog.resource('Gcompute_health_check[title1]').provider
               end
 
-              it do
-                is_expected.to have_attributes(check_interval_sec: 484_080_649)
-              end
+              it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
                   .to have_attributes(
@@ -254,11 +247,8 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
-              it { is_expected.to have_attributes(timeout_sec: 5_408_063_442) }
-              it do
-                is_expected
-                  .to have_attributes(unhealthy_threshold: 3_209_026_038)
-              end
+              it { is_expected.to have_attributes(timeout_sec: 5) }
+              it { is_expected.to have_attributes(unhealthy_threshold: 2) }
               it { is_expected.to have_attributes(type: 'SSL') }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'httpHealthCheck' do
@@ -283,9 +273,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                 catalog.resource('Gcompute_health_check[title2]').provider
               end
 
-              it do
-                is_expected.to have_attributes(check_interval_sec: 726_120_974)
-              end
+              it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
                   .to have_attributes(
@@ -302,11 +290,8 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
-              it { is_expected.to have_attributes(timeout_sec: 8_112_095_164) }
-              it do
-                is_expected
-                  .to have_attributes(unhealthy_threshold: 4_813_539_057)
-              end
+              it { is_expected.to have_attributes(timeout_sec: 5) }
+              it { is_expected.to have_attributes(unhealthy_threshold: 2) }
               it { is_expected.to have_attributes(type: 'HTTP') }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'httpHealthCheck' do
@@ -353,7 +338,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                 <<-MANIFEST
                 gcompute_health_check { 'title0':
                   ensure              => present,
-                  check_interval_sec  => 242040324,
+                  check_interval_sec  => 5,
                   description         => 'test description#0 data',
                   healthy_threshold   => 295703256,
                   http_health_check   => {
@@ -385,16 +370,16 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                     request      => 'test request#0 data',
                     response     => 'test response#0 data',
                   },
-                  timeout_sec         => 2704031721,
+                  timeout_sec         => 5,
                   type                => 'TCP',
-                  unhealthy_threshold => 1604513019,
+                  unhealthy_threshold => 2,
                   project             => 'test project#0 data',
                   credential          => 'cred0',
                 }
 
                 gcompute_health_check { 'title1':
                   ensure              => present,
-                  check_interval_sec  => 484080649,
+                  check_interval_sec  => 5,
                   description         => 'test description#1 data',
                   healthy_threshold   => 591406512,
                   http_health_check   => {
@@ -426,16 +411,16 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                     request      => 'test request#1 data',
                     response     => 'test response#1 data',
                   },
-                  timeout_sec         => 5408063442,
+                  timeout_sec         => 5,
                   type                => 'SSL',
-                  unhealthy_threshold => 3209026038,
+                  unhealthy_threshold => 2,
                   project             => 'test project#1 data',
                   credential          => 'cred1',
                 }
 
                 gcompute_health_check { 'title2':
                   ensure              => present,
-                  check_interval_sec  => 726120974,
+                  check_interval_sec  => 5,
                   description         => 'test description#2 data',
                   healthy_threshold   => 887109769,
                   http_health_check   => {
@@ -467,9 +452,9 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                     request      => 'test request#2 data',
                     response     => 'test response#2 data',
                   },
-                  timeout_sec         => 8112095164,
+                  timeout_sec         => 5,
                   type                => 'HTTP',
-                  unhealthy_threshold => 4813539057,
+                  unhealthy_threshold => 2,
                   project             => 'test project#2 data',
                   credential          => 'cred2',
                 }
@@ -482,9 +467,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                 catalog.resource('Gcompute_health_check[title0]').provider
               end
 
-              it do
-                is_expected.to have_attributes(check_interval_sec: 242_040_324)
-              end
+              it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
                   .to have_attributes(
@@ -501,11 +484,8 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
-              it { is_expected.to have_attributes(timeout_sec: 2_704_031_721) }
-              it do
-                is_expected
-                  .to have_attributes(unhealthy_threshold: 1_604_513_019)
-              end
+              it { is_expected.to have_attributes(timeout_sec: 5) }
+              it { is_expected.to have_attributes(unhealthy_threshold: 2) }
               it { is_expected.to have_attributes(type: 'TCP') }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'httpHealthCheck' do
@@ -530,9 +510,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                 catalog.resource('Gcompute_health_check[title1]').provider
               end
 
-              it do
-                is_expected.to have_attributes(check_interval_sec: 484_080_649)
-              end
+              it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
                   .to have_attributes(
@@ -549,11 +527,8 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
-              it { is_expected.to have_attributes(timeout_sec: 5_408_063_442) }
-              it do
-                is_expected
-                  .to have_attributes(unhealthy_threshold: 3_209_026_038)
-              end
+              it { is_expected.to have_attributes(timeout_sec: 5) }
+              it { is_expected.to have_attributes(unhealthy_threshold: 2) }
               it { is_expected.to have_attributes(type: 'SSL') }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'httpHealthCheck' do
@@ -578,9 +553,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                 catalog.resource('Gcompute_health_check[title2]').provider
               end
 
-              it do
-                is_expected.to have_attributes(check_interval_sec: 726_120_974)
-              end
+              it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
                   .to have_attributes(
@@ -597,11 +570,8 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
-              it { is_expected.to have_attributes(timeout_sec: 8_112_095_164) }
-              it do
-                is_expected
-                  .to have_attributes(unhealthy_threshold: 4_813_539_057)
-              end
+              it { is_expected.to have_attributes(timeout_sec: 5) }
+              it { is_expected.to have_attributes(unhealthy_threshold: 2) }
               it { is_expected.to have_attributes(type: 'HTTP') }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'httpHealthCheck' do
@@ -676,12 +646,12 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               1,
               {
                 'kind' => 'compute#healthCheck',
-                'checkIntervalSec' => 242_040_324,
+                'checkIntervalSec' => 5,
                 'description' => 'test description#0 data',
                 'healthyThreshold' => 295_703_256,
                 'name' => 'title0',
-                'timeoutSec' => 2_704_031_721,
-                'unhealthyThreshold' => 1_604_513_019,
+                'timeoutSec' => 5,
+                'unhealthyThreshold' => 2,
                 'type' => 'TCP',
                 'httpHealthCheck' => {
                   'host' => 'test host#0 data',
@@ -721,7 +691,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               <<-MANIFEST
               gcompute_health_check { 'title0':
                 ensure              => present,
-                check_interval_sec  => 242040324,
+                check_interval_sec  => 5,
                 description         => 'test description#0 data',
                 healthy_threshold   => 295703256,
                 http_health_check   => {
@@ -752,9 +722,9 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                   request      => 'test request#0 data',
                   response     => 'test response#0 data',
                 },
-                timeout_sec         => 2704031721,
+                timeout_sec         => 5,
                 type                => 'TCP',
-                unhealthy_threshold => 1604513019,
+                unhealthy_threshold => 2,
                 project             => 'test project#0 data',
                 credential          => 'cred0',
               }
@@ -782,12 +752,12 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
             expect_network_create \
               1,
               'kind' => 'compute#healthCheck',
-              'checkIntervalSec' => 242_040_324,
+              'checkIntervalSec' => 5,
               'description' => 'test description#0 data',
               'healthyThreshold' => 295_703_256,
               'name' => 'test name#0 data',
-              'timeoutSec' => 2_704_031_721,
-              'unhealthyThreshold' => 1_604_513_019,
+              'timeoutSec' => 5,
+              'unhealthyThreshold' => 2,
               'type' => 'TCP',
               'httpHealthCheck' => {
                 'host' => 'test host#0 data',
@@ -825,7 +795,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               <<-MANIFEST
               gcompute_health_check { 'title0':
                 ensure              => present,
-                check_interval_sec  => 242040324,
+                check_interval_sec  => 5,
                 description         => 'test description#0 data',
                 healthy_threshold   => 295703256,
                 http_health_check   => {
@@ -857,9 +827,9 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                   request      => 'test request#0 data',
                   response     => 'test response#0 data',
                 },
-                timeout_sec         => 2704031721,
+                timeout_sec         => 5,
                 type                => 'TCP',
-                unhealthy_threshold => 1604513019,
+                unhealthy_threshold => 2,
                 project             => 'test project#0 data',
                 credential          => 'cred0',
               }

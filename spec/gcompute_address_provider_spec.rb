@@ -149,7 +149,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 gcompute_address { 'title0':
                   ensure       => present,
                   address      => 'test address#0 data',
-                  address_type => 'INTERNAL',
+                  address_type => 'EXTERNAL',
                   description  => 'test description#0 data',
                   region       => 'resource(region,0)',
                   subnetwork   => 'resource(subnetwork,0)',
@@ -171,7 +171,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 gcompute_address { 'title2':
                   ensure       => present,
                   address      => 'test address#2 data',
-                  address_type => 'INTERNAL',
+                  address_type => 'EXTERNAL',
                   description  => 'test description#2 data',
                   region       => 'resource(region,2)',
                   subnetwork   => 'resource(subnetwork,2)',
@@ -190,7 +190,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it do
                 is_expected.to have_attributes(address: 'test address#0 data')
               end
-              it { is_expected.to have_attributes(address_type: 'INTERNAL') }
+              it { is_expected.to have_attributes(address_type: 'EXTERNAL') }
               it do
                 is_expected
                   .to have_attributes(
@@ -248,7 +248,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it do
                 is_expected.to have_attributes(address: 'test address#2 data')
               end
-              it { is_expected.to have_attributes(address_type: 'INTERNAL') }
+              it { is_expected.to have_attributes(address_type: 'EXTERNAL') }
               it do
                 is_expected
                   .to have_attributes(
@@ -378,7 +378,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 gcompute_address { 'title0':
                   ensure       => present,
                   address      => 'test address#0 data',
-                  address_type => 'INTERNAL',
+                  address_type => 'EXTERNAL',
                   description  => 'test description#0 data',
                   name         => 'test name#0 data',
                   region       => 'resource(region,0)',
@@ -402,7 +402,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 gcompute_address { 'title2':
                   ensure       => present,
                   address      => 'test address#2 data',
-                  address_type => 'INTERNAL',
+                  address_type => 'EXTERNAL',
                   description  => 'test description#2 data',
                   name         => 'test name#2 data',
                   region       => 'resource(region,2)',
@@ -422,7 +422,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it do
                 is_expected.to have_attributes(address: 'test address#0 data')
               end
-              it { is_expected.to have_attributes(address_type: 'INTERNAL') }
+              it { is_expected.to have_attributes(address_type: 'EXTERNAL') }
               it do
                 is_expected
                   .to have_attributes(
@@ -480,7 +480,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it do
                 is_expected.to have_attributes(address: 'test address#2 data')
               end
-              it { is_expected.to have_attributes(address_type: 'INTERNAL') }
+              it { is_expected.to have_attributes(address_type: 'EXTERNAL') }
               it do
                 is_expected
                   .to have_attributes(
@@ -559,7 +559,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               {
                 'kind' => 'compute#address',
                 'address' => 'test address#0 data',
-                'addressType' => 'INTERNAL',
+                'addressType' => 'EXTERNAL',
                 'description' => 'test description#0 data',
                 'name' => 'title0',
                 'subnetwork' => 'selflink(resource(subnetwork,0))'
@@ -603,7 +603,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               gcompute_address { 'title0':
                 ensure       => present,
                 address      => 'test address#0 data',
-                address_type => 'INTERNAL',
+                address_type => 'EXTERNAL',
                 description  => 'test description#0 data',
                 region       => 'resource(region,0)',
                 subnetwork   => 'resource(subnetwork,0)',
@@ -636,7 +636,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               {
                 'kind' => 'compute#address',
                 'address' => 'test address#0 data',
-                'addressType' => 'INTERNAL',
+                'addressType' => 'EXTERNAL',
                 'description' => 'test description#0 data',
                 'name' => 'test name#0 data',
                 'subnetwork' => 'selflink(resource(subnetwork,0))'
@@ -677,7 +677,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               gcompute_address { 'title0':
                 ensure       => present,
                 address      => 'test address#0 data',
-                address_type => 'INTERNAL',
+                address_type => 'EXTERNAL',
                 description  => 'test description#0 data',
                 name         => 'test name#0 data',
                 region       => 'resource(region,0)',
