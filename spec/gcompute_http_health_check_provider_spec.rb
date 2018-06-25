@@ -61,7 +61,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
                 <<-MANIFEST
                 gcompute_http_health_check { 'title0':
                   ensure              => present,
-                  check_interval_sec  => 242040324,
+                  check_interval_sec  => 5,
                   description         => 'test description#0 data',
                   healthy_threshold   => 295703256,
                   host                => 'test host#0 data',
@@ -75,7 +75,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
 
                 gcompute_http_health_check { 'title1':
                   ensure              => present,
-                  check_interval_sec  => 484080649,
+                  check_interval_sec  => 5,
                   description         => 'test description#1 data',
                   healthy_threshold   => 591406512,
                   host                => 'test host#1 data',
@@ -89,7 +89,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
 
                 gcompute_http_health_check { 'title2':
                   ensure              => present,
-                  check_interval_sec  => 726120974,
+                  check_interval_sec  => 5,
                   description         => 'test description#2 data',
                   healthy_threshold   => 887109769,
                   host                => 'test host#2 data',
@@ -109,9 +109,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
                 catalog.resource('Gcompute_http_health_check[title0]').provider
               end
 
-              it do
-                is_expected.to have_attributes(check_interval_sec: 242_040_324)
-              end
+              it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
                   .to have_attributes(
@@ -146,9 +144,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
                 catalog.resource('Gcompute_http_health_check[title1]').provider
               end
 
-              it do
-                is_expected.to have_attributes(check_interval_sec: 484_080_649)
-              end
+              it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
                   .to have_attributes(
@@ -183,9 +179,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
                 catalog.resource('Gcompute_http_health_check[title2]').provider
               end
 
-              it do
-                is_expected.to have_attributes(check_interval_sec: 726_120_974)
-              end
+              it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
                   .to have_attributes(
@@ -242,7 +236,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
                 <<-MANIFEST
                 gcompute_http_health_check { 'title0':
                   ensure              => present,
-                  check_interval_sec  => 242040324,
+                  check_interval_sec  => 5,
                   description         => 'test description#0 data',
                   healthy_threshold   => 295703256,
                   host                => 'test host#0 data',
@@ -257,7 +251,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
 
                 gcompute_http_health_check { 'title1':
                   ensure              => present,
-                  check_interval_sec  => 484080649,
+                  check_interval_sec  => 5,
                   description         => 'test description#1 data',
                   healthy_threshold   => 591406512,
                   host                => 'test host#1 data',
@@ -272,7 +266,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
 
                 gcompute_http_health_check { 'title2':
                   ensure              => present,
-                  check_interval_sec  => 726120974,
+                  check_interval_sec  => 5,
                   description         => 'test description#2 data',
                   healthy_threshold   => 887109769,
                   host                => 'test host#2 data',
@@ -293,9 +287,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
                 catalog.resource('Gcompute_http_health_check[title0]').provider
               end
 
-              it do
-                is_expected.to have_attributes(check_interval_sec: 242_040_324)
-              end
+              it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
                   .to have_attributes(
@@ -330,9 +322,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
                 catalog.resource('Gcompute_http_health_check[title1]').provider
               end
 
-              it do
-                is_expected.to have_attributes(check_interval_sec: 484_080_649)
-              end
+              it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
                   .to have_attributes(
@@ -367,9 +357,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
                 catalog.resource('Gcompute_http_health_check[title2]').provider
               end
 
-              it do
-                is_expected.to have_attributes(check_interval_sec: 726_120_974)
-              end
+              it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
                   .to have_attributes(
@@ -454,7 +442,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
               1,
               {
                 'kind' => 'compute#httpHealthCheck',
-                'checkIntervalSec' => 242_040_324,
+                'checkIntervalSec' => 5,
                 'description' => 'test description#0 data',
                 'healthyThreshold' => 295_703_256,
                 'host' => 'test host#0 data',
@@ -473,7 +461,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
               <<-MANIFEST
               gcompute_http_health_check { 'title0':
                 ensure              => present,
-                check_interval_sec  => 242040324,
+                check_interval_sec  => 5,
                 description         => 'test description#0 data',
                 healthy_threshold   => 295703256,
                 host                => 'test host#0 data',
@@ -509,7 +497,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
             expect_network_create \
               1,
               'kind' => 'compute#httpHealthCheck',
-              'checkIntervalSec' => 242_040_324,
+              'checkIntervalSec' => 5,
               'description' => 'test description#0 data',
               'healthyThreshold' => 295_703_256,
               'host' => 'test host#0 data',
@@ -526,7 +514,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
               <<-MANIFEST
               gcompute_http_health_check { 'title0':
                 ensure              => present,
-                check_interval_sec  => 242040324,
+                check_interval_sec  => 5,
                 description         => 'test description#0 data',
                 healthy_threshold   => 295703256,
                 host                => 'test host#0 data',
