@@ -853,26 +853,6 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
     end
   end
 
-  context '#exports' do
-    context 'exports all properties' do
-      let(:resource1) { create_type 1 }
-      before do
-        prefetch_region
-        expect_network_get_success 1
-        described_class.prefetch(title0: resource1)
-      end
-
-      subject { resource1.exports }
-
-      let(:expected_results) do
-        {
-          self_link: 'selflink(resource(target_pool,0))'
-        }
-      end
-      it { is_expected.to eq(expected_results) }
-    end
-  end
-
   private
 
   def expect_network_get_success(id, data = {})
@@ -1188,32 +1168,6 @@ describe Puppet::Type.type(:gcompute_target_pool).provider(:google) do
   def debug_network(message)
     puts("Network #{message}") \
       if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
-  end
-
-  # Creates and prefetch type so exports can be resolved without network access.
-  def prefetch_zone
-    expect_network_get_success_zone 1
-
-    resource = Puppet::Type.type(:gcompute_zone).new(
-      project: 'test project#0 data',
-      name: 'test name#0 data'
-    )
-
-    Puppet::Type.type(:gcompute_zone).provider(:google)
-                .prefetch(resource: resource)
-  end
-
-  # Creates and prefetch type so exports can be resolved without network access.
-  def prefetch_region
-    expect_network_get_success_region 1
-
-    resource = Puppet::Type.type(:gcompute_region).new(
-      project: 'test project#0 data',
-      name: 'test name#0 data'
-    )
-
-    Puppet::Type.type(:gcompute_region).provider(:google)
-                .prefetch(resource: resource)
   end
 
   def expand_variables_http_health_check(template, data, ext_dat = {})
