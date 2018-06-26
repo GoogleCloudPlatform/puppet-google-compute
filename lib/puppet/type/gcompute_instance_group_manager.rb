@@ -35,6 +35,7 @@ require 'google/compute/property/string'
 require 'google/compute/property/targetpool_selflink'
 require 'google/compute/property/time'
 require 'google/compute/property/zone_name'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_instance_group_manager) do
@@ -169,5 +170,10 @@ Puppet::Type.newtype(:gcompute_instance_group_manager) do
       Deleting or abandoning instances reduces this number. Resizing the group
       changes this number.
     DOC
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end
