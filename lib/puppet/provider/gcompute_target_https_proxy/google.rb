@@ -29,6 +29,7 @@ require 'google/compute/network/delete'
 require 'google/compute/network/get'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
+require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/sslcertificate_selflink'
 require 'google/compute/property/string'
@@ -75,6 +76,8 @@ Puppet::Type.type(:gcompute_target_https_proxy).provide(:google) do
       creation_timestamp:
         Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
+      quic_override:
+        Google::Compute::Property::Enum.api_munge(fetch['quicOverride']),
       ssl_certificates:
         Google::Compute::Property::SslCertSelfLinkRefArray.api_munge(
           fetch['sslCertificates']
@@ -146,6 +149,7 @@ Puppet::Type.type(:gcompute_target_https_proxy).provide(:google) do
       creation_timestamp: resource[:creation_timestamp],
       description: resource[:description],
       id: resource[:id],
+      quic_override: resource[:quic_override],
       ssl_certificates: resource[:ssl_certificates],
       url_map: resource[:url_map]
     }.reject { |_, v| v.nil? }
@@ -156,6 +160,7 @@ Puppet::Type.type(:gcompute_target_https_proxy).provide(:google) do
       kind: 'compute#targetHttpsProxy',
       description: @resource[:description],
       name: @resource[:name],
+      quicOverride: @resource[:quic_override],
       sslCertificates: @resource[:ssl_certificates],
       urlMap: @resource[:url_map]
     }.reject { |_, v| v.nil? }
