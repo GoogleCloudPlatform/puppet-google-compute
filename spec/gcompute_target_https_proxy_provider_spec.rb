@@ -137,6 +137,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
                 gcompute_target_https_proxy { 'title0':
                   ensure           => present,
                   description      => 'test description#0 data',
+                  quic_override    => 'NONE',
                   ssl_certificates => ['resource(ssl_certificate,0)'],
                   url_map          => 'resource(url_map,0)',
                   project          => 'test project#0 data',
@@ -146,6 +147,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
                 gcompute_target_https_proxy { 'title1':
                   ensure           => present,
                   description      => 'test description#1 data',
+                  quic_override    => 'ENABLE',
                   ssl_certificates => ['resource(ssl_certificate,0)', 'resource(ssl_certificate,1)'],
                   url_map          => 'resource(url_map,1)',
                   project          => 'test project#1 data',
@@ -155,6 +157,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
                 gcompute_target_https_proxy { 'title2':
                   ensure           => present,
                   description      => 'test description#2 data',
+                  quic_override    => 'DISABLE',
                   ssl_certificates => ['resource(ssl_certificate,0)', 'resource(ssl_certificate,1)', 'resource(ssl_certificate,2)'],
                   url_map          => 'resource(url_map,2)',
                   project          => 'test project#2 data',
@@ -182,6 +185,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
+              it { is_expected.to have_attributes(quic_override: 'NONE') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'sslCertificates' do
               #   # Add test code here
@@ -210,6 +214,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
+              it { is_expected.to have_attributes(quic_override: 'ENABLE') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'sslCertificates' do
               #   # Add test code here
@@ -238,6 +243,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
+              it { is_expected.to have_attributes(quic_override: 'DISABLE') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'sslCertificates' do
               #   # Add test code here
@@ -352,6 +358,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
                   ensure           => present,
                   description      => 'test description#0 data',
                   name             => 'test name#0 data',
+                  quic_override    => 'NONE',
                   ssl_certificates => ['resource(ssl_certificate,0)'],
                   url_map          => 'resource(url_map,0)',
                   project          => 'test project#0 data',
@@ -362,6 +369,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
                   ensure           => present,
                   description      => 'test description#1 data',
                   name             => 'test name#1 data',
+                  quic_override    => 'ENABLE',
                   ssl_certificates => ['resource(ssl_certificate,0)', 'resource(ssl_certificate,1)'],
                   url_map          => 'resource(url_map,1)',
                   project          => 'test project#1 data',
@@ -372,6 +380,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
                   ensure           => present,
                   description      => 'test description#2 data',
                   name             => 'test name#2 data',
+                  quic_override    => 'DISABLE',
                   ssl_certificates => ['resource(ssl_certificate,0)', 'resource(ssl_certificate,1)', 'resource(ssl_certificate,2)'],
                   url_map          => 'resource(url_map,2)',
                   project          => 'test project#2 data',
@@ -399,6 +408,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
+              it { is_expected.to have_attributes(quic_override: 'NONE') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'sslCertificates' do
               #   # Add test code here
@@ -427,6 +437,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
+              it { is_expected.to have_attributes(quic_override: 'ENABLE') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'sslCertificates' do
               #   # Add test code here
@@ -455,6 +466,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
               end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
+              it { is_expected.to have_attributes(quic_override: 'DISABLE') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'sslCertificates' do
               #   # Add test code here
@@ -522,6 +534,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
                 'kind' => 'compute#targetHttpsProxy',
                 'description' => 'test description#0 data',
                 'name' => 'title0',
+                'quicOverride' => 'NONE',
                 'sslCertificates' => [
                   'selflink(resource(ssl_certificate,0))'
                 ],
@@ -562,6 +575,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
               gcompute_target_https_proxy { 'title0':
                 ensure           => present,
                 description      => 'test description#0 data',
+                quic_override    => 'NONE',
                 ssl_certificates => ['resource(ssl_certificate,0)'],
                 url_map          => 'resource(url_map,0)',
                 project          => 'test project#0 data',
@@ -594,6 +608,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
               'kind' => 'compute#targetHttpsProxy',
               'description' => 'test description#0 data',
               'name' => 'test name#0 data',
+              'quicOverride' => 'NONE',
               'sslCertificates' => [
                 'selflink(resource(ssl_certificate,0))'
               ],
@@ -633,6 +648,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
                 ensure           => present,
                 description      => 'test description#0 data',
                 name             => 'test name#0 data',
+                quic_override    => 'NONE',
                 ssl_certificates => ['resource(ssl_certificate,0)'],
                 url_map          => 'resource(url_map,0)',
                 project          => 'test project#0 data',
