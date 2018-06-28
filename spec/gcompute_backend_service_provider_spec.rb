@@ -63,6 +63,9 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                                                         zone: 'test name#1 data'
               expect_network_get_success_instance_group 3,
                                                         zone: 'test name#2 data'
+              expect_network_get_success_http_health_check 1
+              expect_network_get_success_http_health_check 2
+              expect_network_get_success_http_health_check 3
               expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
@@ -109,6 +112,27 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   ensure     => present,
                   name       => 'test name#2 data',
                   zone       => 'resource(zone,2)',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_http_health_check { 'resource(http_health_check,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_http_health_check { 'resource(http_health_check,1)':
+                  ensure     => present,
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_http_health_check { 'resource(http_health_check,2)':
+                  ensure     => present,
+                  name       => 'test name#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
                 }
@@ -183,7 +207,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   },
                   description             => 'test description#0 data',
                   enable_cdn              => true,
-                  health_checks           => ['rr', 'ss', 'tt', 'uu', 'vv'],
+                  health_checks           => ['resource(http_health_check,0)', 'resource(http_health_check,1)', 'resource(http_health_check,2)'],
                   port_name               => 'test port_name#0 data',
                   protocol                => 'HTTP',
                   region                  => 'resource(region,0)',
@@ -245,7 +269,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   },
                   description             => 'test description#1 data',
                   enable_cdn              => false,
-                  health_checks           => ['kk', 'll', 'mm', 'nn'],
+                  health_checks           => ['resource(http_health_check,0)', 'resource(http_health_check,1)'],
                   port_name               => 'test port_name#1 data',
                   protocol                => 'HTTPS',
                   region                  => 'resource(region,1)',
@@ -307,7 +331,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   },
                   description             => 'test description#2 data',
                   enable_cdn              => true,
-                  health_checks           => ['ee', 'ff', 'gg', 'hh'],
+                  health_checks           => ['resource(http_health_check,0)', 'resource(http_health_check,1)'],
                   port_name               => 'test port_name#2 data',
                   protocol                => 'TCP',
                   region                  => 'resource(region,2)',
@@ -353,10 +377,10 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   .to have_attributes(description: 'test description#0 data')
               end
               it { is_expected.to have_attributes(enable_cdn: true) }
-              it do
-                is_expected
-                  .to have_attributes(health_checks: %w[rr ss tt uu vv])
-              end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'healthChecks' do
+              #   # Add test code here
+              # end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
               it do
@@ -405,9 +429,10 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   .to have_attributes(description: 'test description#1 data')
               end
               it { is_expected.to have_attributes(enable_cdn: false) }
-              it do
-                is_expected.to have_attributes(health_checks: %w[kk ll mm nn])
-              end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'healthChecks' do
+              #   # Add test code here
+              # end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
               it do
@@ -458,9 +483,10 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   .to have_attributes(description: 'test description#2 data')
               end
               it { is_expected.to have_attributes(enable_cdn: true) }
-              it do
-                is_expected.to have_attributes(health_checks: %w[ee ff gg hh])
-              end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'healthChecks' do
+              #   # Add test code here
+              # end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
               it do
@@ -508,6 +534,9 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                                                         zone: 'test name#1 data'
               expect_network_get_success_instance_group 3,
                                                         zone: 'test name#2 data'
+              expect_network_get_success_http_health_check 1
+              expect_network_get_success_http_health_check 2
+              expect_network_get_success_http_health_check 3
               expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
@@ -554,6 +583,27 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   ensure     => present,
                   name       => 'test name#2 data',
                   zone       => 'resource(zone,2)',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
+                gcompute_http_health_check { 'resource(http_health_check,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_http_health_check { 'resource(http_health_check,1)':
+                  ensure     => present,
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_http_health_check { 'resource(http_health_check,2)':
+                  ensure     => present,
+                  name       => 'test name#2 data',
                   project    => 'test project#2 data',
                   credential => 'cred2',
                 }
@@ -628,7 +678,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   },
                   description             => 'test description#0 data',
                   enable_cdn              => true,
-                  health_checks           => ['rr', 'ss', 'tt', 'uu', 'vv'],
+                  health_checks           => ['resource(http_health_check,0)', 'resource(http_health_check,1)', 'resource(http_health_check,2)'],
                   name                    => 'test name#0 data',
                   port_name               => 'test port_name#0 data',
                   protocol                => 'HTTP',
@@ -691,7 +741,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   },
                   description             => 'test description#1 data',
                   enable_cdn              => false,
-                  health_checks           => ['kk', 'll', 'mm', 'nn'],
+                  health_checks           => ['resource(http_health_check,0)', 'resource(http_health_check,1)'],
                   name                    => 'test name#1 data',
                   port_name               => 'test port_name#1 data',
                   protocol                => 'HTTPS',
@@ -754,7 +804,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   },
                   description             => 'test description#2 data',
                   enable_cdn              => true,
-                  health_checks           => ['ee', 'ff', 'gg', 'hh'],
+                  health_checks           => ['resource(http_health_check,0)', 'resource(http_health_check,1)'],
                   name                    => 'test name#2 data',
                   port_name               => 'test port_name#2 data',
                   protocol                => 'TCP',
@@ -801,10 +851,10 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   .to have_attributes(description: 'test description#0 data')
               end
               it { is_expected.to have_attributes(enable_cdn: true) }
-              it do
-                is_expected
-                  .to have_attributes(health_checks: %w[rr ss tt uu vv])
-              end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'healthChecks' do
+              #   # Add test code here
+              # end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               it do
@@ -853,9 +903,10 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   .to have_attributes(description: 'test description#1 data')
               end
               it { is_expected.to have_attributes(enable_cdn: false) }
-              it do
-                is_expected.to have_attributes(health_checks: %w[kk ll mm nn])
-              end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'healthChecks' do
+              #   # Add test code here
+              # end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               it do
@@ -906,9 +957,10 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                   .to have_attributes(description: 'test description#2 data')
               end
               it { is_expected.to have_attributes(enable_cdn: true) }
-              it do
-                is_expected.to have_attributes(health_checks: %w[ee ff gg hh])
-              end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'healthChecks' do
+              #   # Add test code here
+              # end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               it do
@@ -1032,7 +1084,11 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                 },
                 'description' => 'test description#0 data',
                 'enableCDN' => true,
-                'healthChecks' => %w[rr ss tt uu vv],
+                'healthChecks' => [
+                  'selflink(resource(http_health_check,0))',
+                  'selflink(resource(http_health_check,1))',
+                  'selflink(resource(http_health_check,2))'
+                ],
                 'name' => 'title0',
                 'portName' => 'test port_name#0 data',
                 'protocol' => 'HTTP',
@@ -1051,6 +1107,9 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                                                       zone: 'test name#1 data'
             expect_network_get_success_instance_group 3,
                                                       zone: 'test name#2 data'
+            expect_network_get_success_http_health_check 1
+            expect_network_get_success_http_health_check 2
+            expect_network_get_success_http_health_check 3
             expect_network_get_success_region 1
           end
 
@@ -1095,6 +1154,27 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                 ensure     => present,
                 name       => 'test name#2 data',
                 zone       => 'resource(zone,2)',
+                project    => 'test project#2 data',
+                credential => 'cred2',
+              }
+
+              gcompute_http_health_check { 'resource(http_health_check,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_http_health_check { 'resource(http_health_check,1)':
+                ensure     => present,
+                name       => 'test name#1 data',
+                project    => 'test project#1 data',
+                credential => 'cred1',
+              }
+
+              gcompute_http_health_check { 'resource(http_health_check,2)':
+                ensure     => present,
+                name       => 'test name#2 data',
                 project    => 'test project#2 data',
                 credential => 'cred2',
               }
@@ -1157,7 +1237,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                 },
                 description             => 'test description#0 data',
                 enable_cdn              => true,
-                health_checks           => ['rr', 'ss', 'tt', 'uu', 'vv'],
+                health_checks           => ['resource(http_health_check,0)', 'resource(http_health_check,1)', 'resource(http_health_check,2)'],
                 port_name               => 'test port_name#0 data',
                 protocol                => 'HTTP',
                 region                  => 'resource(region,0)',
@@ -1241,7 +1321,11 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
               },
               'description' => 'test description#0 data',
               'enableCDN' => true,
-              'healthChecks' => %w[rr ss tt uu vv],
+              'healthChecks' => [
+                'selflink(resource(http_health_check,0))',
+                'selflink(resource(http_health_check,1))',
+                'selflink(resource(http_health_check,2))'
+              ],
               'name' => 'test name#0 data',
               'portName' => 'test port_name#0 data',
               'protocol' => 'HTTP',
@@ -1258,6 +1342,9 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                                                       zone: 'test name#1 data'
             expect_network_get_success_instance_group 3,
                                                       zone: 'test name#2 data'
+            expect_network_get_success_http_health_check 1
+            expect_network_get_success_http_health_check 2
+            expect_network_get_success_http_health_check 3
             expect_network_get_success_region 1
           end
 
@@ -1302,6 +1389,27 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                 ensure     => present,
                 name       => 'test name#2 data',
                 zone       => 'resource(zone,2)',
+                project    => 'test project#2 data',
+                credential => 'cred2',
+              }
+
+              gcompute_http_health_check { 'resource(http_health_check,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_http_health_check { 'resource(http_health_check,1)':
+                ensure     => present,
+                name       => 'test name#1 data',
+                project    => 'test project#1 data',
+                credential => 'cred1',
+              }
+
+              gcompute_http_health_check { 'resource(http_health_check,2)':
+                ensure     => present,
+                name       => 'test name#2 data',
                 project    => 'test project#2 data',
                 credential => 'cred2',
               }
@@ -1364,7 +1472,7 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
                 },
                 description             => 'test description#0 data',
                 enable_cdn              => true,
-                health_checks           => ['rr', 'ss', 'tt', 'uu', 'vv'],
+                health_checks           => ['resource(http_health_check,0)', 'resource(http_health_check,1)', 'resource(http_health_check,2)'],
                 name                    => 'test name#0 data',
                 port_name               => 'test port_name#0 data',
                 protocol                => 'HTTP',
@@ -1765,6 +1873,55 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
     )
   end
 
+  def expect_network_get_success_http_health_check(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_http_health_check("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_http_health_check(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_http_health_check(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_http_health_check(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_http_health_check', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_http_health_check objects
+  def uri_data_http_health_check(id)
+    {
+      project: GoogleTests::Constants::HHC_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::HHC_PROJECT_DATA.size],
+      name: GoogleTests::Constants::HHC_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::HHC_NAME_DATA.size]
+    }
+  end
+
+  def self_link_http_health_check(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_http_health_check(
+        'projects/{{project}}/global/httpHealthChecks/{{name}}',
+        data
+      )
+    )
+  end
+
   def expect_network_get_success_region(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_region("success#{id}~" \
@@ -1830,6 +1987,11 @@ describe Puppet::Type.type(:gcompute_backend_service).provider(:google) do
 
   def expand_variables_zone(template, data, ext_dat = {})
     Puppet::Type.type(:gcompute_zone).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
+  def expand_variables_http_health_check(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_http_health_check).provider(:google)
                 .expand_variables(template, data, ext_dat)
   end
 

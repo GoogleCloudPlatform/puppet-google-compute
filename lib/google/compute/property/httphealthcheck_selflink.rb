@@ -25,6 +25,7 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/array'
 require 'google/object_store'
 require 'puppet/property'
 
@@ -69,11 +70,17 @@ module Google
         end
 
         def resource
-          Google::ObjectStore.instance[:gcompute_http_health_check]
-                             .each do |entry|
-            return entry.exports[:self_link] if entry.title == @title
+          options = {
+            gcompute_http_health_check: :self_link,
+            gcompute_https_health_check: :self_link,
+            gcompute_health_check: :self_link
+          }
+          options.each do |resource, imports|
+            Google::ObjectStore.instance[resource].each do |entry|
+              return entry.exports[imports] if entry.title == @title
+            end
           end
-          raise ArgumentError, "gcompute_http_health_check[#{@title}] required"
+          raise ArgumentError, "one of gcompute_http_health_check, gcompute_https_health_check, gcompute_health_check[#{@title}] required"
         end
       end
 
@@ -113,6 +120,30 @@ module Google
         def self.api_munge(value)
           return if value.nil?
           Data::HttHeaCheSelLinRefApi.new(value)
+        end
+      end
+
+      # A Puppet property that holds an integer
+      class HttHeaCheSelLinRefArray < Google::Compute::Property::Array
+        # Used for parsing Puppet catalog
+        def unsafe_munge(value)
+          self.class.unsafe_munge(value)
+        end
+
+        # Used for parsing Puppet catalog
+        def self.unsafe_munge(value)
+          return if value.nil?
+          return HttHeaCheSelLinRef.unsafe_munge(value) \
+            unless value.is_a?(::Array)
+          value.map { |v| HttHeaCheSelLinRef.unsafe_munge(v) }
+        end
+
+        # Used for parsing GCP API responses
+        def self.api_munge(value)
+          return if value.nil?
+          return HttHeaCheSelLinRef.api_munge(value) \
+            unless value.is_a?(::Array)
+          value.map { |v| HttHeaCheSelLinRef.api_munge(v) }
         end
       end
     end

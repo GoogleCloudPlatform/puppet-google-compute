@@ -32,6 +32,7 @@ require 'google/compute/property/backendservice_connection_draining'
 require 'google/compute/property/boolean'
 require 'google/compute/property/double'
 require 'google/compute/property/enum'
+require 'google/compute/property/httphealthcheck_selflink'
 require 'google/compute/property/instancegroup_selflink'
 require 'google/compute/property/integer'
 require 'google/compute/property/region_selflink'
@@ -114,7 +115,8 @@ Puppet::Type.newtype(:gcompute_backend_service) do
     newvalue(:false)
   end
 
-  newproperty(:health_checks, parent: Google::Compute::Property::StringArray) do
+  newproperty(:health_checks,
+              parent: Google::Compute::Property::HttHeaCheSelLinRefArray) do
     desc <<-DOC
       The list of URLs to the HttpHealthCheck or HttpsHealthCheck resource for
       health checking this BackendService. Currently at most one health check

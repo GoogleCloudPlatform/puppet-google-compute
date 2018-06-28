@@ -33,6 +33,7 @@ require 'google/compute/property/healthcheck_tcp_health_check'
 require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_health_check) do
@@ -159,5 +160,10 @@ Puppet::Type.newtype(:gcompute_health_check) do
   newproperty(:ssl_health_check,
               parent: Google::Compute::Property::HealChecSslHealChec) do
     desc 'A nested object resource'
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end

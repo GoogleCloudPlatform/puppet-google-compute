@@ -104,7 +104,7 @@ gcompute_backend_service { 'my-app-backend':
   ],
   enable_cdn    => true,
   health_checks => [
-    gcompute_health_check_ref('another-hc', 'google.com:graphite-playground'),
+    'example-hc'
   ],
   project       => $project, # e.g. 'my-test-project'
   credential    => 'mycred',
@@ -1006,8 +1006,8 @@ gcompute_address { 'id-of-resource':
   description        => string,
   id                 => integer,
   name               => string,
-  region             => reference to gcompute_region,
-  subnetwork         => reference to gcompute_subnetwork,
+  region             => reference to a gcompute_region,
+  subnetwork         => reference to a gcompute_subnetwork,
   users              => [
     string,
     ...
@@ -1158,7 +1158,7 @@ gcompute_backend_service { 'my-app-backend':
   ],
   enable_cdn    => true,
   health_checks => [
-    gcompute_health_check_ref('another-hc', 'google.com:graphite-playground'),
+    'example-hc'
   ],
   project       => $project, # e.g. 'my-test-project'
   credential    => 'mycred',
@@ -1176,7 +1176,7 @@ gcompute_backend_service { 'id-of-resource':
       balancing_mode               => 'UTILIZATION', 'RATE' or 'CONNECTION',
       capacity_scaler              => double,
       description                  => string,
-      group                        => reference to gcompute_instance_group,
+      group                        => reference to a gcompute_instance_group,
       max_connections              => integer,
       max_connections_per_instance => integer,
       max_rate                     => integer,
@@ -1207,14 +1207,14 @@ gcompute_backend_service { 'id-of-resource':
   description             => string,
   enable_cdn              => boolean,
   health_checks           => [
-    string,
+    reference to gcompute_http_health_check ,gcompute_https_health_check or gcompute_health_check,
     ...
   ],
   id                      => integer,
   name                    => string,
   port_name               => string,
   protocol                => 'HTTP', 'HTTPS', 'TCP' or 'SSL',
-  region                  => reference to gcompute_region,
+  region                  => reference to a gcompute_region,
   session_affinity        => 'NONE', 'CLIENT_IP', 'GENERATED_COOKIE', 'CLIENT_IP_PROTO' or 'CLIENT_IP_PORT_PROTO',
   timeout_sec             => integer,
   project                 => string,
@@ -1449,7 +1449,7 @@ gcompute_disk_type { 'id-of-resource':
   id                   => integer,
   name                 => string,
   valid_disk_size      => string,
-  zone                 => reference to gcompute_zone,
+  zone                 => reference to a gcompute_zone,
   project              => string,
   credential           => reference to gauth_credential,
 }
@@ -1582,7 +1582,7 @@ gcompute_disk { 'id-of-resource':
     string,
     ...
   ],
-  zone                           => reference to gcompute_zone,
+  zone                           => reference to a gcompute_zone,
   project                        => string,
   credential                     => reference to gauth_credential,
 }
@@ -1934,7 +1934,7 @@ gcompute_forwarding_rule { 'test1':
 
 ```puppet
 gcompute_forwarding_rule { 'id-of-resource':
-  backend_service       => reference to gcompute_backend_service,
+  backend_service       => reference to a gcompute_backend_service,
   creation_timestamp    => time,
   description           => string,
   id                    => integer,
@@ -1943,14 +1943,14 @@ gcompute_forwarding_rule { 'id-of-resource':
   ip_version            => 'IPV4' or 'IPV6',
   load_balancing_scheme => 'INTERNAL' or 'EXTERNAL',
   name                  => string,
-  network               => reference to gcompute_network,
+  network               => reference to a gcompute_network,
   port_range            => string,
   ports                 => [
     string,
     ...
   ],
-  region                => reference to gcompute_region,
-  subnetwork            => reference to gcompute_subnetwork,
+  region                => reference to a gcompute_region,
+  subnetwork            => reference to a gcompute_subnetwork,
   project               => string,
   credential            => reference to gauth_credential,
 }
@@ -2113,7 +2113,7 @@ gcompute_global_address { 'id-of-resource':
   id                 => integer,
   ip_version         => 'IPV4' or 'IPV6',
   name               => string,
-  region             => reference to gcompute_region,
+  region             => reference to a gcompute_region,
   project            => string,
   credential         => reference to gauth_credential,
 }
@@ -2191,7 +2191,7 @@ gcompute_global_forwarding_rule { 'test1':
 
 ```puppet
 gcompute_global_forwarding_rule { 'id-of-resource':
-  backend_service       => reference to gcompute_backend_service,
+  backend_service       => reference to a gcompute_backend_service,
   creation_timestamp    => time,
   description           => string,
   id                    => integer,
@@ -2200,14 +2200,14 @@ gcompute_global_forwarding_rule { 'id-of-resource':
   ip_version            => 'IPV4' or 'IPV6',
   load_balancing_scheme => 'INTERNAL' or 'EXTERNAL',
   name                  => string,
-  network               => reference to gcompute_network,
+  network               => reference to a gcompute_network,
   port_range            => string,
   ports                 => [
     string,
     ...
   ],
-  region                => reference to gcompute_region,
-  subnetwork            => reference to gcompute_subnetwork,
+  region                => reference to a gcompute_region,
+  subnetwork            => reference to a gcompute_subnetwork,
   target                => string,
   project               => string,
   credential            => reference to gauth_credential,
@@ -2870,7 +2870,7 @@ gcompute_instance_template { 'id-of-resource':
         initialize_params   => {
           disk_name                   => string,
           disk_size_gb                => integer,
-          disk_type                   => reference to gcompute_disk_type,
+          disk_type                   => reference to a gcompute_disk_type,
           source_image                => string,
           source_image_encryption_key => {
             raw_key => string,
@@ -2879,7 +2879,7 @@ gcompute_instance_template { 'id-of-resource':
         },
         interface           => 'SCSI' or 'NVME',
         mode                => 'READ_WRITE' or 'READ_ONLY',
-        source              => reference to gcompute_disk,
+        source              => reference to a gcompute_disk,
         type                => 'SCRATCH' or 'PERSISTENT',
       },
       ...
@@ -2891,14 +2891,14 @@ gcompute_instance_template { 'id-of-resource':
       },
       ...
     ],
-    machine_type       => reference to gcompute_machine_type,
+    machine_type       => reference to a gcompute_machine_type,
     metadata           => namevalues,
     network_interfaces => [
       {
         access_configs  => [
           {
             name   => string,
-            nat_ip => reference to gcompute_address,
+            nat_ip => reference to a gcompute_address,
             type   => ONE_TO_ONE_NAT,
           },
           ...
@@ -2911,9 +2911,9 @@ gcompute_instance_template { 'id-of-resource':
           ...
         ],
         name            => string,
-        network         => reference to gcompute_network,
+        network         => reference to a gcompute_network,
         network_ip      => string,
-        subnetwork      => reference to gcompute_subnetwork,
+        subnetwork      => reference to a gcompute_subnetwork,
       },
       ...
     ],
@@ -3356,7 +3356,7 @@ gcompute_image { 'id-of-resource':
     sha1_checksum  => string,
     source         => string,
   },
-  source_disk                => reference to gcompute_disk,
+  source_disk                => reference to a gcompute_disk,
   source_disk_encryption_key => {
     raw_key => string,
     sha256  => string,
@@ -3608,7 +3608,7 @@ gcompute_instance { 'id-of-resource':
       initialize_params   => {
         disk_name                   => string,
         disk_size_gb                => integer,
-        disk_type                   => reference to gcompute_disk_type,
+        disk_type                   => reference to a gcompute_disk_type,
         source_image                => string,
         source_image_encryption_key => {
           raw_key => string,
@@ -3617,7 +3617,7 @@ gcompute_instance { 'id-of-resource':
       },
       interface           => 'SCSI' or 'NVME',
       mode                => 'READ_WRITE' or 'READ_ONLY',
-      source              => reference to gcompute_disk,
+      source              => reference to a gcompute_disk,
       type                => 'SCRATCH' or 'PERSISTENT',
     },
     ...
@@ -3631,7 +3631,7 @@ gcompute_instance { 'id-of-resource':
   ],
   id                 => integer,
   label_fingerprint  => string,
-  machine_type       => reference to gcompute_machine_type,
+  machine_type       => reference to a gcompute_machine_type,
   metadata           => namevalues,
   min_cpu_platform   => string,
   name               => string,
@@ -3640,7 +3640,7 @@ gcompute_instance { 'id-of-resource':
       access_configs  => [
         {
           name   => string,
-          nat_ip => reference to gcompute_address,
+          nat_ip => reference to a gcompute_address,
           type   => ONE_TO_ONE_NAT,
         },
         ...
@@ -3653,9 +3653,9 @@ gcompute_instance { 'id-of-resource':
         ...
       ],
       name            => string,
-      network         => reference to gcompute_network,
+      network         => reference to a gcompute_network,
       network_ip      => string,
-      subnetwork      => reference to gcompute_subnetwork,
+      subnetwork      => reference to a gcompute_subnetwork,
     },
     ...
   ],
@@ -3683,7 +3683,7 @@ gcompute_instance { 'id-of-resource':
       ...
     ],
   },
-  zone               => reference to gcompute_zone,
+  zone               => reference to a gcompute_zone,
   project            => string,
   credential         => reference to gauth_credential,
 }
@@ -4060,10 +4060,10 @@ gcompute_instance_group { 'id-of-resource':
     },
     ...
   ],
-  network            => reference to gcompute_network,
-  region             => reference to gcompute_region,
-  subnetwork         => reference to gcompute_subnetwork,
-  zone               => reference to gcompute_zone,
+  network            => reference to a gcompute_network,
+  region             => reference to a gcompute_region,
+  subnetwork         => reference to a gcompute_subnetwork,
+  zone               => reference to a gcompute_zone,
   project            => string,
   credential         => reference to gauth_credential,
 }
@@ -4167,8 +4167,8 @@ gcompute_instance_group_manager { 'id-of-resource':
   },
   description        => string,
   id                 => integer,
-  instance_group     => reference to gcompute_instance_group,
-  instance_template  => reference to gcompute_instance_template,
+  instance_group     => reference to a gcompute_instance_group,
+  instance_template  => reference to a gcompute_instance_template,
   name               => string,
   named_ports        => [
     {
@@ -4177,13 +4177,13 @@ gcompute_instance_group_manager { 'id-of-resource':
     },
     ...
   ],
-  region             => reference to gcompute_region,
+  region             => reference to a gcompute_region,
   target_pools       => [
     reference to a gcompute_target_pool,
     ...
   ],
   target_size        => integer,
-  zone               => reference to gcompute_zone,
+  zone               => reference to a gcompute_zone,
   project            => string,
   credential         => reference to gauth_credential,
 }
@@ -4344,7 +4344,7 @@ gcompute_machine_type { 'id-of-resource':
   maximum_persistent_disks_size_gb => integer,
   memory_mb                        => integer,
   name                             => string,
-  zone                             => reference to gcompute_zone,
+  zone                             => reference to a gcompute_zone,
   project                          => string,
   credential                       => reference to gauth_credential,
 }
@@ -4682,7 +4682,7 @@ gcompute_route { 'id-of-resource':
   description         => string,
   dest_range          => string,
   name                => string,
-  network             => reference to gcompute_network,
+  network             => reference to a gcompute_network,
   next_hop_gateway    => string,
   next_hop_instance   => string,
   next_hop_ip         => string,
@@ -4823,13 +4823,13 @@ gcompute_snapshot { 'id-of-resource':
     raw_key => string,
     sha256  => string,
   },
-  source                     => reference to gcompute_disk,
+  source                     => reference to a gcompute_disk,
   source_disk_encryption_key => {
     raw_key => string,
     sha256  => string,
   },
   storage_bytes              => integer,
-  zone                       => reference to gcompute_zone,
+  zone                       => reference to a gcompute_zone,
   project                    => string,
   credential                 => reference to gauth_credential,
 }
@@ -5068,9 +5068,9 @@ gcompute_subnetwork { 'id-of-resource':
   id                       => integer,
   ip_cidr_range            => string,
   name                     => string,
-  network                  => reference to gcompute_network,
+  network                  => reference to a gcompute_network,
   private_ip_google_access => boolean,
-  region                   => reference to gcompute_region,
+  region                   => reference to a gcompute_region,
   project                  => string,
   credential               => reference to gauth_credential,
 }
@@ -5152,7 +5152,7 @@ gcompute_target_http_proxy { 'id-of-resource':
   description        => string,
   id                 => integer,
   name               => string,
-  url_map            => reference to gcompute_url_map,
+  url_map            => reference to a gcompute_url_map,
   project            => string,
   credential         => reference to gauth_credential,
 }
@@ -5215,12 +5215,11 @@ gcompute_target_https_proxy { 'id-of-resource':
   description        => string,
   id                 => integer,
   name               => string,
-  quic_override      => 'NONE', 'ENABLE' or 'DISABLE',
   ssl_certificates   => [
     reference to a gcompute_ssl_certificate,
     ...
   ],
-  url_map            => reference to gcompute_url_map,
+  url_map            => reference to a gcompute_url_map,
   project            => string,
   credential         => reference to gauth_credential,
 }
@@ -5239,16 +5238,6 @@ Required.  Name of the resource. Provided by the client when the resource is
   first character must be a lowercase letter, and all following
   characters must be a dash, lowercase letter, or digit, except the last
   character, which cannot be a dash.
-
-##### `quic_override`
-
-  Specifies the QUIC override policy for this resource. This determines
-  whether the load balancer will attempt to negotiate QUIC with clients
-  or not. Can specify one of NONE, ENABLE, or DISABLE. Specify ENABLE to
-  always enable QUIC, Enables QUIC when set to ENABLE, and disables QUIC
-  when set to DISABLE. If NONE is specified, uses the QUIC policy with
-  no user overrides, which is equivalent to DISABLE. Not specifying this
-  field is equivalent to specifying NONE.
 
 ##### `ssl_certificates`
 
@@ -5296,18 +5285,18 @@ gcompute_target_pool { 'test1':
 
 ```puppet
 gcompute_target_pool { 'id-of-resource':
-  backup_pool        => reference to gcompute_target_pool,
+  backup_pool        => reference to a gcompute_target_pool,
   creation_timestamp => time,
   description        => string,
   failover_ratio     => double,
-  health_check       => reference to gcompute_http_health_check,
+  health_check       => reference to a gcompute_http_health_check,
   id                 => integer,
   instances          => [
     reference to a gcompute_instance,
     ...
   ],
   name               => string,
-  region             => reference to gcompute_region,
+  region             => reference to a gcompute_region,
   session_affinity   => 'NONE', 'CLIENT_IP' or 'CLIENT_IP_PROTO',
   project            => string,
   credential         => reference to gauth_credential,
@@ -5427,7 +5416,7 @@ gcompute_target_ssl_proxy { 'id-of-resource':
   id                 => integer,
   name               => string,
   proxy_header       => 'NONE' or 'PROXY_V1',
-  service            => reference to gcompute_backend_service,
+  service            => reference to a gcompute_backend_service,
   ssl_certificates   => [
     reference to a gcompute_ssl_certificate,
     ...
@@ -5504,7 +5493,7 @@ gcompute_target_tcp_proxy { 'id-of-resource':
   id                 => integer,
   name               => string,
   proxy_header       => 'NONE' or 'PROXY_V1',
-  service            => reference to gcompute_backend_service,
+  service            => reference to a gcompute_backend_service,
   project            => string,
   credential         => reference to gauth_credential,
 }
@@ -5565,7 +5554,7 @@ gcompute_url_map { 'my-url-map':
 ```puppet
 gcompute_url_map { 'id-of-resource':
   creation_timestamp => time,
-  default_service    => reference to gcompute_backend_service,
+  default_service    => reference to a gcompute_backend_service,
   description        => string,
   host_rules         => [
     {
@@ -5582,7 +5571,7 @@ gcompute_url_map { 'id-of-resource':
   name               => string,
   path_matchers      => [
     {
-      default_service => reference to gcompute_backend_service,
+      default_service => reference to a gcompute_backend_service,
       description     => string,
       name            => string,
       path_rules      => [
@@ -5591,7 +5580,7 @@ gcompute_url_map { 'id-of-resource':
             string,
             ...
           ],
-          service => reference to gcompute_backend_service,
+          service => reference to a gcompute_backend_service,
         },
         ...
       ],
@@ -5603,7 +5592,7 @@ gcompute_url_map { 'id-of-resource':
       description => string,
       host        => string,
       path        => string,
-      service     => reference to gcompute_backend_service,
+      service     => reference to a gcompute_backend_service,
     },
     ...
   ],
@@ -5734,7 +5723,7 @@ gcompute_zone { 'id-of-resource':
   description        => string,
   id                 => integer,
   name               => string,
-  region             => reference to gcompute_region,
+  region             => reference to a gcompute_region,
   status             => 'UP' or 'DOWN',
   project            => string,
   credential         => reference to gauth_credential,

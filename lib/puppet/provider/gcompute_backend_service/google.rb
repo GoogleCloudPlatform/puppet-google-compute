@@ -36,6 +36,7 @@ require 'google/compute/property/backendservice_connection_draining'
 require 'google/compute/property/boolean'
 require 'google/compute/property/double'
 require 'google/compute/property/enum'
+require 'google/compute/property/httphealthcheck_selflink'
 require 'google/compute/property/instancegroup_selflink'
 require 'google/compute/property/integer'
 require 'google/compute/property/region_selflink'
@@ -101,7 +102,9 @@ Puppet::Type.type(:gcompute_backend_service).provide(:google) do
       enable_cdn:
         Google::Compute::Property::Boolean.api_munge(fetch['enableCDN']),
       health_checks:
-        Google::Compute::Property::StringArray.api_munge(fetch['healthChecks']),
+        Google::Compute::Property::HttHeaCheSelLinRefArray.api_munge(
+          fetch['healthChecks']
+        ),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       port_name: Google::Compute::Property::String.api_munge(fetch['portName']),
