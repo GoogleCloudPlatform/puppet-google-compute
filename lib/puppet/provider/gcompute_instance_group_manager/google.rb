@@ -40,6 +40,7 @@ require 'google/compute/property/targetpool_selflink'
 require 'google/compute/property/time'
 require 'google/compute/property/zone_name'
 require 'google/hash_utils'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_instance_group_manager).provide(:google) do
@@ -62,6 +63,7 @@ Puppet::Type.type(:gcompute_instance_group_manager).provide(:google) do
       fetch = fetch_resource(resource, self_link(resource),
                              'compute#instanceGroupManager')
       resource.provider = present(name, fetch, resource) unless fetch.nil?
+      Google::ObjectStore.instance.add(:gcompute_instance_group_manager, resource)
     end
   end
 
@@ -69,6 +71,7 @@ Puppet::Type.type(:gcompute_instance_group_manager).provide(:google) do
     result = new(
       { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
     )
+    result.instance_variable_set(:@fetched, fetch)
     result
   end
 
@@ -121,7 +124,7 @@ Puppet::Type.type(:gcompute_instance_group_manager).provide(:google) do
                                                     fetch_auth(@resource),
                                                     'application/json',
                                                     resource_to_request)
-    wait_for_operation create_req.send, @resource
+    @fetched = wait_for_operation create_req.send, @resource
     @property_hash[:ensure] = :present
   end
 
@@ -142,7 +145,7 @@ Puppet::Type.type(:gcompute_instance_group_manager).provide(:google) do
                                                    fetch_auth(@resource),
                                                    'application/json',
                                                    resource_to_request)
-    wait_for_operation update_req.send, @resource
+    @fetched = wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)
@@ -150,6 +153,12 @@ Puppet::Type.type(:gcompute_instance_group_manager).provide(:google) do
     @dirty[field] = {
       from: from,
       to: to
+    }
+  end
+
+  def exports
+    {
+      self_link: @fetched['selfLink']
     }
   end
 
