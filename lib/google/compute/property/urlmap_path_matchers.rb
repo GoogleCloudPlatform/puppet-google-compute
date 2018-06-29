@@ -55,7 +55,7 @@ module Google
             description: description,
             name: name,
             path_rules: ['[',
-                         path_rules.map(&:to_json).join(', '),
+                         (path_rules || []).map(&:to_json).join(', '),
                          ']'].join(' ')
           }.reject { |_k, v| v.nil? }.map { |k, v| "#{k}: #{v}" }.join(', ')
         end

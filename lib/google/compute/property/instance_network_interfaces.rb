@@ -56,10 +56,10 @@ module Google
         def to_s
           {
             access_configs: ['[',
-                             access_configs.map(&:to_json).join(', '),
+                             (access_configs || []).map(&:to_json).join(', '),
                              ']'].join(' '),
             alias_ip_ranges: ['[',
-                              alias_ip_ranges.map(&:to_json).join(', '),
+                              (alias_ip_ranges || []).map(&:to_json).join(', '),
                               ']'].join(' '),
             name: name,
             network: network,
