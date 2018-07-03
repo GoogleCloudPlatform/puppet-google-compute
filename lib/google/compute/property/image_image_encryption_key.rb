@@ -30,7 +30,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for image_encryption_key for image.
+      # A class to manage data for ImageEncryptionKey for image.
       class ImageImageEncryKey
         include Comparable
 
@@ -102,7 +102,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to image_encryption_key for image.
+      # A class to manage input to ImageEncryptionKey for image.
       class ImageImageEncryKey < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)

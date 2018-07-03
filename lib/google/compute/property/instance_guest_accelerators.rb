@@ -31,7 +31,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for guest_accelerators for instance.
+      # A class to manage data for GuestAccelerators for instance.
       class InstancGuestAcceler
         include Comparable
 
@@ -108,7 +108,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to guest_accelerators for instance.
+      # A class to manage input to GuestAccelerators for instance.
       class InstancGuestAcceler < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)

@@ -30,7 +30,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for https_health_check for health_check.
+      # A class to manage data for HttpsHealthCheck for health_check.
       class HealChecHttpHealChec
         include Comparable
 
@@ -124,7 +124,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to https_health_check for health_check.
+      # A class to manage input to HttpsHealthCheck for health_check.
       class HealChecHttpHealChec < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)

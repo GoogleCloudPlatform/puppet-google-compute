@@ -30,7 +30,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for deprecated for machine_type.
+      # A class to manage data for Deprecated for machine_type.
       class MachineTypeDepreca
         include Comparable
 
@@ -125,7 +125,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to deprecated for machine_type.
+      # A class to manage input to Deprecated for machine_type.
       class MachineTypeDepreca < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)

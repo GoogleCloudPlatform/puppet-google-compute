@@ -31,7 +31,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for host_rules for url_map.
+      # A class to manage data for HostRules for url_map.
       class UrlMapHostRules
         include Comparable
 
@@ -113,7 +113,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to host_rules for url_map.
+      # A class to manage input to HostRules for url_map.
       class UrlMapHostRules < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)

@@ -31,7 +31,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for path_matchers for url_map.
+      # A class to manage data for PathMatchers for url_map.
       class UrlMapPathMatch
         include Comparable
 
@@ -129,7 +129,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to path_matchers for url_map.
+      # A class to manage input to PathMatchers for url_map.
       class UrlMapPathMatch < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)

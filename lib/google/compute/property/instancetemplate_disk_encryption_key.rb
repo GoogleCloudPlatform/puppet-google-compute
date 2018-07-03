@@ -30,7 +30,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for disk_encryption_key for instance_template.
+      # A class to manage data for DiskEncryptionKey for instance_template.
       class InstTempDiskEncrKey
         include Comparable
 
@@ -111,7 +111,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to disk_encryption_key for instance_template.
+      # A class to manage input to DiskEncryptionKey for instance_template.
       class InstTempDiskEncrKey < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
