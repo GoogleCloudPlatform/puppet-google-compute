@@ -72,11 +72,7 @@ gcompute_machine_type { 'n1-standard-1':
   credential => 'mycred',
 }
 
-gcompute_network { 'mynetwork-test':
-  ensure     => present,
-  project    => $project, # e.g. 'my-test-project'
-  credential => 'mycred',
-}
+gcompute_external_resource('gcompute_network', {name=> 'default', self_link=>"projects/$project/global/networks/default"})
 
 gcompute_instance_template { 'instance-template':
   ensure     => present,
@@ -102,7 +98,7 @@ gcompute_instance_template { 'instance-template':
           type => 'ONE_TO_ONE_NAT',
           },
         ],
-        network        => 'mynetwork-test',
+        network        => 'default',
       }
     ]
   },

@@ -312,6 +312,7 @@ puppet-codegen:
   * lib/puppet/functions/gcompute_target_http_proxy_ref.rb
   * lib/puppet/functions/gcompute_task_load_params.rb
   * lib/puppet/functions/gcompute_task_validate_param.rb
+  * lib/puppet/functions/gcp_declare.rb
   * lib/puppet/provider/gcompute_address/google.rb
   * lib/puppet/provider/gcompute_backend_bucket/google.rb
   * lib/puppet/provider/gcompute_backend_service/google.rb
