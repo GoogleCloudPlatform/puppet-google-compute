@@ -31,7 +31,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for alias_ip_ranges for instance_template.
+      # A class to manage data for AliasIpRanges for instance_template.
       class InstTempAliaIpRang
         include Comparable
 
@@ -109,7 +109,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to alias_ip_ranges for instance_template.
+      # A class to manage input to AliasIpRanges for instance_template.
       class InstTempAliaIpRang < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)

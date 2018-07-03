@@ -31,7 +31,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for access_configs for instance_template.
+      # A class to manage data for AccessConfigs for instance_template.
       class InstaTemplAccesConfi
         include Comparable
 
@@ -111,7 +111,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to access_configs for instance_template.
+      # A class to manage input to AccessConfigs for instance_template.
       class InstaTemplAccesConfi < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)

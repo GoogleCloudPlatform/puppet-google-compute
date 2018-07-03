@@ -31,7 +31,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for backends for backend_service.
+      # A class to manage data for Backends for backend_service.
       class BackendServiceBackend
         include Comparable
 
@@ -180,7 +180,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to backends for backend_service.
+      # A class to manage input to Backends for backend_service.
       class BackendServiceBackend < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)

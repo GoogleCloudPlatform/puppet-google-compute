@@ -31,7 +31,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for allowed for firewall.
+      # A class to manage data for Allowed for firewall.
       class FirewallAllowed
         include Comparable
 
@@ -105,7 +105,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to allowed for firewall.
+      # A class to manage input to Allowed for firewall.
       class FirewallAllowed < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)

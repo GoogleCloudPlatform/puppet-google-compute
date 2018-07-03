@@ -30,7 +30,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for source_snapshot_encryption_key for disk.
+      # A class to manage data for SourceSnapshotEncryptionKey for disk.
       class DiskSourSnapEncrKey
         include Comparable
 
@@ -102,7 +102,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to source_snapshot_encryption_key for disk.
+      # A class to manage input to SourceSnapshotEncryptionKey for disk.
       class DiskSourSnapEncrKey < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)

@@ -30,7 +30,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for current_actions for instance_group_manager.
+      # A class to manage data for CurrentActions for instance_group_manager.
       class InstGrouManaCurrActi
         include Comparable
 
@@ -161,7 +161,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to current_actions for instance_group_manager.
+      # A class to manage input to CurrentActions for instance_group_manager.
       class InstGrouManaCurrActi < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)

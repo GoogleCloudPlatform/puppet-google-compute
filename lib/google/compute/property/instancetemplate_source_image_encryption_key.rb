@@ -30,7 +30,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for source_image_encryption_key for
+      # A class to manage data for SourceImageEncryptionKey for
       # instance_template.
       class InsTemSouImaEncKey
         include Comparable
@@ -103,7 +103,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to source_image_encryption_key for
+      # A class to manage input to SourceImageEncryptionKey for
       # instance_template.
       class InsTemSouImaEncKey < Google::Compute::Property::Base
         # Used for parsing Puppet catalog

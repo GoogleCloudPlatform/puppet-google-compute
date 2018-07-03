@@ -31,7 +31,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for path_rules for url_map.
+      # A class to manage data for PathRules for url_map.
       class UrlMapPathRules
         include Comparable
 
@@ -108,7 +108,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to path_rules for url_map.
+      # A class to manage input to PathRules for url_map.
       class UrlMapPathRules < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)

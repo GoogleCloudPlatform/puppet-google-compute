@@ -30,7 +30,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for properties for instance_template.
+      # A class to manage data for Properties for instance_template.
       class InstancTemplatPropert
         include Comparable
 
@@ -208,7 +208,7 @@ module Google
     end
 
     module Property
-      # A class to manage input to properties for instance_template.
+      # A class to manage input to Properties for instance_template.
       class InstancTemplatPropert < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
