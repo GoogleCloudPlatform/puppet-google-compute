@@ -1577,7 +1577,7 @@ gcompute_disk { 'id-of-resource':
     sha256  => string,
   },
   source_snapshot_id             => string,
-  type                           => string,
+  type                           => reference to gcompute_disk_type,
   users                          => [
     string,
     ...
