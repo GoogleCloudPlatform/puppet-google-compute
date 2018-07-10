@@ -28,6 +28,7 @@
 require 'google/compute/property/disk_disk_encryption_key'
 require 'google/compute/property/disk_source_image_encryption_key'
 require 'google/compute/property/disk_source_snapshot_encryption_key'
+require 'google/compute/property/disktype_selflink'
 require 'google/compute/property/integer'
 require 'google/compute/property/namevalues'
 require 'google/compute/property/string'
@@ -221,7 +222,7 @@ Puppet::Type.newtype(:gcompute_disk) do
     DOC
   end
 
-  newproperty(:type, parent: Google::Compute::Property::String) do
+  newproperty(:type, parent: Google::Compute::Property::DiskTypeSelfLinkRef) do
     desc <<-DOC
       URL of the disk type resource describing which disk type to use to create
       the disk. Provide this when creating the disk.

@@ -32,6 +32,7 @@ require 'google/compute/network/put'
 require 'google/compute/property/disk_disk_encryption_key'
 require 'google/compute/property/disk_source_image_encryption_key'
 require 'google/compute/property/disk_source_snapshot_encryption_key'
+require 'google/compute/property/disktype_selflink'
 require 'google/compute/property/integer'
 require 'google/compute/property/namevalues'
 require 'google/compute/property/string'
@@ -89,7 +90,8 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
       licenses:
         Google::Compute::Property::StringArray.api_munge(fetch['licenses']),
       size_gb: Google::Compute::Property::Integer.api_munge(fetch['sizeGb']),
-      type: Google::Compute::Property::String.api_munge(fetch['type']),
+      type:
+        Google::Compute::Property::DiskTypeSelfLinkRef.api_munge(fetch['type']),
       users: Google::Compute::Property::StringArray.api_munge(fetch['users']),
       name: resource[:name],
       source_image: resource[:source_image]
