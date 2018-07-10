@@ -25,9 +25,7 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'google/compute/network/delete'
 require 'google/compute/network/get'
-require 'google/compute/network/post'
 require 'google/compute/network/put'
 require 'google/compute/property/boolean'
 require 'google/compute/property/string'
