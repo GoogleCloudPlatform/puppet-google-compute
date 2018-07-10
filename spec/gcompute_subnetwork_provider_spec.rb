@@ -183,10 +183,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               it do
                 is_expected.to have_attributes(private_ip_google_access: true)
               end
-              # TODO(alexstephen): Implement resourceref test.
-              # it 'region' do
-              #   # Add test code here
-              # end
             end
 
             context 'Gcompute_subnetwork[title1]' do
@@ -226,10 +222,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               it do
                 is_expected.to have_attributes(private_ip_google_access: false)
               end
-              # TODO(alexstephen): Implement resourceref test.
-              # it 'region' do
-              #   # Add test code here
-              # end
             end
 
             context 'Gcompute_subnetwork[title2]' do
@@ -269,10 +261,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               it do
                 is_expected.to have_attributes(private_ip_google_access: true)
               end
-              # TODO(alexstephen): Implement resourceref test.
-              # it 'region' do
-              #   # Add test code here
-              # end
             end
           end
 
@@ -421,10 +409,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               it do
                 is_expected.to have_attributes(private_ip_google_access: true)
               end
-              # TODO(alexstephen): Implement resourceref test.
-              # it 'region' do
-              #   # Add test code here
-              # end
             end
 
             context 'Gcompute_subnetwork[title1]' do
@@ -464,10 +448,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               it do
                 is_expected.to have_attributes(private_ip_google_access: false)
               end
-              # TODO(alexstephen): Implement resourceref test.
-              # it 'region' do
-              #   # Add test code here
-              # end
             end
 
             context 'Gcompute_subnetwork[title2]' do
@@ -507,10 +487,6 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               it do
                 is_expected.to have_attributes(private_ip_google_access: true)
               end
-              # TODO(alexstephen): Implement resourceref test.
-              # it 'region' do
-              #   # Add test code here
-              # end
             end
           end
 

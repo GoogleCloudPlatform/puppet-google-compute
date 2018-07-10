@@ -48,6 +48,12 @@ Puppet::Type.newtype(:gcompute_machine_type) do
     [credential]
   end
 
+  autorequire(:gcompute_zone) do
+    reference = self[:zone]
+    raise "#{ref} required property 'zone' is missing" if reference.nil?
+    reference.autorequires
+  end
+
   newparam :credential do
     desc <<-DESC
       A gauth_credential name to be used to authenticate with Google Cloud
@@ -62,6 +68,10 @@ Puppet::Type.newtype(:gcompute_machine_type) do
   newparam(:name, namevar: true) do
     # TODO(nelsona): Make this description to match the key of the object.
     desc 'The name of the MachineType.'
+  end
+
+  newparam(:zone, parent: Google::Compute::Property::ZoneNameRef) do
+    desc 'The zone where the machine type is defined'
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
@@ -118,10 +128,6 @@ Puppet::Type.newtype(:gcompute_machine_type) do
 
   newproperty(:name, parent: Google::Compute::Property::String) do
     desc 'Name of the resource.'
-  end
-
-  newproperty(:zone, parent: Google::Compute::Property::ZoneNameRef) do
-    desc 'The zone the machine type is defined.'
   end
 
   # Returns all properties that a provider can export to other resources

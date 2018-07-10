@@ -86,8 +86,7 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
       private_ip_google_access: Google::Compute::Property::Boolean.api_munge(
         fetch['privateIpGoogleAccess']
       ),
-      network: resource[:network],
-      region: resource[:region]
+      network: resource[:network]
     }.reject { |_, v| v.nil? }
   end
 

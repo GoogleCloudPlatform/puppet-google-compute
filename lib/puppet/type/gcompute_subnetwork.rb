@@ -62,6 +62,12 @@ Puppet::Type.newtype(:gcompute_subnetwork) do
     [credential]
   end
 
+  autorequire(:gcompute_region) do
+    reference = self[:region]
+    raise "#{ref} required property 'region' is missing" if reference.nil?
+    reference.autorequires
+  end
+
   ensurable
 
   newparam :credential do
@@ -78,6 +84,10 @@ Puppet::Type.newtype(:gcompute_subnetwork) do
   newparam(:name, namevar: true) do
     # TODO(nelsona): Make this description to match the key of the object.
     desc 'The name of the Subnetwork.'
+  end
+
+  newparam(:region, parent: Google::Compute::Property::RegionNameRef) do
+    desc 'URL of the region where the subnetwork resides'
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
@@ -139,10 +149,6 @@ Puppet::Type.newtype(:gcompute_subnetwork) do
     DOC
     newvalue(:true)
     newvalue(:false)
-  end
-
-  newproperty(:region, parent: Google::Compute::Property::RegionNameRef) do
-    desc 'URL of the GCP region for this subnetwork.'
   end
 
   # Returns all properties that a provider can export to other resources

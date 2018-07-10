@@ -94,8 +94,7 @@ Puppet::Type.type(:gcompute_machine_type).provide(:google) do
         ),
       memory_mb:
         Google::Compute::Property::Integer.api_munge(fetch['memoryMb']),
-      name: Google::Compute::Property::String.api_munge(fetch['name']),
-      zone: Google::Compute::Property::ZoneNameRef.api_munge(fetch['zone'])
+      name: Google::Compute::Property::String.api_munge(fetch['name'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength
@@ -163,8 +162,7 @@ Puppet::Type.type(:gcompute_machine_type).provide(:google) do
   def resource_to_request
     request = {
       kind: 'compute#machineType',
-      name: @resource[:name],
-      zone: @resource[:zone]
+      name: @resource[:name]
     }.reject { |_, v| v.nil? }
 
     # Convert boolean symbols into JSON compatible value.

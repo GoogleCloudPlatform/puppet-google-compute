@@ -4378,7 +4378,7 @@ gcompute_machine_type { 'id-of-resource':
 
 ##### `zone`
 
-Required.  The zone the machine type is defined.
+Required.  The zone where the machine type is defined
 
 
 ##### Output-only properties
@@ -5140,7 +5140,7 @@ Required.  The network this subnet belongs to.
 
 ##### `region`
 
-Required.  URL of the GCP region for this subnetwork.
+Required.  URL of the region where the subnetwork resides
 
 
 ##### Output-only properties
