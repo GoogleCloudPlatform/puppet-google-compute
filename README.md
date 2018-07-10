@@ -3150,7 +3150,7 @@ Required.  The name of this access configuration. The
   external IP or Network Access.
 
 ##### properties/network_interfaces[]/access_configs[]/nat_ip
-Required.  Specifies the title of a gcompute_address.
+  Specifies the title of a gcompute_address.
   An external IP address associated with this instance.
   Specify an unused static external IP address available to
   the project or leave this field undefined to use an IP
@@ -3901,7 +3901,7 @@ Required.  The name of this access configuration. The
   external IP or Network Access.
 
 ##### network_interfaces[]/access_configs[]/nat_ip
-Required.  Specifies the title of a gcompute_address.
+  Specifies the title of a gcompute_address.
   An external IP address associated with this instance.
   Specify an unused static external IP address available to
   the project or leave this field undefined to use an IP
