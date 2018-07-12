@@ -289,6 +289,8 @@ puppet-codegen:
   * lib/google/compute/property/region_deprecated.rb
   * lib/google/compute/property/region_name.rb
   * lib/google/compute/property/region_selflink.rb
+  * lib/google/compute/property/router_advertised_ip_ranges.rb
+  * lib/google/compute/property/router_bgp.rb
   * lib/google/compute/property/snapshot_snapshot_encryption_key.rb
   * lib/google/compute/property/snapshot_source_disk_encryption_key.rb
   * lib/google/compute/property/sslcertificate_selflink.rb
@@ -334,6 +336,7 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_network/google.rb
   * lib/puppet/provider/gcompute_region/google.rb
   * lib/puppet/provider/gcompute_route/google.rb
+  * lib/puppet/provider/gcompute_router/google.rb
   * lib/puppet/provider/gcompute_snapshot/google.rb
   * lib/puppet/provider/gcompute_ssl_certificate/google.rb
   * lib/puppet/provider/gcompute_subnetwork/google.rb
@@ -366,6 +369,7 @@ puppet-codegen:
   * lib/puppet/type/gcompute_network.rb
   * lib/puppet/type/gcompute_region.rb
   * lib/puppet/type/gcompute_route.rb
+  * lib/puppet/type/gcompute_router.rb
   * lib/puppet/type/gcompute_snapshot.rb
   * lib/puppet/type/gcompute_ssl_certificate.rb
   * lib/puppet/type/gcompute_subnetwork.rb
@@ -512,6 +516,12 @@ puppet-codegen:
   * spec/data/network/gcompute_route/success2~title.yaml
   * spec/data/network/gcompute_route/success3~name.yaml
   * spec/data/network/gcompute_route/success3~title.yaml
+  * spec/data/network/gcompute_router/success1~name.yaml
+  * spec/data/network/gcompute_router/success1~title.yaml
+  * spec/data/network/gcompute_router/success2~name.yaml
+  * spec/data/network/gcompute_router/success2~title.yaml
+  * spec/data/network/gcompute_router/success3~name.yaml
+  * spec/data/network/gcompute_router/success3~title.yaml
   * spec/data/network/gcompute_snapshot/success1~name.yaml
   * spec/data/network/gcompute_snapshot/success1~title.yaml
   * spec/data/network/gcompute_snapshot/success2~name.yaml
@@ -595,6 +605,7 @@ puppet-codegen:
   * spec/gcompute_network_provider_spec.rb
   * spec/gcompute_region_provider_spec.rb
   * spec/gcompute_route_provider_spec.rb
+  * spec/gcompute_router_provider_spec.rb
   * spec/gcompute_snapshot_provider_spec.rb
   * spec/gcompute_ssl_certificate_provider_spec.rb
   * spec/gcompute_subnetwork_provider_spec.rb
