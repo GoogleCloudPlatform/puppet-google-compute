@@ -101,10 +101,7 @@ module Google
             { self: description, other: other.description },
             { self: group, other: other.group },
             { self: max_connections, other: other.max_connections },
-            {
-              self: max_connections_per_instance,
-              other: other.max_connections_per_instance
-            },
+            { self: max_connections_per_instance, other: other.max_connections_per_instance },
             { self: max_rate, other: other.max_rate },
             { self: max_rate_per_instance, other: other.max_rate_per_instance },
             { self: max_utilization, other: other.max_utilization }
@@ -117,28 +114,17 @@ module Google
       class BackendServiceBackendApi < BackendServiceBackend
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
-          @balancing_mode =
-            Google::Compute::Property::Enum.api_munge(args['balancingMode'])
-          @capacity_scaler =
-            Google::Compute::Property::Double.api_munge(args['capacityScaler'])
-          @description =
-            Google::Compute::Property::String.api_munge(args['description'])
-          @group = Google::Compute::Property::InstGrouSelfLinkRef.api_munge(
-            args['group']
-          )
-          @max_connections =
-            Google::Compute::Property::Integer.api_munge(args['maxConnections'])
+          @balancing_mode = Google::Compute::Property::Enum.api_munge(args['balancingMode'])
+          @capacity_scaler = Google::Compute::Property::Double.api_munge(args['capacityScaler'])
+          @description = Google::Compute::Property::String.api_munge(args['description'])
+          @group = Google::Compute::Property::InstGrouSelfLinkRef.api_munge(args['group'])
+          @max_connections = Google::Compute::Property::Integer.api_munge(args['maxConnections'])
           @max_connections_per_instance =
-            Google::Compute::Property::Integer.api_munge(
-              args['maxConnectionsPerInstance']
-            )
-          @max_rate =
-            Google::Compute::Property::Integer.api_munge(args['maxRate'])
-          @max_rate_per_instance = Google::Compute::Property::Double.api_munge(
-            args['maxRatePerInstance']
-          )
-          @max_utilization =
-            Google::Compute::Property::Double.api_munge(args['maxUtilization'])
+            Google::Compute::Property::Integer.api_munge(args['maxConnectionsPerInstance'])
+          @max_rate = Google::Compute::Property::Integer.api_munge(args['maxRate'])
+          @max_rate_per_instance =
+            Google::Compute::Property::Double.api_munge(args['maxRatePerInstance'])
+          @max_utilization = Google::Compute::Property::Double.api_munge(args['maxUtilization'])
         end
         # rubocop:enable Metrics/MethodLength
       end
@@ -148,32 +134,18 @@ module Google
       class BackendServiceBackendCatalog < BackendServiceBackend
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
-          @balancing_mode =
-            Google::Compute::Property::Enum.unsafe_munge(args['balancing_mode'])
-          @capacity_scaler = Google::Compute::Property::Double.unsafe_munge(
-            args['capacity_scaler']
-          )
-          @description =
-            Google::Compute::Property::String.unsafe_munge(args['description'])
-          @group = Google::Compute::Property::InstGrouSelfLinkRef.unsafe_munge(
-            args['group']
-          )
-          @max_connections = Google::Compute::Property::Integer.unsafe_munge(
-            args['max_connections']
-          )
+          @balancing_mode = Google::Compute::Property::Enum.unsafe_munge(args['balancing_mode'])
+          @capacity_scaler = Google::Compute::Property::Double.unsafe_munge(args['capacity_scaler'])
+          @description = Google::Compute::Property::String.unsafe_munge(args['description'])
+          @group = Google::Compute::Property::InstGrouSelfLinkRef.unsafe_munge(args['group'])
+          @max_connections =
+            Google::Compute::Property::Integer.unsafe_munge(args['max_connections'])
           @max_connections_per_instance =
-            Google::Compute::Property::Integer.unsafe_munge(
-              args['max_connections_per_instance']
-            )
-          @max_rate =
-            Google::Compute::Property::Integer.unsafe_munge(args['max_rate'])
+            Google::Compute::Property::Integer.unsafe_munge(args['max_connections_per_instance'])
+          @max_rate = Google::Compute::Property::Integer.unsafe_munge(args['max_rate'])
           @max_rate_per_instance =
-            Google::Compute::Property::Double.unsafe_munge(
-              args['max_rate_per_instance']
-            )
-          @max_utilization = Google::Compute::Property::Double.unsafe_munge(
-            args['max_utilization']
-          )
+            Google::Compute::Property::Double.unsafe_munge(args['max_rate_per_instance'])
+          @max_utilization = Google::Compute::Property::Double.unsafe_munge(args['max_utilization'])
         end
         # rubocop:enable Metrics/MethodLength
       end

@@ -57,8 +57,7 @@ Puppet::Type.type(:gcompute_health_check).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#healthCheck')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#healthCheck')
       resource.provider = present(name, fetch) unless fetch.nil?
     end
   end
@@ -71,38 +70,24 @@ Puppet::Type.type(:gcompute_health_check).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch)
     {
-      check_interval_sec:
-        Google::Compute::Property::Integer.api_munge(fetch['checkIntervalSec']),
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
-      healthy_threshold:
-        Google::Compute::Property::Integer.api_munge(fetch['healthyThreshold']),
+      check_interval_sec: Google::Compute::Property::Integer.api_munge(fetch['checkIntervalSec']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
+      healthy_threshold: Google::Compute::Property::Integer.api_munge(fetch['healthyThreshold']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      timeout_sec:
-        Google::Compute::Property::Integer.api_munge(fetch['timeoutSec']),
-      unhealthy_threshold: Google::Compute::Property::Integer.api_munge(
-        fetch['unhealthyThreshold']
-      ),
+      timeout_sec: Google::Compute::Property::Integer.api_munge(fetch['timeoutSec']),
+      unhealthy_threshold:
+        Google::Compute::Property::Integer.api_munge(fetch['unhealthyThreshold']),
       type: Google::Compute::Property::Enum.api_munge(fetch['type']),
       http_health_check:
-        Google::Compute::Property::HealChecHttpHealChec.api_munge(
-          fetch['httpHealthCheck']
-        ),
+        Google::Compute::Property::HealChecHttpHealChec.api_munge(fetch['httpHealthCheck']),
       https_health_check:
-        Google::Compute::Property::HealChecHttpHealChec.api_munge(
-          fetch['httpsHealthCheck']
-        ),
+        Google::Compute::Property::HealChecHttpHealChec.api_munge(fetch['httpsHealthCheck']),
       tcp_health_check:
-        Google::Compute::Property::HealChecTcpHealChec.api_munge(
-          fetch['tcpHealthCheck']
-        ),
+        Google::Compute::Property::HealChecTcpHealChec.api_munge(fetch['tcpHealthCheck']),
       ssl_health_check:
-        Google::Compute::Property::HealChecSslHealChec.api_munge(
-          fetch['sslHealthCheck']
-        )
+        Google::Compute::Property::HealChecSslHealChec.api_munge(fetch['sslHealthCheck'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength

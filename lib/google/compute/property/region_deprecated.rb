@@ -97,12 +97,9 @@ module Google
       class RegionDeprecatedApi < RegionDeprecated
         def initialize(args)
           @deleted = Google::Compute::Property::Time.api_munge(args['deleted'])
-          @deprecated =
-            Google::Compute::Property::Time.api_munge(args['deprecated'])
-          @obsolete =
-            Google::Compute::Property::Time.api_munge(args['obsolete'])
-          @replacement =
-            Google::Compute::Property::String.api_munge(args['replacement'])
+          @deprecated = Google::Compute::Property::Time.api_munge(args['deprecated'])
+          @obsolete = Google::Compute::Property::Time.api_munge(args['obsolete'])
+          @replacement = Google::Compute::Property::String.api_munge(args['replacement'])
           @state = Google::Compute::Property::Enum.api_munge(args['state'])
         end
       end
@@ -111,14 +108,10 @@ module Google
       # Data is coming from the Puppet manifest
       class RegionDeprecatedCatalog < RegionDeprecated
         def initialize(args)
-          @deleted =
-            Google::Compute::Property::Time.unsafe_munge(args['deleted'])
-          @deprecated =
-            Google::Compute::Property::Time.unsafe_munge(args['deprecated'])
-          @obsolete =
-            Google::Compute::Property::Time.unsafe_munge(args['obsolete'])
-          @replacement =
-            Google::Compute::Property::String.unsafe_munge(args['replacement'])
+          @deleted = Google::Compute::Property::Time.unsafe_munge(args['deleted'])
+          @deprecated = Google::Compute::Property::Time.unsafe_munge(args['deprecated'])
+          @obsolete = Google::Compute::Property::Time.unsafe_munge(args['obsolete'])
+          @replacement = Google::Compute::Property::String.unsafe_munge(args['replacement'])
           @state = Google::Compute::Property::Enum.unsafe_munge(args['state'])
         end
       end

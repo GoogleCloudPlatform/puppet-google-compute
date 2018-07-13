@@ -30,8 +30,7 @@ require 'google/compute/property/base'
 module Google
   module Compute
     module Data
-      # A class to manage data for SourceImageEncryptionKey for
-      # instance_template.
+      # A class to manage data for SourceImageEncryptionKey for instance_template.
       class InsTemSouImaEncKey
         include Comparable
 
@@ -94,17 +93,14 @@ module Google
       # Data is coming from the Puppet manifest
       class InsTemSouImaEncKeyCatalog < InsTemSouImaEncKey
         def initialize(args)
-          @raw_key =
-            Google::Compute::Property::String.unsafe_munge(args['raw_key'])
-          @sha256 =
-            Google::Compute::Property::String.unsafe_munge(args['sha256'])
+          @raw_key = Google::Compute::Property::String.unsafe_munge(args['raw_key'])
+          @sha256 = Google::Compute::Property::String.unsafe_munge(args['sha256'])
         end
       end
     end
 
     module Property
-      # A class to manage input to SourceImageEncryptionKey for
-      # instance_template.
+      # A class to manage input to SourceImageEncryptionKey for instance_template.
       class InsTemSouImaEncKey < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)

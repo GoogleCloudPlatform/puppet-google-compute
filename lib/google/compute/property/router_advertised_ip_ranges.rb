@@ -86,8 +86,7 @@ module Google
       class RouteAdverIpRangeApi < RouteAdverIpRange
         def initialize(args)
           @range = Google::Compute::Property::String.api_munge(args['range'])
-          @description =
-            Google::Compute::Property::String.api_munge(args['description'])
+          @description = Google::Compute::Property::String.api_munge(args['description'])
         end
       end
 
@@ -96,8 +95,7 @@ module Google
       class RouteAdverIpRangeCatalog < RouteAdverIpRange
         def initialize(args)
           @range = Google::Compute::Property::String.unsafe_munge(args['range'])
-          @description =
-            Google::Compute::Property::String.unsafe_munge(args['description'])
+          @description = Google::Compute::Property::String.unsafe_munge(args['description'])
         end
       end
     end

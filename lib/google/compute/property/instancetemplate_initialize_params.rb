@@ -87,10 +87,7 @@ module Google
             { self: disk_size_gb, other: other.disk_size_gb },
             { self: disk_type, other: other.disk_type },
             { self: source_image, other: other.source_image },
-            {
-              self: source_image_encryption_key,
-              other: other.source_image_encryption_key
-            }
+            { self: source_image_encryption_key, other: other.source_image_encryption_key }
           ]
         end
       end
@@ -99,19 +96,13 @@ module Google
       # Data is coming from the GCP API
       class InstaTemplInitiParamApi < InstaTemplInitiParam
         def initialize(args)
-          @disk_name =
-            Google::Compute::Property::String.api_munge(args['diskName'])
-          @disk_size_gb =
-            Google::Compute::Property::Integer.api_munge(args['diskSizeGb'])
-          @disk_type = Google::Compute::Property::DiskTypeSelfLinkRef.api_munge(
-            args['diskType']
+          @disk_name = Google::Compute::Property::String.api_munge(args['diskName'])
+          @disk_size_gb = Google::Compute::Property::Integer.api_munge(args['diskSizeGb'])
+          @disk_type = Google::Compute::Property::DiskTypeSelfLinkRef.api_munge(args['diskType'])
+          @source_image = Google::Compute::Property::String.api_munge(args['sourceImage'])
+          @source_image_encryption_key = Google::Compute::Property::InsTemSouImaEncKey.api_munge(
+            args['sourceImageEncryptionKey']
           )
-          @source_image =
-            Google::Compute::Property::String.api_munge(args['sourceImage'])
-          @source_image_encryption_key =
-            Google::Compute::Property::InsTemSouImaEncKey.api_munge(
-              args['sourceImageEncryptionKey']
-            )
         end
       end
 
@@ -119,21 +110,14 @@ module Google
       # Data is coming from the Puppet manifest
       class InstaTemplInitiParamCatalog < InstaTemplInitiParam
         def initialize(args)
-          @disk_name =
-            Google::Compute::Property::String.unsafe_munge(args['disk_name'])
-          @disk_size_gb = Google::Compute::Property::Integer.unsafe_munge(
-            args['disk_size_gb']
-          )
+          @disk_name = Google::Compute::Property::String.unsafe_munge(args['disk_name'])
+          @disk_size_gb = Google::Compute::Property::Integer.unsafe_munge(args['disk_size_gb'])
           @disk_type =
-            Google::Compute::Property::DiskTypeSelfLinkRef.unsafe_munge(
-              args['disk_type']
-            )
-          @source_image =
-            Google::Compute::Property::String.unsafe_munge(args['source_image'])
-          @source_image_encryption_key =
-            Google::Compute::Property::InsTemSouImaEncKey.unsafe_munge(
-              args['source_image_encryption_key']
-            )
+            Google::Compute::Property::DiskTypeSelfLinkRef.unsafe_munge(args['disk_type'])
+          @source_image = Google::Compute::Property::String.unsafe_munge(args['source_image'])
+          @source_image_encryption_key = Google::Compute::Property::InsTemSouImaEncKey.unsafe_munge(
+            args['source_image_encryption_key']
+          )
         end
       end
     end

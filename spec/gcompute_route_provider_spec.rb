@@ -136,14 +136,8 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                 catalog.resource('Gcompute_route[title0]').provider
               end
 
-              it do
-                is_expected
-                  .to have_attributes(dest_range: 'test dest_range#0 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(dest_range: 'test dest_range#0 data') }
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(name: 'title0') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
@@ -152,32 +146,18 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               it { is_expected.to have_attributes(priority: 1_108_918_677) }
               it { is_expected.to have_attributes(tags: %w[mm nn oo pp]) }
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_gateway: 'test next_hop_gateway#0 data'
-                  )
+                is_expected.to have_attributes(next_hop_gateway: 'test next_hop_gateway#0 data')
               end
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_instance: 'test next_hop_instance#0 data'
-                  )
+                is_expected.to have_attributes(next_hop_instance: 'test next_hop_instance#0 data')
               end
+              it { is_expected.to have_attributes(next_hop_ip: 'test next_hop_ip#0 data') }
               it do
                 is_expected
-                  .to have_attributes(next_hop_ip: 'test next_hop_ip#0 data')
+                  .to have_attributes(next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#0 data')
               end
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#0 data'
-                  )
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_network: 'test next_hop_network#0 data'
-                  )
+                is_expected.to have_attributes(next_hop_network: 'test next_hop_network#0 data')
               end
             end
 
@@ -186,14 +166,8 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                 catalog.resource('Gcompute_route[title1]').provider
               end
 
-              it do
-                is_expected
-                  .to have_attributes(dest_range: 'test dest_range#1 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(dest_range: 'test dest_range#1 data') }
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(name: 'title1') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
@@ -202,32 +176,18 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               it { is_expected.to have_attributes(priority: 2_217_837_354) }
               it { is_expected.to have_attributes(tags: %w[bb cc dd]) }
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_gateway: 'test next_hop_gateway#1 data'
-                  )
+                is_expected.to have_attributes(next_hop_gateway: 'test next_hop_gateway#1 data')
               end
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_instance: 'test next_hop_instance#1 data'
-                  )
+                is_expected.to have_attributes(next_hop_instance: 'test next_hop_instance#1 data')
               end
+              it { is_expected.to have_attributes(next_hop_ip: 'test next_hop_ip#1 data') }
               it do
                 is_expected
-                  .to have_attributes(next_hop_ip: 'test next_hop_ip#1 data')
+                  .to have_attributes(next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#1 data')
               end
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#1 data'
-                  )
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_network: 'test next_hop_network#1 data'
-                  )
+                is_expected.to have_attributes(next_hop_network: 'test next_hop_network#1 data')
               end
             end
 
@@ -236,14 +196,8 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                 catalog.resource('Gcompute_route[title2]').provider
               end
 
-              it do
-                is_expected
-                  .to have_attributes(dest_range: 'test dest_range#2 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(dest_range: 'test dest_range#2 data') }
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(name: 'title2') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
@@ -252,32 +206,18 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               it { is_expected.to have_attributes(priority: 3_326_756_031) }
               it { is_expected.to have_attributes(tags: %w[qq rr]) }
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_gateway: 'test next_hop_gateway#2 data'
-                  )
+                is_expected.to have_attributes(next_hop_gateway: 'test next_hop_gateway#2 data')
               end
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_instance: 'test next_hop_instance#2 data'
-                  )
+                is_expected.to have_attributes(next_hop_instance: 'test next_hop_instance#2 data')
               end
+              it { is_expected.to have_attributes(next_hop_ip: 'test next_hop_ip#2 data') }
               it do
                 is_expected
-                  .to have_attributes(next_hop_ip: 'test next_hop_ip#2 data')
+                  .to have_attributes(next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#2 data')
               end
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#2 data'
-                  )
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_network: 'test next_hop_network#2 data'
-                  )
+                is_expected.to have_attributes(next_hop_network: 'test next_hop_network#2 data')
               end
             end
           end
@@ -386,14 +326,8 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                 catalog.resource('Gcompute_route[title0]').provider
               end
 
-              it do
-                is_expected
-                  .to have_attributes(dest_range: 'test dest_range#0 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(dest_range: 'test dest_range#0 data') }
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
@@ -402,32 +336,18 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               it { is_expected.to have_attributes(priority: 1_108_918_677) }
               it { is_expected.to have_attributes(tags: %w[mm nn oo pp]) }
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_gateway: 'test next_hop_gateway#0 data'
-                  )
+                is_expected.to have_attributes(next_hop_gateway: 'test next_hop_gateway#0 data')
               end
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_instance: 'test next_hop_instance#0 data'
-                  )
+                is_expected.to have_attributes(next_hop_instance: 'test next_hop_instance#0 data')
               end
+              it { is_expected.to have_attributes(next_hop_ip: 'test next_hop_ip#0 data') }
               it do
                 is_expected
-                  .to have_attributes(next_hop_ip: 'test next_hop_ip#0 data')
+                  .to have_attributes(next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#0 data')
               end
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#0 data'
-                  )
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_network: 'test next_hop_network#0 data'
-                  )
+                is_expected.to have_attributes(next_hop_network: 'test next_hop_network#0 data')
               end
             end
 
@@ -436,14 +356,8 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                 catalog.resource('Gcompute_route[title1]').provider
               end
 
-              it do
-                is_expected
-                  .to have_attributes(dest_range: 'test dest_range#1 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(dest_range: 'test dest_range#1 data') }
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
@@ -452,32 +366,18 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               it { is_expected.to have_attributes(priority: 2_217_837_354) }
               it { is_expected.to have_attributes(tags: %w[bb cc dd]) }
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_gateway: 'test next_hop_gateway#1 data'
-                  )
+                is_expected.to have_attributes(next_hop_gateway: 'test next_hop_gateway#1 data')
               end
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_instance: 'test next_hop_instance#1 data'
-                  )
+                is_expected.to have_attributes(next_hop_instance: 'test next_hop_instance#1 data')
               end
+              it { is_expected.to have_attributes(next_hop_ip: 'test next_hop_ip#1 data') }
               it do
                 is_expected
-                  .to have_attributes(next_hop_ip: 'test next_hop_ip#1 data')
+                  .to have_attributes(next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#1 data')
               end
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#1 data'
-                  )
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_network: 'test next_hop_network#1 data'
-                  )
+                is_expected.to have_attributes(next_hop_network: 'test next_hop_network#1 data')
               end
             end
 
@@ -486,14 +386,8 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
                 catalog.resource('Gcompute_route[title2]').provider
               end
 
-              it do
-                is_expected
-                  .to have_attributes(dest_range: 'test dest_range#2 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(dest_range: 'test dest_range#2 data') }
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
@@ -502,32 +396,18 @@ describe Puppet::Type.type(:gcompute_route).provider(:google) do
               it { is_expected.to have_attributes(priority: 3_326_756_031) }
               it { is_expected.to have_attributes(tags: %w[qq rr]) }
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_gateway: 'test next_hop_gateway#2 data'
-                  )
+                is_expected.to have_attributes(next_hop_gateway: 'test next_hop_gateway#2 data')
               end
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_instance: 'test next_hop_instance#2 data'
-                  )
+                is_expected.to have_attributes(next_hop_instance: 'test next_hop_instance#2 data')
               end
+              it { is_expected.to have_attributes(next_hop_ip: 'test next_hop_ip#2 data') }
               it do
                 is_expected
-                  .to have_attributes(next_hop_ip: 'test next_hop_ip#2 data')
+                  .to have_attributes(next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#2 data')
               end
               it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_vpn_tunnel: 'test next_hop_vpn_tunnel#2 data'
-                  )
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    next_hop_network: 'test next_hop_network#2 data'
-                  )
+                is_expected.to have_attributes(next_hop_network: 'test next_hop_network#2 data')
               end
             end
           end

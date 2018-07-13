@@ -56,8 +56,7 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#subnetwork')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#subnetwork')
       resource.provider = present(name, fetch, resource) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_subnetwork, resource)
     end
@@ -73,19 +72,14 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
 
   def self.fetch_to_hash(fetch, resource)
     {
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
-      gateway_address:
-        Google::Compute::Property::String.api_munge(fetch['gatewayAddress']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
+      gateway_address: Google::Compute::Property::String.api_munge(fetch['gatewayAddress']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      ip_cidr_range:
-        Google::Compute::Property::String.api_munge(fetch['ipCidrRange']),
+      ip_cidr_range: Google::Compute::Property::String.api_munge(fetch['ipCidrRange']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      private_ip_google_access: Google::Compute::Property::Boolean.api_munge(
-        fetch['privateIpGoogleAccess']
-      ),
+      private_ip_google_access:
+        Google::Compute::Property::Boolean.api_munge(fetch['privateIpGoogleAccess']),
       network: resource[:network],
       region: resource[:region]
     }.reject { |_, v| v.nil? }

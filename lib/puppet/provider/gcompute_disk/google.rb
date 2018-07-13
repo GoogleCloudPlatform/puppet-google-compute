@@ -77,21 +77,17 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch, resource)
     {
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       last_attach_timestamp:
         Google::Compute::Property::Time.api_munge(fetch['lastAttachTimestamp']),
       last_detach_timestamp:
         Google::Compute::Property::Time.api_munge(fetch['lastDetachTimestamp']),
       labels: Google::Compute::Property::NameValues.api_munge(fetch['labels']),
-      licenses:
-        Google::Compute::Property::StringArray.api_munge(fetch['licenses']),
+      licenses: Google::Compute::Property::StringArray.api_munge(fetch['licenses']),
       size_gb: Google::Compute::Property::Integer.api_munge(fetch['sizeGb']),
-      type:
-        Google::Compute::Property::DiskTypeSelfLinkRef.api_munge(fetch['type']),
+      type: Google::Compute::Property::DiskTypeSelfLinkRef.api_munge(fetch['type']),
       users: Google::Compute::Property::StringArray.api_munge(fetch['users']),
       name: resource[:name],
       source_image: resource[:source_image]

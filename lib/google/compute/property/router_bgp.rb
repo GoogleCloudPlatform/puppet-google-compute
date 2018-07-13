@@ -95,15 +95,11 @@ module Google
       class RouterBgpApi < RouterBgp
         def initialize(args)
           @asn = Google::Compute::Property::Integer.api_munge(args['asn'])
-          @advertise_mode =
-            Google::Compute::Property::Enum.api_munge(args['advertiseMode'])
-          @advertised_groups = Google::Compute::Property::StringArray.api_munge(
-            args['advertisedGroups']
-          )
+          @advertise_mode = Google::Compute::Property::Enum.api_munge(args['advertiseMode'])
+          @advertised_groups =
+            Google::Compute::Property::StringArray.api_munge(args['advertisedGroups'])
           @advertised_ip_ranges =
-            Google::Compute::Property::RouteAdverIpRangeArray.api_munge(
-              args['advertisedIpRanges']
-            )
+            Google::Compute::Property::RouteAdverIpRangeArray.api_munge(args['advertisedIpRanges'])
         end
       end
 
@@ -112,16 +108,12 @@ module Google
       class RouterBgpCatalog < RouterBgp
         def initialize(args)
           @asn = Google::Compute::Property::Integer.unsafe_munge(args['asn'])
-          @advertise_mode =
-            Google::Compute::Property::Enum.unsafe_munge(args['advertise_mode'])
+          @advertise_mode = Google::Compute::Property::Enum.unsafe_munge(args['advertise_mode'])
           @advertised_groups =
-            Google::Compute::Property::StringArray.unsafe_munge(
-              args['advertised_groups']
-            )
-          @advertised_ip_ranges =
-            Google::Compute::Property::RouteAdverIpRangeArray.unsafe_munge(
-              args['advertised_ip_ranges']
-            )
+            Google::Compute::Property::StringArray.unsafe_munge(args['advertised_groups'])
+          @advertised_ip_ranges = Google::Compute::Property::RouteAdverIpRangeArray.unsafe_munge(
+            args['advertised_ip_ranges']
+          )
         end
       end
     end

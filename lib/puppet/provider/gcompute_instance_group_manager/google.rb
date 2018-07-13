@@ -60,8 +60,7 @@ Puppet::Type.type(:gcompute_instance_group_manager).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#instanceGroupManager')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#instanceGroupManager')
       resource.provider = present(name, fetch, resource) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_instance_group_manager, resource)
     end
@@ -78,35 +77,22 @@ Puppet::Type.type(:gcompute_instance_group_manager).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch, resource)
     {
-      base_instance_name:
-        Google::Compute::Property::String.api_munge(fetch['baseInstanceName']),
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      base_instance_name: Google::Compute::Property::String.api_munge(fetch['baseInstanceName']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       current_actions:
-        Google::Compute::Property::InstGrouManaCurrActi.api_munge(
-          fetch['currentActions']
-        ),
+        Google::Compute::Property::InstGrouManaCurrActi.api_munge(fetch['currentActions']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      instance_group: Google::Compute::Property::InstGrouSelfLinkRef.api_munge(
-        fetch['instanceGroup']
-      ),
+      instance_group:
+        Google::Compute::Property::InstGrouSelfLinkRef.api_munge(fetch['instanceGroup']),
       instance_template:
-        Google::Compute::Property::InstTempSelfLinkRef.api_munge(
-          fetch['instanceTemplate']
-        ),
+        Google::Compute::Property::InstTempSelfLinkRef.api_munge(fetch['instanceTemplate']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       named_ports:
-        Google::Compute::Property::InstGrouManaNamePortArray.api_munge(
-          fetch['namedPorts']
-        ),
-      region:
-        Google::Compute::Property::RegioSelfLinkRef.api_munge(fetch['region']),
+        Google::Compute::Property::InstGrouManaNamePortArray.api_munge(fetch['namedPorts']),
+      region: Google::Compute::Property::RegioSelfLinkRef.api_munge(fetch['region']),
       target_pools:
-        Google::Compute::Property::TargPoolSelfLinkRefArray.api_munge(
-          fetch['targetPools']
-        ),
-      target_size:
-        Google::Compute::Property::Integer.api_munge(fetch['targetSize']),
+        Google::Compute::Property::TargPoolSelfLinkRefArray.api_munge(fetch['targetPools']),
+      target_size: Google::Compute::Property::Integer.api_munge(fetch['targetSize']),
       description: resource[:description]
     }.reject { |_, v| v.nil? }
   end

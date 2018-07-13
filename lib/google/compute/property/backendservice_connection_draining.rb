@@ -80,9 +80,8 @@ module Google
       # Data is coming from the GCP API
       class BackeServiConneDrainApi < BackeServiConneDrain
         def initialize(args)
-          @draining_timeout_sec = Google::Compute::Property::Integer.api_munge(
-            args['drainingTimeoutSec']
-          )
+          @draining_timeout_sec =
+            Google::Compute::Property::Integer.api_munge(args['drainingTimeoutSec'])
         end
       end
 
@@ -91,9 +90,7 @@ module Google
       class BackeServiConneDrainCatalog < BackeServiConneDrain
         def initialize(args)
           @draining_timeout_sec =
-            Google::Compute::Property::Integer.unsafe_munge(
-              args['draining_timeout_sec']
-            )
+            Google::Compute::Property::Integer.unsafe_munge(args['draining_timeout_sec'])
         end
       end
     end

@@ -70,8 +70,7 @@ module Google
         end
 
         def resource
-          Google::ObjectStore.instance[:gcompute_ssl_certificate]
-                             .each do |entry|
+          Google::ObjectStore.instance[:gcompute_ssl_certificate].each do |entry|
             return entry.exports[:self_link] if entry.title == @title
           end
           raise ArgumentError, "gcompute_ssl_certificate[#{@title}] required"

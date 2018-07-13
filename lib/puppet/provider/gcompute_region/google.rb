@@ -69,13 +69,9 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch)
     {
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      deprecated: Google::Compute::Property::RegionDeprecated.api_munge(
-        fetch['deprecated']
-      ),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      deprecated: Google::Compute::Property::RegionDeprecated.api_munge(fetch['deprecated']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       zones: Google::Compute::Property::StringArray.api_munge(fetch['zones'])

@@ -96,16 +96,10 @@ module Google
       class UrlMapPathMatchApi < UrlMapPathMatch
         def initialize(args)
           @default_service =
-            Google::Compute::Property::BackServSelfLinkRef.api_munge(
-              args['defaultService']
-            )
-          @description =
-            Google::Compute::Property::String.api_munge(args['description'])
+            Google::Compute::Property::BackServSelfLinkRef.api_munge(args['defaultService'])
+          @description = Google::Compute::Property::String.api_munge(args['description'])
           @name = Google::Compute::Property::String.api_munge(args['name'])
-          @path_rules =
-            Google::Compute::Property::UrlMapPathRulesArray.api_munge(
-              args['pathRules']
-            )
+          @path_rules = Google::Compute::Property::UrlMapPathRulesArray.api_munge(args['pathRules'])
         end
       end
 
@@ -114,16 +108,11 @@ module Google
       class UrlMapPathMatchCatalog < UrlMapPathMatch
         def initialize(args)
           @default_service =
-            Google::Compute::Property::BackServSelfLinkRef.unsafe_munge(
-              args['default_service']
-            )
-          @description =
-            Google::Compute::Property::String.unsafe_munge(args['description'])
+            Google::Compute::Property::BackServSelfLinkRef.unsafe_munge(args['default_service'])
+          @description = Google::Compute::Property::String.unsafe_munge(args['description'])
           @name = Google::Compute::Property::String.unsafe_munge(args['name'])
           @path_rules =
-            Google::Compute::Property::UrlMapPathRulesArray.unsafe_munge(
-              args['path_rules']
-            )
+            Google::Compute::Property::UrlMapPathRulesArray.unsafe_munge(args['path_rules'])
         end
       end
     end

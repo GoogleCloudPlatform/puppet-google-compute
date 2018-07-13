@@ -54,8 +54,7 @@ Puppet::Type.type(:gcompute_target_http_proxy).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#targetHttpProxy')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#targetHttpProxy')
       resource.provider = present(name, fetch) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_target_http_proxy, resource)
     end
@@ -69,14 +68,11 @@ Puppet::Type.type(:gcompute_target_http_proxy).provide(:google) do
 
   def self.fetch_to_hash(fetch)
     {
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      url_map:
-        Google::Compute::Property::UrlMapSelfLinkRef.api_munge(fetch['urlMap'])
+      url_map: Google::Compute::Property::UrlMapSelfLinkRef.api_munge(fetch['urlMap'])
     }.reject { |_, v| v.nil? }
   end
 

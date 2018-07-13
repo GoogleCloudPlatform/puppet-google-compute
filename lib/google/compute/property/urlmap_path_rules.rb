@@ -85,11 +85,8 @@ module Google
       # Data is coming from the GCP API
       class UrlMapPathRulesApi < UrlMapPathRules
         def initialize(args)
-          @paths =
-            Google::Compute::Property::StringArray.api_munge(args['paths'])
-          @service = Google::Compute::Property::BackServSelfLinkRef.api_munge(
-            args['service']
-          )
+          @paths = Google::Compute::Property::StringArray.api_munge(args['paths'])
+          @service = Google::Compute::Property::BackServSelfLinkRef.api_munge(args['service'])
         end
       end
 
@@ -97,12 +94,8 @@ module Google
       # Data is coming from the Puppet manifest
       class UrlMapPathRulesCatalog < UrlMapPathRules
         def initialize(args)
-          @paths =
-            Google::Compute::Property::StringArray.unsafe_munge(args['paths'])
-          @service =
-            Google::Compute::Property::BackServSelfLinkRef.unsafe_munge(
-              args['service']
-            )
+          @paths = Google::Compute::Property::StringArray.unsafe_munge(args['paths'])
+          @service = Google::Compute::Property::BackServSelfLinkRef.unsafe_munge(args['service'])
         end
       end
     end

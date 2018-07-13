@@ -85,11 +85,9 @@ module Google
       # Data is coming from the GCP API
       class InstTempAliaIpRangApi < InstTempAliaIpRang
         def initialize(args)
-          @ip_cidr_range =
-            Google::Compute::Property::String.api_munge(args['ipCidrRange'])
-          @subnetwork_range_name = Google::Compute::Property::String.api_munge(
-            args['subnetworkRangeName']
-          )
+          @ip_cidr_range = Google::Compute::Property::String.api_munge(args['ipCidrRange'])
+          @subnetwork_range_name =
+            Google::Compute::Property::String.api_munge(args['subnetworkRangeName'])
         end
       end
 
@@ -97,13 +95,9 @@ module Google
       # Data is coming from the Puppet manifest
       class InstTempAliaIpRangCatalog < InstTempAliaIpRang
         def initialize(args)
-          @ip_cidr_range = Google::Compute::Property::String.unsafe_munge(
-            args['ip_cidr_range']
-          )
+          @ip_cidr_range = Google::Compute::Property::String.unsafe_munge(args['ip_cidr_range'])
           @subnetwork_range_name =
-            Google::Compute::Property::String.unsafe_munge(
-              args['subnetwork_range_name']
-            )
+            Google::Compute::Property::String.unsafe_munge(args['subnetwork_range_name'])
         end
       end
     end

@@ -54,8 +54,7 @@ Puppet::Type.type(:gcompute_backend_bucket).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#backendBucket')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#backendBucket')
       resource.provider = present(name, fetch, resource) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_backend_bucket, resource)
     end
@@ -71,14 +70,10 @@ Puppet::Type.type(:gcompute_backend_bucket).provide(:google) do
 
   def self.fetch_to_hash(fetch, resource)
     {
-      bucket_name:
-        Google::Compute::Property::String.api_munge(fetch['bucketName']),
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
-      enable_cdn:
-        Google::Compute::Property::Boolean.api_munge(fetch['enableCdn']),
+      bucket_name: Google::Compute::Property::String.api_munge(fetch['bucketName']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
+      enable_cdn: Google::Compute::Property::Boolean.api_munge(fetch['enableCdn']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: resource[:name]
     }.reject { |_, v| v.nil? }

@@ -59,8 +59,7 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#forwardingRule')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#forwardingRule')
       resource.provider = present(name, fetch) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_forwarding_rule, resource)
     end
@@ -75,31 +74,21 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch)
     {
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      ip_address:
-        Google::Compute::Property::String.api_munge(fetch['IPAddress']),
-      ip_protocol:
-        Google::Compute::Property::Enum.api_munge(fetch['IPProtocol']),
+      ip_address: Google::Compute::Property::String.api_munge(fetch['IPAddress']),
+      ip_protocol: Google::Compute::Property::Enum.api_munge(fetch['IPProtocol']),
       backend_service:
-        Google::Compute::Property::BackServSelfLinkRef.api_munge(
-          fetch['backendService']
-        ),
+        Google::Compute::Property::BackServSelfLinkRef.api_munge(fetch['backendService']),
       ip_version: Google::Compute::Property::Enum.api_munge(fetch['ipVersion']),
       load_balancing_scheme:
         Google::Compute::Property::Enum.api_munge(fetch['loadBalancingScheme']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      network:
-        Google::Compute::Property::NetwoSelfLinkRef.api_munge(fetch['network']),
-      port_range:
-        Google::Compute::Property::String.api_munge(fetch['portRange']),
+      network: Google::Compute::Property::NetwoSelfLinkRef.api_munge(fetch['network']),
+      port_range: Google::Compute::Property::String.api_munge(fetch['portRange']),
       ports: Google::Compute::Property::StringArray.api_munge(fetch['ports']),
-      subnetwork: Google::Compute::Property::SubneSelfLinkRef.api_munge(
-        fetch['subnetwork']
-      )
+      subnetwork: Google::Compute::Property::SubneSelfLinkRef.api_munge(fetch['subnetwork'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength

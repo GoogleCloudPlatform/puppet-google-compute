@@ -53,8 +53,7 @@ Puppet::Type.type(:gcompute_ssl_certificate).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#sslCertificate')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#sslCertificate')
       resource.provider = present(name, fetch, resource) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_ssl_certificate, resource)
     end
@@ -70,12 +69,9 @@ Puppet::Type.type(:gcompute_ssl_certificate).provide(:google) do
 
   def self.fetch_to_hash(fetch, resource)
     {
-      certificate:
-        Google::Compute::Property::String.api_munge(fetch['certificate']),
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
+      certificate: Google::Compute::Property::String.api_munge(fetch['certificate']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       private_key: resource[:private_key]

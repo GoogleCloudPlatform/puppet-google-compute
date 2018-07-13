@@ -94,10 +94,7 @@ module Google
           [
             { self: abandoning, other: other.abandoning },
             { self: creating, other: other.creating },
-            {
-              self: creating_without_retries,
-              other: other.creating_without_retries
-            },
+            { self: creating_without_retries, other: other.creating_without_retries },
             { self: deleting, other: other.deleting },
             { self: none, other: other.none },
             { self: recreating, other: other.recreating },
@@ -112,23 +109,15 @@ module Google
       class InstGrouManaCurrActiApi < InstGrouManaCurrActi
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
-          @abandoning =
-            Google::Compute::Property::Integer.api_munge(args['abandoning'])
-          @creating =
-            Google::Compute::Property::Integer.api_munge(args['creating'])
+          @abandoning = Google::Compute::Property::Integer.api_munge(args['abandoning'])
+          @creating = Google::Compute::Property::Integer.api_munge(args['creating'])
           @creating_without_retries =
-            Google::Compute::Property::Integer.api_munge(
-              args['creatingWithoutRetries']
-            )
-          @deleting =
-            Google::Compute::Property::Integer.api_munge(args['deleting'])
+            Google::Compute::Property::Integer.api_munge(args['creatingWithoutRetries'])
+          @deleting = Google::Compute::Property::Integer.api_munge(args['deleting'])
           @none = Google::Compute::Property::Integer.api_munge(args['none'])
-          @recreating =
-            Google::Compute::Property::Integer.api_munge(args['recreating'])
-          @refreshing =
-            Google::Compute::Property::Integer.api_munge(args['refreshing'])
-          @restarting =
-            Google::Compute::Property::Integer.api_munge(args['restarting'])
+          @recreating = Google::Compute::Property::Integer.api_munge(args['recreating'])
+          @refreshing = Google::Compute::Property::Integer.api_munge(args['refreshing'])
+          @restarting = Google::Compute::Property::Integer.api_munge(args['restarting'])
         end
         # rubocop:enable Metrics/MethodLength
       end
@@ -138,23 +127,15 @@ module Google
       class InstGrouManaCurrActiCatalog < InstGrouManaCurrActi
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
-          @abandoning =
-            Google::Compute::Property::Integer.unsafe_munge(args['abandoning'])
-          @creating =
-            Google::Compute::Property::Integer.unsafe_munge(args['creating'])
+          @abandoning = Google::Compute::Property::Integer.unsafe_munge(args['abandoning'])
+          @creating = Google::Compute::Property::Integer.unsafe_munge(args['creating'])
           @creating_without_retries =
-            Google::Compute::Property::Integer.unsafe_munge(
-              args['creating_without_retries']
-            )
-          @deleting =
-            Google::Compute::Property::Integer.unsafe_munge(args['deleting'])
+            Google::Compute::Property::Integer.unsafe_munge(args['creating_without_retries'])
+          @deleting = Google::Compute::Property::Integer.unsafe_munge(args['deleting'])
           @none = Google::Compute::Property::Integer.unsafe_munge(args['none'])
-          @recreating =
-            Google::Compute::Property::Integer.unsafe_munge(args['recreating'])
-          @refreshing =
-            Google::Compute::Property::Integer.unsafe_munge(args['refreshing'])
-          @restarting =
-            Google::Compute::Property::Integer.unsafe_munge(args['restarting'])
+          @recreating = Google::Compute::Property::Integer.unsafe_munge(args['recreating'])
+          @refreshing = Google::Compute::Property::Integer.unsafe_munge(args['refreshing'])
+          @restarting = Google::Compute::Property::Integer.unsafe_munge(args['restarting'])
         end
         # rubocop:enable Metrics/MethodLength
       end

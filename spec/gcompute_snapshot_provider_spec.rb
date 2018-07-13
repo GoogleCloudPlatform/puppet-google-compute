@@ -195,18 +195,12 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(disk_size_gb: 450_092_159) }
               it { is_expected.to have_attributes(name: 'title0') }
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(storage_bytes: 408_216_187) }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'licenses' do
@@ -222,18 +216,12 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(disk_size_gb: 900_184_319) }
               it { is_expected.to have_attributes(name: 'title1') }
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(storage_bytes: 816_432_375) }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'licenses' do
@@ -249,21 +237,13 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(disk_size_gb: 1_350_276_479) }
               it { is_expected.to have_attributes(name: 'title2') }
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
-              it do
-                is_expected.to have_attributes(storage_bytes: 1_224_648_562)
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
+              it { is_expected.to have_attributes(storage_bytes: 1_224_648_562) }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'licenses' do
               #   # Add test code here
@@ -435,18 +415,12 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(disk_size_gb: 450_092_159) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(storage_bytes: 408_216_187) }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'licenses' do
@@ -462,18 +436,12 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(disk_size_gb: 900_184_319) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(storage_bytes: 816_432_375) }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'licenses' do
@@ -489,21 +457,13 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(disk_size_gb: 1_350_276_479) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
-              it do
-                is_expected.to have_attributes(storage_bytes: 1_224_648_562)
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
+              it { is_expected.to have_attributes(storage_bytes: 1_224_648_562) }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'licenses' do
               #   # Add test code here

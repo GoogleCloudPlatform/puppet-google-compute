@@ -27,8 +27,7 @@
 
 require 'spec_helper'
 
-describe Puppet::Type.type(:gcompute_instance_group_manager)
-                     .provider(:google) do
+describe Puppet::Type.type(:gcompute_instance_group_manager).provider(:google) do
   before(:all) do
     cred = Google::FakeAuthorization.new
     Puppet::Type.type(:gauth_credential)
@@ -52,27 +51,18 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
               allow(Time).to receive(:now).and_return(
                 Time.new(2017, 1, 2, 3, 4, 5)
               )
-              expect_network_get_success 1,
-                                         name: 'title0',
-                                         zone: 'test name#0 data'
-              expect_network_get_success 2,
-                                         name: 'title1',
-                                         zone: 'test name#1 data'
-              expect_network_get_success 3,
-                                         name: 'title2',
-                                         zone: 'test name#2 data'
+              expect_network_get_success 1, name: 'title0', zone: 'test name#0 data'
+              expect_network_get_success 2, name: 'title1', zone: 'test name#1 data'
+              expect_network_get_success 3, name: 'title2', zone: 'test name#2 data'
               expect_network_get_success_instance_template 1
               expect_network_get_success_instance_template 2
               expect_network_get_success_instance_template 3
               expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
-              expect_network_get_success_target_pool 1,
-                                                     region: 'test name#0 data'
-              expect_network_get_success_target_pool 2,
-                                                     region: 'test name#1 data'
-              expect_network_get_success_target_pool 3,
-                                                     region: 'test name#2 data'
+              expect_network_get_success_target_pool 1, region: 'test name#0 data'
+              expect_network_get_success_target_pool 2, region: 'test name#1 data'
+              expect_network_get_success_target_pool 3, region: 'test name#2 data'
               expect_network_get_success_zone 1
               expect_network_get_success_zone 2
               expect_network_get_success_zone 3
@@ -269,31 +259,21 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
 
             context 'Gcompute_instance_group_manager[title0]' do
               subject do
-                catalog.resource('Gcompute_instance_group_manager[title0]')
-                       .provider
+                catalog.resource('Gcompute_instance_group_manager[title0]').provider
               end
 
               it do
-                is_expected
-                  .to have_attributes(
-                    base_instance_name: 'test base_instance_name#0 data'
-                  )
+                is_expected.to have_attributes(base_instance_name: 'test base_instance_name#0 data')
               end
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'currentActions' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               # TODO(alexstephen): Implement resourceref test.
               # it 'instanceGroup' do
@@ -321,31 +301,21 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
 
             context 'Gcompute_instance_group_manager[title1]' do
               subject do
-                catalog.resource('Gcompute_instance_group_manager[title1]')
-                       .provider
+                catalog.resource('Gcompute_instance_group_manager[title1]').provider
               end
 
               it do
-                is_expected
-                  .to have_attributes(
-                    base_instance_name: 'test base_instance_name#1 data'
-                  )
+                is_expected.to have_attributes(base_instance_name: 'test base_instance_name#1 data')
               end
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'currentActions' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               # TODO(alexstephen): Implement resourceref test.
               # it 'instanceGroup' do
@@ -373,31 +343,21 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
 
             context 'Gcompute_instance_group_manager[title2]' do
               subject do
-                catalog.resource('Gcompute_instance_group_manager[title2]')
-                       .provider
+                catalog.resource('Gcompute_instance_group_manager[title2]').provider
               end
 
               it do
-                is_expected
-                  .to have_attributes(
-                    base_instance_name: 'test base_instance_name#2 data'
-                  )
+                is_expected.to have_attributes(base_instance_name: 'test base_instance_name#2 data')
               end
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'currentActions' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               # TODO(alexstephen): Implement resourceref test.
               # it 'instanceGroup' do
@@ -449,12 +409,9 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
               expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
-              expect_network_get_success_target_pool 1,
-                                                     region: 'test name#0 data'
-              expect_network_get_success_target_pool 2,
-                                                     region: 'test name#1 data'
-              expect_network_get_success_target_pool 3,
-                                                     region: 'test name#2 data'
+              expect_network_get_success_target_pool 1, region: 'test name#0 data'
+              expect_network_get_success_target_pool 2, region: 'test name#1 data'
+              expect_network_get_success_target_pool 3, region: 'test name#2 data'
               expect_network_get_success_zone 1
               expect_network_get_success_zone 2
               expect_network_get_success_zone 3
@@ -654,31 +611,21 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
 
             context 'Gcompute_instance_group_manager[title0]' do
               subject do
-                catalog.resource('Gcompute_instance_group_manager[title0]')
-                       .provider
+                catalog.resource('Gcompute_instance_group_manager[title0]').provider
               end
 
               it do
-                is_expected
-                  .to have_attributes(
-                    base_instance_name: 'test base_instance_name#0 data'
-                  )
+                is_expected.to have_attributes(base_instance_name: 'test base_instance_name#0 data')
               end
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'currentActions' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               # TODO(alexstephen): Implement resourceref test.
               # it 'instanceGroup' do
@@ -706,31 +653,21 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
 
             context 'Gcompute_instance_group_manager[title1]' do
               subject do
-                catalog.resource('Gcompute_instance_group_manager[title1]')
-                       .provider
+                catalog.resource('Gcompute_instance_group_manager[title1]').provider
               end
 
               it do
-                is_expected
-                  .to have_attributes(
-                    base_instance_name: 'test base_instance_name#1 data'
-                  )
+                is_expected.to have_attributes(base_instance_name: 'test base_instance_name#1 data')
               end
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'currentActions' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               # TODO(alexstephen): Implement resourceref test.
               # it 'instanceGroup' do
@@ -758,31 +695,21 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
 
             context 'Gcompute_instance_group_manager[title2]' do
               subject do
-                catalog.resource('Gcompute_instance_group_manager[title2]')
-                       .provider
+                catalog.resource('Gcompute_instance_group_manager[title2]').provider
               end
 
               it do
-                is_expected
-                  .to have_attributes(
-                    base_instance_name: 'test base_instance_name#2 data'
-                  )
+                is_expected.to have_attributes(base_instance_name: 'test base_instance_name#2 data')
               end
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'currentActions' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               # TODO(alexstephen): Implement resourceref test.
               # it 'instanceGroup' do
@@ -858,9 +785,7 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
         # Ensure present: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      name: 'title0',
-                                      zone: 'test name#0 data'
+            expect_network_get_failed 1, name: 'title0', zone: 'test name#0 data'
             expect_network_create \
               1,
               {
@@ -1003,8 +928,7 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
                 credential         => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_instance_group_manager[title0]')
-              .provider.ensure
+            ).catalog.resource('Gcompute_instance_group_manager[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }
@@ -1166,8 +1090,7 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
                 credential         => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_instance_group_manager[title0]')
-              .provider.ensure
+            ).catalog.resource('Gcompute_instance_group_manager[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }
@@ -1190,9 +1113,7 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
         # Ensure absent: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      name: 'title0',
-                                      zone: 'test name#0 data'
+            expect_network_get_failed 1, name: 'title0', zone: 'test name#0 data'
             expect_network_get_success_instance_template 1
             expect_network_get_success_zone 1
           end
@@ -1295,9 +1216,7 @@ describe Puppet::Type.type(:gcompute_instance_group_manager)
         # Ensure absent: resource exists, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_success 1,
-                                       name: 'title0',
-                                       zone: 'test name#0 data'
+            expect_network_get_success 1, name: 'title0', zone: 'test name#0 data'
             expect_network_delete 1, 'title0', zone: 'test name#0 data'
             expect_network_get_async 1, name: 'title0', zone: 'test name#0 data'
             expect_network_get_success_instance_template 1

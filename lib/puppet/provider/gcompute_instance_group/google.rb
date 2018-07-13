@@ -58,8 +58,7 @@ Puppet::Type.type(:gcompute_instance_group).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#instanceGroup')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#instanceGroup')
       resource.provider = present(name, fetch) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_instance_group, resource)
     end
@@ -74,23 +73,15 @@ Puppet::Type.type(:gcompute_instance_group).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch)
     {
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       named_ports:
-        Google::Compute::Property::InstaGroupNamedPortsArray.api_munge(
-          fetch['namedPorts']
-        ),
-      network:
-        Google::Compute::Property::NetwoSelfLinkRef.api_munge(fetch['network']),
-      region:
-        Google::Compute::Property::RegioSelfLinkRef.api_munge(fetch['region']),
-      subnetwork: Google::Compute::Property::SubneSelfLinkRef.api_munge(
-        fetch['subnetwork']
-      )
+        Google::Compute::Property::InstaGroupNamedPortsArray.api_munge(fetch['namedPorts']),
+      network: Google::Compute::Property::NetwoSelfLinkRef.api_munge(fetch['network']),
+      region: Google::Compute::Property::RegioSelfLinkRef.api_munge(fetch['region']),
+      subnetwork: Google::Compute::Property::SubneSelfLinkRef.api_munge(fetch['subnetwork'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength

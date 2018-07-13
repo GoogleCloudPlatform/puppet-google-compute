@@ -40,17 +40,15 @@ require 'puppet'
 
 Puppet::Type.newtype(:gcompute_image) do
   @doc = <<-DOC
-    Represents an Image resource. Google Compute Engine uses operating system
-    images to create the root persistent disks for your instances. You specify
-    an image when you create an instance. Images contain a boot loader, an
-    operating system, and a root file system. Linux operating system images are
-    also capable of running containers on Compute Engine. Images can be either
-    public or custom. Public images are provided and maintained by Google,
-    open-source communities, and third-party vendors. By default, all projects
-    have access to these images and can use them to create instances. Custom
-    images are available only to your project. You can create a custom image
-    from root persistent disks and other images. Then, use the custom image to
-    create an instance.
+    Represents an Image resource. Google Compute Engine uses operating system images to create the
+    root persistent disks for your instances. You specify an image when you create an instance.
+    Images contain a boot loader, an operating system, and a root file system. Linux operating
+    system images are also capable of running containers on Compute Engine. Images can be either
+    public or custom. Public images are provided and maintained by Google, open-source communities,
+    and third-party vendors. By default, all projects have access to these images and can use them
+    to create instances. Custom images are available only to your project. You can create a custom
+    image from root persistent disks and other images. Then, use the custom image to create an
+    instance.
   DOC
 
   autorequire(:gauth_credential) do
@@ -77,27 +75,21 @@ Puppet::Type.newtype(:gcompute_image) do
     desc 'The name of the Image.'
   end
 
-  newproperty(:archive_size_bytes,
-              parent: Google::Compute::Property::Integer) do
-    desc <<-DOC
-      Size of the image tar.gz archive stored in Google Cloud Storage (in
-      bytes). (output only)
-    DOC
+  newproperty(:archive_size_bytes, parent: Google::Compute::Property::Integer) do
+    desc 'Size of the image tar.gz archive stored in Google Cloud Storage (in bytes). (output only)'
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
     desc 'Creation timestamp in RFC3339 text format. (output only)'
   end
 
-  newproperty(:deprecated,
-              parent: Google::Compute::Property::ImageDeprecated) do
+  newproperty(:deprecated, parent: Google::Compute::Property::ImageDeprecated) do
     desc 'The deprecation status associated with this image. (output only)'
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      An optional description of this resource. Provide this property when you
-      create the resource.
+      An optional description of this resource. Provide this property when you create the resource.
     DOC
   end
 
@@ -107,41 +99,36 @@ Puppet::Type.newtype(:gcompute_image) do
 
   newproperty(:family, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      The name of the image family to which this image belongs. You can create
-      disks by specifying an image family instead of a specific image name. The
-      image family always returns its latest image that is not deprecated. The
-      name of the image family must comply with RFC1035.
+      The name of the image family to which this image belongs. You can create disks by specifying
+      an image family instead of a specific image name. The image family always returns its latest
+      image that is not deprecated. The name of the image family must comply with RFC1035.
     DOC
   end
 
-  newproperty(:guest_os_features,
-              parent: Google::Compute::Property::ImageGuestOsFeatuArray) do
+  newproperty(:guest_os_features, parent: Google::Compute::Property::ImageGuestOsFeatuArray) do
     desc <<-DOC
-      A list of features to enable on the guest OS. Applicable for bootable
-      images only. Currently, only one feature can be enabled,
-      VIRTIO_SCSI_MULTIQUEUE, which allows each virtual CPU to have its own
-      queue. For Windows images, you can only enable VIRTIO_SCSI_MULTIQUEUE on
-      images with driver version 1.2.0.1621 or higher. Linux images with kernel
-      versions 3.17 and higher will support VIRTIO_SCSI_MULTIQUEUE. For new
-      Windows images, the server might also populate this field with the value
-      WINDOWS, to indicate that this is a Windows image. This value is purely
-      informational and does not enable or disable any features.
+      A list of features to enable on the guest OS. Applicable for bootable images only. Currently,
+      only one feature can be enabled, VIRTIO_SCSI_MULTIQUEUE, which allows each virtual CPU to
+      have its own queue. For Windows images, you can only enable VIRTIO_SCSI_MULTIQUEUE on images
+      with driver version 1.2.0.1621 or higher. Linux images with kernel versions 3.17 and higher
+      will support VIRTIO_SCSI_MULTIQUEUE. For new Windows images, the server might also populate
+      this field with the value WINDOWS, to indicate that this is a Windows image. This value is
+      purely informational and does not enable or disable any features.
     DOC
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
     desc <<-DOC
-      The unique identifier for the resource. This identifier is defined by the
-      server. (output only)
+      The unique identifier for the resource. This identifier is defined by the server. (output
+      only)
     DOC
   end
 
-  newproperty(:image_encryption_key,
-              parent: Google::Compute::Property::ImageImageEncryKey) do
+  newproperty(:image_encryption_key, parent: Google::Compute::Property::ImageImageEncryKey) do
     desc <<-DOC
-      Encrypts the image using a customer-supplied encryption key. After you
-      encrypt an image with a customer-supplied key, you must provide the same
-      key if you use the image later (e.g. to create a disk from the image)
+      Encrypts the image using a customer-supplied encryption key. After you encrypt an image with
+      a customer-supplied key, you must provide the same key if you use the image later (e.g. to
+      create a disk from the image)
     DOC
   end
 
@@ -151,13 +138,11 @@ Puppet::Type.newtype(:gcompute_image) do
 
   newproperty(:name, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      Name of the resource; provided by the client when the resource is
-      created. The name must be 1-63 characters long, and comply with RFC1035.
-      Specifically, the name must be 1-63 characters long and match the regular
-      expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character
-      must be a lowercase letter, and all following characters must be a dash,
-      lowercase letter, or digit, except the last character, which cannot be a
-      dash.
+      Name of the resource; provided by the client when the resource is created. The name must be
+      1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters
+      long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first
+      character must be a lowercase letter, and all following characters must be a dash, lowercase
+      letter, or digit, except the last character, which cannot be a dash.
     DOC
   end
 
@@ -165,35 +150,30 @@ Puppet::Type.newtype(:gcompute_image) do
     desc 'The parameters of the raw disk image.'
   end
 
-  newproperty(:source_disk,
-              parent: Google::Compute::Property::DiskSelfLinkRef) do
+  newproperty(:source_disk, parent: Google::Compute::Property::DiskSelfLinkRef) do
     desc <<-DOC
-      Refers to a gcompute_disk object You must provide either this property or
-      the rawDisk.source property but not both to create an image.
+      Refers to a gcompute_disk object You must provide either this property or the rawDisk.source
+      property but not both to create an image.
     DOC
   end
 
   newproperty(:source_disk_encryption_key,
               parent: Google::Compute::Property::ImagSourDiskEncrKey) do
     desc <<-DOC
-      The customer-supplied encryption key of the source disk. Required if the
-      source disk is protected by a customer-supplied encryption key.
+      The customer-supplied encryption key of the source disk. Required if the source disk is
+      protected by a customer-supplied encryption key.
     DOC
   end
 
   newproperty(:source_disk_id, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      The ID value of the disk used to create this image. This value may be
-      used to determine whether the image was taken from the current or a
-      previous instance of a given disk name.
+      The ID value of the disk used to create this image. This value may be used to determine
+      whether the image was taken from the current or a previous instance of a given disk name.
     DOC
   end
 
   newproperty(:source_type, parent: Google::Compute::Property::Enum) do
-    desc <<-DOC
-      The type of the image used to create this disk. The default and only
-      value is RAW
-    DOC
+    desc 'The type of the image used to create this disk. The default and only value is RAW'
     newvalue(:RAW)
   end
 end

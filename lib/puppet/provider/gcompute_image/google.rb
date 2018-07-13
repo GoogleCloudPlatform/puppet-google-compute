@@ -74,43 +74,25 @@ Puppet::Type.type(:gcompute_image).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch)
     {
-      archive_size_bytes:
-        Google::Compute::Property::Integer.api_munge(fetch['archiveSizeBytes']),
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      deprecated: Google::Compute::Property::ImageDeprecated.api_munge(
-        fetch['deprecated']
-      ),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
-      disk_size_gb:
-        Google::Compute::Property::Integer.api_munge(fetch['diskSizeGb']),
+      archive_size_bytes: Google::Compute::Property::Integer.api_munge(fetch['archiveSizeBytes']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      deprecated: Google::Compute::Property::ImageDeprecated.api_munge(fetch['deprecated']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
+      disk_size_gb: Google::Compute::Property::Integer.api_munge(fetch['diskSizeGb']),
       family: Google::Compute::Property::String.api_munge(fetch['family']),
       guest_os_features:
-        Google::Compute::Property::ImageGuestOsFeatuArray.api_munge(
-          fetch['guestOsFeatures']
-        ),
+        Google::Compute::Property::ImageGuestOsFeatuArray.api_munge(fetch['guestOsFeatures']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       image_encryption_key:
-        Google::Compute::Property::ImageImageEncryKey.api_munge(
-          fetch['imageEncryptionKey']
-        ),
-      licenses:
-        Google::Compute::Property::StringArray.api_munge(fetch['licenses']),
+        Google::Compute::Property::ImageImageEncryKey.api_munge(fetch['imageEncryptionKey']),
+      licenses: Google::Compute::Property::StringArray.api_munge(fetch['licenses']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      raw_disk:
-        Google::Compute::Property::ImageRawDisk.api_munge(fetch['rawDisk']),
-      source_disk: Google::Compute::Property::DiskSelfLinkRef.api_munge(
-        fetch['sourceDisk']
-      ),
+      raw_disk: Google::Compute::Property::ImageRawDisk.api_munge(fetch['rawDisk']),
+      source_disk: Google::Compute::Property::DiskSelfLinkRef.api_munge(fetch['sourceDisk']),
       source_disk_encryption_key:
-        Google::Compute::Property::ImagSourDiskEncrKey.api_munge(
-          fetch['sourceDiskEncryptionKey']
-        ),
-      source_disk_id:
-        Google::Compute::Property::String.api_munge(fetch['sourceDiskId']),
-      source_type:
-        Google::Compute::Property::Enum.api_munge(fetch['sourceType'])
+        Google::Compute::Property::ImagSourDiskEncrKey.api_munge(fetch['sourceDiskEncryptionKey']),
+      source_disk_id: Google::Compute::Property::String.api_munge(fetch['sourceDiskId']),
+      source_type: Google::Compute::Property::Enum.api_munge(fetch['sourceType'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength

@@ -92,41 +92,24 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch, resource)
     {
-      can_ip_forward:
-        Google::Compute::Property::Boolean.api_munge(fetch['canIpForward']),
-      cpu_platform:
-        Google::Compute::Property::String.api_munge(fetch['cpuPlatform']),
-      creation_timestamp:
-        Google::Compute::Property::String.api_munge(fetch['creationTimestamp']),
+      can_ip_forward: Google::Compute::Property::Boolean.api_munge(fetch['canIpForward']),
+      cpu_platform: Google::Compute::Property::String.api_munge(fetch['cpuPlatform']),
+      creation_timestamp: Google::Compute::Property::String.api_munge(fetch['creationTimestamp']),
       guest_accelerators:
-        Google::Compute::Property::InstancGuestAccelerArray.api_munge(
-          fetch['guestAccelerators']
-        ),
+        Google::Compute::Property::InstancGuestAccelerArray.api_munge(fetch['guestAccelerators']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      label_fingerprint:
-        Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
-      metadata:
-        Google::Compute::Property::NameValues.api_munge(fetch['metadata']),
-      machine_type: Google::Compute::Property::MachTypeSelfLinkRef.api_munge(
-        fetch['machineType']
-      ),
-      min_cpu_platform:
-        Google::Compute::Property::String.api_munge(fetch['minCpuPlatform']),
+      label_fingerprint: Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
+      metadata: Google::Compute::Property::NameValues.api_munge(fetch['metadata']),
+      machine_type: Google::Compute::Property::MachTypeSelfLinkRef.api_munge(fetch['machineType']),
+      min_cpu_platform: Google::Compute::Property::String.api_munge(fetch['minCpuPlatform']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       network_interfaces:
-        Google::Compute::Property::InstancNetworkInterfaArray.api_munge(
-          fetch['networkInterfaces']
-        ),
-      scheduling: Google::Compute::Property::InstanceScheduling.api_munge(
-        fetch['scheduling']
-      ),
+        Google::Compute::Property::InstancNetworkInterfaArray.api_munge(fetch['networkInterfaces']),
+      scheduling: Google::Compute::Property::InstanceScheduling.api_munge(fetch['scheduling']),
       service_accounts:
-        Google::Compute::Property::InstancServiceAccountArray.api_munge(
-          fetch['serviceAccounts']
-        ),
+        Google::Compute::Property::InstancServiceAccountArray.api_munge(fetch['serviceAccounts']),
       status: Google::Compute::Property::String.api_munge(fetch['status']),
-      status_message:
-        Google::Compute::Property::String.api_munge(fetch['statusMessage']),
+      status_message: Google::Compute::Property::String.api_munge(fetch['statusMessage']),
       tags: Google::Compute::Property::InstanceTags.api_munge(fetch['tags']),
       disks: resource[:disks]
     }.reject { |_, v| v.nil? }

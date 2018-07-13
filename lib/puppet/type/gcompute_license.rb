@@ -32,9 +32,8 @@ require 'puppet'
 
 Puppet::Type.newtype(:gcompute_license) do
   @doc = <<-DOC
-    A License resource represents a software license. Licenses are used to
-    track software usage in images, persistent disks, snapshots, and virtual
-    machine instances.
+    A License resource represents a software license. Licenses are used to track software usage in
+    images, persistent disks, snapshots, and virtual machine instances.
   DOC
 
   autorequire(:gauth_credential) do
@@ -61,15 +60,15 @@ Puppet::Type.newtype(:gcompute_license) do
 
   newproperty(:name, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      Name of the resource. The name is 1-63 characters long and complies with
-      RFC1035. (output only)
+      Name of the resource. The name is 1-63 characters long and complies with RFC1035. (output
+      only)
     DOC
   end
 
   newproperty(:charges_use_fee, parent: Google::Compute::Property::Boolean) do
     desc <<-DOC
-      If true, the customer will be charged license fee for running software
-      that contains this license on an instance. (output only)
+      If true, the customer will be charged license fee for running software that contains this
+      license on an instance. (output only)
     DOC
     newvalue(:true)
     newvalue(:false)

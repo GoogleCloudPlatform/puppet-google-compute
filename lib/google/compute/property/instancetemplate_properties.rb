@@ -127,38 +127,22 @@ module Google
       class InstancTemplatPropertApi < InstancTemplatPropert
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
-          @can_ip_forward =
-            Google::Compute::Property::Boolean.api_munge(args['canIpForward'])
-          @description =
-            Google::Compute::Property::String.api_munge(args['description'])
-          @disks =
-            Google::Compute::Property::InstancTemplatDisksArray.api_munge(
-              args['disks']
-            )
-          @machine_type = Google::Compute::Property::MachiTypeNameRef.api_munge(
-            args['machineType']
+          @can_ip_forward = Google::Compute::Property::Boolean.api_munge(args['canIpForward'])
+          @description = Google::Compute::Property::String.api_munge(args['description'])
+          @disks = Google::Compute::Property::InstancTemplatDisksArray.api_munge(args['disks'])
+          @machine_type = Google::Compute::Property::MachiTypeNameRef.api_munge(args['machineType'])
+          @metadata = Google::Compute::Property::NameValues.api_munge(args['metadata'])
+          @guest_accelerators = Google::Compute::Property::InstaTemplGuestAccelArray.api_munge(
+            args['guestAccelerators']
           )
-          @metadata =
-            Google::Compute::Property::NameValues.api_munge(args['metadata'])
-          @guest_accelerators =
-            Google::Compute::Property::InstaTemplGuestAccelArray.api_munge(
-              args['guestAccelerators']
-            )
-          @network_interfaces =
-            Google::Compute::Property::InstaTemplNetwoInterArray.api_munge(
-              args['networkInterfaces']
-            )
+          @network_interfaces = Google::Compute::Property::InstaTemplNetwoInterArray.api_munge(
+            args['networkInterfaces']
+          )
           @scheduling =
-            Google::Compute::Property::InstancTemplatSchedul.api_munge(
-              args['scheduling']
-            )
+            Google::Compute::Property::InstancTemplatSchedul.api_munge(args['scheduling'])
           @service_accounts =
-            Google::Compute::Property::InstaTemplServiAccouArray.api_munge(
-              args['serviceAccounts']
-            )
-          @tags = Google::Compute::Property::InstancTemplatTags.api_munge(
-            args['tags']
-          )
+            Google::Compute::Property::InstaTemplServiAccouArray.api_munge(args['serviceAccounts'])
+          @tags = Google::Compute::Property::InstancTemplatTags.api_munge(args['tags'])
         end
         # rubocop:enable Metrics/MethodLength
       end
@@ -168,40 +152,24 @@ module Google
       class InstancTemplatPropertCatalog < InstancTemplatPropert
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
-          @can_ip_forward = Google::Compute::Property::Boolean.unsafe_munge(
-            args['can_ip_forward']
-          )
-          @description =
-            Google::Compute::Property::String.unsafe_munge(args['description'])
-          @disks =
-            Google::Compute::Property::InstancTemplatDisksArray.unsafe_munge(
-              args['disks']
-            )
+          @can_ip_forward = Google::Compute::Property::Boolean.unsafe_munge(args['can_ip_forward'])
+          @description = Google::Compute::Property::String.unsafe_munge(args['description'])
+          @disks = Google::Compute::Property::InstancTemplatDisksArray.unsafe_munge(args['disks'])
           @machine_type =
-            Google::Compute::Property::MachiTypeNameRef.unsafe_munge(
-              args['machine_type']
-            )
-          @metadata =
-            Google::Compute::Property::NameValues.unsafe_munge(args['metadata'])
-          @guest_accelerators =
-            Google::Compute::Property::InstaTemplGuestAccelArray.unsafe_munge(
-              args['guest_accelerators']
-            )
-          @network_interfaces =
-            Google::Compute::Property::InstaTemplNetwoInterArray.unsafe_munge(
-              args['network_interfaces']
-            )
-          @scheduling =
-            Google::Compute::Property::InstancTemplatSchedul.unsafe_munge(
-              args['scheduling']
-            )
-          @service_accounts =
-            Google::Compute::Property::InstaTemplServiAccouArray.unsafe_munge(
-              args['service_accounts']
-            )
-          @tags = Google::Compute::Property::InstancTemplatTags.unsafe_munge(
-            args['tags']
+            Google::Compute::Property::MachiTypeNameRef.unsafe_munge(args['machine_type'])
+          @metadata = Google::Compute::Property::NameValues.unsafe_munge(args['metadata'])
+          @guest_accelerators = Google::Compute::Property::InstaTemplGuestAccelArray.unsafe_munge(
+            args['guest_accelerators']
           )
+          @network_interfaces = Google::Compute::Property::InstaTemplNetwoInterArray.unsafe_munge(
+            args['network_interfaces']
+          )
+          @scheduling =
+            Google::Compute::Property::InstancTemplatSchedul.unsafe_munge(args['scheduling'])
+          @service_accounts = Google::Compute::Property::InstaTemplServiAccouArray.unsafe_munge(
+            args['service_accounts']
+          )
+          @tags = Google::Compute::Property::InstancTemplatTags.unsafe_munge(args['tags'])
         end
         # rubocop:enable Metrics/MethodLength
       end

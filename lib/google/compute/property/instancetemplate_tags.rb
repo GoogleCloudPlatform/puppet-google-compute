@@ -84,10 +84,8 @@ module Google
       # Data is coming from the GCP API
       class InstancTemplatTagsApi < InstancTemplatTags
         def initialize(args)
-          @fingerprint =
-            Google::Compute::Property::String.api_munge(args['fingerprint'])
-          @items =
-            Google::Compute::Property::StringArray.api_munge(args['items'])
+          @fingerprint = Google::Compute::Property::String.api_munge(args['fingerprint'])
+          @items = Google::Compute::Property::StringArray.api_munge(args['items'])
         end
       end
 
@@ -95,10 +93,8 @@ module Google
       # Data is coming from the Puppet manifest
       class InstancTemplatTagsCatalog < InstancTemplatTags
         def initialize(args)
-          @fingerprint =
-            Google::Compute::Property::String.unsafe_munge(args['fingerprint'])
-          @items =
-            Google::Compute::Property::StringArray.unsafe_munge(args['items'])
+          @fingerprint = Google::Compute::Property::String.unsafe_munge(args['fingerprint'])
+          @items = Google::Compute::Property::StringArray.unsafe_munge(args['items'])
         end
       end
     end

@@ -190,18 +190,10 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
-              it do
-                is_expected.to have_attributes(healthy_threshold: 295_703_256)
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
+              it { is_expected.to have_attributes(healthy_threshold: 295_703_256) }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
               it { is_expected.to have_attributes(timeout_sec: 5) }
@@ -233,18 +225,10 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
-              it do
-                is_expected.to have_attributes(healthy_threshold: 591_406_512)
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
+              it { is_expected.to have_attributes(healthy_threshold: 591_406_512) }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
               it { is_expected.to have_attributes(timeout_sec: 5) }
@@ -276,18 +260,10 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
-              it do
-                is_expected.to have_attributes(healthy_threshold: 887_109_769)
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
+              it { is_expected.to have_attributes(healthy_threshold: 887_109_769) }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
               it { is_expected.to have_attributes(timeout_sec: 5) }
@@ -470,18 +446,10 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
-              it do
-                is_expected.to have_attributes(healthy_threshold: 295_703_256)
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
+              it { is_expected.to have_attributes(healthy_threshold: 295_703_256) }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               it { is_expected.to have_attributes(timeout_sec: 5) }
@@ -513,18 +481,10 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
-              it do
-                is_expected.to have_attributes(healthy_threshold: 591_406_512)
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
+              it { is_expected.to have_attributes(healthy_threshold: 591_406_512) }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               it { is_expected.to have_attributes(timeout_sec: 5) }
@@ -556,18 +516,10 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
-              it do
-                is_expected.to have_attributes(healthy_threshold: 887_109_769)
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
+              it { is_expected.to have_attributes(healthy_threshold: 887_109_769) }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               it { is_expected.to have_attributes(timeout_sec: 5) }

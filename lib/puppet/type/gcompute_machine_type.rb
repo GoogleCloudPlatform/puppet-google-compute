@@ -37,9 +37,9 @@ require 'puppet'
 
 Puppet::Type.newtype(:gcompute_machine_type) do
   @doc = <<-DOC
-    Represents a MachineType resource. Machine types determine the virtualized
-    hardware specifications of your virtual machine instances, such as the
-    amount of memory or number of virtual CPUs.
+    Represents a MachineType resource. Machine types determine the virtualized hardware
+    specifications of your virtual machine instances, such as the amount of memory or number of
+    virtual CPUs.
   DOC
 
   autorequire(:gauth_credential) do
@@ -68,11 +68,8 @@ Puppet::Type.newtype(:gcompute_machine_type) do
     desc 'Creation timestamp in RFC3339 text format. (output only)'
   end
 
-  newproperty(:deprecated,
-              parent: Google::Compute::Property::MachineTypeDepreca) do
-    desc <<-DOC
-      The deprecation status associated with this machine type. (output only)
-    DOC
+  newproperty(:deprecated, parent: Google::Compute::Property::MachineTypeDepreca) do
+    desc 'The deprecation status associated with this machine type. (output only)'
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do
@@ -80,10 +77,7 @@ Puppet::Type.newtype(:gcompute_machine_type) do
   end
 
   newproperty(:guest_cpus, parent: Google::Compute::Property::Integer) do
-    desc <<-DOC
-      The number of virtual CPUs that are available to the instance. (output
-      only)
-    DOC
+    desc 'The number of virtual CPUs that are available to the instance. (output only)'
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
@@ -92,28 +86,23 @@ Puppet::Type.newtype(:gcompute_machine_type) do
 
   newproperty(:is_shared_cpu, parent: Google::Compute::Property::Boolean) do
     desc <<-DOC
-      Whether this machine type has a shared CPU. See Shared-core machine types
-      for more information. (output only)
+      Whether this machine type has a shared CPU. See Shared-core machine types for more
+      information. (output only)
     DOC
     newvalue(:true)
     newvalue(:false)
   end
 
-  newproperty(:maximum_persistent_disks,
-              parent: Google::Compute::Property::Integer) do
+  newproperty(:maximum_persistent_disks, parent: Google::Compute::Property::Integer) do
     desc 'Maximum persistent disks allowed. (output only)'
   end
 
-  newproperty(:maximum_persistent_disks_size_gb,
-              parent: Google::Compute::Property::Integer) do
+  newproperty(:maximum_persistent_disks_size_gb, parent: Google::Compute::Property::Integer) do
     desc 'Maximum total persistent disks size (GB) allowed. (output only)'
   end
 
   newproperty(:memory_mb, parent: Google::Compute::Property::Integer) do
-    desc <<-DOC
-      The amount of physical memory available to the instance, defined in MB.
-      (output only)
-    DOC
+    desc 'The amount of physical memory available to the instance, defined in MB. (output only)'
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do

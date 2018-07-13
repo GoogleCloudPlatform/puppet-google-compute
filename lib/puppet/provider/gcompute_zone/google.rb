@@ -68,17 +68,12 @@ Puppet::Type.type(:gcompute_zone).provide(:google) do
 
   def self.fetch_to_hash(fetch)
     {
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      deprecated: Google::Compute::Property::ZoneDeprecated.api_munge(
-        fetch['deprecated']
-      ),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      deprecated: Google::Compute::Property::ZoneDeprecated.api_munge(fetch['deprecated']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      region:
-        Google::Compute::Property::RegioSelfLinkRef.api_munge(fetch['region']),
+      region: Google::Compute::Property::RegioSelfLinkRef.api_munge(fetch['region']),
       status: Google::Compute::Property::Enum.api_munge(fetch['status'])
     }.reject { |_, v| v.nil? }
   end

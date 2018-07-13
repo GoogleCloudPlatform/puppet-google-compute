@@ -55,8 +55,7 @@ Puppet::Type.type(:gcompute_machine_type).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#machineType')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#machineType')
       resource.provider = present(name, fetch) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_machine_type, resource)
     end
@@ -71,27 +70,17 @@ Puppet::Type.type(:gcompute_machine_type).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch)
     {
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      deprecated: Google::Compute::Property::MachineTypeDepreca.api_munge(
-        fetch['deprecated']
-      ),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
-      guest_cpus:
-        Google::Compute::Property::Integer.api_munge(fetch['guestCpus']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      deprecated: Google::Compute::Property::MachineTypeDepreca.api_munge(fetch['deprecated']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
+      guest_cpus: Google::Compute::Property::Integer.api_munge(fetch['guestCpus']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      is_shared_cpu:
-        Google::Compute::Property::Boolean.api_munge(fetch['isSharedCpu']),
-      maximum_persistent_disks: Google::Compute::Property::Integer.api_munge(
-        fetch['maximumPersistentDisks']
-      ),
+      is_shared_cpu: Google::Compute::Property::Boolean.api_munge(fetch['isSharedCpu']),
+      maximum_persistent_disks:
+        Google::Compute::Property::Integer.api_munge(fetch['maximumPersistentDisks']),
       maximum_persistent_disks_size_gb:
-        Google::Compute::Property::Integer.api_munge(
-          fetch['maximumPersistentDisksSizeGb']
-        ),
-      memory_mb:
-        Google::Compute::Property::Integer.api_munge(fetch['memoryMb']),
+        Google::Compute::Property::Integer.api_munge(fetch['maximumPersistentDisksSizeGb']),
+      memory_mb: Google::Compute::Property::Integer.api_munge(fetch['memoryMb']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       zone: Google::Compute::Property::ZoneNameRef.api_munge(fetch['zone'])
     }.reject { |_, v| v.nil? }
@@ -150,8 +139,7 @@ Puppet::Type.type(:gcompute_machine_type).provide(:google) do
       id: resource[:id],
       is_shared_cpu: resource[:is_shared_cpu],
       maximum_persistent_disks: resource[:maximum_persistent_disks],
-      maximum_persistent_disks_size_gb:
-        resource[:maximum_persistent_disks_size_gb],
+      maximum_persistent_disks_size_gb: resource[:maximum_persistent_disks_size_gb],
       memory_mb: resource[:memory_mb],
       zone: resource[:zone]
     }.reject { |_, v| v.nil? }

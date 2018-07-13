@@ -27,8 +27,7 @@
 
 require 'spec_helper'
 
-describe Puppet::Type.type(:gcompute_global_forwarding_rule)
-                     .provider(:google) do
+describe Puppet::Type.type(:gcompute_global_forwarding_rule).provider(:google) do
   before(:all) do
     cred = Google::FakeAuthorization.new
     Puppet::Type.type(:gauth_credential)
@@ -64,12 +63,9 @@ describe Puppet::Type.type(:gcompute_global_forwarding_rule)
               expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
-              expect_network_get_success_subnetwork 1,
-                                                    region: 'test name#0 data'
-              expect_network_get_success_subnetwork 2,
-                                                    region: 'test name#1 data'
-              expect_network_get_success_subnetwork 3,
-                                                    region: 'test name#2 data'
+              expect_network_get_success_subnetwork 1, region: 'test name#0 data'
+              expect_network_get_success_subnetwork 2, region: 'test name#1 data'
+              expect_network_get_success_subnetwork 3, region: 'test name#2 data'
             end
 
             let(:catalog) do
@@ -221,45 +217,29 @@ describe Puppet::Type.type(:gcompute_global_forwarding_rule)
 
             context 'Gcompute_global_forwarding_rule[title0]' do
               subject do
-                catalog.resource('Gcompute_global_forwarding_rule[title0]')
-                       .provider
+                catalog.resource('Gcompute_global_forwarding_rule[title0]').provider
               end
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
-              it do
-                is_expected
-                  .to have_attributes(ip_address: 'test ip_address#0 data')
-              end
+              it { is_expected.to have_attributes(ip_address: 'test ip_address#0 data') }
               it { is_expected.to have_attributes(ip_protocol: 'TCP') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'backendService' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(ip_version: 'IPV4') }
-              it do
-                is_expected
-                  .to have_attributes(load_balancing_scheme: 'INTERNAL')
-              end
+              it { is_expected.to have_attributes(load_balancing_scheme: 'INTERNAL') }
               it { is_expected.to have_attributes(name: 'title0') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(port_range: 'test port_range#0 data')
-              end
+              it { is_expected.to have_attributes(port_range: 'test port_range#0 data') }
               it { is_expected.to have_attributes(ports: %w[uu vv]) }
               # TODO(alexstephen): Implement resourceref test.
               # it 'subnetwork' do
@@ -269,52 +249,34 @@ describe Puppet::Type.type(:gcompute_global_forwarding_rule)
               # it 'region' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(target: 'test target#0 data')
-              end
+              it { is_expected.to have_attributes(target: 'test target#0 data') }
             end
 
             context 'Gcompute_global_forwarding_rule[title1]' do
               subject do
-                catalog.resource('Gcompute_global_forwarding_rule[title1]')
-                       .provider
+                catalog.resource('Gcompute_global_forwarding_rule[title1]').provider
               end
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
-              it do
-                is_expected
-                  .to have_attributes(ip_address: 'test ip_address#1 data')
-              end
+              it { is_expected.to have_attributes(ip_address: 'test ip_address#1 data') }
               it { is_expected.to have_attributes(ip_protocol: 'UDP') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'backendService' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(ip_version: 'IPV6') }
-              it do
-                is_expected
-                  .to have_attributes(load_balancing_scheme: 'EXTERNAL')
-              end
+              it { is_expected.to have_attributes(load_balancing_scheme: 'EXTERNAL') }
               it { is_expected.to have_attributes(name: 'title1') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(port_range: 'test port_range#1 data')
-              end
+              it { is_expected.to have_attributes(port_range: 'test port_range#1 data') }
               it { is_expected.to have_attributes(ports: %w[qq rr]) }
               # TODO(alexstephen): Implement resourceref test.
               # it 'subnetwork' do
@@ -324,52 +286,34 @@ describe Puppet::Type.type(:gcompute_global_forwarding_rule)
               # it 'region' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(target: 'test target#1 data')
-              end
+              it { is_expected.to have_attributes(target: 'test target#1 data') }
             end
 
             context 'Gcompute_global_forwarding_rule[title2]' do
               subject do
-                catalog.resource('Gcompute_global_forwarding_rule[title2]')
-                       .provider
+                catalog.resource('Gcompute_global_forwarding_rule[title2]').provider
               end
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
-              it do
-                is_expected
-                  .to have_attributes(ip_address: 'test ip_address#2 data')
-              end
+              it { is_expected.to have_attributes(ip_address: 'test ip_address#2 data') }
               it { is_expected.to have_attributes(ip_protocol: 'ESP') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'backendService' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(ip_version: 'IPV4') }
-              it do
-                is_expected
-                  .to have_attributes(load_balancing_scheme: 'INTERNAL')
-              end
+              it { is_expected.to have_attributes(load_balancing_scheme: 'INTERNAL') }
               it { is_expected.to have_attributes(name: 'title2') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(port_range: 'test port_range#2 data')
-              end
+              it { is_expected.to have_attributes(port_range: 'test port_range#2 data') }
               it { is_expected.to have_attributes(ports: %w[mm nn]) }
               # TODO(alexstephen): Implement resourceref test.
               # it 'subnetwork' do
@@ -379,9 +323,7 @@ describe Puppet::Type.type(:gcompute_global_forwarding_rule)
               # it 'region' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(target: 'test target#2 data')
-              end
+              it { is_expected.to have_attributes(target: 'test target#2 data') }
             end
           end
 
@@ -413,12 +355,9 @@ describe Puppet::Type.type(:gcompute_global_forwarding_rule)
               expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
-              expect_network_get_success_subnetwork 1,
-                                                    region: 'test name#0 data'
-              expect_network_get_success_subnetwork 2,
-                                                    region: 'test name#1 data'
-              expect_network_get_success_subnetwork 3,
-                                                    region: 'test name#2 data'
+              expect_network_get_success_subnetwork 1, region: 'test name#0 data'
+              expect_network_get_success_subnetwork 2, region: 'test name#1 data'
+              expect_network_get_success_subnetwork 3, region: 'test name#2 data'
             end
 
             let(:catalog) do
@@ -573,45 +512,29 @@ describe Puppet::Type.type(:gcompute_global_forwarding_rule)
 
             context 'Gcompute_global_forwarding_rule[title0]' do
               subject do
-                catalog.resource('Gcompute_global_forwarding_rule[title0]')
-                       .provider
+                catalog.resource('Gcompute_global_forwarding_rule[title0]').provider
               end
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
-              it do
-                is_expected
-                  .to have_attributes(ip_address: 'test ip_address#0 data')
-              end
+              it { is_expected.to have_attributes(ip_address: 'test ip_address#0 data') }
               it { is_expected.to have_attributes(ip_protocol: 'TCP') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'backendService' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(ip_version: 'IPV4') }
-              it do
-                is_expected
-                  .to have_attributes(load_balancing_scheme: 'INTERNAL')
-              end
+              it { is_expected.to have_attributes(load_balancing_scheme: 'INTERNAL') }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(port_range: 'test port_range#0 data')
-              end
+              it { is_expected.to have_attributes(port_range: 'test port_range#0 data') }
               it { is_expected.to have_attributes(ports: %w[uu vv]) }
               # TODO(alexstephen): Implement resourceref test.
               # it 'subnetwork' do
@@ -621,52 +544,34 @@ describe Puppet::Type.type(:gcompute_global_forwarding_rule)
               # it 'region' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(target: 'test target#0 data')
-              end
+              it { is_expected.to have_attributes(target: 'test target#0 data') }
             end
 
             context 'Gcompute_global_forwarding_rule[title1]' do
               subject do
-                catalog.resource('Gcompute_global_forwarding_rule[title1]')
-                       .provider
+                catalog.resource('Gcompute_global_forwarding_rule[title1]').provider
               end
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
-              it do
-                is_expected
-                  .to have_attributes(ip_address: 'test ip_address#1 data')
-              end
+              it { is_expected.to have_attributes(ip_address: 'test ip_address#1 data') }
               it { is_expected.to have_attributes(ip_protocol: 'UDP') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'backendService' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(ip_version: 'IPV6') }
-              it do
-                is_expected
-                  .to have_attributes(load_balancing_scheme: 'EXTERNAL')
-              end
+              it { is_expected.to have_attributes(load_balancing_scheme: 'EXTERNAL') }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(port_range: 'test port_range#1 data')
-              end
+              it { is_expected.to have_attributes(port_range: 'test port_range#1 data') }
               it { is_expected.to have_attributes(ports: %w[qq rr]) }
               # TODO(alexstephen): Implement resourceref test.
               # it 'subnetwork' do
@@ -676,52 +581,34 @@ describe Puppet::Type.type(:gcompute_global_forwarding_rule)
               # it 'region' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(target: 'test target#1 data')
-              end
+              it { is_expected.to have_attributes(target: 'test target#1 data') }
             end
 
             context 'Gcompute_global_forwarding_rule[title2]' do
               subject do
-                catalog.resource('Gcompute_global_forwarding_rule[title2]')
-                       .provider
+                catalog.resource('Gcompute_global_forwarding_rule[title2]').provider
               end
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
-              it do
-                is_expected
-                  .to have_attributes(ip_address: 'test ip_address#2 data')
-              end
+              it { is_expected.to have_attributes(ip_address: 'test ip_address#2 data') }
               it { is_expected.to have_attributes(ip_protocol: 'ESP') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'backendService' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(ip_version: 'IPV4') }
-              it do
-                is_expected
-                  .to have_attributes(load_balancing_scheme: 'INTERNAL')
-              end
+              it { is_expected.to have_attributes(load_balancing_scheme: 'INTERNAL') }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(port_range: 'test port_range#2 data')
-              end
+              it { is_expected.to have_attributes(port_range: 'test port_range#2 data') }
               it { is_expected.to have_attributes(ports: %w[mm nn]) }
               # TODO(alexstephen): Implement resourceref test.
               # it 'subnetwork' do
@@ -731,9 +618,7 @@ describe Puppet::Type.type(:gcompute_global_forwarding_rule)
               # it 'region' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(target: 'test target#2 data')
-              end
+              it { is_expected.to have_attributes(target: 'test target#2 data') }
             end
           end
 
@@ -862,8 +747,7 @@ describe Puppet::Type.type(:gcompute_global_forwarding_rule)
                 credential            => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_global_forwarding_rule[title0]')
-              .provider.ensure
+            ).catalog.resource('Gcompute_global_forwarding_rule[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }
@@ -956,8 +840,7 @@ describe Puppet::Type.type(:gcompute_global_forwarding_rule)
                 credential            => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_global_forwarding_rule[title0]')
-              .provider.ensure
+            ).catalog.resource('Gcompute_global_forwarding_rule[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }

@@ -107,22 +107,13 @@ module Google
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @access_configs =
-            Google::Compute::Property::InstaTemplAccesConfiArray.api_munge(
-              args['accessConfigs']
-            )
+            Google::Compute::Property::InstaTemplAccesConfiArray.api_munge(args['accessConfigs'])
           @alias_ip_ranges =
-            Google::Compute::Property::InstTempAliaIpRangArray.api_munge(
-              args['aliasIpRanges']
-            )
+            Google::Compute::Property::InstTempAliaIpRangArray.api_munge(args['aliasIpRanges'])
           @name = Google::Compute::Property::String.api_munge(args['name'])
-          @network = Google::Compute::Property::NetwoSelfLinkRef.api_munge(
-            args['network']
-          )
-          @network_ip =
-            Google::Compute::Property::String.api_munge(args['networkIP'])
-          @subnetwork = Google::Compute::Property::SubneSelfLinkRef.api_munge(
-            args['subnetwork']
-          )
+          @network = Google::Compute::Property::NetwoSelfLinkRef.api_munge(args['network'])
+          @network_ip = Google::Compute::Property::String.api_munge(args['networkIP'])
+          @subnetwork = Google::Compute::Property::SubneSelfLinkRef.api_munge(args['subnetwork'])
         end
         # rubocop:enable Metrics/MethodLength
       end
@@ -132,24 +123,15 @@ module Google
       class InstaTemplNetwoInterCatalog < InstaTemplNetwoInter
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
-          @access_configs =
-            Google::Compute::Property::InstaTemplAccesConfiArray.unsafe_munge(
-              args['access_configs']
-            )
-          @alias_ip_ranges =
-            Google::Compute::Property::InstTempAliaIpRangArray.unsafe_munge(
-              args['alias_ip_ranges']
-            )
-          @name = Google::Compute::Property::String.unsafe_munge(args['name'])
-          @network = Google::Compute::Property::NetwoSelfLinkRef.unsafe_munge(
-            args['network']
+          @access_configs = Google::Compute::Property::InstaTemplAccesConfiArray.unsafe_munge(
+            args['access_configs']
           )
-          @network_ip =
-            Google::Compute::Property::String.unsafe_munge(args['network_ip'])
-          @subnetwork =
-            Google::Compute::Property::SubneSelfLinkRef.unsafe_munge(
-              args['subnetwork']
-            )
+          @alias_ip_ranges =
+            Google::Compute::Property::InstTempAliaIpRangArray.unsafe_munge(args['alias_ip_ranges'])
+          @name = Google::Compute::Property::String.unsafe_munge(args['name'])
+          @network = Google::Compute::Property::NetwoSelfLinkRef.unsafe_munge(args['network'])
+          @network_ip = Google::Compute::Property::String.unsafe_munge(args['network_ip'])
+          @subnetwork = Google::Compute::Property::SubneSelfLinkRef.unsafe_munge(args['subnetwork'])
         end
         # rubocop:enable Metrics/MethodLength
       end

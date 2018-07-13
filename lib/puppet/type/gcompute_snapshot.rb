@@ -39,15 +39,13 @@ require 'puppet'
 
 Puppet::Type.newtype(:gcompute_snapshot) do
   @doc = <<-DOC
-    Represents a Persistent Disk Snapshot resource. Use snapshots to back up
-    data from your persistent disks. Snapshots are different from public images
-    and custom images, which are used primarily to create instances or
-    configure instance templates. Snapshots are useful for periodic backup of
-    the data on your persistent disks. You can create snapshots from persistent
-    disks even while they are attached to running instances. Snapshots are
-    incremental, so you can create regular snapshots on a persistent disk
-    faster and at a much lower cost than if you regularly created a full image
-    of the disk.
+    Represents a Persistent Disk Snapshot resource. Use snapshots to back up data from your
+    persistent disks. Snapshots are different from public images and custom images, which are used
+    primarily to create instances or configure instance templates. Snapshots are useful for
+    periodic backup of the data on your persistent disks. You can create snapshots from persistent
+    disks even while they are attached to running instances. Snapshots are incremental, so you can
+    create regular snapshots on a persistent disk faster and at a much lower cost than if you
+    regularly created a full image of the disk.
   DOC
 
   autorequire(:gauth_credential) do
@@ -92,19 +90,17 @@ Puppet::Type.newtype(:gcompute_snapshot) do
     desc 'A reference to the zone where the disk is hosted.'
   end
 
-  newparam(:snapshot_encryption_key,
-           parent: Google::Compute::Property::SnapsSnapsEncryKey) do
+  newparam(:snapshot_encryption_key, parent: Google::Compute::Property::SnapsSnapsEncryKey) do
     desc <<-DOC
-      The customer-supplied encryption key of the snapshot. Required if the
-      source snapshot is protected by a customer-supplied encryption key.
+      The customer-supplied encryption key of the snapshot. Required if the source snapshot is
+      protected by a customer-supplied encryption key.
     DOC
   end
 
-  newparam(:source_disk_encryption_key,
-           parent: Google::Compute::Property::SnapSourDiskEncrKey) do
+  newparam(:source_disk_encryption_key, parent: Google::Compute::Property::SnapSourDiskEncrKey) do
     desc <<-DOC
-      The customer-supplied encryption key of the source snapshot. Required if
-      the source snapshot is protected by a customer-supplied encryption key.
+      The customer-supplied encryption key of the source snapshot. Required if the source snapshot
+      is protected by a customer-supplied encryption key.
     DOC
   end
 
@@ -122,13 +118,11 @@ Puppet::Type.newtype(:gcompute_snapshot) do
 
   newproperty(:name, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      Name of the resource; provided by the client when the resource is
-      created. The name must be 1-63 characters long, and comply with RFC1035.
-      Specifically, the name must be 1-63 characters long and match the regular
-      expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character
-      must be a lowercase letter, and all following characters must be a dash,
-      lowercase letter, or digit, except the last character, which cannot be a
-      dash.
+      Name of the resource; provided by the client when the resource is created. The name must be
+      1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters
+      long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first
+      character must be a lowercase letter, and all following characters must be a dash, lowercase
+      letter, or digit, except the last character, which cannot be a dash.
     DOC
   end
 
@@ -138,19 +132,16 @@ Puppet::Type.newtype(:gcompute_snapshot) do
 
   newproperty(:storage_bytes, parent: Google::Compute::Property::Integer) do
     desc <<-DOC
-      A size of the the storage used by the snapshot. As snapshots share
-      storage, this number is expected to change with snapshot
-      creation/deletion. (output only)
+      A size of the the storage used by the snapshot. As snapshots share storage, this number is
+      expected to change with snapshot creation/deletion. (output only)
     DOC
   end
 
-  newproperty(:licenses,
-              parent: Google::Compute::Property::LicenSelfLinkRefArray) do
+  newproperty(:licenses, parent: Google::Compute::Property::LicenSelfLinkRefArray) do
     desc <<-DOC
-      A list of public visible licenses that apply to this snapshot. This can
-      be because the original image had licenses attached (such as a Windows
-      image). snapshotEncryptionKey nested object Encrypts the snapshot using a
-      customer-supplied encryption key.
+      A list of public visible licenses that apply to this snapshot. This can be because the
+      original image had licenses attached (such as a Windows image). snapshotEncryptionKey nested
+      object Encrypts the snapshot using a customer-supplied encryption key.
     DOC
   end
 
