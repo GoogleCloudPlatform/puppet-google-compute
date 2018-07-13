@@ -93,13 +93,10 @@ module Google
       # Data is coming from the GCP API
       class UrlMapTestsApi < UrlMapTests
         def initialize(args)
-          @description =
-            Google::Compute::Property::String.api_munge(args['description'])
+          @description = Google::Compute::Property::String.api_munge(args['description'])
           @host = Google::Compute::Property::String.api_munge(args['host'])
           @path = Google::Compute::Property::String.api_munge(args['path'])
-          @service = Google::Compute::Property::BackServSelfLinkRef.api_munge(
-            args['service']
-          )
+          @service = Google::Compute::Property::BackServSelfLinkRef.api_munge(args['service'])
         end
       end
 
@@ -107,14 +104,10 @@ module Google
       # Data is coming from the Puppet manifest
       class UrlMapTestsCatalog < UrlMapTests
         def initialize(args)
-          @description =
-            Google::Compute::Property::String.unsafe_munge(args['description'])
+          @description = Google::Compute::Property::String.unsafe_munge(args['description'])
           @host = Google::Compute::Property::String.unsafe_munge(args['host'])
           @path = Google::Compute::Property::String.unsafe_munge(args['path'])
-          @service =
-            Google::Compute::Property::BackServSelfLinkRef.unsafe_munge(
-              args['service']
-            )
+          @service = Google::Compute::Property::BackServSelfLinkRef.unsafe_munge(args['service'])
         end
       end
     end

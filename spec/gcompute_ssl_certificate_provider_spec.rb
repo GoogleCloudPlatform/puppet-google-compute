@@ -94,27 +94,15 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
                 catalog.resource('Gcompute_ssl_certificate[title0]').provider
               end
 
+              it { is_expected.to have_attributes(certificate: 'test certificate#0 data') }
               it do
                 is_expected
-                  .to have_attributes(certificate: 'test certificate#0 data')
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
-              end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
-              it do
-                is_expected
-                  .to have_attributes(private_key: 'test private_key#0 data')
-              end
+              it { is_expected.to have_attributes(private_key: 'test private_key#0 data') }
             end
 
             context 'Gcompute_ssl_certificate[title1]' do
@@ -122,27 +110,15 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
                 catalog.resource('Gcompute_ssl_certificate[title1]').provider
               end
 
+              it { is_expected.to have_attributes(certificate: 'test certificate#1 data') }
               it do
                 is_expected
-                  .to have_attributes(certificate: 'test certificate#1 data')
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
-              end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
-              it do
-                is_expected
-                  .to have_attributes(private_key: 'test private_key#1 data')
-              end
+              it { is_expected.to have_attributes(private_key: 'test private_key#1 data') }
             end
 
             context 'Gcompute_ssl_certificate[title2]' do
@@ -150,27 +126,15 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
                 catalog.resource('Gcompute_ssl_certificate[title2]').provider
               end
 
+              it { is_expected.to have_attributes(certificate: 'test certificate#2 data') }
               it do
                 is_expected
-                  .to have_attributes(certificate: 'test certificate#2 data')
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
-              end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
-              it do
-                is_expected
-                  .to have_attributes(private_key: 'test private_key#2 data')
-              end
+              it { is_expected.to have_attributes(private_key: 'test private_key#2 data') }
             end
           end
 
@@ -236,27 +200,15 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
                 catalog.resource('Gcompute_ssl_certificate[title0]').provider
               end
 
+              it { is_expected.to have_attributes(certificate: 'test certificate#0 data') }
               it do
                 is_expected
-                  .to have_attributes(certificate: 'test certificate#0 data')
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
-              end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
-              it do
-                is_expected
-                  .to have_attributes(private_key: 'test private_key#0 data')
-              end
+              it { is_expected.to have_attributes(private_key: 'test private_key#0 data') }
             end
 
             context 'Gcompute_ssl_certificate[title1]' do
@@ -264,27 +216,15 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
                 catalog.resource('Gcompute_ssl_certificate[title1]').provider
               end
 
+              it { is_expected.to have_attributes(certificate: 'test certificate#1 data') }
               it do
                 is_expected
-                  .to have_attributes(certificate: 'test certificate#1 data')
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
-              end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
-              it do
-                is_expected
-                  .to have_attributes(private_key: 'test private_key#1 data')
-              end
+              it { is_expected.to have_attributes(private_key: 'test private_key#1 data') }
             end
 
             context 'Gcompute_ssl_certificate[title2]' do
@@ -292,27 +232,15 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
                 catalog.resource('Gcompute_ssl_certificate[title2]').provider
               end
 
+              it { is_expected.to have_attributes(certificate: 'test certificate#2 data') }
               it do
                 is_expected
-                  .to have_attributes(certificate: 'test certificate#2 data')
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
-              end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
-              it do
-                is_expected
-                  .to have_attributes(private_key: 'test private_key#2 data')
-              end
+              it { is_expected.to have_attributes(private_key: 'test private_key#2 data') }
             end
           end
 
@@ -391,8 +319,7 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
                 credential  => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_ssl_certificate[title0]').provider
-              .ensure
+            ).catalog.resource('Gcompute_ssl_certificate[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }
@@ -435,8 +362,7 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
                 credential  => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_ssl_certificate[title0]').provider
-              .ensure
+            ).catalog.resource('Gcompute_ssl_certificate[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }

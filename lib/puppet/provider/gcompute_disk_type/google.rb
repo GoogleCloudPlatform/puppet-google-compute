@@ -69,20 +69,14 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch)
     {
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      default_disk_size_gb: Google::Compute::Property::Integer.api_munge(
-        fetch['defaultDiskSizeGb']
-      ),
-      deprecated: Google::Compute::Property::DiskTypeDepreca.api_munge(
-        fetch['deprecated']
-      ),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      default_disk_size_gb:
+        Google::Compute::Property::Integer.api_munge(fetch['defaultDiskSizeGb']),
+      deprecated: Google::Compute::Property::DiskTypeDepreca.api_munge(fetch['deprecated']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      valid_disk_size:
-        Google::Compute::Property::String.api_munge(fetch['validDiskSize'])
+      valid_disk_size: Google::Compute::Property::String.api_munge(fetch['validDiskSize'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength

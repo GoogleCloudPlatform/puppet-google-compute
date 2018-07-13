@@ -89,12 +89,9 @@ module Google
       # Data is coming from the GCP API
       class UrlMapHostRulesApi < UrlMapHostRules
         def initialize(args)
-          @description =
-            Google::Compute::Property::String.api_munge(args['description'])
-          @hosts =
-            Google::Compute::Property::StringArray.api_munge(args['hosts'])
-          @path_matcher =
-            Google::Compute::Property::String.api_munge(args['pathMatcher'])
+          @description = Google::Compute::Property::String.api_munge(args['description'])
+          @hosts = Google::Compute::Property::StringArray.api_munge(args['hosts'])
+          @path_matcher = Google::Compute::Property::String.api_munge(args['pathMatcher'])
         end
       end
 
@@ -102,12 +99,9 @@ module Google
       # Data is coming from the Puppet manifest
       class UrlMapHostRulesCatalog < UrlMapHostRules
         def initialize(args)
-          @description =
-            Google::Compute::Property::String.unsafe_munge(args['description'])
-          @hosts =
-            Google::Compute::Property::StringArray.unsafe_munge(args['hosts'])
-          @path_matcher =
-            Google::Compute::Property::String.unsafe_munge(args['path_matcher'])
+          @description = Google::Compute::Property::String.unsafe_munge(args['description'])
+          @hosts = Google::Compute::Property::StringArray.unsafe_munge(args['hosts'])
+          @path_matcher = Google::Compute::Property::String.unsafe_munge(args['path_matcher'])
         end
       end
     end

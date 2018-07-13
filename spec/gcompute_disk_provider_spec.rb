@@ -51,15 +51,9 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               allow(Time).to receive(:now).and_return(
                 Time.new(2017, 1, 2, 3, 4, 5)
               )
-              expect_network_get_success 1,
-                                         name: 'title0',
-                                         zone: 'test name#0 data'
-              expect_network_get_success 2,
-                                         name: 'title1',
-                                         zone: 'test name#1 data'
-              expect_network_get_success 3,
-                                         name: 'title2',
-                                         zone: 'test name#2 data'
+              expect_network_get_success 1, name: 'title0', zone: 'test name#0 data'
+              expect_network_get_success 2, name: 'title1', zone: 'test name#1 data'
+              expect_network_get_success 3, name: 'title2', zone: 'test name#2 data'
               expect_network_get_success_zone 1
               expect_network_get_success_zone 2
               expect_network_get_success_zone 3
@@ -210,28 +204,20 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it do
                 is_expected
                   .to have_attributes(
-                    last_attach_timestamp:
-                    ::Time.parse('2052-04-11T10:26:47+00:00')
+                    last_attach_timestamp: ::Time.parse('2052-04-11T10:26:47+00:00')
                   )
               end
               it do
                 is_expected
                   .to have_attributes(
-                    last_detach_timestamp:
-                    ::Time.parse('1986-08-30T10:54:51+00:00')
+                    last_detach_timestamp: ::Time.parse('1986-08-30T10:54:51+00:00')
                   )
               end
               # TODO(nelsonjr): Implement complex namevalues property test.
@@ -241,10 +227,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[ww xx]) }
               it { is_expected.to have_attributes(name: 'title0') }
               it { is_expected.to have_attributes(size_gb: 2_858_499_398) }
-              it do
-                is_expected
-                  .to have_attributes(source_image: 'test source_image#0 data')
-              end
+              it { is_expected.to have_attributes(source_image: 'test source_image#0 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'type' do
               #   # Add test code here
@@ -259,28 +242,20 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it do
                 is_expected
                   .to have_attributes(
-                    last_attach_timestamp:
-                    ::Time.parse('2134-07-22T20:53:35+00:00')
+                    last_attach_timestamp: ::Time.parse('2134-07-22T20:53:35+00:00')
                   )
               end
               it do
                 is_expected
                   .to have_attributes(
-                    last_detach_timestamp:
-                    ::Time.parse('2003-04-28T21:49:42+00:00')
+                    last_detach_timestamp: ::Time.parse('2003-04-28T21:49:42+00:00')
                   )
               end
               # TODO(nelsonjr): Implement complex namevalues property test.
@@ -290,10 +265,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[uu vv]) }
               it { is_expected.to have_attributes(name: 'title1') }
               it { is_expected.to have_attributes(size_gb: 5_716_998_797) }
-              it do
-                is_expected
-                  .to have_attributes(source_image: 'test source_image#1 data')
-              end
+              it { is_expected.to have_attributes(source_image: 'test source_image#1 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'type' do
               #   # Add test code here
@@ -308,28 +280,20 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it do
                 is_expected
                   .to have_attributes(
-                    last_attach_timestamp:
-                    ::Time.parse('2216-11-01T07:20:23+00:00')
+                    last_attach_timestamp: ::Time.parse('2216-11-01T07:20:23+00:00')
                   )
               end
               it do
                 is_expected
                   .to have_attributes(
-                    last_detach_timestamp:
-                    ::Time.parse('2019-12-26T08:44:33+00:00')
+                    last_detach_timestamp: ::Time.parse('2019-12-26T08:44:33+00:00')
                   )
               end
               # TODO(nelsonjr): Implement complex namevalues property test.
@@ -339,10 +303,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[tt uu vv]) }
               it { is_expected.to have_attributes(name: 'title2') }
               it { is_expected.to have_attributes(size_gb: 8_575_498_196) }
-              it do
-                is_expected
-                  .to have_attributes(source_image: 'test source_image#2 data')
-              end
+              it { is_expected.to have_attributes(source_image: 'test source_image#2 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'type' do
               #   # Add test code here
@@ -523,28 +484,20 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it do
                 is_expected
                   .to have_attributes(
-                    last_attach_timestamp:
-                    ::Time.parse('2052-04-11T10:26:47+00:00')
+                    last_attach_timestamp: ::Time.parse('2052-04-11T10:26:47+00:00')
                   )
               end
               it do
                 is_expected
                   .to have_attributes(
-                    last_detach_timestamp:
-                    ::Time.parse('1986-08-30T10:54:51+00:00')
+                    last_detach_timestamp: ::Time.parse('1986-08-30T10:54:51+00:00')
                   )
               end
               # TODO(nelsonjr): Implement complex namevalues property test.
@@ -554,10 +507,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[ww xx]) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               it { is_expected.to have_attributes(size_gb: 2_858_499_398) }
-              it do
-                is_expected
-                  .to have_attributes(source_image: 'test source_image#0 data')
-              end
+              it { is_expected.to have_attributes(source_image: 'test source_image#0 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'type' do
               #   # Add test code here
@@ -572,28 +522,20 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it do
                 is_expected
                   .to have_attributes(
-                    last_attach_timestamp:
-                    ::Time.parse('2134-07-22T20:53:35+00:00')
+                    last_attach_timestamp: ::Time.parse('2134-07-22T20:53:35+00:00')
                   )
               end
               it do
                 is_expected
                   .to have_attributes(
-                    last_detach_timestamp:
-                    ::Time.parse('2003-04-28T21:49:42+00:00')
+                    last_detach_timestamp: ::Time.parse('2003-04-28T21:49:42+00:00')
                   )
               end
               # TODO(nelsonjr): Implement complex namevalues property test.
@@ -603,10 +545,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[uu vv]) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               it { is_expected.to have_attributes(size_gb: 5_716_998_797) }
-              it do
-                is_expected
-                  .to have_attributes(source_image: 'test source_image#1 data')
-              end
+              it { is_expected.to have_attributes(source_image: 'test source_image#1 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'type' do
               #   # Add test code here
@@ -621,28 +560,20 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it do
                 is_expected
                   .to have_attributes(
-                    last_attach_timestamp:
-                    ::Time.parse('2216-11-01T07:20:23+00:00')
+                    last_attach_timestamp: ::Time.parse('2216-11-01T07:20:23+00:00')
                   )
               end
               it do
                 is_expected
                   .to have_attributes(
-                    last_detach_timestamp:
-                    ::Time.parse('2019-12-26T08:44:33+00:00')
+                    last_detach_timestamp: ::Time.parse('2019-12-26T08:44:33+00:00')
                   )
               end
               # TODO(nelsonjr): Implement complex namevalues property test.
@@ -652,10 +583,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[tt uu vv]) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               it { is_expected.to have_attributes(size_gb: 8_575_498_196) }
-              it do
-                is_expected
-                  .to have_attributes(source_image: 'test source_image#2 data')
-              end
+              it { is_expected.to have_attributes(source_image: 'test source_image#2 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'type' do
               #   # Add test code here
@@ -713,9 +641,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
         # Ensure present: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      name: 'title0',
-                                      zone: 'test name#0 data'
+            expect_network_get_failed 1, name: 'title0', zone: 'test name#0 data'
             expect_network_create \
               1,
               {
@@ -917,9 +843,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
         # Ensure absent: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      name: 'title0',
-                                      zone: 'test name#0 data'
+            expect_network_get_failed 1, name: 'title0', zone: 'test name#0 data'
             expect_network_get_success_zone 1
           end
 
@@ -1002,9 +926,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
         # Ensure absent: resource exists, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_success 1,
-                                       name: 'title0',
-                                       zone: 'test name#0 data'
+            expect_network_get_success 1, name: 'title0', zone: 'test name#0 data'
             expect_network_delete 1, 'title0', zone: 'test name#0 data'
             expect_network_get_async 1, name: 'title0', zone: 'test name#0 data'
             expect_network_get_success_zone 1

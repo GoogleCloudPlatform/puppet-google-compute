@@ -33,9 +33,8 @@ require 'puppet'
 
 Puppet::Type.newtype(:gcompute_ssl_certificate) do
   @doc = <<-DOC
-    An SslCertificate resource. This resource provides a mechanism to upload an
-    SSL key and certificate to the load balancer to serve secure connections
-    from the user.
+    An SslCertificate resource. This resource provides a mechanism to upload an SSL key and
+    certificate to the load balancer to serve secure connections from the user.
   DOC
 
   autorequire(:gauth_credential) do
@@ -64,8 +63,8 @@ Puppet::Type.newtype(:gcompute_ssl_certificate) do
 
   newproperty(:certificate, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      The certificate in PEM format. The certificate chain must be no greater
-      than 5 certs long. The chain must include at least one intermediate cert.
+      The certificate in PEM format. The certificate chain must be no greater than 5 certs long.
+      The chain must include at least one intermediate cert.
     DOC
   end
 
@@ -83,13 +82,11 @@ Puppet::Type.newtype(:gcompute_ssl_certificate) do
 
   newproperty(:name, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      Name of the resource. Provided by the client when the resource is
-      created. The name must be 1-63 characters long, and comply with RFC1035.
-      Specifically, the name must be 1-63 characters long and match the regular
-      expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character
-      must be a lowercase letter, and all following characters must be a dash,
-      lowercase letter, or digit, except the last character, which cannot be a
-      dash.
+      Name of the resource. Provided by the client when the resource is created. The name must be
+      1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters
+      long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first
+      character must be a lowercase letter, and all following characters must be a dash, lowercase
+      letter, or digit, except the last character, which cannot be a dash.
     DOC
   end
 

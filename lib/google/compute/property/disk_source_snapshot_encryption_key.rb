@@ -93,10 +93,8 @@ module Google
       # Data is coming from the Puppet manifest
       class DiskSourSnapEncrKeyCatalog < DiskSourSnapEncrKey
         def initialize(args)
-          @raw_key =
-            Google::Compute::Property::String.unsafe_munge(args['raw_key'])
-          @sha256 =
-            Google::Compute::Property::String.unsafe_munge(args['sha256'])
+          @raw_key = Google::Compute::Property::String.unsafe_munge(args['raw_key'])
+          @sha256 = Google::Compute::Property::String.unsafe_munge(args['sha256'])
         end
       end
     end

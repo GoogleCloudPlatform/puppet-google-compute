@@ -59,8 +59,7 @@ Puppet::Type.type(:gcompute_target_pool).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#targetPool')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#targetPool')
       resource.provider = present(name, fetch, resource) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_target_pool, resource)
     end
@@ -77,19 +76,12 @@ Puppet::Type.type(:gcompute_target_pool).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch, resource)
     {
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
-      failover_ratio:
-        Google::Compute::Property::Double.api_munge(fetch['failoverRatio']),
-      health_check: Google::Compute::Property::HttHeaCheSelLinRef.api_munge(
-        fetch['healthCheck']
-      ),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
+      failover_ratio: Google::Compute::Property::Double.api_munge(fetch['failoverRatio']),
+      health_check: Google::Compute::Property::HttHeaCheSelLinRef.api_munge(fetch['healthCheck']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      instances: Google::Compute::Property::InstaSelfLinkRefArray.api_munge(
-        fetch['instances']
-      ),
+      instances: Google::Compute::Property::InstaSelfLinkRefArray.api_munge(fetch['instances']),
       backup_pool: resource[:backup_pool],
       name: resource[:name],
       session_affinity: resource[:session_affinity]

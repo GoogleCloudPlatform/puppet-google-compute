@@ -156,30 +156,15 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               # end
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
-              it do
-                is_expected.to have_attributes(network: 'test network#0 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(source_ranges: %w[dd ee ff gg hh])
-              end
-              it do
-                is_expected.to have_attributes(source_tags: %w[vv ww xx yy zz])
-              end
-              it do
-                is_expected.to have_attributes(target_tags: %w[tt uu vv ww xx])
-              end
+              it { is_expected.to have_attributes(network: 'test network#0 data') }
+              it { is_expected.to have_attributes(source_ranges: %w[dd ee ff gg hh]) }
+              it { is_expected.to have_attributes(source_tags: %w[vv ww xx yy zz]) }
+              it { is_expected.to have_attributes(target_tags: %w[tt uu vv ww xx]) }
             end
 
             context 'Gcompute_firewall[title1]' do
@@ -193,29 +178,15 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               # end
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
-              it do
-                is_expected.to have_attributes(network: 'test network#1 data')
-              end
-              it do
-                is_expected.to have_attributes(source_ranges: %w[ii jj kk ll])
-              end
-              it do
-                is_expected.to have_attributes(source_tags: %w[ss tt uu vv])
-              end
-              it do
-                is_expected.to have_attributes(target_tags: %w[oo pp qq rr])
-              end
+              it { is_expected.to have_attributes(network: 'test network#1 data') }
+              it { is_expected.to have_attributes(source_ranges: %w[ii jj kk ll]) }
+              it { is_expected.to have_attributes(source_tags: %w[ss tt uu vv]) }
+              it { is_expected.to have_attributes(target_tags: %w[oo pp qq rr]) }
             end
 
             context 'Gcompute_firewall[title2]' do
@@ -229,24 +200,14 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               # end
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
-              it do
-                is_expected.to have_attributes(network: 'test network#2 data')
-              end
+              it { is_expected.to have_attributes(network: 'test network#2 data') }
               it { is_expected.to have_attributes(source_ranges: %w[nn oo pp]) }
-              it do
-                is_expected.to have_attributes(source_tags: %w[qq rr ss tt])
-              end
+              it { is_expected.to have_attributes(source_tags: %w[qq rr ss tt]) }
               it { is_expected.to have_attributes(target_tags: %w[jj kk ll]) }
             end
           end
@@ -375,30 +336,15 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               # end
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
-              it do
-                is_expected.to have_attributes(network: 'test network#0 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(source_ranges: %w[dd ee ff gg hh])
-              end
-              it do
-                is_expected.to have_attributes(source_tags: %w[vv ww xx yy zz])
-              end
-              it do
-                is_expected.to have_attributes(target_tags: %w[tt uu vv ww xx])
-              end
+              it { is_expected.to have_attributes(network: 'test network#0 data') }
+              it { is_expected.to have_attributes(source_ranges: %w[dd ee ff gg hh]) }
+              it { is_expected.to have_attributes(source_tags: %w[vv ww xx yy zz]) }
+              it { is_expected.to have_attributes(target_tags: %w[tt uu vv ww xx]) }
             end
 
             context 'Gcompute_firewall[title1]' do
@@ -412,29 +358,15 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               # end
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
-              it do
-                is_expected.to have_attributes(network: 'test network#1 data')
-              end
-              it do
-                is_expected.to have_attributes(source_ranges: %w[ii jj kk ll])
-              end
-              it do
-                is_expected.to have_attributes(source_tags: %w[ss tt uu vv])
-              end
-              it do
-                is_expected.to have_attributes(target_tags: %w[oo pp qq rr])
-              end
+              it { is_expected.to have_attributes(network: 'test network#1 data') }
+              it { is_expected.to have_attributes(source_ranges: %w[ii jj kk ll]) }
+              it { is_expected.to have_attributes(source_tags: %w[ss tt uu vv]) }
+              it { is_expected.to have_attributes(target_tags: %w[oo pp qq rr]) }
             end
 
             context 'Gcompute_firewall[title2]' do
@@ -448,24 +380,14 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               # end
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
-              it do
-                is_expected.to have_attributes(network: 'test network#2 data')
-              end
+              it { is_expected.to have_attributes(network: 'test network#2 data') }
               it { is_expected.to have_attributes(source_ranges: %w[nn oo pp]) }
-              it do
-                is_expected.to have_attributes(source_tags: %w[qq rr ss tt])
-              end
+              it { is_expected.to have_attributes(source_tags: %w[qq rr ss tt]) }
               it { is_expected.to have_attributes(target_tags: %w[jj kk ll]) }
             end
           end

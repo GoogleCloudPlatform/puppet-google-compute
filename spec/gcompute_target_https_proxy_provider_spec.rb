@@ -174,15 +174,9 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
               it { is_expected.to have_attributes(quic_override: 'NONE') }
@@ -203,15 +197,9 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
               it { is_expected.to have_attributes(quic_override: 'ENABLE') }
@@ -232,15 +220,9 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
               it { is_expected.to have_attributes(quic_override: 'DISABLE') }
@@ -397,15 +379,9 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               it { is_expected.to have_attributes(quic_override: 'NONE') }
@@ -426,15 +402,9 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               it { is_expected.to have_attributes(quic_override: 'ENABLE') }
@@ -455,15 +425,9 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               it { is_expected.to have_attributes(quic_override: 'DISABLE') }
@@ -582,8 +546,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
                 credential       => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_target_https_proxy[title0]').provider
-              .ensure
+            ).catalog.resource('Gcompute_target_https_proxy[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }
@@ -655,8 +618,7 @@ describe Puppet::Type.type(:gcompute_target_https_proxy).provider(:google) do
                 credential       => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_target_https_proxy[title0]').provider
-              .ensure
+            ).catalog.resource('Gcompute_target_https_proxy[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }

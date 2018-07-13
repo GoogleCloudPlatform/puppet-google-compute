@@ -65,8 +65,7 @@ Puppet::Type.type(:gcompute_license).provide(:google) do
   def self.fetch_to_hash(fetch)
     {
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      charges_use_fee:
-        Google::Compute::Property::Boolean.api_munge(fetch['chargesUseFee'])
+      charges_use_fee: Google::Compute::Property::Boolean.api_munge(fetch['chargesUseFee'])
     }.reject { |_, v| v.nil? }
   end
 

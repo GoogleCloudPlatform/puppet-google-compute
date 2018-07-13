@@ -85,19 +85,11 @@ $puppet apply ${puppet_args} 1>${run_log} 2>&1 <<EOF
 \$_name = gcompute_task_validate_param(
   \$params, 'name', "bolt-\${inline_template('<%= SecureRandom.hex(8) -%>')}"
 )
-\$image_family = gcompute_task_validate_param(
-  \$params, 'image_family', 'centos-7:centos-cloud'
-)
+\$image_family = gcompute_task_validate_param(\$params, 'image_family', 'centos-7:centos-cloud')
 \$size_gb = gcompute_task_validate_param(\$params, 'size_gb', '50')
-\$machine_type = gcompute_task_validate_param(
-  \$params, 'machine_type', 'n1-standard-1'
-)
-\$allocate_static_ip = gcompute_task_validate_param(
-  \$params, 'allocate_static_ip', 'false'
-)
-\$network_name = gcompute_task_validate_param(
-  \$params, 'network_name', 'default'
-)
+\$machine_type = gcompute_task_validate_param(\$params, 'machine_type', 'n1-standard-1')
+\$allocate_static_ip = gcompute_task_validate_param(\$params, 'allocate_static_ip', 'false')
+\$network_name = gcompute_task_validate_param(\$params, 'network_name', 'default')
 \$zone = gcompute_task_validate_param(\$params, 'zone', 'us-west1-c')
 \$project = gcompute_task_validate_param(\$params, 'project', '<-undef->')
 \$credential = gcompute_task_validate_param(\$params, 'credential', '<-undef->')

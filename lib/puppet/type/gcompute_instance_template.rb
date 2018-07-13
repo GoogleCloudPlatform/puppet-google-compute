@@ -55,13 +55,12 @@ require 'puppet'
 
 Puppet::Type.newtype(:gcompute_instance_template) do
   @doc = <<-DOC
-    Defines an Instance Template resource that provides configuration settings
-    for your virtual machine instances. Instance templates are not tied to the
-    lifetime of an instance and can be used and reused as to deploy virtual
-    machines. You can also use different templates to create different virtual
-    machine configurations. Instance templates are required when you create a
-    managed instance group. Tip: Disks should be set to autoDelete=true so that
-    leftover disks are not left behind on machine deletion.
+    Defines an Instance Template resource that provides configuration settings for your virtual
+    machine instances. Instance templates are not tied to the lifetime of an instance and can be
+    used and reused as to deploy virtual machines. You can also use different templates to create
+    different virtual machine configurations. Instance templates are required when you create a
+    managed instance group. Tip: Disks should be set to autoDelete=true so that leftover disks are
+    not left behind on machine deletion.
   DOC
 
   autorequire(:gauth_credential) do
@@ -94,27 +93,22 @@ Puppet::Type.newtype(:gcompute_instance_template) do
 
   newproperty(:description, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      An optional description of this resource. Provide this property when you
-      create the resource.
+      An optional description of this resource. Provide this property when you create the resource.
     DOC
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
     desc <<-DOC
-      The unique identifier for the resource. This identifier is defined by the
-      server. (output only)
+      The unique identifier for the resource. This identifier is defined by the server. (output
+      only)
     DOC
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
-    desc <<-DOC
-      Name of the resource. The name is 1-63 characters long and complies with
-      RFC1035.
-    DOC
+    desc 'Name of the resource. The name is 1-63 characters long and complies with RFC1035.'
   end
 
-  newproperty(:properties,
-              parent: Google::Compute::Property::InstancTemplatPropert) do
+  newproperty(:properties, parent: Google::Compute::Property::InstancTemplatPropert) do
     desc 'The instance properties for this instance template.'
   end
 

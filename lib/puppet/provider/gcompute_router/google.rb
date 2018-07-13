@@ -76,10 +76,8 @@ Puppet::Type.type(:gcompute_router).provide(:google) do
   def self.fetch_to_hash(fetch, resource)
     {
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
       bgp: Google::Compute::Property::RouterBgp.api_munge(fetch['bgp']),
       name: resource[:name],
       network: resource[:network]

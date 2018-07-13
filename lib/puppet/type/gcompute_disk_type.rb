@@ -36,9 +36,8 @@ require 'puppet'
 
 Puppet::Type.newtype(:gcompute_disk_type) do
   @doc = <<-DOC
-    Represents a DiskType resource. A DiskType resource represents the type of
-    disk to use, such as a pd-ssd or pd-standard. To reference a disk type, use
-    the disk type's full or partial URL.
+    Represents a DiskType resource. A DiskType resource represents the type of disk to use, such as
+    a pd-ssd or pd-standard. To reference a disk type, use the disk type's full or partial URL.
   DOC
 
   autorequire(:gauth_credential) do
@@ -77,13 +76,11 @@ Puppet::Type.newtype(:gcompute_disk_type) do
     desc 'Creation timestamp in RFC3339 text format. (output only)'
   end
 
-  newproperty(:default_disk_size_gb,
-              parent: Google::Compute::Property::Integer) do
+  newproperty(:default_disk_size_gb, parent: Google::Compute::Property::Integer) do
     desc 'Server-defined default disk size in GB. (output only)'
   end
 
-  newproperty(:deprecated,
-              parent: Google::Compute::Property::DiskTypeDepreca) do
+  newproperty(:deprecated, parent: Google::Compute::Property::DiskTypeDepreca) do
     desc 'The deprecation status associated with this disk type. (output only)'
   end
 
@@ -101,8 +98,7 @@ Puppet::Type.newtype(:gcompute_disk_type) do
 
   newproperty(:valid_disk_size, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      An optional textual description of the valid disk size, such as
-      "10GB-10TB". (output only)
+      An optional textual description of the valid disk size, such as "10GB-10TB". (output only)
     DOC
   end
 

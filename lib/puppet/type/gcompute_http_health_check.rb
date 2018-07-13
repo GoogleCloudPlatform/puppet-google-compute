@@ -33,8 +33,8 @@ require 'puppet'
 
 Puppet::Type.newtype(:gcompute_http_health_check) do
   @doc = <<-DOC
-    An HttpHealthCheck resource. This resource defines a template for how
-    individual VMs should be checked for health, via HTTP.
+    An HttpHealthCheck resource. This resource defines a template for how individual VMs should be
+    checked for health, via HTTP.
   DOC
 
   autorequire(:gauth_credential) do
@@ -61,12 +61,8 @@ Puppet::Type.newtype(:gcompute_http_health_check) do
     desc 'The name of the HttpHealthCheck.'
   end
 
-  newproperty(:check_interval_sec,
-              parent: Google::Compute::Property::Integer) do
-    desc <<-DOC
-      How often (in seconds) to send a health check. The default value is 5
-      seconds.
-    DOC
+  newproperty(:check_interval_sec, parent: Google::Compute::Property::Integer) do
+    desc 'How often (in seconds) to send a health check. The default value is 5 seconds.'
     defaultto 5
   end
 
@@ -76,72 +72,60 @@ Puppet::Type.newtype(:gcompute_http_health_check) do
 
   newproperty(:description, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      An optional description of this resource. Provide this property when you
-      create the resource.
+      An optional description of this resource. Provide this property when you create the resource.
     DOC
   end
 
   newproperty(:healthy_threshold, parent: Google::Compute::Property::Integer) do
     desc <<-DOC
-      A so-far unhealthy instance will be marked healthy after this many
-      consecutive successes. The default value is 2.
+      A so-far unhealthy instance will be marked healthy after this many consecutive successes. The
+      default value is 2.
     DOC
   end
 
   newproperty(:host, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      The value of the host header in the HTTP health check request. If left
-      empty (default value), the public IP on behalf of which this health check
-      is performed will be used.
+      The value of the host header in the HTTP health check request. If left empty (default value),
+      the public IP on behalf of which this health check is performed will be used.
     DOC
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
     desc <<-DOC
-      The unique identifier for the resource. This identifier is defined by the
-      server. (output only)
+      The unique identifier for the resource. This identifier is defined by the server. (output
+      only)
     DOC
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      Name of the resource. Provided by the client when the resource is
-      created. The name must be 1-63 characters long, and comply with RFC1035.
-      Specifically, the name must be 1-63 characters long and match the regular
-      expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character
-      must be a lowercase letter, and all following characters must be a dash,
-      lowercase letter, or digit, except the last character, which cannot be a
-      dash.
+      Name of the resource. Provided by the client when the resource is created. The name must be
+      1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters
+      long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first
+      character must be a lowercase letter, and all following characters must be a dash, lowercase
+      letter, or digit, except the last character, which cannot be a dash.
     DOC
   end
 
   newproperty(:port, parent: Google::Compute::Property::Integer) do
-    desc <<-DOC
-      The TCP port number for the HTTP health check request. The default value
-      is 80.
-    DOC
+    desc 'The TCP port number for the HTTP health check request. The default value is 80.'
   end
 
   newproperty(:request_path, parent: Google::Compute::Property::String) do
-    desc <<-DOC
-      The request path of the HTTP health check request. The default value is
-      /.
-    DOC
+    desc 'The request path of the HTTP health check request. The default value is /.'
   end
 
   newproperty(:timeout_sec, parent: Google::Compute::Property::Integer) do
     desc <<-DOC
-      How long (in seconds) to wait before claiming failure. The default value
-      is 5 seconds. It is invalid for timeoutSec to have greater value than
-      checkIntervalSec.
+      How long (in seconds) to wait before claiming failure. The default value is 5 seconds. It is
+      invalid for timeoutSec to have greater value than checkIntervalSec.
     DOC
   end
 
-  newproperty(:unhealthy_threshold,
-              parent: Google::Compute::Property::Integer) do
+  newproperty(:unhealthy_threshold, parent: Google::Compute::Property::Integer) do
     desc <<-DOC
-      A so-far healthy instance will be marked unhealthy after this many
-      consecutive failures. The default value is 2.
+      A so-far healthy instance will be marked unhealthy after this many consecutive failures. The
+      default value is 2.
     DOC
   end
 

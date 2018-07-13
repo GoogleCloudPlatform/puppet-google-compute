@@ -89,8 +89,7 @@ module Google
       class InstaDiskEncryKeyApi < InstaDiskEncryKey
         def initialize(args)
           @raw_key = Google::Compute::Property::String.api_munge(args['rawKey'])
-          @rsa_encrypted_key =
-            Google::Compute::Property::String.api_munge(args['rsaEncryptedKey'])
+          @rsa_encrypted_key = Google::Compute::Property::String.api_munge(args['rsaEncryptedKey'])
           @sha256 = Google::Compute::Property::String.api_munge(args['sha256'])
         end
       end
@@ -99,13 +98,10 @@ module Google
       # Data is coming from the Puppet manifest
       class InstaDiskEncryKeyCatalog < InstaDiskEncryKey
         def initialize(args)
-          @raw_key =
-            Google::Compute::Property::String.unsafe_munge(args['raw_key'])
-          @rsa_encrypted_key = Google::Compute::Property::String.unsafe_munge(
-            args['rsa_encrypted_key']
-          )
-          @sha256 =
-            Google::Compute::Property::String.unsafe_munge(args['sha256'])
+          @raw_key = Google::Compute::Property::String.unsafe_munge(args['raw_key'])
+          @rsa_encrypted_key =
+            Google::Compute::Property::String.unsafe_munge(args['rsa_encrypted_key'])
+          @sha256 = Google::Compute::Property::String.unsafe_munge(args['sha256'])
         end
       end
     end

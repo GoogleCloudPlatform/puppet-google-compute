@@ -90,9 +90,7 @@ module Google
       class InstaTemplAccesConfiApi < InstaTemplAccesConfi
         def initialize(args)
           @name = Google::Compute::Property::String.api_munge(args['name'])
-          @nat_ip = Google::Compute::Property::AddressAddressRef.api_munge(
-            args['natIP']
-          )
+          @nat_ip = Google::Compute::Property::AddressAddressRef.api_munge(args['natIP'])
           @type = Google::Compute::Property::Enum.api_munge(args['type'])
         end
       end
@@ -102,9 +100,7 @@ module Google
       class InstaTemplAccesConfiCatalog < InstaTemplAccesConfi
         def initialize(args)
           @name = Google::Compute::Property::String.unsafe_munge(args['name'])
-          @nat_ip = Google::Compute::Property::AddressAddressRef.unsafe_munge(
-            args['nat_ip']
-          )
+          @nat_ip = Google::Compute::Property::AddressAddressRef.unsafe_munge(args['nat_ip'])
           @type = Google::Compute::Property::Enum.unsafe_munge(args['type'])
         end
       end

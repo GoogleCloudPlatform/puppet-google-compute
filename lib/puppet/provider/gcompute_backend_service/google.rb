@@ -63,8 +63,7 @@ Puppet::Type.type(:gcompute_backend_service).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#backendService')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#backendService')
       resource.provider = present(name, fetch) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_backend_service, resource)
     end
@@ -80,38 +79,23 @@ Puppet::Type.type(:gcompute_backend_service).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch)
     {
-      affinity_cookie_ttl_sec: Google::Compute::Property::Integer.api_munge(
-        fetch['affinityCookieTtlSec']
-      ),
-      backends:
-        Google::Compute::Property::BackendServiceBackendArray.api_munge(
-          fetch['backends']
-        ),
-      cdn_policy: Google::Compute::Property::BackeServiCdnPolic.api_munge(
-        fetch['cdnPolicy']
-      ),
+      affinity_cookie_ttl_sec:
+        Google::Compute::Property::Integer.api_munge(fetch['affinityCookieTtlSec']),
+      backends: Google::Compute::Property::BackendServiceBackendArray.api_munge(fetch['backends']),
+      cdn_policy: Google::Compute::Property::BackeServiCdnPolic.api_munge(fetch['cdnPolicy']),
       connection_draining:
-        Google::Compute::Property::BackeServiConneDrain.api_munge(
-          fetch['connectionDraining']
-        ),
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
-      enable_cdn:
-        Google::Compute::Property::Boolean.api_munge(fetch['enableCDN']),
-      health_checks:
-        Google::Compute::Property::StringArray.api_munge(fetch['healthChecks']),
+        Google::Compute::Property::BackeServiConneDrain.api_munge(fetch['connectionDraining']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
+      enable_cdn: Google::Compute::Property::Boolean.api_munge(fetch['enableCDN']),
+      health_checks: Google::Compute::Property::StringArray.api_munge(fetch['healthChecks']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       port_name: Google::Compute::Property::String.api_munge(fetch['portName']),
       protocol: Google::Compute::Property::Enum.api_munge(fetch['protocol']),
-      region:
-        Google::Compute::Property::RegioSelfLinkRef.api_munge(fetch['region']),
-      session_affinity:
-        Google::Compute::Property::Enum.api_munge(fetch['sessionAffinity']),
-      timeout_sec:
-        Google::Compute::Property::Integer.api_munge(fetch['timeoutSec'])
+      region: Google::Compute::Property::RegioSelfLinkRef.api_munge(fetch['region']),
+      session_affinity: Google::Compute::Property::Enum.api_munge(fetch['sessionAffinity']),
+      timeout_sec: Google::Compute::Property::Integer.api_munge(fetch['timeoutSec'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength

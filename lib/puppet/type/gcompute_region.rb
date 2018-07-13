@@ -36,8 +36,8 @@ require 'puppet'
 
 Puppet::Type.newtype(:gcompute_region) do
   @doc = <<-DOC
-    Represents a Region resource. A region is a specific geographical location
-    where you can run your resources. Each region has one or more zones
+    Represents a Region resource. A region is a specific geographical location where you can run
+    your resources. Each region has one or more zones
   DOC
 
   autorequire(:gauth_credential) do
@@ -66,8 +66,7 @@ Puppet::Type.newtype(:gcompute_region) do
     desc 'Creation timestamp in RFC3339 text format. (output only)'
   end
 
-  newproperty(:deprecated,
-              parent: Google::Compute::Property::RegionDeprecated) do
+  newproperty(:deprecated, parent: Google::Compute::Property::RegionDeprecated) do
     desc 'The deprecation state of this resource. (output only)'
   end
 

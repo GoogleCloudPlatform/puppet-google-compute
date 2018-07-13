@@ -40,18 +40,16 @@ require 'puppet'
 
 Puppet::Type.newtype(:gcompute_disk) do
   @doc = <<-DOC
-    Persistent disks are durable storage devices that function similarly to the
-    physical disks in a desktop or a server. Compute Engine manages the
-    hardware behind these devices to ensure data redundancy and optimize
-    performance for you. Persistent disks are available as either standard hard
-    disk drives (HDD) or solid-state drives (SSD). Persistent disks are located
-    independently from your virtual machine instances, so you can detach or
-    move persistent disks to keep your data even after you delete your
-    instances. Persistent disk performance scales automatically with size, so
-    you can resize your existing persistent disks or add more persistent disks
-    to an instance to meet your performance and storage space requirements. Add
-    a persistent disk to your instance when you need reliable and affordable
-    storage with consistent performance characteristics.
+    Persistent disks are durable storage devices that function similarly to the physical disks in a
+    desktop or a server. Compute Engine manages the hardware behind these devices to ensure data
+    redundancy and optimize performance for you. Persistent disks are available as either standard
+    hard disk drives (HDD) or solid-state drives (SSD). Persistent disks are located independently
+    from your virtual machine instances, so you can detach or move persistent disks to keep your
+    data even after you delete your instances. Persistent disk performance scales automatically
+    with size, so you can resize your existing persistent disks or add more persistent disks to an
+    instance to meet your performance and storage space requirements. Add a persistent disk to your
+    instance when you need reliable and affordable storage with consistent performance
+    characteristics.
   DOC
 
   autorequire(:gauth_credential) do
@@ -88,64 +86,56 @@ Puppet::Type.newtype(:gcompute_disk) do
     desc 'A reference to the zone where the disk resides.'
   end
 
-  newparam(:disk_encryption_key,
-           parent: Google::Compute::Property::DiskDiskEncryKey) do
+  newparam(:disk_encryption_key, parent: Google::Compute::Property::DiskDiskEncryKey) do
     desc <<-DOC
-      Encrypts the disk using a customer-supplied encryption key. After you
-      encrypt a disk with a customer-supplied key, you must provide the same
-      key if you use the disk later (e.g. to create a disk snapshot or an
-      image, or to attach the disk to a virtual machine). Customer-supplied
-      encryption keys do not protect access to metadata of the disk. If you do
-      not provide an encryption key when creating the disk, then the disk will
-      be encrypted using an automatically generated key and you do not need to
-      provide a key to use the disk later.
+      Encrypts the disk using a customer-supplied encryption key. After you encrypt a disk with a
+      customer-supplied key, you must provide the same key if you use the disk later (e.g. to
+      create a disk snapshot or an image, or to attach the disk to a virtual machine).
+      Customer-supplied encryption keys do not protect access to metadata of the disk. If you do
+      not provide an encryption key when creating the disk, then the disk will be encrypted using
+      an automatically generated key and you do not need to provide a key to use the disk later.
     DOC
   end
 
-  newparam(:source_image_encryption_key,
-           parent: Google::Compute::Property::DiskSourImagEncrKey) do
+  newparam(:source_image_encryption_key, parent: Google::Compute::Property::DiskSourImagEncrKey) do
     desc <<-DOC
-      The customer-supplied encryption key of the source image. Required if the
-      source image is protected by a customer-supplied encryption key.
+      The customer-supplied encryption key of the source image. Required if the source image is
+      protected by a customer-supplied encryption key.
     DOC
   end
 
   newparam(:source_image_id, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      The ID value of the image used to create this disk. This value identifies
-      the exact image that was used to create this persistent disk. For
-      example, if you created the persistent disk from an image that was later
-      deleted and recreated under the same name, the source image ID would
-      identify the exact version of the image that was used.
+      The ID value of the image used to create this disk. This value identifies the exact image
+      that was used to create this persistent disk. For example, if you created the persistent disk
+      from an image that was later deleted and recreated under the same name, the source image ID
+      would identify the exact version of the image that was used.
     DOC
   end
 
   newparam(:source_snapshot, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      The source snapshot used to create this disk. You can provide this as a
-      partial or full URL to the resource. For example, the following are valid
-      values: * https://www.googleapis.com/compute/v1/projects/project/global/
-      snapshots/snapshot * projects/project/global/snapshots/snapshot *
-      global/snapshots/snapshot
+      The source snapshot used to create this disk. You can provide this as a partial or full URL
+      to the resource. For example, the following are valid values: *
+      https://www.googleapis.com/compute/v1/projects/project/global/    snapshots/snapshot *
+      projects/project/global/snapshots/snapshot * global/snapshots/snapshot
     DOC
   end
 
   newparam(:source_snapshot_encryption_key,
            parent: Google::Compute::Property::DiskSourSnapEncrKey) do
     desc <<-DOC
-      The customer-supplied encryption key of the source snapshot. Required if
-      the source snapshot is protected by a customer-supplied encryption key.
+      The customer-supplied encryption key of the source snapshot. Required if the source snapshot
+      is protected by a customer-supplied encryption key.
     DOC
   end
 
   newparam(:source_snapshot_id, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      The unique ID of the snapshot used to create this disk. This value
-      identifies the exact snapshot that was used to create this persistent
-      disk. For example, if you created the persistent disk from a snapshot
-      that was later deleted and recreated under the same name, the source
-      snapshot ID would identify the exact version of the snapshot that was
-      used.
+      The unique ID of the snapshot used to create this disk. This value identifies the exact
+      snapshot that was used to create this persistent disk. For example, if you created the
+      persistent disk from a snapshot that was later deleted and recreated under the same name, the
+      source snapshot ID would identify the exact version of the snapshot that was used.
     DOC
   end
 
@@ -155,8 +145,7 @@ Puppet::Type.newtype(:gcompute_disk) do
 
   newproperty(:description, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      An optional description of this resource. Provide this property when you
-      create the resource.
+      An optional description of this resource. Provide this property when you create the resource.
     DOC
   end
 
@@ -164,13 +153,11 @@ Puppet::Type.newtype(:gcompute_disk) do
     desc 'The unique identifier for the resource. (output only)'
   end
 
-  newproperty(:last_attach_timestamp,
-              parent: Google::Compute::Property::Time) do
+  newproperty(:last_attach_timestamp, parent: Google::Compute::Property::Time) do
     desc 'Last attach timestamp in RFC3339 text format. (output only)'
   end
 
-  newproperty(:last_detach_timestamp,
-              parent: Google::Compute::Property::Time) do
+  newproperty(:last_detach_timestamp, parent: Google::Compute::Property::Time) do
     desc 'Last dettach timestamp in RFC3339 text format. (output only)'
   end
 
@@ -184,48 +171,43 @@ Puppet::Type.newtype(:gcompute_disk) do
 
   newproperty(:name, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      Name of the resource. Provided by the client when the resource is
-      created. The name must be 1-63 characters long, and comply with RFC1035.
-      Specifically, the name must be 1-63 characters long and match the regular
-      expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character
-      must be a lowercase letter, and all following characters must be a dash,
-      lowercase letter, or digit, except the last character, which cannot be a
-      dash.
+      Name of the resource. Provided by the client when the resource is created. The name must be
+      1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters
+      long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first
+      character must be a lowercase letter, and all following characters must be a dash, lowercase
+      letter, or digit, except the last character, which cannot be a dash.
     DOC
   end
 
   newproperty(:size_gb, parent: Google::Compute::Property::Integer) do
     desc <<-DOC
-      Size of the persistent disk, specified in GB. You can specify this field
-      when creating a persistent disk using the sourceImage or sourceSnapshot
-      parameter, or specify it alone to create an empty persistent disk. If you
-      specify this field along with sourceImage or sourceSnapshot, the value of
-      sizeGb must not be less than the size of the sourceImage or the size of
-      the snapshot.
+      Size of the persistent disk, specified in GB. You can specify this field when creating a
+      persistent disk using the sourceImage or sourceSnapshot parameter, or specify it alone to
+      create an empty persistent disk. If you specify this field along with sourceImage or
+      sourceSnapshot, the value of sizeGb must not be less than the size of the sourceImage or the
+      size of the snapshot.
     DOC
   end
 
   newproperty(:source_image, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      The source image used to create this disk. If the source image is
-      deleted, this field will not be set. To create a disk with one of the
-      public operating system images, specify the image by its family name. For
-      example, specify family/debian-8 to use the latest Debian 8 image:
-      projects/debian-cloud/global/images/family/debian-8 Alternatively, use a
-      specific version of a public operating system image:
-      projects/debian-cloud/global/images/debian-8-jessie-vYYYYMMDD To create a
-      disk with a private image that you created, specify the image name in the
-      following format: global/images/my-private-image You can also specify a
-      private image by its image family, which returns the latest version of
-      the image in that family. Replace the image name with family/family-name:
-      global/images/family/my-private-family
+      The source image used to create this disk. If the source image is deleted, this field will
+      not be set. To create a disk with one of the public operating system images, specify the
+      image by its family name. For example, specify family/debian-8 to use the latest Debian 8
+      image: projects/debian-cloud/global/images/family/debian-8 Alternatively, use a specific
+      version of a public operating system image:
+      projects/debian-cloud/global/images/debian-8-jessie-vYYYYMMDD To create a disk with a private
+      image that you created, specify the image name in the following format:
+      global/images/my-private-image You can also specify a private image by its image family,
+      which returns the latest version of the image in that family. Replace the image name with
+      family/family-name: global/images/family/my-private-family
     DOC
   end
 
   newproperty(:type, parent: Google::Compute::Property::DiskTypeSelfLinkRef) do
     desc <<-DOC
-      URL of the disk type resource describing which disk type to use to create
-      the disk. Provide this when creating the disk.
+      URL of the disk type resource describing which disk type to use to create the disk. Provide
+      this when creating the disk.
     DOC
   end
 

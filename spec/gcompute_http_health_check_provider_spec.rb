@@ -112,31 +112,17 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
               it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
-              it do
-                is_expected.to have_attributes(healthy_threshold: 295_703_256)
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
+              it { is_expected.to have_attributes(healthy_threshold: 295_703_256) }
               it { is_expected.to have_attributes(host: 'test host#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
               it { is_expected.to have_attributes(port: 759_512_136) }
-              it do
-                is_expected
-                  .to have_attributes(request_path: 'test request_path#0 data')
-              end
+              it { is_expected.to have_attributes(request_path: 'test request_path#0 data') }
               it { is_expected.to have_attributes(timeout_sec: 2_704_031_721) }
-              it do
-                is_expected
-                  .to have_attributes(unhealthy_threshold: 1_604_513_019)
-              end
+              it { is_expected.to have_attributes(unhealthy_threshold: 1_604_513_019) }
             end
 
             context 'Gcompute_http_health_check[title1]' do
@@ -147,31 +133,17 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
               it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
-              it do
-                is_expected.to have_attributes(healthy_threshold: 591_406_512)
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
+              it { is_expected.to have_attributes(healthy_threshold: 591_406_512) }
               it { is_expected.to have_attributes(host: 'test host#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
               it { is_expected.to have_attributes(port: 1_519_024_273) }
-              it do
-                is_expected
-                  .to have_attributes(request_path: 'test request_path#1 data')
-              end
+              it { is_expected.to have_attributes(request_path: 'test request_path#1 data') }
               it { is_expected.to have_attributes(timeout_sec: 5_408_063_442) }
-              it do
-                is_expected
-                  .to have_attributes(unhealthy_threshold: 3_209_026_038)
-              end
+              it { is_expected.to have_attributes(unhealthy_threshold: 3_209_026_038) }
             end
 
             context 'Gcompute_http_health_check[title2]' do
@@ -182,31 +154,17 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
               it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
-              it do
-                is_expected.to have_attributes(healthy_threshold: 887_109_769)
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
+              it { is_expected.to have_attributes(healthy_threshold: 887_109_769) }
               it { is_expected.to have_attributes(host: 'test host#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
               it { is_expected.to have_attributes(port: 2_278_536_410) }
-              it do
-                is_expected
-                  .to have_attributes(request_path: 'test request_path#2 data')
-              end
+              it { is_expected.to have_attributes(request_path: 'test request_path#2 data') }
               it { is_expected.to have_attributes(timeout_sec: 8_112_095_164) }
-              it do
-                is_expected
-                  .to have_attributes(unhealthy_threshold: 4_813_539_057)
-              end
+              it { is_expected.to have_attributes(unhealthy_threshold: 4_813_539_057) }
             end
           end
 
@@ -290,31 +248,17 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
               it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
-              it do
-                is_expected.to have_attributes(healthy_threshold: 295_703_256)
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
+              it { is_expected.to have_attributes(healthy_threshold: 295_703_256) }
               it { is_expected.to have_attributes(host: 'test host#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               it { is_expected.to have_attributes(port: 759_512_136) }
-              it do
-                is_expected
-                  .to have_attributes(request_path: 'test request_path#0 data')
-              end
+              it { is_expected.to have_attributes(request_path: 'test request_path#0 data') }
               it { is_expected.to have_attributes(timeout_sec: 2_704_031_721) }
-              it do
-                is_expected
-                  .to have_attributes(unhealthy_threshold: 1_604_513_019)
-              end
+              it { is_expected.to have_attributes(unhealthy_threshold: 1_604_513_019) }
             end
 
             context 'Gcompute_http_health_check[title1]' do
@@ -325,31 +269,17 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
               it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
-              it do
-                is_expected.to have_attributes(healthy_threshold: 591_406_512)
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
+              it { is_expected.to have_attributes(healthy_threshold: 591_406_512) }
               it { is_expected.to have_attributes(host: 'test host#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               it { is_expected.to have_attributes(port: 1_519_024_273) }
-              it do
-                is_expected
-                  .to have_attributes(request_path: 'test request_path#1 data')
-              end
+              it { is_expected.to have_attributes(request_path: 'test request_path#1 data') }
               it { is_expected.to have_attributes(timeout_sec: 5_408_063_442) }
-              it do
-                is_expected
-                  .to have_attributes(unhealthy_threshold: 3_209_026_038)
-              end
+              it { is_expected.to have_attributes(unhealthy_threshold: 3_209_026_038) }
             end
 
             context 'Gcompute_http_health_check[title2]' do
@@ -360,31 +290,17 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
               it { is_expected.to have_attributes(check_interval_sec: 5) }
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
-              it do
-                is_expected.to have_attributes(healthy_threshold: 887_109_769)
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
+              it { is_expected.to have_attributes(healthy_threshold: 887_109_769) }
               it { is_expected.to have_attributes(host: 'test host#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               it { is_expected.to have_attributes(port: 2_278_536_410) }
-              it do
-                is_expected
-                  .to have_attributes(request_path: 'test request_path#2 data')
-              end
+              it { is_expected.to have_attributes(request_path: 'test request_path#2 data') }
               it { is_expected.to have_attributes(timeout_sec: 8_112_095_164) }
-              it do
-                is_expected
-                  .to have_attributes(unhealthy_threshold: 4_813_539_057)
-              end
+              it { is_expected.to have_attributes(unhealthy_threshold: 4_813_539_057) }
             end
           end
 
@@ -473,8 +389,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
                 credential          => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_http_health_check[title0]').provider
-              .ensure
+            ).catalog.resource('Gcompute_http_health_check[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }
@@ -527,8 +442,7 @@ describe Puppet::Type.type(:gcompute_http_health_check).provider(:google) do
                 credential          => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_http_health_check[title0]').provider
-              .ensure
+            ).catalog.resource('Gcompute_http_health_check[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }

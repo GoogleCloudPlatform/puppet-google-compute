@@ -56,8 +56,7 @@ Puppet::Type.type(:gcompute_target_ssl_proxy).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#targetSslProxy')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#targetSslProxy')
       resource.provider = present(name, fetch, resource) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_target_ssl_proxy, resource)
     end
@@ -74,18 +73,12 @@ Puppet::Type.type(:gcompute_target_ssl_proxy).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch, resource)
     {
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      proxy_header:
-        Google::Compute::Property::Enum.api_munge(fetch['proxyHeader']),
-      service: Google::Compute::Property::BackServSelfLinkRef.api_munge(
-        fetch['service']
-      ),
+      proxy_header: Google::Compute::Property::Enum.api_munge(fetch['proxyHeader']),
+      service: Google::Compute::Property::BackServSelfLinkRef.api_munge(fetch['service']),
       ssl_certificates:
-        Google::Compute::Property::SslCertSelfLinkRefArray.api_munge(
-          fetch['sslCertificates']
-        ),
+        Google::Compute::Property::SslCertSelfLinkRefArray.api_munge(fetch['sslCertificates']),
       description: resource[:description],
       name: resource[:name]
     }.reject { |_, v| v.nil? }

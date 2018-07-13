@@ -45,9 +45,8 @@
 
 ### Fixes
 
-- gcompute_instance { network_interfaces { subnetwork } } now accepts a
-  reference to a gcompute_subnetwork resource instead of the GCP URL of a
-  subnetwork
+- gcompute_instance { network_interfaces { subnetwork } } now accepts a reference to a
+  gcompute_subnetwork resource instead of the GCP URL of a subnetwork
 - Improved validation of required parameter references
 
 ## 0.1.0 (2017-08-22)

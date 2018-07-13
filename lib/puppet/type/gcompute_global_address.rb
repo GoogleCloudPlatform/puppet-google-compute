@@ -35,8 +35,7 @@ require 'puppet'
 
 Puppet::Type.newtype(:gcompute_global_address) do
   @doc = <<-DOC
-    Represents a Global Address resource. Global addresses are used for HTTP(S)
-    load balancing.
+    Represents a Global Address resource. Global addresses are used for HTTP(S) load balancing.
   DOC
 
   autorequire(:gauth_credential) do
@@ -64,10 +63,7 @@ Puppet::Type.newtype(:gcompute_global_address) do
   end
 
   newproperty(:address, parent: Google::Compute::Property::String) do
-    desc <<-DOC
-      The static external IP address represented by this resource. (output
-      only)
-    DOC
+    desc 'The static external IP address represented by this resource. (output only)'
   end
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
@@ -76,44 +72,38 @@ Puppet::Type.newtype(:gcompute_global_address) do
 
   newproperty(:description, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      An optional description of this resource. Provide this property when you
-      create the resource.
+      An optional description of this resource. Provide this property when you create the resource.
     DOC
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
     desc <<-DOC
-      The unique identifier for the resource. This identifier is defined by the
-      server. (output only)
+      The unique identifier for the resource. This identifier is defined by the server. (output
+      only)
     DOC
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      Name of the resource. Provided by the client when the resource is
-      created. The name must be 1-63 characters long, and comply with RFC1035.
-      Specifically, the name must be 1-63 characters long and match the regular
-      expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character
-      must be a lowercase letter, and all following characters must be a dash,
-      lowercase letter, or digit, except the last character, which cannot be a
-      dash.
+      Name of the resource. Provided by the client when the resource is created. The name must be
+      1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters
+      long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first
+      character must be a lowercase letter, and all following characters must be a dash, lowercase
+      letter, or digit, except the last character, which cannot be a dash.
     DOC
   end
 
   newproperty(:ip_version, parent: Google::Compute::Property::Enum) do
     desc <<-DOC
-      The IP Version that will be used by this address. Valid options are IPV4
-      or IPV6. The default value is IPV4.
+      The IP Version that will be used by this address. Valid options are IPV4 or IPV6. The default
+      value is IPV4.
     DOC
     newvalue(:IPV4)
     newvalue(:IPV6)
   end
 
   newproperty(:region, parent: Google::Compute::Property::RegioSelfLinkRef) do
-    desc <<-DOC
-      A reference to the region where the regional address resides. (output
-      only)
-    DOC
+    desc 'A reference to the region where the regional address resides. (output only)'
   end
 
   # Returns all properties that a provider can export to other resources

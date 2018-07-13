@@ -334,19 +334,13 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
               # TODO(alexstephen): Implement resourceref test.
               # it 'defaultService' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'hostRules' do
               #   # Add test code here
@@ -370,19 +364,13 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
               # TODO(alexstephen): Implement resourceref test.
               # it 'defaultService' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'hostRules' do
               #   # Add test code here
@@ -406,19 +394,13 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
               # TODO(alexstephen): Implement resourceref test.
               # it 'defaultService' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'hostRules' do
               #   # Add test code here
@@ -738,19 +720,13 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
               # TODO(alexstephen): Implement resourceref test.
               # it 'defaultService' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'hostRules' do
               #   # Add test code here
@@ -774,19 +750,13 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
               # TODO(alexstephen): Implement resourceref test.
               # it 'defaultService' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'hostRules' do
               #   # Add test code here
@@ -810,19 +780,13 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
               # TODO(alexstephen): Implement resourceref test.
               # it 'defaultService' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'hostRules' do
               #   # Add test code here

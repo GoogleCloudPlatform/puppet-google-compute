@@ -34,11 +34,10 @@ require 'puppet'
 
 Puppet::Type.newtype(:gcompute_backend_bucket) do
   @doc = <<-DOC
-    Backend buckets allow you to use Google Cloud Storage buckets with HTTP(S)
-    load balancing. An HTTP(S) load balancer can direct traffic to specified
-    URLs to a backend bucket rather than a backend service. It can send
-    requests for static content to a Cloud Storage bucket and requests for
-    dynamic content a virtual machine instance.
+    Backend buckets allow you to use Google Cloud Storage buckets with HTTP(S) load balancing. An
+    HTTP(S) load balancer can direct traffic to specified URLs to a backend bucket rather than a
+    backend service. It can send requests for static content to a Cloud Storage bucket and requests
+    for dynamic content a virtual machine instance.
   DOC
 
   autorequire(:gauth_credential) do
@@ -75,8 +74,8 @@ Puppet::Type.newtype(:gcompute_backend_bucket) do
 
   newproperty(:description, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      An optional textual description of the resource; provided by the client
-      when the resource is created.
+      An optional textual description of the resource; provided by the client when the resource is
+      created.
     DOC
   end
 
@@ -92,13 +91,11 @@ Puppet::Type.newtype(:gcompute_backend_bucket) do
 
   newproperty(:name, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      Name of the resource. Provided by the client when the resource is
-      created. The name must be 1-63 characters long, and comply with RFC1035.
-      Specifically, the name must be 1-63 characters long and match the regular
-      expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character
-      must be a lowercase letter, and all following characters must be a dash,
-      lowercase letter, or digit, except the last character, which cannot be a
-      dash.
+      Name of the resource. Provided by the client when the resource is created. The name must be
+      1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters
+      long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first
+      character must be a lowercase letter, and all following characters must be a dash, lowercase
+      letter, or digit, except the last character, which cannot be a dash.
     DOC
   end
 

@@ -64,9 +64,7 @@ Puppet::Type.newtype(:gcompute_zone) do
   end
 
   newproperty(:deprecated, parent: Google::Compute::Property::ZoneDeprecated) do
-    desc <<-DOC
-      The deprecation status associated with this machine type. (output only)
-    DOC
+    desc 'The deprecation status associated with this machine type. (output only)'
   end
 
   newproperty(:description, parent: Google::Compute::Property::String) do

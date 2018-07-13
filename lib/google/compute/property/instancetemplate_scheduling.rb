@@ -88,14 +88,11 @@ module Google
       # Data is coming from the GCP API
       class InstancTemplatSchedulApi < InstancTemplatSchedul
         def initialize(args)
-          @automatic_restart = Google::Compute::Property::Boolean.api_munge(
-            args['automaticRestart']
-          )
-          @on_host_maintenance = Google::Compute::Property::String.api_munge(
-            args['onHostMaintenance']
-          )
-          @preemptible =
-            Google::Compute::Property::Boolean.api_munge(args['preemptible'])
+          @automatic_restart =
+            Google::Compute::Property::Boolean.api_munge(args['automaticRestart'])
+          @on_host_maintenance =
+            Google::Compute::Property::String.api_munge(args['onHostMaintenance'])
+          @preemptible = Google::Compute::Property::Boolean.api_munge(args['preemptible'])
         end
       end
 
@@ -103,14 +100,11 @@ module Google
       # Data is coming from the Puppet manifest
       class InstancTemplatSchedulCatalog < InstancTemplatSchedul
         def initialize(args)
-          @automatic_restart = Google::Compute::Property::Boolean.unsafe_munge(
-            args['automatic_restart']
-          )
-          @on_host_maintenance = Google::Compute::Property::String.unsafe_munge(
-            args['on_host_maintenance']
-          )
-          @preemptible =
-            Google::Compute::Property::Boolean.unsafe_munge(args['preemptible'])
+          @automatic_restart =
+            Google::Compute::Property::Boolean.unsafe_munge(args['automatic_restart'])
+          @on_host_maintenance =
+            Google::Compute::Property::String.unsafe_munge(args['on_host_maintenance'])
+          @preemptible = Google::Compute::Property::Boolean.unsafe_munge(args['preemptible'])
         end
       end
     end

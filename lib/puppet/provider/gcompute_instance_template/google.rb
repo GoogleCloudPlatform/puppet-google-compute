@@ -75,8 +75,7 @@ Puppet::Type.type(:gcompute_instance_template).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#instanceTemplate')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#instanceTemplate')
       resource.provider = present(name, fetch) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_instance_template, resource)
     end
@@ -90,15 +89,11 @@ Puppet::Type.type(:gcompute_instance_template).provide(:google) do
 
   def self.fetch_to_hash(fetch)
     {
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      properties: Google::Compute::Property::InstancTemplatPropert.api_munge(
-        fetch['properties']
-      )
+      properties: Google::Compute::Property::InstancTemplatPropert.api_munge(fetch['properties'])
     }.reject { |_, v| v.nil? }
   end
 

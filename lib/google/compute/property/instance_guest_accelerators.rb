@@ -85,11 +85,9 @@ module Google
       # Data is coming from the GCP API
       class InstancGuestAccelerApi < InstancGuestAcceler
         def initialize(args)
-          @accelerator_count = Google::Compute::Property::Integer.api_munge(
-            args['acceleratorCount']
-          )
-          @accelerator_type =
-            Google::Compute::Property::String.api_munge(args['acceleratorType'])
+          @accelerator_count =
+            Google::Compute::Property::Integer.api_munge(args['acceleratorCount'])
+          @accelerator_type = Google::Compute::Property::String.api_munge(args['acceleratorType'])
         end
       end
 
@@ -97,12 +95,10 @@ module Google
       # Data is coming from the Puppet manifest
       class InstancGuestAccelerCatalog < InstancGuestAcceler
         def initialize(args)
-          @accelerator_count = Google::Compute::Property::Integer.unsafe_munge(
-            args['accelerator_count']
-          )
-          @accelerator_type = Google::Compute::Property::String.unsafe_munge(
-            args['accelerator_type']
-          )
+          @accelerator_count =
+            Google::Compute::Property::Integer.unsafe_munge(args['accelerator_count'])
+          @accelerator_type =
+            Google::Compute::Property::String.unsafe_munge(args['accelerator_type'])
         end
       end
     end

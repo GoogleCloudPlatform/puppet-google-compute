@@ -37,9 +37,8 @@ require 'puppet'
 
 Puppet::Type.newtype(:gcompute_health_check) do
   @doc = <<-DOC
-    An HealthCheck resource. This resource defines a template for how
-    individual virtual machines should be checked for health, via one of the
-    supported protocols.
+    An HealthCheck resource. This resource defines a template for how individual virtual machines
+    should be checked for health, via one of the supported protocols.
   DOC
 
   autorequire(:gauth_credential) do
@@ -66,12 +65,8 @@ Puppet::Type.newtype(:gcompute_health_check) do
     desc 'The name of the HealthCheck.'
   end
 
-  newproperty(:check_interval_sec,
-              parent: Google::Compute::Property::Integer) do
-    desc <<-DOC
-      How often (in seconds) to send a health check. The default value is 5
-      seconds.
-    DOC
+  newproperty(:check_interval_sec, parent: Google::Compute::Property::Integer) do
+    desc 'How often (in seconds) to send a health check. The default value is 5 seconds.'
     defaultto 5
   end
 
@@ -81,83 +76,74 @@ Puppet::Type.newtype(:gcompute_health_check) do
 
   newproperty(:description, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      An optional description of this resource. Provide this property when you
-      create the resource.
+      An optional description of this resource. Provide this property when you create the resource.
     DOC
   end
 
   newproperty(:healthy_threshold, parent: Google::Compute::Property::Integer) do
     desc <<-DOC
-      A so-far unhealthy instance will be marked healthy after this many
-      consecutive successes. The default value is 2.
+      A so-far unhealthy instance will be marked healthy after this many consecutive successes. The
+      default value is 2.
     DOC
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
     desc <<-DOC
-      The unique identifier for the resource. This identifier is defined by the
-      server. (output only)
+      The unique identifier for the resource. This identifier is defined by the server. (output
+      only)
     DOC
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do
     desc <<-DOC
-      Name of the resource. Provided by the client when the resource is
-      created. The name must be 1-63 characters long, and comply with RFC1035.
-      Specifically, the name must be 1-63 characters long and match the regular
-      expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character
-      must be a lowercase letter, and all following characters must be a dash,
-      lowercase letter, or digit, except the last character, which cannot be a
-      dash.
+      Name of the resource. Provided by the client when the resource is created. The name must be
+      1-63 characters long, and comply with RFC1035. Specifically, the name must be 1-63 characters
+      long and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first
+      character must be a lowercase letter, and all following characters must be a dash, lowercase
+      letter, or digit, except the last character, which cannot be a dash.
     DOC
   end
 
   newproperty(:timeout_sec, parent: Google::Compute::Property::Integer) do
     desc <<-DOC
-      How long (in seconds) to wait before claiming failure. The default value
-      is 5 seconds. It is invalid for timeoutSec to have greater value than
-      checkIntervalSec.
+      How long (in seconds) to wait before claiming failure. The default value is 5 seconds. It is
+      invalid for timeoutSec to have greater value than checkIntervalSec.
     DOC
     defaultto 5
   end
 
-  newproperty(:unhealthy_threshold,
-              parent: Google::Compute::Property::Integer) do
+  newproperty(:unhealthy_threshold, parent: Google::Compute::Property::Integer) do
     desc <<-DOC
-      A so-far healthy instance will be marked unhealthy after this many
-      consecutive failures. The default value is 2.
+      A so-far healthy instance will be marked unhealthy after this many consecutive failures. The
+      default value is 2.
     DOC
     defaultto 2
   end
 
   newproperty(:type, parent: Google::Compute::Property::Enum) do
     desc <<-DOC
-      Specifies the type of the healthCheck, either TCP, SSL, HTTP or HTTPS. If
-      not specified, the default is TCP. Exactly one of the protocol-specific
-      health check field must be specified, which must match type field.
+      Specifies the type of the healthCheck, either TCP, SSL, HTTP or HTTPS. If not specified, the
+      default is TCP. Exactly one of the protocol-specific health check field must be specified,
+      which must match type field.
     DOC
     newvalue(:TCP)
     newvalue(:SSL)
     newvalue(:HTTP)
   end
 
-  newproperty(:http_health_check,
-              parent: Google::Compute::Property::HealChecHttpHealChec) do
+  newproperty(:http_health_check, parent: Google::Compute::Property::HealChecHttpHealChec) do
     desc 'A nested object resource'
   end
 
-  newproperty(:https_health_check,
-              parent: Google::Compute::Property::HealChecHttpHealChec) do
+  newproperty(:https_health_check, parent: Google::Compute::Property::HealChecHttpHealChec) do
     desc 'A nested object resource'
   end
 
-  newproperty(:tcp_health_check,
-              parent: Google::Compute::Property::HealChecTcpHealChec) do
+  newproperty(:tcp_health_check, parent: Google::Compute::Property::HealChecTcpHealChec) do
     desc 'A nested object resource'
   end
 
-  newproperty(:ssl_health_check,
-              parent: Google::Compute::Property::HealChecSslHealChec) do
+  newproperty(:ssl_health_check, parent: Google::Compute::Property::HealChecSslHealChec) do
     desc 'A nested object resource'
   end
 end

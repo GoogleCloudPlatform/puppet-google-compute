@@ -53,8 +53,7 @@ Puppet::Type.type(:gcompute_http_health_check).provide(:google) do
       project = resource[:project]
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
-      fetch = fetch_resource(resource, self_link(resource),
-                             'compute#httpHealthCheck')
+      fetch = fetch_resource(resource, self_link(resource), 'compute#httpHealthCheck')
       resource.provider = present(name, fetch, resource) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_http_health_check, resource)
     end
@@ -71,24 +70,17 @@ Puppet::Type.type(:gcompute_http_health_check).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch, resource)
     {
-      check_interval_sec:
-        Google::Compute::Property::Integer.api_munge(fetch['checkIntervalSec']),
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
-      healthy_threshold:
-        Google::Compute::Property::Integer.api_munge(fetch['healthyThreshold']),
+      check_interval_sec: Google::Compute::Property::Integer.api_munge(fetch['checkIntervalSec']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
+      healthy_threshold: Google::Compute::Property::Integer.api_munge(fetch['healthyThreshold']),
       host: Google::Compute::Property::String.api_munge(fetch['host']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       port: Google::Compute::Property::Integer.api_munge(fetch['port']),
-      request_path:
-        Google::Compute::Property::String.api_munge(fetch['requestPath']),
-      timeout_sec:
-        Google::Compute::Property::Integer.api_munge(fetch['timeoutSec']),
-      unhealthy_threshold: Google::Compute::Property::Integer.api_munge(
-        fetch['unhealthyThreshold']
-      ),
+      request_path: Google::Compute::Property::String.api_munge(fetch['requestPath']),
+      timeout_sec: Google::Compute::Property::Integer.api_munge(fetch['timeoutSec']),
+      unhealthy_threshold:
+        Google::Compute::Property::Integer.api_munge(fetch['unhealthyThreshold']),
       name: resource[:name]
     }.reject { |_, v| v.nil? }
   end

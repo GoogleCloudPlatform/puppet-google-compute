@@ -86,8 +86,7 @@ module Google
       class InstancServiceAccountApi < InstancServiceAccount
         def initialize(args)
           @email = Google::Compute::Property::String.api_munge(args['email'])
-          @scopes =
-            Google::Compute::Property::StringArray.api_munge(args['scopes'])
+          @scopes = Google::Compute::Property::StringArray.api_munge(args['scopes'])
         end
       end
 
@@ -96,8 +95,7 @@ module Google
       class InstancServiceAccountCatalog < InstancServiceAccount
         def initialize(args)
           @email = Google::Compute::Property::String.unsafe_munge(args['email'])
-          @scopes =
-            Google::Compute::Property::StringArray.unsafe_munge(args['scopes'])
+          @scopes = Google::Compute::Property::StringArray.unsafe_munge(args['scopes'])
         end
       end
     end

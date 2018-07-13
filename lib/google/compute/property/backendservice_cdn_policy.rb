@@ -81,9 +81,7 @@ module Google
       class BackeServiCdnPolicApi < BackeServiCdnPolic
         def initialize(args)
           @cache_key_policy =
-            Google::Compute::Property::BackServCachKeyPoli.api_munge(
-              args['cacheKeyPolicy']
-            )
+            Google::Compute::Property::BackServCachKeyPoli.api_munge(args['cacheKeyPolicy'])
         end
       end
 
@@ -92,9 +90,7 @@ module Google
       class BackeServiCdnPolicCatalog < BackeServiCdnPolic
         def initialize(args)
           @cache_key_policy =
-            Google::Compute::Property::BackServCachKeyPoli.unsafe_munge(
-              args['cache_key_policy']
-            )
+            Google::Compute::Property::BackServCachKeyPoli.unsafe_munge(args['cache_key_policy'])
         end
       end
     end

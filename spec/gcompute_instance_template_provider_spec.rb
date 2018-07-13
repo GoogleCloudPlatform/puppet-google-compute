@@ -63,12 +63,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
               expect_network_get_success_disk 1, zone: 'test name#0 data'
               expect_network_get_success_disk 2, zone: 'test name#1 data'
               expect_network_get_success_disk 3, zone: 'test name#2 data'
-              expect_network_get_success_machine_type 1,
-                                                      zone: 'test name#0 data'
-              expect_network_get_success_machine_type 2,
-                                                      zone: 'test name#1 data'
-              expect_network_get_success_machine_type 3,
-                                                      zone: 'test name#2 data'
+              expect_network_get_success_machine_type 1, zone: 'test name#0 data'
+              expect_network_get_success_machine_type 2, zone: 'test name#1 data'
+              expect_network_get_success_machine_type 3, zone: 'test name#2 data'
               expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
@@ -78,12 +75,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
               expect_network_get_success_network 1
               expect_network_get_success_network 2
               expect_network_get_success_network 3
-              expect_network_get_success_subnetwork 1,
-                                                    region: 'test name#0 data'
-              expect_network_get_success_subnetwork 2,
-                                                    region: 'test name#1 data'
-              expect_network_get_success_subnetwork 3,
-                                                    region: 'test name#2 data'
+              expect_network_get_success_subnetwork 1, region: 'test name#0 data'
+              expect_network_get_success_subnetwork 2, region: 'test name#1 data'
+              expect_network_get_success_subnetwork 3, region: 'test name#2 data'
             end
 
             let(:catalog) do
@@ -820,15 +814,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
               # TODO(nelsonjr): Implement complex nested property object test.
@@ -844,15 +832,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
               # TODO(nelsonjr): Implement complex nested property object test.
@@ -868,15 +850,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
               # TODO(nelsonjr): Implement complex nested property object test.
@@ -914,12 +890,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
               expect_network_get_success_disk 1, zone: 'test name#0 data'
               expect_network_get_success_disk 2, zone: 'test name#1 data'
               expect_network_get_success_disk 3, zone: 'test name#2 data'
-              expect_network_get_success_machine_type 1,
-                                                      zone: 'test name#0 data'
-              expect_network_get_success_machine_type 2,
-                                                      zone: 'test name#1 data'
-              expect_network_get_success_machine_type 3,
-                                                      zone: 'test name#2 data'
+              expect_network_get_success_machine_type 1, zone: 'test name#0 data'
+              expect_network_get_success_machine_type 2, zone: 'test name#1 data'
+              expect_network_get_success_machine_type 3, zone: 'test name#2 data'
               expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
@@ -929,12 +902,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
               expect_network_get_success_network 1
               expect_network_get_success_network 2
               expect_network_get_success_network 3
-              expect_network_get_success_subnetwork 1,
-                                                    region: 'test name#0 data'
-              expect_network_get_success_subnetwork 2,
-                                                    region: 'test name#1 data'
-              expect_network_get_success_subnetwork 3,
-                                                    region: 'test name#2 data'
+              expect_network_get_success_subnetwork 1, region: 'test name#0 data'
+              expect_network_get_success_subnetwork 2, region: 'test name#1 data'
+              expect_network_get_success_subnetwork 3, region: 'test name#2 data'
             end
 
             let(:catalog) do
@@ -1674,15 +1644,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               # TODO(nelsonjr): Implement complex nested property object test.
@@ -1698,15 +1662,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               # TODO(nelsonjr): Implement complex nested property object test.
@@ -1722,15 +1680,9 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               # TODO(nelsonjr): Implement complex nested property object test.
@@ -2382,8 +2334,7 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                 credential  => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_instance_template[title0]').provider
-              .ensure
+            ).catalog.resource('Gcompute_instance_template[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }
@@ -2996,8 +2947,7 @@ describe Puppet::Type.type(:gcompute_instance_template).provider(:google) do
                 credential  => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_instance_template[title0]').provider
-              .ensure
+            ).catalog.resource('Gcompute_instance_template[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }

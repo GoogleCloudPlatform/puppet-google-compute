@@ -51,27 +51,18 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
               allow(Time).to receive(:now).and_return(
                 Time.new(2017, 1, 2, 3, 4, 5)
               )
-              expect_network_get_success 1,
-                                         name: 'title0',
-                                         zone: 'test name#0 data'
-              expect_network_get_success 2,
-                                         name: 'title1',
-                                         zone: 'test name#1 data'
-              expect_network_get_success 3,
-                                         name: 'title2',
-                                         zone: 'test name#2 data'
+              expect_network_get_success 1, name: 'title0', zone: 'test name#0 data'
+              expect_network_get_success 2, name: 'title1', zone: 'test name#1 data'
+              expect_network_get_success 3, name: 'title2', zone: 'test name#2 data'
               expect_network_get_success_network 1
               expect_network_get_success_network 2
               expect_network_get_success_network 3
               expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
-              expect_network_get_success_subnetwork 1,
-                                                    region: 'test name#0 data'
-              expect_network_get_success_subnetwork 2,
-                                                    region: 'test name#1 data'
-              expect_network_get_success_subnetwork 3,
-                                                    region: 'test name#2 data'
+              expect_network_get_success_subnetwork 1, region: 'test name#0 data'
+              expect_network_get_success_subnetwork 2, region: 'test name#1 data'
+              expect_network_get_success_subnetwork 3, region: 'test name#2 data'
               expect_network_get_success_zone 1
               expect_network_get_success_zone 2
               expect_network_get_success_zone 3
@@ -276,15 +267,9 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
               # TODO(nelsonjr): Implement complex array object test.
@@ -312,15 +297,9 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
               # TODO(nelsonjr): Implement complex array object test.
@@ -348,15 +327,9 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
               # TODO(nelsonjr): Implement complex array object test.
@@ -403,12 +376,9 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
               expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
-              expect_network_get_success_subnetwork 1,
-                                                    region: 'test name#0 data'
-              expect_network_get_success_subnetwork 2,
-                                                    region: 'test name#1 data'
-              expect_network_get_success_subnetwork 3,
-                                                    region: 'test name#2 data'
+              expect_network_get_success_subnetwork 1, region: 'test name#0 data'
+              expect_network_get_success_subnetwork 2, region: 'test name#1 data'
+              expect_network_get_success_subnetwork 3, region: 'test name#2 data'
               expect_network_get_success_zone 1
               expect_network_get_success_zone 2
               expect_network_get_success_zone 3
@@ -616,15 +586,9 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               # TODO(nelsonjr): Implement complex array object test.
@@ -652,15 +616,9 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               # TODO(nelsonjr): Implement complex array object test.
@@ -688,15 +646,9 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
 
               it do
                 is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               # TODO(nelsonjr): Implement complex array object test.
@@ -767,9 +719,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
         # Ensure present: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      name: 'title0',
-                                      zone: 'test name#0 data'
+            expect_network_get_failed 1, name: 'title0', zone: 'test name#0 data'
             expect_network_create \
               1,
               {
@@ -876,8 +826,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                 credential  => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_instance_group[title0]').provider
-              .ensure
+            ).catalog.resource('Gcompute_instance_group[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }
@@ -1003,8 +952,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
                 credential  => 'cred0',
               }
               MANIFEST
-            ).catalog.resource('Gcompute_instance_group[title0]').provider
-              .ensure
+            ).catalog.resource('Gcompute_instance_group[title0]').provider.ensure
           end
 
           it { is_expected.to eq :present }
@@ -1027,9 +975,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
         # Ensure absent: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      name: 'title0',
-                                      zone: 'test name#0 data'
+            expect_network_get_failed 1, name: 'title0', zone: 'test name#0 data'
             expect_network_get_success_zone 1
           end
 
@@ -1112,9 +1058,7 @@ describe Puppet::Type.type(:gcompute_instance_group).provider(:google) do
         # Ensure absent: resource exists, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_success 1,
-                                       name: 'title0',
-                                       zone: 'test name#0 data'
+            expect_network_get_success 1, name: 'title0', zone: 'test name#0 data'
             expect_network_delete 1, 'title0', zone: 'test name#0 data'
             expect_network_get_async 1, name: 'title0', zone: 'test name#0 data'
             expect_network_get_success_zone 1

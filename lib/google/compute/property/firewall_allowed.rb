@@ -85,10 +85,8 @@ module Google
       # Data is coming from the GCP API
       class FirewallAllowedApi < FirewallAllowed
         def initialize(args)
-          @ip_protocol =
-            Google::Compute::Property::String.api_munge(args['IPProtocol'])
-          @ports =
-            Google::Compute::Property::StringArray.api_munge(args['ports'])
+          @ip_protocol = Google::Compute::Property::String.api_munge(args['IPProtocol'])
+          @ports = Google::Compute::Property::StringArray.api_munge(args['ports'])
         end
       end
 
@@ -96,10 +94,8 @@ module Google
       # Data is coming from the Puppet manifest
       class FirewallAllowedCatalog < FirewallAllowed
         def initialize(args)
-          @ip_protocol =
-            Google::Compute::Property::String.unsafe_munge(args['ip_protocol'])
-          @ports =
-            Google::Compute::Property::StringArray.unsafe_munge(args['ports'])
+          @ip_protocol = Google::Compute::Property::String.unsafe_munge(args['ip_protocol'])
+          @ports = Google::Compute::Property::StringArray.unsafe_munge(args['ports'])
         end
       end
     end

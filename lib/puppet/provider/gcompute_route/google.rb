@@ -70,13 +70,10 @@ Puppet::Type.type(:gcompute_route).provide(:google) do
 
   def self.fetch_to_hash(fetch, resource)
     {
-      dest_range:
-        Google::Compute::Property::String.api_munge(fetch['destRange']),
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
+      dest_range: Google::Compute::Property::String.api_munge(fetch['destRange']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      next_hop_network:
-        Google::Compute::Property::String.api_munge(fetch['nextHopNetwork']),
+      next_hop_network: Google::Compute::Property::String.api_munge(fetch['nextHopNetwork']),
       network: resource[:network],
       priority: resource[:priority],
       tags: resource[:tags],

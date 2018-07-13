@@ -70,21 +70,15 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch)
     {
-      description:
-        Google::Compute::Property::String.api_munge(fetch['description']),
-      gateway_ipv4:
-        Google::Compute::Property::String.api_munge(fetch['gatewayIPv4']),
+      description: Google::Compute::Property::String.api_munge(fetch['description']),
+      gateway_ipv4: Google::Compute::Property::String.api_munge(fetch['gatewayIPv4']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      ipv4_range:
-        Google::Compute::Property::String.api_munge(fetch['IPv4Range']),
+      ipv4_range: Google::Compute::Property::String.api_munge(fetch['IPv4Range']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      subnetworks:
-        Google::Compute::Property::StringArray.api_munge(fetch['subnetworks']),
-      auto_create_subnetworks: Google::Compute::Property::Boolean.api_munge(
-        fetch['autoCreateSubnetworks']
-      ),
-      creation_timestamp:
-        Google::Compute::Property::Time.api_munge(fetch['creationTimestamp'])
+      subnetworks: Google::Compute::Property::StringArray.api_munge(fetch['subnetworks']),
+      auto_create_subnetworks:
+        Google::Compute::Property::Boolean.api_munge(fetch['autoCreateSubnetworks']),
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength

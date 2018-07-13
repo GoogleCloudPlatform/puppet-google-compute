@@ -97,13 +97,10 @@ module Google
       class HealChecHttpHealChecApi < HealChecHttpHealChec
         def initialize(args)
           @host = Google::Compute::Property::String.api_munge(args['host'])
-          @request_path =
-            Google::Compute::Property::String.api_munge(args['requestPath'])
+          @request_path = Google::Compute::Property::String.api_munge(args['requestPath'])
           @port = Google::Compute::Property::Integer.api_munge(args['port'])
-          @port_name =
-            Google::Compute::Property::String.api_munge(args['portName'])
-          @proxy_header =
-            Google::Compute::Property::Enum.api_munge(args['proxyHeader'])
+          @port_name = Google::Compute::Property::String.api_munge(args['portName'])
+          @proxy_header = Google::Compute::Property::Enum.api_munge(args['proxyHeader'])
         end
       end
 
@@ -112,13 +109,10 @@ module Google
       class HealChecHttpHealChecCatalog < HealChecHttpHealChec
         def initialize(args)
           @host = Google::Compute::Property::String.unsafe_munge(args['host'])
-          @request_path =
-            Google::Compute::Property::String.unsafe_munge(args['request_path'])
+          @request_path = Google::Compute::Property::String.unsafe_munge(args['request_path'])
           @port = Google::Compute::Property::Integer.unsafe_munge(args['port'])
-          @port_name =
-            Google::Compute::Property::String.unsafe_munge(args['port_name'])
-          @proxy_header =
-            Google::Compute::Property::Enum.unsafe_munge(args['proxy_header'])
+          @port_name = Google::Compute::Property::String.unsafe_munge(args['port_name'])
+          @proxy_header = Google::Compute::Property::Enum.unsafe_munge(args['proxy_header'])
         end
       end
     end

@@ -69,8 +69,7 @@ module Google
         end
 
         def resource
-          Google::ObjectStore.instance[:gcompute_instance_template]
-                             .each do |entry|
+          Google::ObjectStore.instance[:gcompute_instance_template].each do |entry|
             return entry.exports[:self_link] if entry.title == @title
           end
           raise ArgumentError, "gcompute_instance_template[#{@title}] required"

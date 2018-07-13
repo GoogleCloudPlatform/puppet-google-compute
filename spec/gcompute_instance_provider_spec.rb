@@ -51,15 +51,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               allow(Time).to receive(:now).and_return(
                 Time.new(2017, 1, 2, 3, 4, 5)
               )
-              expect_network_get_success 1,
-                                         name: 'title0',
-                                         zone: 'test name#0 data'
-              expect_network_get_success 2,
-                                         name: 'title1',
-                                         zone: 'test name#1 data'
-              expect_network_get_success 3,
-                                         name: 'title2',
-                                         zone: 'test name#2 data'
+              expect_network_get_success 1, name: 'title0', zone: 'test name#0 data'
+              expect_network_get_success 2, name: 'title1', zone: 'test name#1 data'
+              expect_network_get_success 3, name: 'title2', zone: 'test name#2 data'
               expect_network_get_success_zone 1
               expect_network_get_success_zone 2
               expect_network_get_success_zone 3
@@ -69,12 +63,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               expect_network_get_success_disk 1, zone: 'test name#0 data'
               expect_network_get_success_disk 2, zone: 'test name#1 data'
               expect_network_get_success_disk 3, zone: 'test name#2 data'
-              expect_network_get_success_machine_type 1,
-                                                      zone: 'test name#0 data'
-              expect_network_get_success_machine_type 2,
-                                                      zone: 'test name#1 data'
-              expect_network_get_success_machine_type 3,
-                                                      zone: 'test name#2 data'
+              expect_network_get_success_machine_type 1, zone: 'test name#0 data'
+              expect_network_get_success_machine_type 2, zone: 'test name#1 data'
+              expect_network_get_success_machine_type 3, zone: 'test name#2 data'
               expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
@@ -84,12 +75,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               expect_network_get_success_network 1
               expect_network_get_success_network 2
               expect_network_get_success_network 3
-              expect_network_get_success_subnetwork 1,
-                                                    region: 'test name#0 data'
-              expect_network_get_success_subnetwork 2,
-                                                    region: 'test name#1 data'
-              expect_network_get_success_subnetwork 3,
-                                                    region: 'test name#2 data'
+              expect_network_get_success_subnetwork 1, region: 'test name#0 data'
+              expect_network_get_success_subnetwork 2, region: 'test name#1 data'
+              expect_network_get_success_subnetwork 3, region: 'test name#2 data'
             end
 
             let(:catalog) do
@@ -822,15 +810,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               end
 
               it { is_expected.to have_attributes(can_ip_forward: true) }
+              it { is_expected.to have_attributes(cpu_platform: 'test cpu_platform#0 data') }
               it do
-                is_expected
-                  .to have_attributes(cpu_platform: 'test cpu_platform#0 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp: 'test creation_timestamp#0 data'
-                  )
+                is_expected.to have_attributes(creation_timestamp: 'test creation_timestamp#0 data')
               end
               # TODO(nelsonjr): Implement complex array object test.
               # it 'disks' do
@@ -842,10 +824,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it do
-                is_expected
-                  .to have_attributes(
-                    label_fingerprint: 'test label_fingerprint#0 data'
-                  )
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
               end
               # TODO(nelsonjr): Implement complex namevalues property test.
               # it 'metadata' do
@@ -856,10 +835,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               #   # Add test code here
               # end
               it do
-                is_expected
-                  .to have_attributes(
-                    min_cpu_platform: 'test min_cpu_platform#0 data'
-                  )
+                is_expected.to have_attributes(min_cpu_platform: 'test min_cpu_platform#0 data')
               end
               it { is_expected.to have_attributes(name: 'title0') }
               # TODO(nelsonjr): Implement complex array object test.
@@ -874,15 +850,8 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # it 'serviceAccounts' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(status: 'test status#0 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    status_message: 'test status_message#0 data'
-                  )
-              end
+              it { is_expected.to have_attributes(status: 'test status#0 data') }
+              it { is_expected.to have_attributes(status_message: 'test status_message#0 data') }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'tags' do
               #   # Add test code here
@@ -895,15 +864,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               end
 
               it { is_expected.to have_attributes(can_ip_forward: false) }
+              it { is_expected.to have_attributes(cpu_platform: 'test cpu_platform#1 data') }
               it do
-                is_expected
-                  .to have_attributes(cpu_platform: 'test cpu_platform#1 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp: 'test creation_timestamp#1 data'
-                  )
+                is_expected.to have_attributes(creation_timestamp: 'test creation_timestamp#1 data')
               end
               # TODO(nelsonjr): Implement complex array object test.
               # it 'disks' do
@@ -915,10 +878,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it do
-                is_expected
-                  .to have_attributes(
-                    label_fingerprint: 'test label_fingerprint#1 data'
-                  )
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
               end
               # TODO(nelsonjr): Implement complex namevalues property test.
               # it 'metadata' do
@@ -929,10 +889,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               #   # Add test code here
               # end
               it do
-                is_expected
-                  .to have_attributes(
-                    min_cpu_platform: 'test min_cpu_platform#1 data'
-                  )
+                is_expected.to have_attributes(min_cpu_platform: 'test min_cpu_platform#1 data')
               end
               it { is_expected.to have_attributes(name: 'title1') }
               # TODO(nelsonjr): Implement complex array object test.
@@ -947,15 +904,8 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # it 'serviceAccounts' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(status: 'test status#1 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    status_message: 'test status_message#1 data'
-                  )
-              end
+              it { is_expected.to have_attributes(status: 'test status#1 data') }
+              it { is_expected.to have_attributes(status_message: 'test status_message#1 data') }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'tags' do
               #   # Add test code here
@@ -968,15 +918,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               end
 
               it { is_expected.to have_attributes(can_ip_forward: true) }
+              it { is_expected.to have_attributes(cpu_platform: 'test cpu_platform#2 data') }
               it do
-                is_expected
-                  .to have_attributes(cpu_platform: 'test cpu_platform#2 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp: 'test creation_timestamp#2 data'
-                  )
+                is_expected.to have_attributes(creation_timestamp: 'test creation_timestamp#2 data')
               end
               # TODO(nelsonjr): Implement complex array object test.
               # it 'disks' do
@@ -988,10 +932,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it do
-                is_expected
-                  .to have_attributes(
-                    label_fingerprint: 'test label_fingerprint#2 data'
-                  )
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
               end
               # TODO(nelsonjr): Implement complex namevalues property test.
               # it 'metadata' do
@@ -1002,10 +943,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               #   # Add test code here
               # end
               it do
-                is_expected
-                  .to have_attributes(
-                    min_cpu_platform: 'test min_cpu_platform#2 data'
-                  )
+                is_expected.to have_attributes(min_cpu_platform: 'test min_cpu_platform#2 data')
               end
               it { is_expected.to have_attributes(name: 'title2') }
               # TODO(nelsonjr): Implement complex array object test.
@@ -1020,15 +958,8 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # it 'serviceAccounts' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(status: 'test status#2 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    status_message: 'test status_message#2 data'
-                  )
-              end
+              it { is_expected.to have_attributes(status: 'test status#2 data') }
+              it { is_expected.to have_attributes(status_message: 'test status_message#2 data') }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'tags' do
               #   # Add test code here
@@ -1064,12 +995,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               expect_network_get_success_disk 1, zone: 'test name#0 data'
               expect_network_get_success_disk 2, zone: 'test name#1 data'
               expect_network_get_success_disk 3, zone: 'test name#2 data'
-              expect_network_get_success_machine_type 1,
-                                                      zone: 'test name#0 data'
-              expect_network_get_success_machine_type 2,
-                                                      zone: 'test name#1 data'
-              expect_network_get_success_machine_type 3,
-                                                      zone: 'test name#2 data'
+              expect_network_get_success_machine_type 1, zone: 'test name#0 data'
+              expect_network_get_success_machine_type 2, zone: 'test name#1 data'
+              expect_network_get_success_machine_type 3, zone: 'test name#2 data'
               expect_network_get_success_region 1
               expect_network_get_success_region 2
               expect_network_get_success_region 3
@@ -1079,12 +1007,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               expect_network_get_success_network 1
               expect_network_get_success_network 2
               expect_network_get_success_network 3
-              expect_network_get_success_subnetwork 1,
-                                                    region: 'test name#0 data'
-              expect_network_get_success_subnetwork 2,
-                                                    region: 'test name#1 data'
-              expect_network_get_success_subnetwork 3,
-                                                    region: 'test name#2 data'
+              expect_network_get_success_subnetwork 1, region: 'test name#0 data'
+              expect_network_get_success_subnetwork 2, region: 'test name#1 data'
+              expect_network_get_success_subnetwork 3, region: 'test name#2 data'
             end
 
             let(:catalog) do
@@ -1820,15 +1745,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               end
 
               it { is_expected.to have_attributes(can_ip_forward: true) }
+              it { is_expected.to have_attributes(cpu_platform: 'test cpu_platform#0 data') }
               it do
-                is_expected
-                  .to have_attributes(cpu_platform: 'test cpu_platform#0 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp: 'test creation_timestamp#0 data'
-                  )
+                is_expected.to have_attributes(creation_timestamp: 'test creation_timestamp#0 data')
               end
               # TODO(nelsonjr): Implement complex array object test.
               # it 'disks' do
@@ -1840,10 +1759,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it do
-                is_expected
-                  .to have_attributes(
-                    label_fingerprint: 'test label_fingerprint#0 data'
-                  )
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
               end
               # TODO(nelsonjr): Implement complex namevalues property test.
               # it 'metadata' do
@@ -1854,10 +1770,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               #   # Add test code here
               # end
               it do
-                is_expected
-                  .to have_attributes(
-                    min_cpu_platform: 'test min_cpu_platform#0 data'
-                  )
+                is_expected.to have_attributes(min_cpu_platform: 'test min_cpu_platform#0 data')
               end
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               # TODO(nelsonjr): Implement complex array object test.
@@ -1872,15 +1785,8 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # it 'serviceAccounts' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(status: 'test status#0 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    status_message: 'test status_message#0 data'
-                  )
-              end
+              it { is_expected.to have_attributes(status: 'test status#0 data') }
+              it { is_expected.to have_attributes(status_message: 'test status_message#0 data') }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'tags' do
               #   # Add test code here
@@ -1893,15 +1799,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               end
 
               it { is_expected.to have_attributes(can_ip_forward: false) }
+              it { is_expected.to have_attributes(cpu_platform: 'test cpu_platform#1 data') }
               it do
-                is_expected
-                  .to have_attributes(cpu_platform: 'test cpu_platform#1 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp: 'test creation_timestamp#1 data'
-                  )
+                is_expected.to have_attributes(creation_timestamp: 'test creation_timestamp#1 data')
               end
               # TODO(nelsonjr): Implement complex array object test.
               # it 'disks' do
@@ -1913,10 +1813,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it do
-                is_expected
-                  .to have_attributes(
-                    label_fingerprint: 'test label_fingerprint#1 data'
-                  )
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
               end
               # TODO(nelsonjr): Implement complex namevalues property test.
               # it 'metadata' do
@@ -1927,10 +1824,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               #   # Add test code here
               # end
               it do
-                is_expected
-                  .to have_attributes(
-                    min_cpu_platform: 'test min_cpu_platform#1 data'
-                  )
+                is_expected.to have_attributes(min_cpu_platform: 'test min_cpu_platform#1 data')
               end
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               # TODO(nelsonjr): Implement complex array object test.
@@ -1945,15 +1839,8 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # it 'serviceAccounts' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(status: 'test status#1 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    status_message: 'test status_message#1 data'
-                  )
-              end
+              it { is_expected.to have_attributes(status: 'test status#1 data') }
+              it { is_expected.to have_attributes(status_message: 'test status_message#1 data') }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'tags' do
               #   # Add test code here
@@ -1966,15 +1853,9 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               end
 
               it { is_expected.to have_attributes(can_ip_forward: true) }
+              it { is_expected.to have_attributes(cpu_platform: 'test cpu_platform#2 data') }
               it do
-                is_expected
-                  .to have_attributes(cpu_platform: 'test cpu_platform#2 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp: 'test creation_timestamp#2 data'
-                  )
+                is_expected.to have_attributes(creation_timestamp: 'test creation_timestamp#2 data')
               end
               # TODO(nelsonjr): Implement complex array object test.
               # it 'disks' do
@@ -1986,10 +1867,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it do
-                is_expected
-                  .to have_attributes(
-                    label_fingerprint: 'test label_fingerprint#2 data'
-                  )
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
               end
               # TODO(nelsonjr): Implement complex namevalues property test.
               # it 'metadata' do
@@ -2000,10 +1878,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               #   # Add test code here
               # end
               it do
-                is_expected
-                  .to have_attributes(
-                    min_cpu_platform: 'test min_cpu_platform#2 data'
-                  )
+                is_expected.to have_attributes(min_cpu_platform: 'test min_cpu_platform#2 data')
               end
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               # TODO(nelsonjr): Implement complex array object test.
@@ -2018,15 +1893,8 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
               # it 'serviceAccounts' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(status: 'test status#2 data')
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    status_message: 'test status_message#2 data'
-                  )
-              end
+              it { is_expected.to have_attributes(status: 'test status#2 data') }
+              it { is_expected.to have_attributes(status_message: 'test status_message#2 data') }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'tags' do
               #   # Add test code here
@@ -3318,9 +3186,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
         # Ensure absent: resource missing, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_failed 1,
-                                      name: 'title0',
-                                      zone: 'test name#0 data'
+            expect_network_get_failed 1, name: 'title0', zone: 'test name#0 data'
             expect_network_get_success_zone 1
           end
 
@@ -3403,9 +3269,7 @@ describe Puppet::Type.type(:gcompute_instance).provider(:google) do
         # Ensure absent: resource exists, ignore, no name, pass
         context 'title == name (pass)' do
           before(:each) do
-            expect_network_get_success 1,
-                                       name: 'title0',
-                                       zone: 'test name#0 data'
+            expect_network_get_success 1, name: 'title0', zone: 'test name#0 data'
             expect_network_delete 1, 'title0', zone: 'test name#0 data'
             expect_network_get_async 1, name: 'title0', zone: 'test name#0 data'
             expect_network_get_success_zone 1

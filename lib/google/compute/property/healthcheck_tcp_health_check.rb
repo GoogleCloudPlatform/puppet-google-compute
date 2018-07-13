@@ -96,15 +96,11 @@ module Google
       # Data is coming from the GCP API
       class HealChecTcpHealChecApi < HealChecTcpHealChec
         def initialize(args)
-          @request =
-            Google::Compute::Property::String.api_munge(args['request'])
-          @response =
-            Google::Compute::Property::String.api_munge(args['response'])
+          @request = Google::Compute::Property::String.api_munge(args['request'])
+          @response = Google::Compute::Property::String.api_munge(args['response'])
           @port = Google::Compute::Property::Integer.api_munge(args['port'])
-          @port_name =
-            Google::Compute::Property::String.api_munge(args['portName'])
-          @proxy_header =
-            Google::Compute::Property::Enum.api_munge(args['proxyHeader'])
+          @port_name = Google::Compute::Property::String.api_munge(args['portName'])
+          @proxy_header = Google::Compute::Property::Enum.api_munge(args['proxyHeader'])
         end
       end
 
@@ -112,15 +108,11 @@ module Google
       # Data is coming from the Puppet manifest
       class HealChecTcpHealChecCatalog < HealChecTcpHealChec
         def initialize(args)
-          @request =
-            Google::Compute::Property::String.unsafe_munge(args['request'])
-          @response =
-            Google::Compute::Property::String.unsafe_munge(args['response'])
+          @request = Google::Compute::Property::String.unsafe_munge(args['request'])
+          @response = Google::Compute::Property::String.unsafe_munge(args['response'])
           @port = Google::Compute::Property::Integer.unsafe_munge(args['port'])
-          @port_name =
-            Google::Compute::Property::String.unsafe_munge(args['port_name'])
-          @proxy_header =
-            Google::Compute::Property::Enum.unsafe_munge(args['proxy_header'])
+          @port_name = Google::Compute::Property::String.unsafe_munge(args['port_name'])
+          @proxy_header = Google::Compute::Property::Enum.unsafe_munge(args['proxy_header'])
         end
       end
     end

@@ -226,29 +226,18 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                 catalog.resource('Gcompute_image[title0]').provider
               end
 
+              it { is_expected.to have_attributes(archive_size_bytes: 2_242_826_196) }
               it do
                 is_expected
-                  .to have_attributes(archive_size_bytes: 2_242_826_196)
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'deprecated' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(disk_size_gb: 450_092_159) }
-              it do
-                is_expected.to have_attributes(family: 'test family#0 data')
-              end
+              it { is_expected.to have_attributes(family: 'test family#0 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'guestOsFeatures' do
               #   # Add test code here
@@ -272,12 +261,7 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               # it 'sourceDiskEncryptionKey' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(
-                    source_disk_id: 'test source_disk_id#0 data'
-                  )
-              end
+              it { is_expected.to have_attributes(source_disk_id: 'test source_disk_id#0 data') }
               it { is_expected.to have_attributes(source_type: 'RAW') }
             end
 
@@ -286,29 +270,18 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                 catalog.resource('Gcompute_image[title1]').provider
               end
 
+              it { is_expected.to have_attributes(archive_size_bytes: 4_485_652_393) }
               it do
                 is_expected
-                  .to have_attributes(archive_size_bytes: 4_485_652_393)
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'deprecated' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(disk_size_gb: 900_184_319) }
-              it do
-                is_expected.to have_attributes(family: 'test family#1 data')
-              end
+              it { is_expected.to have_attributes(family: 'test family#1 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'guestOsFeatures' do
               #   # Add test code here
@@ -332,12 +305,7 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               # it 'sourceDiskEncryptionKey' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(
-                    source_disk_id: 'test source_disk_id#1 data'
-                  )
-              end
+              it { is_expected.to have_attributes(source_disk_id: 'test source_disk_id#1 data') }
               it { is_expected.to have_attributes(source_type: 'RAW') }
             end
 
@@ -346,29 +314,18 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                 catalog.resource('Gcompute_image[title2]').provider
               end
 
+              it { is_expected.to have_attributes(archive_size_bytes: 6_728_478_589) }
               it do
                 is_expected
-                  .to have_attributes(archive_size_bytes: 6_728_478_589)
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'deprecated' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(disk_size_gb: 1_350_276_479) }
-              it do
-                is_expected.to have_attributes(family: 'test family#2 data')
-              end
+              it { is_expected.to have_attributes(family: 'test family#2 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'guestOsFeatures' do
               #   # Add test code here
@@ -392,12 +349,7 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               # it 'sourceDiskEncryptionKey' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(
-                    source_disk_id: 'test source_disk_id#2 data'
-                  )
-              end
+              it { is_expected.to have_attributes(source_disk_id: 'test source_disk_id#2 data') }
               it { is_expected.to have_attributes(source_type: 'RAW') }
             end
           end
@@ -596,29 +548,18 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                 catalog.resource('Gcompute_image[title0]').provider
               end
 
+              it { is_expected.to have_attributes(archive_size_bytes: 2_242_826_196) }
               it do
                 is_expected
-                  .to have_attributes(archive_size_bytes: 2_242_826_196)
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2045-05-23T12:08:10+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'deprecated' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#0 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(disk_size_gb: 450_092_159) }
-              it do
-                is_expected.to have_attributes(family: 'test family#0 data')
-              end
+              it { is_expected.to have_attributes(family: 'test family#0 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'guestOsFeatures' do
               #   # Add test code here
@@ -642,12 +583,7 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               # it 'sourceDiskEncryptionKey' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(
-                    source_disk_id: 'test source_disk_id#0 data'
-                  )
-              end
+              it { is_expected.to have_attributes(source_disk_id: 'test source_disk_id#0 data') }
               it { is_expected.to have_attributes(source_type: 'RAW') }
             end
 
@@ -656,29 +592,18 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                 catalog.resource('Gcompute_image[title1]').provider
               end
 
+              it { is_expected.to have_attributes(archive_size_bytes: 4_485_652_393) }
               it do
                 is_expected
-                  .to have_attributes(archive_size_bytes: 4_485_652_393)
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2120-10-14T00:16:21+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'deprecated' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#1 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(disk_size_gb: 900_184_319) }
-              it do
-                is_expected.to have_attributes(family: 'test family#1 data')
-              end
+              it { is_expected.to have_attributes(family: 'test family#1 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'guestOsFeatures' do
               #   # Add test code here
@@ -702,12 +627,7 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               # it 'sourceDiskEncryptionKey' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(
-                    source_disk_id: 'test source_disk_id#1 data'
-                  )
-              end
+              it { is_expected.to have_attributes(source_disk_id: 'test source_disk_id#1 data') }
               it { is_expected.to have_attributes(source_type: 'RAW') }
             end
 
@@ -716,29 +636,18 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                 catalog.resource('Gcompute_image[title2]').provider
               end
 
+              it { is_expected.to have_attributes(archive_size_bytes: 6_728_478_589) }
               it do
                 is_expected
-                  .to have_attributes(archive_size_bytes: 6_728_478_589)
-              end
-              it do
-                is_expected
-                  .to have_attributes(
-                    creation_timestamp:
-                    ::Time.parse('2196-03-05T12:24:32+00:00')
-                  )
+                  .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'deprecated' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(description: 'test description#2 data')
-              end
+              it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(disk_size_gb: 1_350_276_479) }
-              it do
-                is_expected.to have_attributes(family: 'test family#2 data')
-              end
+              it { is_expected.to have_attributes(family: 'test family#2 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'guestOsFeatures' do
               #   # Add test code here
@@ -762,12 +671,7 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               # it 'sourceDiskEncryptionKey' do
               #   # Add test code here
               # end
-              it do
-                is_expected
-                  .to have_attributes(
-                    source_disk_id: 'test source_disk_id#2 data'
-                  )
-              end
+              it { is_expected.to have_attributes(source_disk_id: 'test source_disk_id#2 data') }
               it { is_expected.to have_attributes(source_type: 'RAW') }
             end
           end
