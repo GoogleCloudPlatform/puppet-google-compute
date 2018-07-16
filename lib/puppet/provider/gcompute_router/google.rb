@@ -27,6 +27,7 @@
 
 require 'google/compute/network/delete'
 require 'google/compute/network/get'
+require 'google/compute/network/patch'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
 require 'google/compute/property/enum'
@@ -115,10 +116,10 @@ Puppet::Type.type(:gcompute_router).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    update_req = Google::Compute::Network::Put.new(self_link(@resource),
-                                                   fetch_auth(@resource),
-                                                   'application/json',
-                                                   resource_to_request)
+    update_req = Google::Compute::Network::Patch.new(self_link(@resource),
+                                                     fetch_auth(@resource),
+                                                     'application/json',
+                                                     resource_to_request)
     @fetched = wait_for_operation update_req.send, @resource
   end
 
