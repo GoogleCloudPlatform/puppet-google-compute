@@ -49,6 +49,11 @@ Puppet::Type.type(:gcompute_zone).provide(:google) do
   end
 
   def self.prefetch(resources)
+    Puppet.warning [
+      "gcompute_zone will be deprecated in a future release.",
+      "You can use strings to reference GCP Zone.",
+      "A gcompute_zone is no longer necessary"
+    ].join(" ")
     debug('prefetch')
     resources.each do |name, resource|
       project = resource[:project]

@@ -72,7 +72,7 @@ module Google
           Google::ObjectStore.instance[:gcompute_disk_type].each do |entry|
             return entry.exports[:self_link] if entry.title == @title
           end
-          raise ArgumentError, "gcompute_disk_type[#{@title}] required"
+          @title
         end
       end
 
