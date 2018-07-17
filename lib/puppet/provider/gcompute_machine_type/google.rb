@@ -50,6 +50,11 @@ Puppet::Type.type(:gcompute_machine_type).provide(:google) do
   end
 
   def self.prefetch(resources)
+    Puppet.warning [
+      "gcompute_machine_type will be deprecated in a future release.",
+      "You can use strings to reference GCP MachineType.",
+      "A gcompute_machine_type is no longer necessary"
+    ].join(" ")
     debug('prefetch')
     resources.each do |name, resource|
       project = resource[:project]

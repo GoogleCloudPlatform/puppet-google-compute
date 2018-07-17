@@ -45,6 +45,11 @@ Puppet::Type.type(:gcompute_license).provide(:google) do
   end
 
   def self.prefetch(resources)
+    Puppet.warning [
+      "gcompute_license will be deprecated in a future release.",
+      "You can use strings to reference GCP License.",
+      "A gcompute_license is no longer necessary"
+    ].join(" ")
     debug('prefetch')
     resources.each do |name, resource|
       project = resource[:project]

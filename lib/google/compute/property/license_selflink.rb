@@ -73,7 +73,7 @@ module Google
           Google::ObjectStore.instance[:gcompute_license].each do |entry|
             return entry.exports[:self_link] if entry.title == @title
           end
-          raise ArgumentError, "gcompute_license[#{@title}] required"
+          @title
         end
       end
 

@@ -49,6 +49,11 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
   end
 
   def self.prefetch(resources)
+    Puppet.warning [
+      "gcompute_region will be deprecated in a future release.",
+      "You can use strings to reference GCP Region.",
+      "A gcompute_region is no longer necessary"
+    ].join(" ")
     debug('prefetch')
     resources.each do |name, resource|
       project = resource[:project]
@@ -83,7 +88,11 @@ Puppet::Type.type(:gcompute_region).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    raise 'Region cannot be edited' if @dirty
+    update_req = Google::Compute::Network::Put.new(self_link(@resource),
+                                                   fetch_auth(@resource),
+                                                   'application/json',
+                                                   resource_to_request)
+    return_if_object update_req.send, 'compute#region'
   end
 
   def dirty(field, from, to)

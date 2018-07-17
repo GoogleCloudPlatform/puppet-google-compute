@@ -72,7 +72,7 @@ module Google
           Google::ObjectStore.instance[:gcompute_zone].each do |entry|
             return entry.exports[:name] if entry.title == @title
           end
-          raise ArgumentError, "gcompute_zone[#{@title}] required"
+          @title
         end
       end
 
