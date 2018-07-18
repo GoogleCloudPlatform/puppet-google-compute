@@ -1568,7 +1568,7 @@ gcompute_disk { 'id-of-resource':
     sha256  => string,
   },
   source_image_id                => string,
-  source_snapshot                => string,
+  source_snapshot                => reference to gcompute_snapshot,
   source_snapshot_encryption_key => {
     raw_key => string,
     sha256  => string,
@@ -1576,7 +1576,7 @@ gcompute_disk { 'id-of-resource':
   source_snapshot_id             => string,
   type                           => reference to gcompute_disk_type,
   users                          => [
-    string,
+    reference to a gcompute_instance,
     ...
   ],
   zone                           => reference to gcompute_zone,
@@ -1618,6 +1618,11 @@ Required.  Name of the resource. Provided by the client when the resource is
   the value of sizeGb must not be less than the size of the sourceImage
   or the size of the snapshot.
 
+##### `type`
+
+  URL of the disk type resource describing which disk type to use to
+  create the disk. Provide this when creating the disk.
+
 ##### `source_image`
 
   The source image used to create this disk. If the source image is
@@ -1637,14 +1642,22 @@ Required.  Name of the resource. Provided by the client when the resource is
   image name with family/family-name:
   global/images/family/my-private-family
 
-##### `type`
-
-  URL of the disk type resource describing which disk type to use to
-  create the disk. Provide this when creating the disk.
-
 ##### `zone`
 
 Required.  A reference to the zone where the disk resides.
+
+##### `source_image_encryption_key`
+
+  The customer-supplied encryption key of the source image. Required if
+  the source image is protected by a customer-supplied encryption key.
+
+##### source_image_encryption_key/raw_key
+  Specifies a 256-bit customer-supplied encryption key, encoded in
+  RFC 4648 base64 to either encrypt or decrypt this resource.
+
+##### source_image_encryption_key/sha256
+Output only.  The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
+  encryption key that protects this resource.
 
 ##### `disk_encryption_key`
 
@@ -1666,28 +1679,14 @@ Required.  A reference to the zone where the disk resides.
 Output only.  The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
   encryption key that protects this resource.
 
-##### `source_image_encryption_key`
-
-  The customer-supplied encryption key of the source image. Required if
-  the source image is protected by a customer-supplied encryption key.
-
-##### source_image_encryption_key/raw_key
-  Specifies a 256-bit customer-supplied encryption key, encoded in
-  RFC 4648 base64 to either encrypt or decrypt this resource.
-
-##### source_image_encryption_key/sha256
-Output only.  The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
-  encryption key that protects this resource.
-
 ##### `source_snapshot`
 
   The source snapshot used to create this disk. You can provide this as
   a partial or full URL to the resource. For example, the following are
   valid values:
-  * https://www.googleapis.com/compute/v1/projects/project/global/
-  snapshots/snapshot
-  * projects/project/global/snapshots/snapshot
-  * global/snapshots/snapshot
+  * `https://www.googleapis.com/compute/v1/projects/project/global/snapshots/snapshot`
+  * `projects/project/global/snapshots/snapshot`
+  * `global/snapshots/snapshot`
 
 ##### `source_snapshot_encryption_key`
 

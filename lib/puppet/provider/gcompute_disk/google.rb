@@ -33,8 +33,10 @@ require 'google/compute/property/disk_disk_encryption_key'
 require 'google/compute/property/disk_source_image_encryption_key'
 require 'google/compute/property/disk_source_snapshot_encryption_key'
 require 'google/compute/property/disktype_selflink'
+require 'google/compute/property/instance_selflink'
 require 'google/compute/property/integer'
 require 'google/compute/property/namevalues'
+require 'google/compute/property/snapshot_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
@@ -88,7 +90,7 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
       licenses: Google::Compute::Property::StringArray.api_munge(fetch['licenses']),
       size_gb: Google::Compute::Property::Integer.api_munge(fetch['sizeGb']),
       type: Google::Compute::Property::DiskTypeSelfLinkRef.api_munge(fetch['type']),
-      users: Google::Compute::Property::StringArray.api_munge(fetch['users']),
+      users: Google::Compute::Property::InstaSelfLinkRefArray.api_munge(fetch['users']),
       name: resource[:name],
       source_image: resource[:source_image]
     }.reject { |_, v| v.nil? }
@@ -158,13 +160,13 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
       labels: resource[:labels],
       licenses: resource[:licenses],
       size_gb: resource[:size_gb],
-      source_image: resource[:source_image],
       type: resource[:type],
       users: resource[:users],
+      source_image: resource[:source_image],
       zone: resource[:zone],
-      disk_encryption_key: resource[:disk_encryption_key],
       source_image_encryption_key: resource[:source_image_encryption_key],
       source_image_id: resource[:source_image_id],
+      disk_encryption_key: resource[:disk_encryption_key],
       source_snapshot: resource[:source_snapshot],
       source_snapshot_encryption_key: resource[:source_snapshot_encryption_key],
       source_snapshot_id: resource[:source_snapshot_id]
@@ -180,10 +182,10 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
       licenses: @resource[:licenses],
       name: @resource[:name],
       sizeGb: @resource[:size_gb],
-      sourceImage: @resource[:source_image],
       type: @resource[:type],
-      diskEncryptionKey: @resource[:disk_encryption_key],
+      sourceImage: @resource[:source_image],
       sourceImageEncryptionKey: @resource[:source_image_encryption_key],
+      diskEncryptionKey: @resource[:disk_encryption_key],
       sourceSnapshotEncryptionKey: @resource[:source_snapshot_encryption_key]
     }.reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?

@@ -29,8 +29,10 @@ require 'google/compute/property/disk_disk_encryption_key'
 require 'google/compute/property/disk_source_image_encryption_key'
 require 'google/compute/property/disk_source_snapshot_encryption_key'
 require 'google/compute/property/disktype_selflink'
+require 'google/compute/property/instance_selflink'
 require 'google/compute/property/integer'
 require 'google/compute/property/namevalues'
+require 'google/compute/property/snapshot_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
@@ -64,6 +66,11 @@ Puppet::Type.newtype(:gcompute_disk) do
     reference.autorequires
   end
 
+  autorequire(:gcompute_snapshot) do
+    reference = self[:source_snapshot]
+    reference.autorequires unless reference.nil?
+  end
+
   ensurable
 
   newparam :credential do
@@ -86,17 +93,6 @@ Puppet::Type.newtype(:gcompute_disk) do
     desc 'A reference to the zone where the disk resides.'
   end
 
-  newparam(:disk_encryption_key, parent: Google::Compute::Property::DiskDiskEncryKey) do
-    desc <<-DOC
-      Encrypts the disk using a customer-supplied encryption key. After you encrypt a disk with a
-      customer-supplied key, you must provide the same key if you use the disk later (e.g. to
-      create a disk snapshot or an image, or to attach the disk to a virtual machine).
-      Customer-supplied encryption keys do not protect access to metadata of the disk. If you do
-      not provide an encryption key when creating the disk, then the disk will be encrypted using
-      an automatically generated key and you do not need to provide a key to use the disk later.
-    DOC
-  end
-
   newparam(:source_image_encryption_key, parent: Google::Compute::Property::DiskSourImagEncrKey) do
     desc <<-DOC
       The customer-supplied encryption key of the source image. Required if the source image is
@@ -113,12 +109,23 @@ Puppet::Type.newtype(:gcompute_disk) do
     DOC
   end
 
-  newparam(:source_snapshot, parent: Google::Compute::Property::String) do
+  newparam(:disk_encryption_key, parent: Google::Compute::Property::DiskDiskEncryKey) do
+    desc <<-DOC
+      Encrypts the disk using a customer-supplied encryption key. After you encrypt a disk with a
+      customer-supplied key, you must provide the same key if you use the disk later (e.g. to
+      create a disk snapshot or an image, or to attach the disk to a virtual machine).
+      Customer-supplied encryption keys do not protect access to metadata of the disk. If you do
+      not provide an encryption key when creating the disk, then the disk will be encrypted using
+      an automatically generated key and you do not need to provide a key to use the disk later.
+    DOC
+  end
+
+  newparam(:source_snapshot, parent: Google::Compute::Property::SnapsSelfLinkRef) do
     desc <<-DOC
       The source snapshot used to create this disk. You can provide this as a partial or full URL
       to the resource. For example, the following are valid values: *
-      https://www.googleapis.com/compute/v1/projects/project/global/    snapshots/snapshot *
-      projects/project/global/snapshots/snapshot * global/snapshots/snapshot
+      `https://www.googleapis.com/compute/v1/projects/project/global/snapshots/snapshot` *
+      `projects/project/global/snapshots/snapshot` * `global/snapshots/snapshot`
     DOC
   end
 
@@ -189,6 +196,20 @@ Puppet::Type.newtype(:gcompute_disk) do
     DOC
   end
 
+  newproperty(:type, parent: Google::Compute::Property::DiskTypeSelfLinkRef) do
+    desc <<-DOC
+      URL of the disk type resource describing which disk type to use to create the disk. Provide
+      this when creating the disk.
+    DOC
+  end
+
+  newproperty(:users, parent: Google::Compute::Property::InstaSelfLinkRefArray) do
+    desc <<-DOC
+      Links to the users of the disk (attached instances) in form:
+      project/zones/zone/instances/instance (output only)
+    DOC
+  end
+
   newproperty(:source_image, parent: Google::Compute::Property::String) do
     desc <<-DOC
       The source image used to create this disk. If the source image is deleted, this field will
@@ -201,20 +222,6 @@ Puppet::Type.newtype(:gcompute_disk) do
       global/images/my-private-image You can also specify a private image by its image family,
       which returns the latest version of the image in that family. Replace the image name with
       family/family-name: global/images/family/my-private-family
-    DOC
-  end
-
-  newproperty(:type, parent: Google::Compute::Property::DiskTypeSelfLinkRef) do
-    desc <<-DOC
-      URL of the disk type resource describing which disk type to use to create the disk. Provide
-      this when creating the disk.
-    DOC
-  end
-
-  newproperty(:users, parent: Google::Compute::Property::StringArray) do
-    desc <<-DOC
-      Links to the users of the disk (attached instances) in form:
-      project/zones/zone/instances/instance (output only)
     DOC
   end
 
