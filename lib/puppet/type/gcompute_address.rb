@@ -25,7 +25,7 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'google/compute/property/enum'
+require 'google/compute/property/address_address_type'
 require 'google/compute/property/integer'
 require 'google/compute/property/region_name'
 require 'google/compute/property/string'
@@ -92,7 +92,7 @@ Puppet::Type.newtype(:gcompute_address) do
     DOC
   end
 
-  newproperty(:address_type, parent: Google::Compute::Property::Enum) do
+  newproperty(:address_type, parent: Google::Compute::Property::AddressTypeEnum) do
     desc <<-DOC
       The type of address to reserve, either INTERNAL or EXTERNAL. If unspecified, defaults to
       EXTERNAL.

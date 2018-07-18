@@ -25,10 +25,10 @@
 #
 # ----------------------------------------------------------------------------
 
-require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/network_selflink'
 require 'google/compute/property/region_name'
+require 'google/compute/property/router_advertise_mode'
 require 'google/compute/property/router_advertised_ip_ranges'
 require 'google/compute/property/router_bgp'
 require 'google/compute/property/string'
