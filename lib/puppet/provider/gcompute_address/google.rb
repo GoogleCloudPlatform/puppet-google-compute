@@ -29,7 +29,7 @@ require 'google/compute/network/delete'
 require 'google/compute/network/get'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
-require 'google/compute/property/enum'
+require 'google/compute/property/address_address_type'
 require 'google/compute/property/integer'
 require 'google/compute/property/region_name'
 require 'google/compute/property/string'
@@ -72,7 +72,7 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
   def self.fetch_to_hash(fetch)
     {
       address: Google::Compute::Property::String.api_munge(fetch['address']),
-      address_type: Google::Compute::Property::Enum.api_munge(fetch['addressType']),
+      address_type: Google::Compute::Property::AddressTypeEnum.api_munge(fetch['addressType']),
       creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),

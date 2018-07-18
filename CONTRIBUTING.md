@@ -222,6 +222,7 @@ puppet-codegen:
   * lib/google/compute/network/post.rb
   * lib/google/compute/network/put.rb
   * lib/google/compute/property/address_address.rb
+  * lib/google/compute/property/address_address_type.rb
   * lib/google/compute/property/array.rb
   * lib/google/compute/property/backendservice_backends.rb
   * lib/google/compute/property/backendservice_cache_key_policy.rb
@@ -289,6 +290,7 @@ puppet-codegen:
   * lib/google/compute/property/region_deprecated.rb
   * lib/google/compute/property/region_name.rb
   * lib/google/compute/property/region_selflink.rb
+  * lib/google/compute/property/router_advertise_mode.rb
   * lib/google/compute/property/router_advertised_ip_ranges.rb
   * lib/google/compute/property/router_bgp.rb
   * lib/google/compute/property/snapshot_snapshot_encryption_key.rb
