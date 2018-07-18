@@ -60,6 +60,9 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               expect_network_get_success_disk_type 1, zone: 'test name#0 data'
               expect_network_get_success_disk_type 2, zone: 'test name#1 data'
               expect_network_get_success_disk_type 3, zone: 'test name#2 data'
+              expect_network_get_success_snapshot 1
+              expect_network_get_success_snapshot 2
+              expect_network_get_success_snapshot 3
             end
 
             let(:catalog) do
@@ -104,6 +107,27 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                   credential => 'cred2',
                 }
 
+                gcompute_snapshot { 'resource(snapshot,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_snapshot { 'resource(snapshot,1)':
+                  ensure     => present,
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_snapshot { 'resource(snapshot,2)':
+                  ensure     => present,
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
                 gcompute_disk { 'title0':
                   ensure                         => present,
                   description                    => 'test description#0 data',
@@ -122,7 +146,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     raw_key => 'test raw_key#0 data',
                     sha256  => 'test sha256#0 data',
                   },
-                  source_snapshot                => 'test source_snapshot#0 data',
+                  source_snapshot                => 'resource(snapshot,0)',
                   source_snapshot_encryption_key => {
                     raw_key => 'test raw_key#0 data',
                     sha256  => 'test sha256#0 data',
@@ -152,7 +176,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     raw_key => 'test raw_key#1 data',
                     sha256  => 'test sha256#1 data',
                   },
-                  source_snapshot                => 'test source_snapshot#1 data',
+                  source_snapshot                => 'resource(snapshot,1)',
                   source_snapshot_encryption_key => {
                     raw_key => 'test raw_key#1 data',
                     sha256  => 'test sha256#1 data',
@@ -183,7 +207,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     raw_key => 'test raw_key#2 data',
                     sha256  => 'test sha256#2 data',
                   },
-                  source_snapshot                => 'test source_snapshot#2 data',
+                  source_snapshot                => 'resource(snapshot,2)',
                   source_snapshot_encryption_key => {
                     raw_key => 'test raw_key#2 data',
                     sha256  => 'test sha256#2 data',
@@ -227,12 +251,15 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[ww xx]) }
               it { is_expected.to have_attributes(name: 'title0') }
               it { is_expected.to have_attributes(size_gb: 2_858_499_398) }
-              it { is_expected.to have_attributes(source_image: 'test source_image#0 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'type' do
               #   # Add test code here
               # end
-              it { is_expected.to have_attributes(users: %w[ww xx yy zz]) }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'users' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(source_image: 'test source_image#0 data') }
             end
 
             context 'Gcompute_disk[title1]' do
@@ -265,12 +292,15 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[uu vv]) }
               it { is_expected.to have_attributes(name: 'title1') }
               it { is_expected.to have_attributes(size_gb: 5_716_998_797) }
-              it { is_expected.to have_attributes(source_image: 'test source_image#1 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'type' do
               #   # Add test code here
               # end
-              it { is_expected.to have_attributes(users: %w[uu vv]) }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'users' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(source_image: 'test source_image#1 data') }
             end
 
             context 'Gcompute_disk[title2]' do
@@ -303,12 +333,15 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[tt uu vv]) }
               it { is_expected.to have_attributes(name: 'title2') }
               it { is_expected.to have_attributes(size_gb: 8_575_498_196) }
-              it { is_expected.to have_attributes(source_image: 'test source_image#2 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'type' do
               #   # Add test code here
               # end
-              it { is_expected.to have_attributes(users: %w[ss tt uu vv]) }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'users' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(source_image: 'test source_image#2 data') }
             end
           end
 
@@ -337,6 +370,9 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               expect_network_get_success_disk_type 1, zone: 'test name#0 data'
               expect_network_get_success_disk_type 2, zone: 'test name#1 data'
               expect_network_get_success_disk_type 3, zone: 'test name#2 data'
+              expect_network_get_success_snapshot 1
+              expect_network_get_success_snapshot 2
+              expect_network_get_success_snapshot 3
             end
 
             let(:catalog) do
@@ -381,6 +417,27 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                   credential => 'cred2',
                 }
 
+                gcompute_snapshot { 'resource(snapshot,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_snapshot { 'resource(snapshot,1)':
+                  ensure     => present,
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_snapshot { 'resource(snapshot,2)':
+                  ensure     => present,
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
                 gcompute_disk { 'title0':
                   ensure                         => present,
                   description                    => 'test description#0 data',
@@ -400,7 +457,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     raw_key => 'test raw_key#0 data',
                     sha256  => 'test sha256#0 data',
                   },
-                  source_snapshot                => 'test source_snapshot#0 data',
+                  source_snapshot                => 'resource(snapshot,0)',
                   source_snapshot_encryption_key => {
                     raw_key => 'test raw_key#0 data',
                     sha256  => 'test sha256#0 data',
@@ -431,7 +488,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     raw_key => 'test raw_key#1 data',
                     sha256  => 'test sha256#1 data',
                   },
-                  source_snapshot                => 'test source_snapshot#1 data',
+                  source_snapshot                => 'resource(snapshot,1)',
                   source_snapshot_encryption_key => {
                     raw_key => 'test raw_key#1 data',
                     sha256  => 'test sha256#1 data',
@@ -463,7 +520,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     raw_key => 'test raw_key#2 data',
                     sha256  => 'test sha256#2 data',
                   },
-                  source_snapshot                => 'test source_snapshot#2 data',
+                  source_snapshot                => 'resource(snapshot,2)',
                   source_snapshot_encryption_key => {
                     raw_key => 'test raw_key#2 data',
                     sha256  => 'test sha256#2 data',
@@ -507,12 +564,15 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[ww xx]) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               it { is_expected.to have_attributes(size_gb: 2_858_499_398) }
-              it { is_expected.to have_attributes(source_image: 'test source_image#0 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'type' do
               #   # Add test code here
               # end
-              it { is_expected.to have_attributes(users: %w[ww xx yy zz]) }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'users' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(source_image: 'test source_image#0 data') }
             end
 
             context 'Gcompute_disk[title1]' do
@@ -545,12 +605,15 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[uu vv]) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               it { is_expected.to have_attributes(size_gb: 5_716_998_797) }
-              it { is_expected.to have_attributes(source_image: 'test source_image#1 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'type' do
               #   # Add test code here
               # end
-              it { is_expected.to have_attributes(users: %w[uu vv]) }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'users' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(source_image: 'test source_image#1 data') }
             end
 
             context 'Gcompute_disk[title2]' do
@@ -583,12 +646,15 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[tt uu vv]) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               it { is_expected.to have_attributes(size_gb: 8_575_498_196) }
-              it { is_expected.to have_attributes(source_image: 'test source_image#2 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'type' do
               #   # Add test code here
               # end
-              it { is_expected.to have_attributes(users: %w[ss tt uu vv]) }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'users' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(source_image: 'test source_image#2 data') }
             end
           end
 
@@ -654,13 +720,13 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                 'licenses' => %w[ww xx],
                 'name' => 'title0',
                 'sizeGb' => 2_858_499_398,
-                'sourceImage' => 'test source_image#0 data',
                 'type' => 'selflink(resource(disk_type,0))',
-                'diskEncryptionKey' => {
+                'sourceImage' => 'test source_image#0 data',
+                'sourceImageEncryptionKey' => {
                   'rawKey' => 'test raw_key#0 data',
                   'sha256' => 'test sha256#0 data'
                 },
-                'sourceImageEncryptionKey' => {
+                'diskEncryptionKey' => {
                   'rawKey' => 'test raw_key#0 data',
                   'sha256' => 'test sha256#0 data'
                 },
@@ -674,6 +740,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
             expect_network_get_async 1, name: 'title0', zone: 'test name#0 data'
             expect_network_get_success_zone 1
             expect_network_get_success_disk_type 1, zone: 'test name#0 data'
+            expect_network_get_success_snapshot 1
           end
 
           subject do
@@ -688,6 +755,13 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               gcompute_disk_type { 'resource(disk_type,0)':
                 name       => 'test name#0 data',
                 zone       => 'resource(zone,0)',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_snapshot { 'resource(snapshot,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -710,7 +784,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                   raw_key => 'test raw_key#0 data',
                   sha256  => 'test sha256#0 data',
                 },
-                source_snapshot                => 'test source_snapshot#0 data',
+                source_snapshot                => 'resource(snapshot,0)',
                 source_snapshot_encryption_key => {
                   raw_key => 'test raw_key#0 data',
                   sha256  => 'test sha256#0 data',
@@ -753,13 +827,13 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                 'licenses' => %w[ww xx],
                 'name' => 'test name#0 data',
                 'sizeGb' => 2_858_499_398,
-                'sourceImage' => 'test source_image#0 data',
                 'type' => 'selflink(resource(disk_type,0))',
-                'diskEncryptionKey' => {
+                'sourceImage' => 'test source_image#0 data',
+                'sourceImageEncryptionKey' => {
                   'rawKey' => 'test raw_key#0 data',
                   'sha256' => 'test sha256#0 data'
                 },
-                'sourceImageEncryptionKey' => {
+                'diskEncryptionKey' => {
                   'rawKey' => 'test raw_key#0 data',
                   'sha256' => 'test sha256#0 data'
                 },
@@ -772,6 +846,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
             expect_network_get_async 1, zone: 'test name#0 data'
             expect_network_get_success_zone 1
             expect_network_get_success_disk_type 1, zone: 'test name#0 data'
+            expect_network_get_success_snapshot 1
           end
 
           subject do
@@ -786,6 +861,13 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               gcompute_disk_type { 'resource(disk_type,0)':
                 name       => 'test name#0 data',
                 zone       => 'resource(zone,0)',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
+              gcompute_snapshot { 'resource(snapshot,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -809,7 +891,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                   raw_key => 'test raw_key#0 data',
                   sha256  => 'test sha256#0 data',
                 },
-                source_snapshot                => 'test source_snapshot#0 data',
+                source_snapshot                => 'resource(snapshot,0)',
                 source_snapshot_encryption_key => {
                   raw_key => 'test raw_key#0 data',
                   sha256  => 'test sha256#0 data',
@@ -1241,6 +1323,57 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
     )
   end
 
+  def expect_network_get_success_instance(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_instance("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_instance(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_instance(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_instance(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_instance', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_instance objects
+  def uri_data_instance(id)
+    {
+      project: GoogleTests::Constants::I_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::I_PROJECT_DATA.size],
+      zone: GoogleTests::Constants::I_ZONE_DATA[(id - 1) \
+        % GoogleTests::Constants::I_ZONE_DATA.size],
+      name: GoogleTests::Constants::I_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::I_NAME_DATA.size]
+    }
+  end
+
+  def self_link_instance(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_instance(
+        'projects/{{project}}/zones/{{zone}}/instances/{{name}}',
+        data
+      )
+    )
+  end
+
   def expect_network_get_success_zone(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
     body = load_network_result_zone("success#{id}~" \
@@ -1290,6 +1423,104 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
     )
   end
 
+  def expect_network_get_success_zone(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_zone("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_zone(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_zone(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_zone(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_zone', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_zone objects
+  def uri_data_zone(id)
+    {
+      project: GoogleTests::Constants::Z_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::Z_PROJECT_DATA.size],
+      name: GoogleTests::Constants::Z_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::Z_NAME_DATA.size]
+    }
+  end
+
+  def self_link_zone(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_zone(
+        'projects/{{project}}/zones/{{name}}',
+        data
+      )
+    )
+  end
+
+  def expect_network_get_success_snapshot(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_snapshot("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_snapshot(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_snapshot(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_snapshot(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_snapshot', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_snapshot objects
+  def uri_data_snapshot(id)
+    {
+      project: GoogleTests::Constants::S_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::S_PROJECT_DATA.size],
+      name: GoogleTests::Constants::S_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::S_NAME_DATA.size]
+    }
+  end
+
+  def self_link_snapshot(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_snapshot(
+        'projects/{{project}}/global/snapshots/{{name}}',
+        data
+      )
+    )
+  end
+
   def debug(message)
     puts(message) if ENV['RSPEC_DEBUG']
   end
@@ -1309,8 +1540,23 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                 .expand_variables(template, data, ext_dat)
   end
 
+  def expand_variables_instance(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_instance).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
   def expand_variables_zone(template, data, ext_dat = {})
     Puppet::Type.type(:gcompute_zone).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
+  def expand_variables_zone(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_zone).provider(:google)
+                .expand_variables(template, data, ext_dat)
+  end
+
+  def expand_variables_snapshot(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_snapshot).provider(:google)
                 .expand_variables(template, data, ext_dat)
   end
 
