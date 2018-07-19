@@ -72,6 +72,27 @@ module Google
           Google::ObjectStore.instance[:gcompute_region].each do |entry|
             return entry.exports[:self_link] if entry.title == @title
           end
+
+          unless /https:\/\/www.googleapis.com\/compute\/v1\/projects\/.*\/regions\/[a-z1-9\-]*/.match(@title)
+            # We'll asssmble the self_link for the user.
+            # We need to get the project name to assemble the self_link
+            projects = Google::ObjectStore.instance
+                                          .resources
+                                          .reject { |name, _a| name == :gauth_credential }
+                                          .map { |_name, array| array.map(&:exports) }
+                                          .flatten
+                                          .map { |x| x[:project] }
+                                          .compact
+                                          .uniq
+            return "https://www.googleapis.com/compute/v1/projects/#{projects[0]}/regions/#{@title}" \
+              if projects.length == 1
+            raise ["Your Puppet manifest contains multiple projects.",
+                   "We cannot determine which project you wish to use.",
+                   "Please replace #{@title} with a full URL of the form:",
+                   "https://www.googleapis.com/compute/v1/projects/{{project}}/regions/{{name}}"
+                  ].join(' ')
+          end
+
           @title
         end
       end
