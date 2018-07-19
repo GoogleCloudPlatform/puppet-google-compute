@@ -129,7 +129,8 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
   def exports
     {
       address: @fetched['address'],
-      self_link: @fetched['selfLink']
+      self_link: @fetched['selfLink'],
+      project: resource[:project]
     }
   end
 

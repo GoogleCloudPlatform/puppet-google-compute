@@ -131,7 +131,8 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
 
   def exports
     {
-      self_link: @fetched['selfLink']
+      self_link: @fetched['selfLink'],
+      project: resource[:project]
     }
   end
 

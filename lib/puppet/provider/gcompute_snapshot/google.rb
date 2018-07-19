@@ -135,7 +135,8 @@ Puppet::Type.type(:gcompute_snapshot).provide(:google) do
 
   def exports
     {
-      self_link: @fetched['selfLink']
+      self_link: @fetched['selfLink'],
+      project: resource[:project]
     }
   end
 
