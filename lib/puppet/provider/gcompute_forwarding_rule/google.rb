@@ -37,6 +37,7 @@ require 'google/compute/property/region_name'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/subnetwork_selflink'
+require 'google/compute/property/targetpool_selflink'
 require 'google/compute/property/time'
 require 'google/hash_utils'
 require 'google/object_store'
@@ -88,7 +89,8 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
       network: Google::Compute::Property::NetwoSelfLinkRef.api_munge(fetch['network']),
       port_range: Google::Compute::Property::String.api_munge(fetch['portRange']),
       ports: Google::Compute::Property::StringArray.api_munge(fetch['ports']),
-      subnetwork: Google::Compute::Property::SubneSelfLinkRef.api_munge(fetch['subnetwork'])
+      subnetwork: Google::Compute::Property::SubneSelfLinkRef.api_munge(fetch['subnetwork']),
+      target: Google::Compute::Property::TargPoolSelfLinkRef.api_munge(fetch['target'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength
@@ -164,6 +166,7 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
       port_range: resource[:port_range],
       ports: resource[:ports],
       subnetwork: resource[:subnetwork],
+      target: resource[:target],
       region: resource[:region]
     }.reject { |_, v| v.nil? }
   end
@@ -183,7 +186,8 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
       network: @resource[:network],
       portRange: @resource[:port_range],
       ports: @resource[:ports],
-      subnetwork: @resource[:subnetwork]
+      subnetwork: @resource[:subnetwork],
+      target: @resource[:target]
     }.reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json
