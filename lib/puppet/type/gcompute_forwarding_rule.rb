@@ -33,6 +33,7 @@ require 'google/compute/property/region_name'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/subnetwork_selflink'
+require 'google/compute/property/targetpool_selflink'
 require 'google/compute/property/time'
 require 'google/object_store'
 require 'puppet'
@@ -202,6 +203,15 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
       network specified is in auto subnet mode, this field is optional. However, if the network is
       in custom subnet mode, a subnetwork must be specified. This field is not used for external
       load balancing.
+    DOC
+  end
+
+  newproperty(:target, parent: Google::Compute::Property::TargPoolSelfLinkRef) do
+    desc <<-DOC
+      A reference to a TargetPool resource to receive the matched traffic. For regional forwarding
+      rules, this target must live in the same region as the forwarding rule. For global forwarding
+      rules, this target must be a global load balancing resource. The forwarded traffic must be of
+      a type appropriate to the target object. This field is not used for internal load balancing.
     DOC
   end
 
