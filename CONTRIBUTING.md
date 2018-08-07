@@ -219,6 +219,7 @@ puppet-codegen:
   * lib/google/compute/network/base.rb
   * lib/google/compute/network/delete.rb
   * lib/google/compute/network/get.rb
+  * lib/google/compute/network/patch.rb
   * lib/google/compute/network/post.rb
   * lib/google/compute/network/put.rb
   * lib/google/compute/property/address_address.rb
@@ -623,6 +624,7 @@ puppet-codegen:
   * spec/network_blocker_spec.rb
   * spec/network_delete_spec.rb
   * spec/network_get_spec.rb
+  * spec/network_patch_spec.rb
   * spec/network_post_spec.rb
   * spec/network_put_spec.rb
   * spec/puppetlint_spec.rb
