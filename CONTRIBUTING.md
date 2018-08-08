@@ -146,7 +146,9 @@ puppet-codegen:
   * .tools/end2end/data/target_pool.pp
   * .tools/end2end/data/target_ssl_proxy.pp
   * .tools/end2end/data/target_tcp_proxy.pp
+  * .tools/end2end/data/target_vpn_gateway.pp
   * .tools/end2end/data/url_map.pp
+  * .tools/end2end/data/vpn_tunnel.pp
   * .tools/end2end/data/zone.pp
   * CHANGELOG.md
   * CONTRIBUTING.md
@@ -211,7 +213,9 @@ puppet-codegen:
   * examples/target_pool.pp
   * examples/target_ssl_proxy.pp
   * examples/target_tcp_proxy.pp
+  * examples/target_vpn_gateway.pp
   * examples/url_map.pp
+  * examples/vpn_tunnel.pp
   * examples/zone.pp
   * Gemfile
   * lib/google/compute/api/gcompute_disk.rb
@@ -242,6 +246,7 @@ puppet-codegen:
   * lib/google/compute/property/double.rb
   * lib/google/compute/property/enum.rb
   * lib/google/compute/property/firewall_allowed.rb
+  * lib/google/compute/property/forwardingrule_selflink.rb
   * lib/google/compute/property/healthcheck_http_health_check.rb
   * lib/google/compute/property/healthcheck_https_health_check.rb
   * lib/google/compute/property/healthcheck_ssl_health_check.rb
@@ -302,6 +307,7 @@ puppet-codegen:
   * lib/google/compute/property/string_array.rb
   * lib/google/compute/property/subnetwork_selflink.rb
   * lib/google/compute/property/targetpool_selflink.rb
+  * lib/google/compute/property/targetvpngateway_selflink.rb
   * lib/google/compute/property/time.rb
   * lib/google/compute/property/urlmap_host_rules.rb
   * lib/google/compute/property/urlmap_path_matchers.rb
@@ -349,7 +355,9 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_target_pool/google.rb
   * lib/puppet/provider/gcompute_target_ssl_proxy/google.rb
   * lib/puppet/provider/gcompute_target_tcp_proxy/google.rb
+  * lib/puppet/provider/gcompute_target_vpn_gateway/google.rb
   * lib/puppet/provider/gcompute_url_map/google.rb
+  * lib/puppet/provider/gcompute_vpn_tunnel/google.rb
   * lib/puppet/provider/gcompute_zone/google.rb
   * lib/puppet/type/gcompute_address.rb
   * lib/puppet/type/gcompute_backend_bucket.rb
@@ -382,7 +390,9 @@ puppet-codegen:
   * lib/puppet/type/gcompute_target_pool.rb
   * lib/puppet/type/gcompute_target_ssl_proxy.rb
   * lib/puppet/type/gcompute_target_tcp_proxy.rb
+  * lib/puppet/type/gcompute_target_vpn_gateway.rb
   * lib/puppet/type/gcompute_url_map.rb
+  * lib/puppet/type/gcompute_vpn_tunnel.rb
   * lib/puppet/type/gcompute_zone.rb
   * metadata.json
   * README.md
@@ -574,12 +584,24 @@ puppet-codegen:
   * spec/data/network/gcompute_target_tcp_proxy/success2~title.yaml
   * spec/data/network/gcompute_target_tcp_proxy/success3~name.yaml
   * spec/data/network/gcompute_target_tcp_proxy/success3~title.yaml
+  * spec/data/network/gcompute_target_vpn_gateway/success1~name.yaml
+  * spec/data/network/gcompute_target_vpn_gateway/success1~title.yaml
+  * spec/data/network/gcompute_target_vpn_gateway/success2~name.yaml
+  * spec/data/network/gcompute_target_vpn_gateway/success2~title.yaml
+  * spec/data/network/gcompute_target_vpn_gateway/success3~name.yaml
+  * spec/data/network/gcompute_target_vpn_gateway/success3~title.yaml
   * spec/data/network/gcompute_url_map/success1~name.yaml
   * spec/data/network/gcompute_url_map/success1~title.yaml
   * spec/data/network/gcompute_url_map/success2~name.yaml
   * spec/data/network/gcompute_url_map/success2~title.yaml
   * spec/data/network/gcompute_url_map/success3~name.yaml
   * spec/data/network/gcompute_url_map/success3~title.yaml
+  * spec/data/network/gcompute_vpn_tunnel/success1~name.yaml
+  * spec/data/network/gcompute_vpn_tunnel/success1~title.yaml
+  * spec/data/network/gcompute_vpn_tunnel/success2~name.yaml
+  * spec/data/network/gcompute_vpn_tunnel/success2~title.yaml
+  * spec/data/network/gcompute_vpn_tunnel/success3~name.yaml
+  * spec/data/network/gcompute_vpn_tunnel/success3~title.yaml
   * spec/data/network/gcompute_zone/success1~name.yaml
   * spec/data/network/gcompute_zone/success1~title.yaml
   * spec/data/network/gcompute_zone/success2~name.yaml
@@ -618,7 +640,9 @@ puppet-codegen:
   * spec/gcompute_target_pool_provider_spec.rb
   * spec/gcompute_target_ssl_proxy_provider_spec.rb
   * spec/gcompute_target_tcp_proxy_provider_spec.rb
+  * spec/gcompute_target_vpn_gateway_provider_spec.rb
   * spec/gcompute_url_map_provider_spec.rb
+  * spec/gcompute_vpn_tunnel_provider_spec.rb
   * spec/gcompute_zone_provider_spec.rb
   * spec/network_blocker.rb
   * spec/network_blocker_spec.rb

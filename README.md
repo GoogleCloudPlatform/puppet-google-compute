@@ -688,6 +688,29 @@ gcompute_target_tcp_proxy { 'my-tcp-proxy':
 
 ```
 
+#### `gcompute_target_vpn_gateway`
+
+```puppet
+
+gcompute_region { 'some-region':
+  name       => 'us-west1',
+  project    => $project, # e.g. 'my-test-project'
+  credential => 'mycred',
+}
+
+gcompute_network { "mynetwork-${network_id}":
+  auto_create_subnetworks => false,
+  project                 => $project, # e.g. 'my-test-project'
+  credential              => 'mycred',
+}
+
+gcompute_target_vpn_gateway { "my-gateway-${gateway_id}":
+  project     => $project,
+  credential  => 'mycred',
+  network     => "mynetwork-${network_id}"}
+
+```
+
 #### `gcompute_url_map`
 
 ```puppet
@@ -697,6 +720,34 @@ gcompute_url_map { 'my-url-map':
   project         => $project, # e.g. 'my-test-project'
   credential      => 'mycred',
 }
+
+```
+
+#### `gcompute_vpn_tunnel`
+
+```puppet
+
+gcompute_region { 'some-region':
+  name       => 'us-west1',
+  project    => $project, # e.g. 'my-test-project'
+  credential => 'mycred',
+}
+
+gcompute_network { "mynetwork-${network_id}":
+  auto_create_subnetworks => false,
+  project                 => $project, # e.g. 'my-test-project'
+  credential              => 'mycred',
+}
+
+gcompute_target_vpn_gateway { "my-gateway-${gateway_id}":
+  project     => $project,
+  credential  => 'mycred',
+  network     => "mynetwork-${network_id}"}
+
+gcompute_vpn_tunnel { "my-tunnel-${gateway_id}":
+  project     => $project,
+  credential  => 'mycred',
+  target_vpn_gateway => "my-gateway-${network_id}"}
 
 ```
 
@@ -925,9 +976,14 @@ gcompute_zone { 'us-central1-a':
     Represents a TargetTcpProxy resource, which is used by one or more
     global forwarding rule to route incoming TCP requests to a Backend
     service.
+* [`gcompute_target_vpn_gateway`][]:
+    Represents a VPN gateway running in GCP. This virtual device is managed
+    by Google, but used only by you.
 * [`gcompute_url_map`][]:
     UrlMaps are used to route requests to a backend service based on rules
     that you define for the host and path of an incoming URL.
+* [`gcompute_vpn_tunnel`][]:
+    VPN tunnel resource.
 * [`gcompute_zone`][]:
     Represents a Zone resource.
 
@@ -5713,6 +5769,98 @@ Required.  A reference to the BackendService resource.
 * `id`: Output only.
   The unique identifier for the resource.
 
+#### `gcompute_target_vpn_gateway`
+
+Represents a VPN gateway running in GCP. This virtual device is managed
+by Google, but used only by you.
+
+#### Reference Guides
+* [API Reference](https://cloud.google.com/compute/docs/reference/rest/v1/targetVpnGateways)
+
+#### Example
+
+```puppet
+
+gcompute_region { 'some-region':
+  name       => 'us-west1',
+  project    => $project, # e.g. 'my-test-project'
+  credential => 'mycred',
+}
+
+gcompute_network { "mynetwork-${network_id}":
+  auto_create_subnetworks => false,
+  project                 => $project, # e.g. 'my-test-project'
+  credential              => 'mycred',
+}
+
+gcompute_target_vpn_gateway { "my-gateway-${gateway_id}":
+  project     => $project,
+  credential  => 'mycred',
+  network     => "mynetwork-${network_id}"}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_target_vpn_gateway { 'id-of-resource':
+  creation_timestamp => time,
+  description        => string,
+  forwarding_rules   => [
+    reference to a gcompute_forwarding_rule,
+    ...
+  ],
+  id                 => integer,
+  name               => string,
+  network            => reference to gcompute_network,
+  region             => reference to gcompute_region,
+  tunnels            => [
+    string,
+    ...
+  ],
+  project            => string,
+  credential         => reference to gauth_credential,
+}
+```
+
+##### `description`
+
+  An optional description of this resource.
+
+##### `name`
+
+Required.  Name of the resource. Provided by the client when the resource is
+  created. The name must be 1-63 characters long, and comply with
+  RFC1035.  Specifically, the name must be 1-63 characters long and
+  match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means
+  the first character must be a lowercase letter, and all following
+  characters must be a dash, lowercase letter, or digit, except the last
+  character, which cannot be a dash.
+
+##### `network`
+
+Required.  The network this VPN gateway is accepting traffic for.
+
+##### `region`
+
+Required.  The region this gateway should sit in.
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `id`: Output only.
+  The unique identifier for the resource.
+
+* `tunnels`: Output only.
+  A list of references to VpnTunnel resources associated to this VPN gateway.
+
+* `forwarding_rules`: Output only.
+  A list of references to the ForwardingRule resources associated to this VPN
+  gateway.
+
 #### `gcompute_url_map`
 
 UrlMaps are used to route requests to a backend service based on rules
@@ -5874,6 +6022,139 @@ Required.  A reference to BackendService resource if none of the hostRules match
 
 * `id`: Output only.
   The unique identifier for the resource.
+
+#### `gcompute_vpn_tunnel`
+
+VPN tunnel resource.
+#### Reference Guides
+* [API Reference](https://cloud.google.com/compute/docs/reference/rest/v1/vpnTunnels)
+* [Cloud VPN Overview](https://cloud.google.com/vpn/docs/concepts/overview)
+* [Networks and Tunnel Routing](https://cloud.google.com/vpn/docs/concepts/choosing-networks-routing)
+
+#### Example
+
+```puppet
+
+gcompute_region { 'some-region':
+  name       => 'us-west1',
+  project    => $project, # e.g. 'my-test-project'
+  credential => 'mycred',
+}
+
+gcompute_network { "mynetwork-${network_id}":
+  auto_create_subnetworks => false,
+  project                 => $project, # e.g. 'my-test-project'
+  credential              => 'mycred',
+}
+
+gcompute_target_vpn_gateway { "my-gateway-${gateway_id}":
+  project     => $project,
+  credential  => 'mycred',
+  network     => "mynetwork-${network_id}"}
+
+gcompute_vpn_tunnel { "my-tunnel-${gateway_id}":
+  project     => $project,
+  credential  => 'mycred',
+  target_vpn_gateway => "my-gateway-${network_id}"}
+
+```
+
+#### Reference
+
+```puppet
+gcompute_vpn_tunnel { 'id-of-resource':
+  creation_timestamp      => time,
+  description             => string,
+  ike_version             => integer,
+  labels                  => namevalues,
+  local_traffic_selector  => [
+    string,
+    ...
+  ],
+  name                    => string,
+  peer_ip                 => string,
+  region                  => reference to gcompute_region,
+  remote_traffic_selector => [
+    string,
+    ...
+  ],
+  router                  => string,
+  shared_secret           => string,
+  shared_secret_hash      => string,
+  target_vpn_gateway      => reference to gcompute_target_vpn_gateway,
+  project                 => string,
+  credential              => reference to gauth_credential,
+}
+```
+
+##### `name`
+
+Required.  Name of the resource. The name must be 1-63 characters long, and
+  comply with RFC1035. Specifically, the name must be 1-63
+  characters long and match the regular expression
+  `[a-z]([-a-z0-9]*[a-z0-9])?` which means the first character
+  must be a lowercase letter, and all following characters must
+  be a dash, lowercase letter, or digit,
+  except the last character, which cannot be a dash.
+
+##### `description`
+
+  An optional description of this resource.
+
+##### `target_vpn_gateway`
+
+Required.  URL of the Target VPN gateway with which this VPN tunnel is
+  associated.
+
+##### `router`
+
+  URL of router resource to be used for dynamic routing.
+
+##### `peer_ip`
+
+Required.  IP address of the peer VPN gateway. Only IPv4 is supported.
+
+##### `shared_secret`
+
+Required.  Shared secret used to set the secure session between the Cloud VPN
+  gateway and the peer VPN gateway.
+
+##### `ike_version`
+
+  IKE protocol version to use when establishing the VPN tunnel with
+  peer VPN gateway.
+  Acceptable IKE versions are 1 or 2. Default version is 2.
+
+##### `local_traffic_selector`
+
+  Local traffic selector to use when establishing the VPN tunnel with
+  peer VPN gateway. The value should be a CIDR formatted string,
+  for example `192.168.0.0/16`. The ranges should be disjoint.
+  Only IPv4 is supported.
+
+##### `remote_traffic_selector`
+
+  Remote traffic selector to use when establishing the VPN tunnel with
+  peer VPN gateway. The value should be a CIDR formatted string,
+  for example `192.168.0.0/16`. The ranges should be disjoint.
+  Only IPv4 is supported.
+
+##### `labels`
+
+  Labels to apply to this VpnTunnel.
+
+##### `region`
+
+Required.  The region where the tunnel is located.
+
+
+##### Output-only properties
+
+* `creation_timestamp`: Output only.
+  Creation timestamp in RFC3339 text format.
+
+* `shared_secret_hash`: Output only.
+  Hash of the shared secret.
 
 #### `gcompute_zone`
 
@@ -6324,5 +6605,7 @@ Variable                | Side Effect
 [`gcompute_target_pool`]: #gcompute_target_pool
 [`gcompute_target_ssl_proxy`]: #gcompute_target_ssl_proxy
 [`gcompute_target_tcp_proxy`]: #gcompute_target_tcp_proxy
+[`gcompute_target_vpn_gateway`]: #gcompute_target_vpn_gateway
 [`gcompute_url_map`]: #gcompute_url_map
+[`gcompute_vpn_tunnel`]: #gcompute_vpn_tunnel
 [`gcompute_zone`]: #gcompute_zone
