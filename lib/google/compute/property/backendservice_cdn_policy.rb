@@ -31,7 +31,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for CdnPolicy for backend_service.
-      class BackeServiCdnPolic
+      class BackendServiceCdnPolicy
         include Comparable
 
         attr_reader :cache_key_policy
@@ -49,7 +49,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? BackeServiCdnPolic
+          return false unless other.is_a? BackendServiceCdnPolicy
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -58,7 +58,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? BackeServiCdnPolic
+          return false unless other.is_a? BackendServiceCdnPolicy
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -76,28 +76,30 @@ module Google
         end
       end
 
-      # Manages a BackeServiCdnPolic nested object
+      # Manages a BackendServiceCdnPolicy nested object
       # Data is coming from the GCP API
-      class BackeServiCdnPolicApi < BackeServiCdnPolic
+      class BackendServiceCdnPolicyApi < BackendServiceCdnPolicy
         def initialize(args)
-          @cache_key_policy =
-            Google::Compute::Property::BackServCachKeyPoli.api_munge(args['cacheKeyPolicy'])
+          @cache_key_policy = Google::Compute::Property::BackendServiceCacheKeyPolicy.api_munge(
+            args['cacheKeyPolicy']
+          )
         end
       end
 
-      # Manages a BackeServiCdnPolic nested object
+      # Manages a BackendServiceCdnPolicy nested object
       # Data is coming from the Puppet manifest
-      class BackeServiCdnPolicCatalog < BackeServiCdnPolic
+      class BackendServiceCdnPolicyCatalog < BackendServiceCdnPolicy
         def initialize(args)
-          @cache_key_policy =
-            Google::Compute::Property::BackServCachKeyPoli.unsafe_munge(args['cache_key_policy'])
+          @cache_key_policy = Google::Compute::Property::BackendServiceCacheKeyPolicy.unsafe_munge(
+            args['cache_key_policy']
+          )
         end
       end
     end
 
     module Property
       # A class to manage input to CdnPolicy for backend_service.
-      class BackeServiCdnPolic < Google::Compute::Property::Base
+      class BackendServiceCdnPolicy < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -106,13 +108,13 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::BackeServiCdnPolicCatalog.new(value)
+          Data::BackendServiceCdnPolicyCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::BackeServiCdnPolicApi.new(value)
+          Data::BackendServiceCdnPolicyApi.new(value)
         end
       end
     end

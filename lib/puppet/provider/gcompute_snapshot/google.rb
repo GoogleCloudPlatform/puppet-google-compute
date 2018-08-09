@@ -80,7 +80,7 @@ Puppet::Type.type(:gcompute_snapshot).provide(:google) do
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       description: Google::Compute::Property::String.api_munge(fetch['description']),
       storage_bytes: Google::Compute::Property::Integer.api_munge(fetch['storageBytes']),
-      licenses: Google::Compute::Property::LicenSelfLinkRefArray.api_munge(fetch['licenses']),
+      licenses: Google::Compute::Property::LicenseSelfLinkRefArray.api_munge(fetch['licenses']),
       labels: Google::Compute::Property::StringArray.api_munge(fetch['labels'])
     }.reject { |_, v| v.nil? }
   end

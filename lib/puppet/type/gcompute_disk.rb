@@ -93,7 +93,8 @@ Puppet::Type.newtype(:gcompute_disk) do
     desc 'A reference to the zone where the disk resides.'
   end
 
-  newparam(:source_image_encryption_key, parent: Google::Compute::Property::DiskSourImagEncrKey) do
+  newparam(:source_image_encryption_key,
+           parent: Google::Compute::Property::DiskSourceImageEncryptionKey) do
     desc <<-DOC
       The customer-supplied encryption key of the source image. Required if the source image is
       protected by a customer-supplied encryption key.
@@ -109,7 +110,7 @@ Puppet::Type.newtype(:gcompute_disk) do
     DOC
   end
 
-  newparam(:disk_encryption_key, parent: Google::Compute::Property::DiskDiskEncryKey) do
+  newparam(:disk_encryption_key, parent: Google::Compute::Property::DiskDiskEncryptionKey) do
     desc <<-DOC
       Encrypts the disk using a customer-supplied encryption key. After you encrypt a disk with a
       customer-supplied key, you must provide the same key if you use the disk later (e.g. to
@@ -120,7 +121,7 @@ Puppet::Type.newtype(:gcompute_disk) do
     DOC
   end
 
-  newparam(:source_snapshot, parent: Google::Compute::Property::SnapsSelfLinkRef) do
+  newparam(:source_snapshot, parent: Google::Compute::Property::SnapshotSelfLinkRef) do
     desc <<-DOC
       The source snapshot used to create this disk. You can provide this as a partial or full URL
       to the resource. For example, the following are valid values: *
@@ -130,7 +131,7 @@ Puppet::Type.newtype(:gcompute_disk) do
   end
 
   newparam(:source_snapshot_encryption_key,
-           parent: Google::Compute::Property::DiskSourSnapEncrKey) do
+           parent: Google::Compute::Property::DiskSourceSnapshotEncryptionKey) do
     desc <<-DOC
       The customer-supplied encryption key of the source snapshot. Required if the source snapshot
       is protected by a customer-supplied encryption key.
@@ -203,7 +204,7 @@ Puppet::Type.newtype(:gcompute_disk) do
     DOC
   end
 
-  newproperty(:users, parent: Google::Compute::Property::InstaSelfLinkRefArray) do
+  newproperty(:users, parent: Google::Compute::Property::InstanceSelfLinkRefArray) do
     desc <<-DOC
       Links to the users of the disk (attached instances) in form:
       project/zones/zone/instances/instance (output only)

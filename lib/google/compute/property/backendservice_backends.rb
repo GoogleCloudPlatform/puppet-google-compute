@@ -32,7 +32,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for Backends for backend_service.
-      class BackendServiceBackend
+      class BackendServiceBackends
         include Comparable
 
         attr_reader :balancing_mode
@@ -74,7 +74,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? BackendServiceBackend
+          return false unless other.is_a? BackendServiceBackends
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -83,7 +83,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? BackendServiceBackend
+          return false unless other.is_a? BackendServiceBackends
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -109,15 +109,15 @@ module Google
         end
       end
 
-      # Manages a BackendServiceBackend nested object
+      # Manages a BackendServiceBackends nested object
       # Data is coming from the GCP API
-      class BackendServiceBackendApi < BackendServiceBackend
+      class BackendServiceBackendsApi < BackendServiceBackends
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @balancing_mode = Google::Compute::Property::Enum.api_munge(args['balancingMode'])
           @capacity_scaler = Google::Compute::Property::Double.api_munge(args['capacityScaler'])
           @description = Google::Compute::Property::String.api_munge(args['description'])
-          @group = Google::Compute::Property::InstGrouSelfLinkRef.api_munge(args['group'])
+          @group = Google::Compute::Property::InstanceGroupSelfLinkRef.api_munge(args['group'])
           @max_connections = Google::Compute::Property::Integer.api_munge(args['maxConnections'])
           @max_connections_per_instance =
             Google::Compute::Property::Integer.api_munge(args['maxConnectionsPerInstance'])
@@ -129,15 +129,15 @@ module Google
         # rubocop:enable Metrics/MethodLength
       end
 
-      # Manages a BackendServiceBackend nested object
+      # Manages a BackendServiceBackends nested object
       # Data is coming from the Puppet manifest
-      class BackendServiceBackendCatalog < BackendServiceBackend
+      class BackendServiceBackendsCatalog < BackendServiceBackends
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @balancing_mode = Google::Compute::Property::Enum.unsafe_munge(args['balancing_mode'])
           @capacity_scaler = Google::Compute::Property::Double.unsafe_munge(args['capacity_scaler'])
           @description = Google::Compute::Property::String.unsafe_munge(args['description'])
-          @group = Google::Compute::Property::InstGrouSelfLinkRef.unsafe_munge(args['group'])
+          @group = Google::Compute::Property::InstanceGroupSelfLinkRef.unsafe_munge(args['group'])
           @max_connections =
             Google::Compute::Property::Integer.unsafe_munge(args['max_connections'])
           @max_connections_per_instance =
@@ -153,7 +153,7 @@ module Google
 
     module Property
       # A class to manage input to Backends for backend_service.
-      class BackendServiceBackend < Google::Compute::Property::Base
+      class BackendServiceBackends < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -162,18 +162,18 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::BackendServiceBackendCatalog.new(value)
+          Data::BackendServiceBackendsCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::BackendServiceBackendApi.new(value)
+          Data::BackendServiceBackendsApi.new(value)
         end
       end
 
       # A Puppet property that holds an integer
-      class BackendServiceBackendArray < Google::Compute::Property::Array
+      class BackendServiceBackendsArray < Google::Compute::Property::Array
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -182,17 +182,17 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          return BackendServiceBackend.unsafe_munge(value) \
+          return BackendServiceBackends.unsafe_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| BackendServiceBackend.unsafe_munge(v) }
+          value.map { |v| BackendServiceBackends.unsafe_munge(v) }
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          return BackendServiceBackend.api_munge(value) \
+          return BackendServiceBackends.api_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| BackendServiceBackend.api_munge(v) }
+          value.map { |v| BackendServiceBackends.api_munge(v) }
         end
       end
     end

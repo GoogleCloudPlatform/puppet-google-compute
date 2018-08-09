@@ -81,16 +81,18 @@ Puppet::Type.type(:gcompute_image).provide(:google) do
       disk_size_gb: Google::Compute::Property::Integer.api_munge(fetch['diskSizeGb']),
       family: Google::Compute::Property::String.api_munge(fetch['family']),
       guest_os_features:
-        Google::Compute::Property::ImageGuestOsFeatuArray.api_munge(fetch['guestOsFeatures']),
+        Google::Compute::Property::ImageGuestOsFeaturesArray.api_munge(fetch['guestOsFeatures']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       image_encryption_key:
-        Google::Compute::Property::ImageImageEncryKey.api_munge(fetch['imageEncryptionKey']),
+        Google::Compute::Property::ImageImageEncryptionKey.api_munge(fetch['imageEncryptionKey']),
       licenses: Google::Compute::Property::StringArray.api_munge(fetch['licenses']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       raw_disk: Google::Compute::Property::ImageRawDisk.api_munge(fetch['rawDisk']),
       source_disk: Google::Compute::Property::DiskSelfLinkRef.api_munge(fetch['sourceDisk']),
       source_disk_encryption_key:
-        Google::Compute::Property::ImagSourDiskEncrKey.api_munge(fetch['sourceDiskEncryptionKey']),
+        Google::Compute::Property::ImageSourceDiskEncryptionKey.api_munge(
+          fetch['sourceDiskEncryptionKey']
+        ),
       source_disk_id: Google::Compute::Property::String.api_munge(fetch['sourceDiskId']),
       source_type: Google::Compute::Property::Enum.api_munge(fetch['sourceType'])
     }.reject { |_, v| v.nil? }

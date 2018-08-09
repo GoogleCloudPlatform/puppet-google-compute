@@ -31,7 +31,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for Scheduling for instance_template.
-      class InstancTemplatSchedul
+      class InstanceTemplateScheduling
         include Comparable
 
         attr_reader :automatic_restart
@@ -55,7 +55,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? InstancTemplatSchedul
+          return false unless other.is_a? InstanceTemplateScheduling
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -64,7 +64,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? InstancTemplatSchedul
+          return false unless other.is_a? InstanceTemplateScheduling
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -84,9 +84,9 @@ module Google
         end
       end
 
-      # Manages a InstancTemplatSchedul nested object
+      # Manages a InstanceTemplateScheduling nested object
       # Data is coming from the GCP API
-      class InstancTemplatSchedulApi < InstancTemplatSchedul
+      class InstanceTemplateSchedulingApi < InstanceTemplateScheduling
         def initialize(args)
           @automatic_restart =
             Google::Compute::Property::Boolean.api_munge(args['automaticRestart'])
@@ -96,9 +96,9 @@ module Google
         end
       end
 
-      # Manages a InstancTemplatSchedul nested object
+      # Manages a InstanceTemplateScheduling nested object
       # Data is coming from the Puppet manifest
-      class InstancTemplatSchedulCatalog < InstancTemplatSchedul
+      class InstanceTemplateSchedulingCatalog < InstanceTemplateScheduling
         def initialize(args)
           @automatic_restart =
             Google::Compute::Property::Boolean.unsafe_munge(args['automatic_restart'])
@@ -111,7 +111,7 @@ module Google
 
     module Property
       # A class to manage input to Scheduling for instance_template.
-      class InstancTemplatSchedul < Google::Compute::Property::Base
+      class InstanceTemplateScheduling < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -120,13 +120,13 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::InstancTemplatSchedulCatalog.new(value)
+          Data::InstanceTemplateSchedulingCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::InstancTemplatSchedulApi.new(value)
+          Data::InstanceTemplateSchedulingApi.new(value)
         end
       end
     end

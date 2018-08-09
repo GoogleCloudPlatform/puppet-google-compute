@@ -31,7 +31,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for CurrentActions for instance_group_manager.
-      class InstGrouManaCurrActi
+      class InstanceGroupManagerCurrentActions
         include Comparable
 
         attr_reader :abandoning
@@ -70,7 +70,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? InstGrouManaCurrActi
+          return false unless other.is_a? InstanceGroupManagerCurrentActions
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -79,7 +79,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? InstGrouManaCurrActi
+          return false unless other.is_a? InstanceGroupManagerCurrentActions
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -104,9 +104,9 @@ module Google
         end
       end
 
-      # Manages a InstGrouManaCurrActi nested object
+      # Manages a InstanceGroupManagerCurrentActions nested object
       # Data is coming from the GCP API
-      class InstGrouManaCurrActiApi < InstGrouManaCurrActi
+      class InstanceGroupManagerCurrentActionsApi < InstanceGroupManagerCurrentActions
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @abandoning = Google::Compute::Property::Integer.api_munge(args['abandoning'])
@@ -122,9 +122,9 @@ module Google
         # rubocop:enable Metrics/MethodLength
       end
 
-      # Manages a InstGrouManaCurrActi nested object
+      # Manages a InstanceGroupManagerCurrentActions nested object
       # Data is coming from the Puppet manifest
-      class InstGrouManaCurrActiCatalog < InstGrouManaCurrActi
+      class InstanceGroupManagerCurrentActionsCatalog < InstanceGroupManagerCurrentActions
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @abandoning = Google::Compute::Property::Integer.unsafe_munge(args['abandoning'])
@@ -143,7 +143,7 @@ module Google
 
     module Property
       # A class to manage input to CurrentActions for instance_group_manager.
-      class InstGrouManaCurrActi < Google::Compute::Property::Base
+      class InstanceGroupManagerCurrentActions < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -152,13 +152,13 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::InstGrouManaCurrActiCatalog.new(value)
+          Data::InstanceGroupManagerCurrentActionsCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::InstGrouManaCurrActiApi.new(value)
+          Data::InstanceGroupManagerCurrentActionsApi.new(value)
         end
       end
     end

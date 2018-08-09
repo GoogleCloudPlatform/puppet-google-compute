@@ -31,7 +31,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for SourceImageEncryptionKey for instance.
-      class InstSourImagEncrKey
+      class InstanceSourceImageEncryptionKey
         include Comparable
 
         attr_reader :raw_key
@@ -52,7 +52,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? InstSourImagEncrKey
+          return false unless other.is_a? InstanceSourceImageEncryptionKey
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -61,7 +61,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? InstSourImagEncrKey
+          return false unless other.is_a? InstanceSourceImageEncryptionKey
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -80,18 +80,18 @@ module Google
         end
       end
 
-      # Manages a InstSourImagEncrKey nested object
+      # Manages a InstanceSourceImageEncryptionKey nested object
       # Data is coming from the GCP API
-      class InstSourImagEncrKeyApi < InstSourImagEncrKey
+      class InstanceSourceImageEncryptionKeyApi < InstanceSourceImageEncryptionKey
         def initialize(args)
           @raw_key = Google::Compute::Property::String.api_munge(args['rawKey'])
           @sha256 = Google::Compute::Property::String.api_munge(args['sha256'])
         end
       end
 
-      # Manages a InstSourImagEncrKey nested object
+      # Manages a InstanceSourceImageEncryptionKey nested object
       # Data is coming from the Puppet manifest
-      class InstSourImagEncrKeyCatalog < InstSourImagEncrKey
+      class InstanceSourceImageEncryptionKeyCatalog < InstanceSourceImageEncryptionKey
         def initialize(args)
           @raw_key = Google::Compute::Property::String.unsafe_munge(args['raw_key'])
           @sha256 = Google::Compute::Property::String.unsafe_munge(args['sha256'])
@@ -101,7 +101,7 @@ module Google
 
     module Property
       # A class to manage input to SourceImageEncryptionKey for instance.
-      class InstSourImagEncrKey < Google::Compute::Property::Base
+      class InstanceSourceImageEncryptionKey < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -110,13 +110,13 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::InstSourImagEncrKeyCatalog.new(value)
+          Data::InstanceSourceImageEncryptionKeyCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::InstSourImagEncrKeyApi.new(value)
+          Data::InstanceSourceImageEncryptionKeyApi.new(value)
         end
       end
     end

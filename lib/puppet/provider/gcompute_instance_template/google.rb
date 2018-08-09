@@ -93,7 +93,8 @@ Puppet::Type.type(:gcompute_instance_template).provide(:google) do
       description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      properties: Google::Compute::Property::InstancTemplatPropert.api_munge(fetch['properties'])
+      properties:
+        Google::Compute::Property::InstanceTemplateProperties.api_munge(fetch['properties'])
     }.reject { |_, v| v.nil? }
   end
 

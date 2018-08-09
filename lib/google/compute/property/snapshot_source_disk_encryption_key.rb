@@ -31,7 +31,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for SourceDiskEncryptionKey for snapshot.
-      class SnapSourDiskEncrKey
+      class SnapshotSourceDiskEncryptionKey
         include Comparable
 
         attr_reader :raw_key
@@ -52,7 +52,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? SnapSourDiskEncrKey
+          return false unless other.is_a? SnapshotSourceDiskEncryptionKey
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -61,7 +61,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? SnapSourDiskEncrKey
+          return false unless other.is_a? SnapshotSourceDiskEncryptionKey
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -80,18 +80,18 @@ module Google
         end
       end
 
-      # Manages a SnapSourDiskEncrKey nested object
+      # Manages a SnapshotSourceDiskEncryptionKey nested object
       # Data is coming from the GCP API
-      class SnapSourDiskEncrKeyApi < SnapSourDiskEncrKey
+      class SnapshotSourceDiskEncryptionKeyApi < SnapshotSourceDiskEncryptionKey
         def initialize(args)
           @raw_key = Google::Compute::Property::String.api_munge(args['rawKey'])
           @sha256 = Google::Compute::Property::String.api_munge(args['sha256'])
         end
       end
 
-      # Manages a SnapSourDiskEncrKey nested object
+      # Manages a SnapshotSourceDiskEncryptionKey nested object
       # Data is coming from the Puppet manifest
-      class SnapSourDiskEncrKeyCatalog < SnapSourDiskEncrKey
+      class SnapshotSourceDiskEncryptionKeyCatalog < SnapshotSourceDiskEncryptionKey
         def initialize(args)
           @raw_key = Google::Compute::Property::String.unsafe_munge(args['raw_key'])
           @sha256 = Google::Compute::Property::String.unsafe_munge(args['sha256'])
@@ -101,7 +101,7 @@ module Google
 
     module Property
       # A class to manage input to SourceDiskEncryptionKey for snapshot.
-      class SnapSourDiskEncrKey < Google::Compute::Property::Base
+      class SnapshotSourceDiskEncryptionKey < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -110,13 +110,13 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::SnapSourDiskEncrKeyCatalog.new(value)
+          Data::SnapshotSourceDiskEncryptionKeyCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::SnapSourDiskEncrKeyApi.new(value)
+          Data::SnapshotSourceDiskEncryptionKeyApi.new(value)
         end
       end
     end

@@ -97,7 +97,7 @@ Puppet::Type.newtype(:gcompute_target_vpn_gateway) do
     desc 'The unique identifier for the resource. (output only)'
   end
 
-  newproperty(:network, parent: Google::Compute::Property::NetwoSelfLinkRef) do
+  newproperty(:network, parent: Google::Compute::Property::NetworkSelfLinkRef) do
     desc 'The network this VPN gateway is accepting traffic for.'
   end
 
@@ -105,7 +105,8 @@ Puppet::Type.newtype(:gcompute_target_vpn_gateway) do
     desc 'A list of references to VpnTunnel resources associated to this VPN gateway. (output only)'
   end
 
-  newproperty(:forwarding_rules, parent: Google::Compute::Property::ForwRuleSelfLinkRefArray) do
+  newproperty(:forwarding_rules,
+              parent: Google::Compute::Property::ForwardingRuleSelfLinkRefArray) do
     desc <<-DOC
       A list of references to the ForwardingRule resources associated to this VPN gateway. (output
       only)

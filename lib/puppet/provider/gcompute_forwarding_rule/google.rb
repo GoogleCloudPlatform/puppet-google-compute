@@ -81,16 +81,16 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
       ip_address: Google::Compute::Property::String.api_munge(fetch['IPAddress']),
       ip_protocol: Google::Compute::Property::Enum.api_munge(fetch['IPProtocol']),
       backend_service:
-        Google::Compute::Property::BackServSelfLinkRef.api_munge(fetch['backendService']),
+        Google::Compute::Property::BackendServiceSelfLinkRef.api_munge(fetch['backendService']),
       ip_version: Google::Compute::Property::Enum.api_munge(fetch['ipVersion']),
       load_balancing_scheme:
         Google::Compute::Property::Enum.api_munge(fetch['loadBalancingScheme']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      network: Google::Compute::Property::NetwoSelfLinkRef.api_munge(fetch['network']),
+      network: Google::Compute::Property::NetworkSelfLinkRef.api_munge(fetch['network']),
       port_range: Google::Compute::Property::String.api_munge(fetch['portRange']),
       ports: Google::Compute::Property::StringArray.api_munge(fetch['ports']),
-      subnetwork: Google::Compute::Property::SubneSelfLinkRef.api_munge(fetch['subnetwork']),
-      target: Google::Compute::Property::TargPoolSelfLinkRef.api_munge(fetch['target'])
+      subnetwork: Google::Compute::Property::SubnetworkSelfLinkRef.api_munge(fetch['subnetwork']),
+      target: Google::Compute::Property::TargetPoolSelfLinkRef.api_munge(fetch['target'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength

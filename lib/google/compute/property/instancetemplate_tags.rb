@@ -31,7 +31,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for Tags for instance_template.
-      class InstancTemplatTags
+      class InstanceTemplateTags
         include Comparable
 
         attr_reader :fingerprint
@@ -52,7 +52,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? InstancTemplatTags
+          return false unless other.is_a? InstanceTemplateTags
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -61,7 +61,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? InstancTemplatTags
+          return false unless other.is_a? InstanceTemplateTags
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -80,18 +80,18 @@ module Google
         end
       end
 
-      # Manages a InstancTemplatTags nested object
+      # Manages a InstanceTemplateTags nested object
       # Data is coming from the GCP API
-      class InstancTemplatTagsApi < InstancTemplatTags
+      class InstanceTemplateTagsApi < InstanceTemplateTags
         def initialize(args)
           @fingerprint = Google::Compute::Property::String.api_munge(args['fingerprint'])
           @items = Google::Compute::Property::StringArray.api_munge(args['items'])
         end
       end
 
-      # Manages a InstancTemplatTags nested object
+      # Manages a InstanceTemplateTags nested object
       # Data is coming from the Puppet manifest
-      class InstancTemplatTagsCatalog < InstancTemplatTags
+      class InstanceTemplateTagsCatalog < InstanceTemplateTags
         def initialize(args)
           @fingerprint = Google::Compute::Property::String.unsafe_munge(args['fingerprint'])
           @items = Google::Compute::Property::StringArray.unsafe_munge(args['items'])
@@ -101,7 +101,7 @@ module Google
 
     module Property
       # A class to manage input to Tags for instance_template.
-      class InstancTemplatTags < Google::Compute::Property::Base
+      class InstanceTemplateTags < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -110,13 +110,13 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::InstancTemplatTagsCatalog.new(value)
+          Data::InstanceTemplateTagsCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::InstancTemplatTagsApi.new(value)
+          Data::InstanceTemplateTagsApi.new(value)
         end
       end
     end

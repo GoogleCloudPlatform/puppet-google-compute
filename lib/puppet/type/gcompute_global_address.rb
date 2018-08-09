@@ -102,7 +102,7 @@ Puppet::Type.newtype(:gcompute_global_address) do
     newvalue(:IPV6)
   end
 
-  newproperty(:region, parent: Google::Compute::Property::RegioSelfLinkRef) do
+  newproperty(:region, parent: Google::Compute::Property::RegionSelfLinkRef) do
     desc 'A reference to the region where the regional address resides. (output only)'
   end
 

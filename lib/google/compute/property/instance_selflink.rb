@@ -34,11 +34,11 @@ module Google
     module Data
       # Base class for ResourceRefs
       # Imports self_link from instance
-      class InstaSelfLinkRef
+      class InstanceSelfLinkRef
         include Comparable
 
         def ==(other)
-          return false unless other.is_a? InstaSelfLinkRef
+          return false unless other.is_a? InstanceSelfLinkRef
           return false if resource != other.resource
           true
         end
@@ -50,7 +50,7 @@ module Google
 
       # A class to fetch the resource value from a referenced block
       # Will return the value exported from a different Puppet resource
-      class InstaSelfLinkRefCatalog < InstaSelfLinkRef
+      class InstanceSelfLinkRefCatalog < InstanceSelfLinkRef
         def initialize(title)
           @title = title
         end
@@ -79,7 +79,7 @@ module Google
 
       # A class to manage a JSON blob from GCP API
       # Will immediately return value from JSON blob without changes
-      class InstaSelfLinkRefApi < InstaSelfLinkRef
+      class InstanceSelfLinkRefApi < InstanceSelfLinkRef
         attr_reader :resource
 
         def initialize(resource)
@@ -98,7 +98,7 @@ module Google
 
     module Property
       # A class to manage fetching self_link from a instance
-      class InstaSelfLinkRef < Puppet::Property
+      class InstanceSelfLinkRef < Puppet::Property
         # Used for catalog values
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -106,18 +106,18 @@ module Google
 
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::InstaSelfLinkRefCatalog.new(value)
+          Data::InstanceSelfLinkRefCatalog.new(value)
         end
 
         # Used for fetched JSON values
         def self.api_munge(value)
           return if value.nil?
-          Data::InstaSelfLinkRefApi.new(value)
+          Data::InstanceSelfLinkRefApi.new(value)
         end
       end
 
       # A Puppet property that holds an integer
-      class InstaSelfLinkRefArray < Google::Compute::Property::Array
+      class InstanceSelfLinkRefArray < Google::Compute::Property::Array
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -126,17 +126,17 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          return InstaSelfLinkRef.unsafe_munge(value) \
+          return InstanceSelfLinkRef.unsafe_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| InstaSelfLinkRef.unsafe_munge(v) }
+          value.map { |v| InstanceSelfLinkRef.unsafe_munge(v) }
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          return InstaSelfLinkRef.api_munge(value) \
+          return InstanceSelfLinkRef.api_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| InstaSelfLinkRef.api_munge(v) }
+          value.map { |v| InstanceSelfLinkRef.api_munge(v) }
         end
       end
     end

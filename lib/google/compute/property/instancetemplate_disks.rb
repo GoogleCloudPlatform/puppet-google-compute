@@ -32,7 +32,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for Disks for instance_template.
-      class InstancTemplatDisks
+      class InstanceTemplateDisks
         include Comparable
 
         attr_reader :auto_delete
@@ -77,7 +77,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? InstancTemplatDisks
+          return false unless other.is_a? InstanceTemplateDisks
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -86,7 +86,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? InstancTemplatDisks
+          return false unless other.is_a? InstanceTemplateDisks
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -113,19 +113,23 @@ module Google
         end
       end
 
-      # Manages a InstancTemplatDisks nested object
+      # Manages a InstanceTemplateDisks nested object
       # Data is coming from the GCP API
-      class InstancTemplatDisksApi < InstancTemplatDisks
+      class InstanceTemplateDisksApi < InstanceTemplateDisks
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @auto_delete = Google::Compute::Property::Boolean.api_munge(args['autoDelete'])
           @boot = Google::Compute::Property::Boolean.api_munge(args['boot'])
           @device_name = Google::Compute::Property::String.api_munge(args['deviceName'])
           @disk_encryption_key =
-            Google::Compute::Property::InstTempDiskEncrKey.api_munge(args['diskEncryptionKey'])
+            Google::Compute::Property::InstanceTemplateDiskEncryptionKey.api_munge(
+              args['diskEncryptionKey']
+            )
           @index = Google::Compute::Property::Integer.api_munge(args['index'])
           @initialize_params =
-            Google::Compute::Property::InstaTemplInitiParam.api_munge(args['initializeParams'])
+            Google::Compute::Property::InstanceTemplateInitializeParams.api_munge(
+              args['initializeParams']
+            )
           @interface = Google::Compute::Property::Enum.api_munge(args['interface'])
           @mode = Google::Compute::Property::Enum.api_munge(args['mode'])
           @source = Google::Compute::Property::DiskNameRef.api_munge(args['source'])
@@ -134,19 +138,23 @@ module Google
         # rubocop:enable Metrics/MethodLength
       end
 
-      # Manages a InstancTemplatDisks nested object
+      # Manages a InstanceTemplateDisks nested object
       # Data is coming from the Puppet manifest
-      class InstancTemplatDisksCatalog < InstancTemplatDisks
+      class InstanceTemplateDisksCatalog < InstanceTemplateDisks
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @auto_delete = Google::Compute::Property::Boolean.unsafe_munge(args['auto_delete'])
           @boot = Google::Compute::Property::Boolean.unsafe_munge(args['boot'])
           @device_name = Google::Compute::Property::String.unsafe_munge(args['device_name'])
           @disk_encryption_key =
-            Google::Compute::Property::InstTempDiskEncrKey.unsafe_munge(args['disk_encryption_key'])
+            Google::Compute::Property::InstanceTemplateDiskEncryptionKey.unsafe_munge(
+              args['disk_encryption_key']
+            )
           @index = Google::Compute::Property::Integer.unsafe_munge(args['index'])
           @initialize_params =
-            Google::Compute::Property::InstaTemplInitiParam.unsafe_munge(args['initialize_params'])
+            Google::Compute::Property::InstanceTemplateInitializeParams.unsafe_munge(
+              args['initialize_params']
+            )
           @interface = Google::Compute::Property::Enum.unsafe_munge(args['interface'])
           @mode = Google::Compute::Property::Enum.unsafe_munge(args['mode'])
           @source = Google::Compute::Property::DiskNameRef.unsafe_munge(args['source'])
@@ -158,7 +166,7 @@ module Google
 
     module Property
       # A class to manage input to Disks for instance_template.
-      class InstancTemplatDisks < Google::Compute::Property::Base
+      class InstanceTemplateDisks < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -167,18 +175,18 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::InstancTemplatDisksCatalog.new(value)
+          Data::InstanceTemplateDisksCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::InstancTemplatDisksApi.new(value)
+          Data::InstanceTemplateDisksApi.new(value)
         end
       end
 
       # A Puppet property that holds an integer
-      class InstancTemplatDisksArray < Google::Compute::Property::Array
+      class InstanceTemplateDisksArray < Google::Compute::Property::Array
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -187,17 +195,17 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          return InstancTemplatDisks.unsafe_munge(value) \
+          return InstanceTemplateDisks.unsafe_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| InstancTemplatDisks.unsafe_munge(v) }
+          value.map { |v| InstanceTemplateDisks.unsafe_munge(v) }
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          return InstancTemplatDisks.api_munge(value) \
+          return InstanceTemplateDisks.api_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| InstancTemplatDisks.api_munge(v) }
+          value.map { |v| InstanceTemplateDisks.api_munge(v) }
         end
       end
     end

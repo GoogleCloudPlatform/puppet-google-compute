@@ -31,7 +31,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for CacheKeyPolicy for backend_service.
-      class BackServCachKeyPoli
+      class BackendServiceCacheKeyPolicy
         include Comparable
 
         attr_reader :include_host
@@ -61,7 +61,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? BackServCachKeyPoli
+          return false unless other.is_a? BackendServiceCacheKeyPolicy
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -70,7 +70,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? BackServCachKeyPoli
+          return false unless other.is_a? BackendServiceCacheKeyPolicy
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -92,9 +92,9 @@ module Google
         end
       end
 
-      # Manages a BackServCachKeyPoli nested object
+      # Manages a BackendServiceCacheKeyPolicy nested object
       # Data is coming from the GCP API
-      class BackServCachKeyPoliApi < BackServCachKeyPoli
+      class BackendServiceCacheKeyPolicyApi < BackendServiceCacheKeyPolicy
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @include_host = Google::Compute::Property::Boolean.api_munge(args['includeHost'])
@@ -109,9 +109,9 @@ module Google
         # rubocop:enable Metrics/MethodLength
       end
 
-      # Manages a BackServCachKeyPoli nested object
+      # Manages a BackendServiceCacheKeyPolicy nested object
       # Data is coming from the Puppet manifest
-      class BackServCachKeyPoliCatalog < BackServCachKeyPoli
+      class BackendServiceCacheKeyPolicyCatalog < BackendServiceCacheKeyPolicy
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @include_host = Google::Compute::Property::Boolean.unsafe_munge(args['include_host'])
@@ -130,7 +130,7 @@ module Google
 
     module Property
       # A class to manage input to CacheKeyPolicy for backend_service.
-      class BackServCachKeyPoli < Google::Compute::Property::Base
+      class BackendServiceCacheKeyPolicy < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -139,13 +139,13 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::BackServCachKeyPoliCatalog.new(value)
+          Data::BackendServiceCacheKeyPolicyCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::BackServCachKeyPoliApi.new(value)
+          Data::BackendServiceCacheKeyPolicyApi.new(value)
         end
       end
     end

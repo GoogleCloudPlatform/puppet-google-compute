@@ -31,7 +31,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for DiskEncryptionKey for disk.
-      class DiskDiskEncryKey
+      class DiskDiskEncryptionKey
         include Comparable
 
         attr_reader :raw_key
@@ -52,7 +52,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? DiskDiskEncryKey
+          return false unless other.is_a? DiskDiskEncryptionKey
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -61,7 +61,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? DiskDiskEncryKey
+          return false unless other.is_a? DiskDiskEncryptionKey
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -80,18 +80,18 @@ module Google
         end
       end
 
-      # Manages a DiskDiskEncryKey nested object
+      # Manages a DiskDiskEncryptionKey nested object
       # Data is coming from the GCP API
-      class DiskDiskEncryKeyApi < DiskDiskEncryKey
+      class DiskDiskEncryptionKeyApi < DiskDiskEncryptionKey
         def initialize(args)
           @raw_key = Google::Compute::Property::String.api_munge(args['rawKey'])
           @sha256 = Google::Compute::Property::String.api_munge(args['sha256'])
         end
       end
 
-      # Manages a DiskDiskEncryKey nested object
+      # Manages a DiskDiskEncryptionKey nested object
       # Data is coming from the Puppet manifest
-      class DiskDiskEncryKeyCatalog < DiskDiskEncryKey
+      class DiskDiskEncryptionKeyCatalog < DiskDiskEncryptionKey
         def initialize(args)
           @raw_key = Google::Compute::Property::String.unsafe_munge(args['raw_key'])
           @sha256 = Google::Compute::Property::String.unsafe_munge(args['sha256'])
@@ -101,7 +101,7 @@ module Google
 
     module Property
       # A class to manage input to DiskEncryptionKey for disk.
-      class DiskDiskEncryKey < Google::Compute::Property::Base
+      class DiskDiskEncryptionKey < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -110,13 +110,13 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::DiskDiskEncryKeyCatalog.new(value)
+          Data::DiskDiskEncryptionKeyCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::DiskDiskEncryKeyApi.new(value)
+          Data::DiskDiskEncryptionKeyApi.new(value)
         end
       end
     end

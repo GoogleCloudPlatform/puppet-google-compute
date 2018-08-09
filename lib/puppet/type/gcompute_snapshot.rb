@@ -90,14 +90,16 @@ Puppet::Type.newtype(:gcompute_snapshot) do
     desc 'A reference to the zone where the disk is hosted.'
   end
 
-  newparam(:snapshot_encryption_key, parent: Google::Compute::Property::SnapsSnapsEncryKey) do
+  newparam(:snapshot_encryption_key,
+           parent: Google::Compute::Property::SnapshotSnapshotEncryptionKey) do
     desc <<-DOC
       The customer-supplied encryption key of the snapshot. Required if the source snapshot is
       protected by a customer-supplied encryption key.
     DOC
   end
 
-  newparam(:source_disk_encryption_key, parent: Google::Compute::Property::SnapSourDiskEncrKey) do
+  newparam(:source_disk_encryption_key,
+           parent: Google::Compute::Property::SnapshotSourceDiskEncryptionKey) do
     desc <<-DOC
       The customer-supplied encryption key of the source snapshot. Required if the source snapshot
       is protected by a customer-supplied encryption key.
@@ -137,7 +139,7 @@ Puppet::Type.newtype(:gcompute_snapshot) do
     DOC
   end
 
-  newproperty(:licenses, parent: Google::Compute::Property::LicenSelfLinkRefArray) do
+  newproperty(:licenses, parent: Google::Compute::Property::LicenseSelfLinkRefArray) do
     desc <<-DOC
       A list of public visible licenses that apply to this snapshot. This can be because the
       original image had licenses attached (such as a Windows image). snapshotEncryptionKey nested

@@ -96,7 +96,7 @@ module Google
           @description = Google::Compute::Property::String.api_munge(args['description'])
           @host = Google::Compute::Property::String.api_munge(args['host'])
           @path = Google::Compute::Property::String.api_munge(args['path'])
-          @service = Google::Compute::Property::BackServSelfLinkRef.api_munge(args['service'])
+          @service = Google::Compute::Property::BackendServiceSelfLinkRef.api_munge(args['service'])
         end
       end
 
@@ -107,7 +107,8 @@ module Google
           @description = Google::Compute::Property::String.unsafe_munge(args['description'])
           @host = Google::Compute::Property::String.unsafe_munge(args['host'])
           @path = Google::Compute::Property::String.unsafe_munge(args['path'])
-          @service = Google::Compute::Property::BackServSelfLinkRef.unsafe_munge(args['service'])
+          @service =
+            Google::Compute::Property::BackendServiceSelfLinkRef.unsafe_munge(args['service'])
         end
       end
     end

@@ -79,9 +79,10 @@ Puppet::Type.type(:gcompute_target_pool).provide(:google) do
       creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       description: Google::Compute::Property::String.api_munge(fetch['description']),
       failover_ratio: Google::Compute::Property::Double.api_munge(fetch['failoverRatio']),
-      health_check: Google::Compute::Property::HttHeaCheSelLinRef.api_munge(fetch['healthCheck']),
+      health_check:
+        Google::Compute::Property::HttpHealthCheckSelfLinkRef.api_munge(fetch['healthCheck']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      instances: Google::Compute::Property::InstaSelfLinkRefArray.api_munge(fetch['instances']),
+      instances: Google::Compute::Property::InstanceSelfLinkRefArray.api_munge(fetch['instances']),
       backup_pool: resource[:backup_pool],
       name: resource[:name],
       session_affinity: resource[:session_affinity]

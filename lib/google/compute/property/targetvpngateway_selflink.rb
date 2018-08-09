@@ -33,11 +33,11 @@ module Google
     module Data
       # Base class for ResourceRefs
       # Imports self_link from target_vpn_gateway
-      class TarVpnGatSelLinRef
+      class TargetVpnGatewaySelfLinkRef
         include Comparable
 
         def ==(other)
-          return false unless other.is_a? TarVpnGatSelLinRef
+          return false unless other.is_a? TargetVpnGatewaySelfLinkRef
           return false if resource != other.resource
           true
         end
@@ -49,7 +49,7 @@ module Google
 
       # A class to fetch the resource value from a referenced block
       # Will return the value exported from a different Puppet resource
-      class TarVpnGatSelLinRefCatalog < TarVpnGatSelLinRef
+      class TargetVpnGatewaySelfLinkRefCatalog < TargetVpnGatewaySelfLinkRef
         def initialize(title)
           @title = title
         end
@@ -78,7 +78,7 @@ module Google
 
       # A class to manage a JSON blob from GCP API
       # Will immediately return value from JSON blob without changes
-      class TarVpnGatSelLinRefApi < TarVpnGatSelLinRef
+      class TargetVpnGatewaySelfLinkRefApi < TargetVpnGatewaySelfLinkRef
         attr_reader :resource
 
         def initialize(resource)
@@ -97,7 +97,7 @@ module Google
 
     module Property
       # A class to manage fetching self_link from a target_vpn_gateway
-      class TarVpnGatSelLinRef < Puppet::Property
+      class TargetVpnGatewaySelfLinkRef < Puppet::Property
         # Used for catalog values
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -105,13 +105,13 @@ module Google
 
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::TarVpnGatSelLinRefCatalog.new(value)
+          Data::TargetVpnGatewaySelfLinkRefCatalog.new(value)
         end
 
         # Used for fetched JSON values
         def self.api_munge(value)
           return if value.nil?
-          Data::TarVpnGatSelLinRefApi.new(value)
+          Data::TargetVpnGatewaySelfLinkRefApi.new(value)
         end
       end
     end
