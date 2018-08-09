@@ -31,7 +31,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for SslHealthCheck for health_check.
-      class HealChecSslHealChec
+      class HealthCheckSslHealthCheck
         include Comparable
 
         attr_reader :request
@@ -61,7 +61,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? HealChecSslHealChec
+          return false unless other.is_a? HealthCheckSslHealthCheck
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -70,7 +70,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? HealChecSslHealChec
+          return false unless other.is_a? HealthCheckSslHealthCheck
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -92,9 +92,9 @@ module Google
         end
       end
 
-      # Manages a HealChecSslHealChec nested object
+      # Manages a HealthCheckSslHealthCheck nested object
       # Data is coming from the GCP API
-      class HealChecSslHealChecApi < HealChecSslHealChec
+      class HealthCheckSslHealthCheckApi < HealthCheckSslHealthCheck
         def initialize(args)
           @request = Google::Compute::Property::String.api_munge(args['request'])
           @response = Google::Compute::Property::String.api_munge(args['response'])
@@ -104,9 +104,9 @@ module Google
         end
       end
 
-      # Manages a HealChecSslHealChec nested object
+      # Manages a HealthCheckSslHealthCheck nested object
       # Data is coming from the Puppet manifest
-      class HealChecSslHealChecCatalog < HealChecSslHealChec
+      class HealthCheckSslHealthCheckCatalog < HealthCheckSslHealthCheck
         def initialize(args)
           @request = Google::Compute::Property::String.unsafe_munge(args['request'])
           @response = Google::Compute::Property::String.unsafe_munge(args['response'])
@@ -119,7 +119,7 @@ module Google
 
     module Property
       # A class to manage input to SslHealthCheck for health_check.
-      class HealChecSslHealChec < Google::Compute::Property::Base
+      class HealthCheckSslHealthCheck < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -128,13 +128,13 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::HealChecSslHealChecCatalog.new(value)
+          Data::HealthCheckSslHealthCheckCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::HealChecSslHealChecApi.new(value)
+          Data::HealthCheckSslHealthCheckApi.new(value)
         end
       end
     end

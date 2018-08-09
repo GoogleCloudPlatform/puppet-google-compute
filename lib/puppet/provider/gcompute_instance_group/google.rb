@@ -78,10 +78,10 @@ Puppet::Type.type(:gcompute_instance_group).provide(:google) do
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       named_ports:
-        Google::Compute::Property::InstaGroupNamedPortsArray.api_munge(fetch['namedPorts']),
-      network: Google::Compute::Property::NetwoSelfLinkRef.api_munge(fetch['network']),
-      region: Google::Compute::Property::RegioSelfLinkRef.api_munge(fetch['region']),
-      subnetwork: Google::Compute::Property::SubneSelfLinkRef.api_munge(fetch['subnetwork'])
+        Google::Compute::Property::InstanceGroupNamedPortsArray.api_munge(fetch['namedPorts']),
+      network: Google::Compute::Property::NetworkSelfLinkRef.api_munge(fetch['network']),
+      region: Google::Compute::Property::RegionSelfLinkRef.api_munge(fetch['region']),
+      subnetwork: Google::Compute::Property::SubnetworkSelfLinkRef.api_munge(fetch['subnetwork'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength

@@ -31,7 +31,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for Deprecated for machine_type.
-      class MachineTypeDepreca
+      class MachineTypeDeprecated
         include Comparable
 
         attr_reader :deleted
@@ -61,7 +61,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? MachineTypeDepreca
+          return false unless other.is_a? MachineTypeDeprecated
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -70,7 +70,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? MachineTypeDepreca
+          return false unless other.is_a? MachineTypeDeprecated
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -92,9 +92,9 @@ module Google
         end
       end
 
-      # Manages a MachineTypeDepreca nested object
+      # Manages a MachineTypeDeprecated nested object
       # Data is coming from the GCP API
-      class MachineTypeDeprecaApi < MachineTypeDepreca
+      class MachineTypeDeprecatedApi < MachineTypeDeprecated
         def initialize(args)
           @deleted = Google::Compute::Property::Time.api_munge(args['deleted'])
           @deprecated = Google::Compute::Property::Time.api_munge(args['deprecated'])
@@ -104,9 +104,9 @@ module Google
         end
       end
 
-      # Manages a MachineTypeDepreca nested object
+      # Manages a MachineTypeDeprecated nested object
       # Data is coming from the Puppet manifest
-      class MachineTypeDeprecaCatalog < MachineTypeDepreca
+      class MachineTypeDeprecatedCatalog < MachineTypeDeprecated
         def initialize(args)
           @deleted = Google::Compute::Property::Time.unsafe_munge(args['deleted'])
           @deprecated = Google::Compute::Property::Time.unsafe_munge(args['deprecated'])
@@ -119,7 +119,7 @@ module Google
 
     module Property
       # A class to manage input to Deprecated for machine_type.
-      class MachineTypeDepreca < Google::Compute::Property::Base
+      class MachineTypeDeprecated < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -128,13 +128,13 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::MachineTypeDeprecaCatalog.new(value)
+          Data::MachineTypeDeprecatedCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::MachineTypeDeprecaApi.new(value)
+          Data::MachineTypeDeprecatedApi.new(value)
         end
       end
     end

@@ -90,7 +90,8 @@ Puppet::Type.newtype(:gcompute_vpn_tunnel) do
     desc 'An optional description of this resource.'
   end
 
-  newproperty(:target_vpn_gateway, parent: Google::Compute::Property::TarVpnGatSelLinRef) do
+  newproperty(:target_vpn_gateway,
+              parent: Google::Compute::Property::TargetVpnGatewaySelfLinkRef) do
     desc 'URL of the Target VPN gateway with which this VPN tunnel is associated.'
   end
 

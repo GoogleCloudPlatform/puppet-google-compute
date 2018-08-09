@@ -121,11 +121,12 @@ module Google
           @auto_delete = Google::Compute::Property::Boolean.api_munge(args['autoDelete'])
           @boot = Google::Compute::Property::Boolean.api_munge(args['boot'])
           @device_name = Google::Compute::Property::String.api_munge(args['deviceName'])
-          @disk_encryption_key =
-            Google::Compute::Property::InstaDiskEncryKey.api_munge(args['diskEncryptionKey'])
+          @disk_encryption_key = Google::Compute::Property::InstanceDiskEncryptionKey.api_munge(
+            args['diskEncryptionKey']
+          )
           @index = Google::Compute::Property::Integer.api_munge(args['index'])
           @initialize_params =
-            Google::Compute::Property::InstancInitialParams.api_munge(args['initializeParams'])
+            Google::Compute::Property::InstanceInitializeParams.api_munge(args['initializeParams'])
           @interface = Google::Compute::Property::Enum.api_munge(args['interface'])
           @mode = Google::Compute::Property::Enum.api_munge(args['mode'])
           @source = Google::Compute::Property::DiskSelfLinkRef.api_munge(args['source'])
@@ -142,11 +143,13 @@ module Google
           @auto_delete = Google::Compute::Property::Boolean.unsafe_munge(args['auto_delete'])
           @boot = Google::Compute::Property::Boolean.unsafe_munge(args['boot'])
           @device_name = Google::Compute::Property::String.unsafe_munge(args['device_name'])
-          @disk_encryption_key =
-            Google::Compute::Property::InstaDiskEncryKey.unsafe_munge(args['disk_encryption_key'])
+          @disk_encryption_key = Google::Compute::Property::InstanceDiskEncryptionKey.unsafe_munge(
+            args['disk_encryption_key']
+          )
           @index = Google::Compute::Property::Integer.unsafe_munge(args['index'])
-          @initialize_params =
-            Google::Compute::Property::InstancInitialParams.unsafe_munge(args['initialize_params'])
+          @initialize_params = Google::Compute::Property::InstanceInitializeParams.unsafe_munge(
+            args['initialize_params']
+          )
           @interface = Google::Compute::Property::Enum.unsafe_munge(args['interface'])
           @mode = Google::Compute::Property::Enum.unsafe_munge(args['mode'])
           @source = Google::Compute::Property::DiskSelfLinkRef.unsafe_munge(args['source'])

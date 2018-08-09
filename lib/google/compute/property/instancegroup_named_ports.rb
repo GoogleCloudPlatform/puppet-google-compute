@@ -32,7 +32,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for NamedPorts for instance_group.
-      class InstaGroupNamedPorts
+      class InstanceGroupNamedPorts
         include Comparable
 
         attr_reader :name
@@ -53,7 +53,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? InstaGroupNamedPorts
+          return false unless other.is_a? InstanceGroupNamedPorts
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -62,7 +62,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? InstaGroupNamedPorts
+          return false unless other.is_a? InstanceGroupNamedPorts
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -81,18 +81,18 @@ module Google
         end
       end
 
-      # Manages a InstaGroupNamedPorts nested object
+      # Manages a InstanceGroupNamedPorts nested object
       # Data is coming from the GCP API
-      class InstaGroupNamedPortsApi < InstaGroupNamedPorts
+      class InstanceGroupNamedPortsApi < InstanceGroupNamedPorts
         def initialize(args)
           @name = Google::Compute::Property::String.api_munge(args['name'])
           @port = Google::Compute::Property::Integer.api_munge(args['port'])
         end
       end
 
-      # Manages a InstaGroupNamedPorts nested object
+      # Manages a InstanceGroupNamedPorts nested object
       # Data is coming from the Puppet manifest
-      class InstaGroupNamedPortsCatalog < InstaGroupNamedPorts
+      class InstanceGroupNamedPortsCatalog < InstanceGroupNamedPorts
         def initialize(args)
           @name = Google::Compute::Property::String.unsafe_munge(args['name'])
           @port = Google::Compute::Property::Integer.unsafe_munge(args['port'])
@@ -102,7 +102,7 @@ module Google
 
     module Property
       # A class to manage input to NamedPorts for instance_group.
-      class InstaGroupNamedPorts < Google::Compute::Property::Base
+      class InstanceGroupNamedPorts < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -111,18 +111,18 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::InstaGroupNamedPortsCatalog.new(value)
+          Data::InstanceGroupNamedPortsCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::InstaGroupNamedPortsApi.new(value)
+          Data::InstanceGroupNamedPortsApi.new(value)
         end
       end
 
       # A Puppet property that holds an integer
-      class InstaGroupNamedPortsArray < Google::Compute::Property::Array
+      class InstanceGroupNamedPortsArray < Google::Compute::Property::Array
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -131,17 +131,17 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          return InstaGroupNamedPorts.unsafe_munge(value) \
+          return InstanceGroupNamedPorts.unsafe_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| InstaGroupNamedPorts.unsafe_munge(v) }
+          value.map { |v| InstanceGroupNamedPorts.unsafe_munge(v) }
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          return InstaGroupNamedPorts.api_munge(value) \
+          return InstanceGroupNamedPorts.api_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| InstaGroupNamedPorts.api_munge(v) }
+          value.map { |v| InstanceGroupNamedPorts.api_munge(v) }
         end
       end
     end

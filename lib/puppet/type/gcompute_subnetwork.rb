@@ -116,7 +116,7 @@ Puppet::Type.newtype(:gcompute_subnetwork) do
     DOC
   end
 
-  newproperty(:network, parent: Google::Compute::Property::NetwoSelfLinkRef) do
+  newproperty(:network, parent: Google::Compute::Property::NetworkSelfLinkRef) do
     desc <<-DOC
       The network this subnet belongs to. Only networks that are in the distributed mode can have
       subnetworks.

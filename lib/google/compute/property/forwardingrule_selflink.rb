@@ -34,11 +34,11 @@ module Google
     module Data
       # Base class for ResourceRefs
       # Imports self_link from forwarding_rule
-      class ForwRuleSelfLinkRef
+      class ForwardingRuleSelfLinkRef
         include Comparable
 
         def ==(other)
-          return false unless other.is_a? ForwRuleSelfLinkRef
+          return false unless other.is_a? ForwardingRuleSelfLinkRef
           return false if resource != other.resource
           true
         end
@@ -50,7 +50,7 @@ module Google
 
       # A class to fetch the resource value from a referenced block
       # Will return the value exported from a different Puppet resource
-      class ForwRuleSelfLinkRefCatalog < ForwRuleSelfLinkRef
+      class ForwardingRuleSelfLinkRefCatalog < ForwardingRuleSelfLinkRef
         def initialize(title)
           @title = title
         end
@@ -79,7 +79,7 @@ module Google
 
       # A class to manage a JSON blob from GCP API
       # Will immediately return value from JSON blob without changes
-      class ForwRuleSelfLinkRefApi < ForwRuleSelfLinkRef
+      class ForwardingRuleSelfLinkRefApi < ForwardingRuleSelfLinkRef
         attr_reader :resource
 
         def initialize(resource)
@@ -98,7 +98,7 @@ module Google
 
     module Property
       # A class to manage fetching self_link from a forwarding_rule
-      class ForwRuleSelfLinkRef < Puppet::Property
+      class ForwardingRuleSelfLinkRef < Puppet::Property
         # Used for catalog values
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -106,18 +106,18 @@ module Google
 
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::ForwRuleSelfLinkRefCatalog.new(value)
+          Data::ForwardingRuleSelfLinkRefCatalog.new(value)
         end
 
         # Used for fetched JSON values
         def self.api_munge(value)
           return if value.nil?
-          Data::ForwRuleSelfLinkRefApi.new(value)
+          Data::ForwardingRuleSelfLinkRefApi.new(value)
         end
       end
 
       # A Puppet property that holds an integer
-      class ForwRuleSelfLinkRefArray < Google::Compute::Property::Array
+      class ForwardingRuleSelfLinkRefArray < Google::Compute::Property::Array
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -126,17 +126,17 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          return ForwRuleSelfLinkRef.unsafe_munge(value) \
+          return ForwardingRuleSelfLinkRef.unsafe_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| ForwRuleSelfLinkRef.unsafe_munge(v) }
+          value.map { |v| ForwardingRuleSelfLinkRef.unsafe_munge(v) }
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          return ForwRuleSelfLinkRef.api_munge(value) \
+          return ForwardingRuleSelfLinkRef.api_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| ForwRuleSelfLinkRef.api_munge(v) }
+          value.map { |v| ForwardingRuleSelfLinkRef.api_munge(v) }
         end
       end
     end

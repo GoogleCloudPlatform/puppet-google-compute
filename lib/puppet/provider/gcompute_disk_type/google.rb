@@ -77,7 +77,7 @@ Puppet::Type.type(:gcompute_disk_type).provide(:google) do
       creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       default_disk_size_gb:
         Google::Compute::Property::Integer.api_munge(fetch['defaultDiskSizeGb']),
-      deprecated: Google::Compute::Property::DiskTypeDepreca.api_munge(fetch['deprecated']),
+      deprecated: Google::Compute::Property::DiskTypeDeprecated.api_munge(fetch['deprecated']),
       description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),

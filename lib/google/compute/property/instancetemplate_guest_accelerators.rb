@@ -32,7 +32,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for GuestAccelerators for instance_template.
-      class InstaTemplGuestAccel
+      class InstanceTemplateGuestAccelerators
         include Comparable
 
         attr_reader :accelerator_count
@@ -53,7 +53,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? InstaTemplGuestAccel
+          return false unless other.is_a? InstanceTemplateGuestAccelerators
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -62,7 +62,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? InstaTemplGuestAccel
+          return false unless other.is_a? InstanceTemplateGuestAccelerators
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -81,9 +81,9 @@ module Google
         end
       end
 
-      # Manages a InstaTemplGuestAccel nested object
+      # Manages a InstanceTemplateGuestAccelerators nested object
       # Data is coming from the GCP API
-      class InstaTemplGuestAccelApi < InstaTemplGuestAccel
+      class InstanceTemplateGuestAcceleratorsApi < InstanceTemplateGuestAccelerators
         def initialize(args)
           @accelerator_count =
             Google::Compute::Property::Integer.api_munge(args['acceleratorCount'])
@@ -91,9 +91,9 @@ module Google
         end
       end
 
-      # Manages a InstaTemplGuestAccel nested object
+      # Manages a InstanceTemplateGuestAccelerators nested object
       # Data is coming from the Puppet manifest
-      class InstaTemplGuestAccelCatalog < InstaTemplGuestAccel
+      class InstanceTemplateGuestAcceleratorsCatalog < InstanceTemplateGuestAccelerators
         def initialize(args)
           @accelerator_count =
             Google::Compute::Property::Integer.unsafe_munge(args['accelerator_count'])
@@ -105,7 +105,7 @@ module Google
 
     module Property
       # A class to manage input to GuestAccelerators for instance_template.
-      class InstaTemplGuestAccel < Google::Compute::Property::Base
+      class InstanceTemplateGuestAccelerators < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -114,18 +114,18 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::InstaTemplGuestAccelCatalog.new(value)
+          Data::InstanceTemplateGuestAcceleratorsCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::InstaTemplGuestAccelApi.new(value)
+          Data::InstanceTemplateGuestAcceleratorsApi.new(value)
         end
       end
 
       # A Puppet property that holds an integer
-      class InstaTemplGuestAccelArray < Google::Compute::Property::Array
+      class InstanceTemplateGuestAcceleratorsArray < Google::Compute::Property::Array
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -134,17 +134,17 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          return InstaTemplGuestAccel.unsafe_munge(value) \
+          return InstanceTemplateGuestAccelerators.unsafe_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| InstaTemplGuestAccel.unsafe_munge(v) }
+          value.map { |v| InstanceTemplateGuestAccelerators.unsafe_munge(v) }
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          return InstaTemplGuestAccel.api_munge(value) \
+          return InstanceTemplateGuestAccelerators.api_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| InstaTemplGuestAccel.api_munge(v) }
+          value.map { |v| InstanceTemplateGuestAccelerators.api_munge(v) }
         end
       end
     end

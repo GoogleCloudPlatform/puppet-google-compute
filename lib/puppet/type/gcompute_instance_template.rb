@@ -108,7 +108,7 @@ Puppet::Type.newtype(:gcompute_instance_template) do
     desc 'Name of the resource. The name is 1-63 characters long and complies with RFC1035.'
   end
 
-  newproperty(:properties, parent: Google::Compute::Property::InstancTemplatPropert) do
+  newproperty(:properties, parent: Google::Compute::Property::InstanceTemplateProperties) do
     desc 'The instance properties for this instance template.'
   end
 

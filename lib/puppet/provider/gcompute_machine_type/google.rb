@@ -76,7 +76,7 @@ Puppet::Type.type(:gcompute_machine_type).provide(:google) do
   def self.fetch_to_hash(fetch)
     {
       creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
-      deprecated: Google::Compute::Property::MachineTypeDepreca.api_munge(fetch['deprecated']),
+      deprecated: Google::Compute::Property::MachineTypeDeprecated.api_munge(fetch['deprecated']),
       description: Google::Compute::Property::String.api_munge(fetch['description']),
       guest_cpus: Google::Compute::Property::Integer.api_munge(fetch['guestCpus']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),

@@ -76,13 +76,13 @@ Puppet::Type.type(:gcompute_url_map).provide(:google) do
     {
       creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       default_service:
-        Google::Compute::Property::BackServSelfLinkRef.api_munge(fetch['defaultService']),
+        Google::Compute::Property::BackendServiceSelfLinkRef.api_munge(fetch['defaultService']),
       description: Google::Compute::Property::String.api_munge(fetch['description']),
       host_rules: Google::Compute::Property::UrlMapHostRulesArray.api_munge(fetch['hostRules']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       path_matchers:
-        Google::Compute::Property::UrlMapPathMatchArray.api_munge(fetch['pathMatchers']),
+        Google::Compute::Property::UrlMapPathMatchersArray.api_munge(fetch['pathMatchers']),
       tests: Google::Compute::Property::UrlMapTestsArray.api_munge(fetch['tests'])
     }.reject { |_, v| v.nil? }
   end

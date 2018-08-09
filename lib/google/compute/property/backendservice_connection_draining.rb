@@ -31,7 +31,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for ConnectionDraining for backend_service.
-      class BackeServiConneDrain
+      class BackendServiceConnectionDraining
         include Comparable
 
         attr_reader :draining_timeout_sec
@@ -49,7 +49,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? BackeServiConneDrain
+          return false unless other.is_a? BackendServiceConnectionDraining
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -58,7 +58,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? BackeServiConneDrain
+          return false unless other.is_a? BackendServiceConnectionDraining
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -76,18 +76,18 @@ module Google
         end
       end
 
-      # Manages a BackeServiConneDrain nested object
+      # Manages a BackendServiceConnectionDraining nested object
       # Data is coming from the GCP API
-      class BackeServiConneDrainApi < BackeServiConneDrain
+      class BackendServiceConnectionDrainingApi < BackendServiceConnectionDraining
         def initialize(args)
           @draining_timeout_sec =
             Google::Compute::Property::Integer.api_munge(args['drainingTimeoutSec'])
         end
       end
 
-      # Manages a BackeServiConneDrain nested object
+      # Manages a BackendServiceConnectionDraining nested object
       # Data is coming from the Puppet manifest
-      class BackeServiConneDrainCatalog < BackeServiConneDrain
+      class BackendServiceConnectionDrainingCatalog < BackendServiceConnectionDraining
         def initialize(args)
           @draining_timeout_sec =
             Google::Compute::Property::Integer.unsafe_munge(args['draining_timeout_sec'])
@@ -97,7 +97,7 @@ module Google
 
     module Property
       # A class to manage input to ConnectionDraining for backend_service.
-      class BackeServiConneDrain < Google::Compute::Property::Base
+      class BackendServiceConnectionDraining < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -106,13 +106,13 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::BackeServiConneDrainCatalog.new(value)
+          Data::BackendServiceConnectionDrainingCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::BackeServiConneDrainApi.new(value)
+          Data::BackendServiceConnectionDrainingApi.new(value)
         end
       end
     end

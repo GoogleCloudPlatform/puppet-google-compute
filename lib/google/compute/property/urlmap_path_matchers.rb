@@ -32,7 +32,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for PathMatchers for url_map.
-      class UrlMapPathMatch
+      class UrlMapPathMatchers
         include Comparable
 
         attr_reader :default_service
@@ -61,7 +61,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? UrlMapPathMatch
+          return false unless other.is_a? UrlMapPathMatchers
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -70,7 +70,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? UrlMapPathMatch
+          return false unless other.is_a? UrlMapPathMatchers
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -91,24 +91,25 @@ module Google
         end
       end
 
-      # Manages a UrlMapPathMatch nested object
+      # Manages a UrlMapPathMatchers nested object
       # Data is coming from the GCP API
-      class UrlMapPathMatchApi < UrlMapPathMatch
+      class UrlMapPathMatchersApi < UrlMapPathMatchers
         def initialize(args)
           @default_service =
-            Google::Compute::Property::BackServSelfLinkRef.api_munge(args['defaultService'])
+            Google::Compute::Property::BackendServiceSelfLinkRef.api_munge(args['defaultService'])
           @description = Google::Compute::Property::String.api_munge(args['description'])
           @name = Google::Compute::Property::String.api_munge(args['name'])
           @path_rules = Google::Compute::Property::UrlMapPathRulesArray.api_munge(args['pathRules'])
         end
       end
 
-      # Manages a UrlMapPathMatch nested object
+      # Manages a UrlMapPathMatchers nested object
       # Data is coming from the Puppet manifest
-      class UrlMapPathMatchCatalog < UrlMapPathMatch
+      class UrlMapPathMatchersCatalog < UrlMapPathMatchers
         def initialize(args)
-          @default_service =
-            Google::Compute::Property::BackServSelfLinkRef.unsafe_munge(args['default_service'])
+          @default_service = Google::Compute::Property::BackendServiceSelfLinkRef.unsafe_munge(
+            args['default_service']
+          )
           @description = Google::Compute::Property::String.unsafe_munge(args['description'])
           @name = Google::Compute::Property::String.unsafe_munge(args['name'])
           @path_rules =
@@ -119,7 +120,7 @@ module Google
 
     module Property
       # A class to manage input to PathMatchers for url_map.
-      class UrlMapPathMatch < Google::Compute::Property::Base
+      class UrlMapPathMatchers < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -128,18 +129,18 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::UrlMapPathMatchCatalog.new(value)
+          Data::UrlMapPathMatchersCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::UrlMapPathMatchApi.new(value)
+          Data::UrlMapPathMatchersApi.new(value)
         end
       end
 
       # A Puppet property that holds an integer
-      class UrlMapPathMatchArray < Google::Compute::Property::Array
+      class UrlMapPathMatchersArray < Google::Compute::Property::Array
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -148,17 +149,17 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          return UrlMapPathMatch.unsafe_munge(value) \
+          return UrlMapPathMatchers.unsafe_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| UrlMapPathMatch.unsafe_munge(v) }
+          value.map { |v| UrlMapPathMatchers.unsafe_munge(v) }
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          return UrlMapPathMatch.api_munge(value) \
+          return UrlMapPathMatchers.api_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| UrlMapPathMatch.api_munge(v) }
+          value.map { |v| UrlMapPathMatchers.api_munge(v) }
         end
       end
     end

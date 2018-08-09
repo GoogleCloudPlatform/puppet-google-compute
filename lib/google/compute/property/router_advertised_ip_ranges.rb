@@ -32,7 +32,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for AdvertisedIpRanges for router.
-      class RouteAdverIpRange
+      class RouterAdvertisedIpRanges
         include Comparable
 
         attr_reader :range
@@ -53,7 +53,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? RouteAdverIpRange
+          return false unless other.is_a? RouterAdvertisedIpRanges
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -62,7 +62,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? RouteAdverIpRange
+          return false unless other.is_a? RouterAdvertisedIpRanges
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -81,18 +81,18 @@ module Google
         end
       end
 
-      # Manages a RouteAdverIpRange nested object
+      # Manages a RouterAdvertisedIpRanges nested object
       # Data is coming from the GCP API
-      class RouteAdverIpRangeApi < RouteAdverIpRange
+      class RouterAdvertisedIpRangesApi < RouterAdvertisedIpRanges
         def initialize(args)
           @range = Google::Compute::Property::String.api_munge(args['range'])
           @description = Google::Compute::Property::String.api_munge(args['description'])
         end
       end
 
-      # Manages a RouteAdverIpRange nested object
+      # Manages a RouterAdvertisedIpRanges nested object
       # Data is coming from the Puppet manifest
-      class RouteAdverIpRangeCatalog < RouteAdverIpRange
+      class RouterAdvertisedIpRangesCatalog < RouterAdvertisedIpRanges
         def initialize(args)
           @range = Google::Compute::Property::String.unsafe_munge(args['range'])
           @description = Google::Compute::Property::String.unsafe_munge(args['description'])
@@ -102,7 +102,7 @@ module Google
 
     module Property
       # A class to manage input to AdvertisedIpRanges for router.
-      class RouteAdverIpRange < Google::Compute::Property::Base
+      class RouterAdvertisedIpRanges < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -111,18 +111,18 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::RouteAdverIpRangeCatalog.new(value)
+          Data::RouterAdvertisedIpRangesCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::RouteAdverIpRangeApi.new(value)
+          Data::RouterAdvertisedIpRangesApi.new(value)
         end
       end
 
       # A Puppet property that holds an integer
-      class RouteAdverIpRangeArray < Google::Compute::Property::Array
+      class RouterAdvertisedIpRangesArray < Google::Compute::Property::Array
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -131,17 +131,17 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          return RouteAdverIpRange.unsafe_munge(value) \
+          return RouterAdvertisedIpRanges.unsafe_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| RouteAdverIpRange.unsafe_munge(v) }
+          value.map { |v| RouterAdvertisedIpRanges.unsafe_munge(v) }
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          return RouteAdverIpRange.api_munge(value) \
+          return RouterAdvertisedIpRanges.api_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| RouteAdverIpRange.api_munge(v) }
+          value.map { |v| RouterAdvertisedIpRanges.api_munge(v) }
         end
       end
     end

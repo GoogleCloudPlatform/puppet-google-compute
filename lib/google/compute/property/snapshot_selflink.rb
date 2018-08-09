@@ -33,11 +33,11 @@ module Google
     module Data
       # Base class for ResourceRefs
       # Imports self_link from snapshot
-      class SnapsSelfLinkRef
+      class SnapshotSelfLinkRef
         include Comparable
 
         def ==(other)
-          return false unless other.is_a? SnapsSelfLinkRef
+          return false unless other.is_a? SnapshotSelfLinkRef
           return false if resource != other.resource
           true
         end
@@ -49,7 +49,7 @@ module Google
 
       # A class to fetch the resource value from a referenced block
       # Will return the value exported from a different Puppet resource
-      class SnapsSelfLinkRefCatalog < SnapsSelfLinkRef
+      class SnapshotSelfLinkRefCatalog < SnapshotSelfLinkRef
         def initialize(title)
           @title = title
         end
@@ -78,7 +78,7 @@ module Google
 
       # A class to manage a JSON blob from GCP API
       # Will immediately return value from JSON blob without changes
-      class SnapsSelfLinkRefApi < SnapsSelfLinkRef
+      class SnapshotSelfLinkRefApi < SnapshotSelfLinkRef
         attr_reader :resource
 
         def initialize(resource)
@@ -97,7 +97,7 @@ module Google
 
     module Property
       # A class to manage fetching self_link from a snapshot
-      class SnapsSelfLinkRef < Puppet::Property
+      class SnapshotSelfLinkRef < Puppet::Property
         # Used for catalog values
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -105,13 +105,13 @@ module Google
 
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::SnapsSelfLinkRefCatalog.new(value)
+          Data::SnapshotSelfLinkRefCatalog.new(value)
         end
 
         # Used for fetched JSON values
         def self.api_munge(value)
           return if value.nil?
-          Data::SnapsSelfLinkRefApi.new(value)
+          Data::SnapshotSelfLinkRefApi.new(value)
         end
       end
     end

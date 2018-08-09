@@ -105,7 +105,7 @@ Puppet::Type.newtype(:gcompute_image) do
     DOC
   end
 
-  newproperty(:guest_os_features, parent: Google::Compute::Property::ImageGuestOsFeatuArray) do
+  newproperty(:guest_os_features, parent: Google::Compute::Property::ImageGuestOsFeaturesArray) do
     desc <<-DOC
       A list of features to enable on the guest OS. Applicable for bootable images only. Currently,
       only one feature can be enabled, VIRTIO_SCSI_MULTIQUEUE, which allows each virtual CPU to
@@ -124,7 +124,7 @@ Puppet::Type.newtype(:gcompute_image) do
     DOC
   end
 
-  newproperty(:image_encryption_key, parent: Google::Compute::Property::ImageImageEncryKey) do
+  newproperty(:image_encryption_key, parent: Google::Compute::Property::ImageImageEncryptionKey) do
     desc <<-DOC
       Encrypts the image using a customer-supplied encryption key. After you encrypt an image with
       a customer-supplied key, you must provide the same key if you use the image later (e.g. to
@@ -158,7 +158,7 @@ Puppet::Type.newtype(:gcompute_image) do
   end
 
   newproperty(:source_disk_encryption_key,
-              parent: Google::Compute::Property::ImagSourDiskEncrKey) do
+              parent: Google::Compute::Property::ImageSourceDiskEncryptionKey) do
     desc <<-DOC
       The customer-supplied encryption key of the source disk. Required if the source disk is
       protected by a customer-supplied encryption key.

@@ -31,7 +31,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for Deprecated for disk_type.
-      class DiskTypeDepreca
+      class DiskTypeDeprecated
         include Comparable
 
         attr_reader :deleted
@@ -61,7 +61,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? DiskTypeDepreca
+          return false unless other.is_a? DiskTypeDeprecated
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -70,7 +70,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? DiskTypeDepreca
+          return false unless other.is_a? DiskTypeDeprecated
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -92,9 +92,9 @@ module Google
         end
       end
 
-      # Manages a DiskTypeDepreca nested object
+      # Manages a DiskTypeDeprecated nested object
       # Data is coming from the GCP API
-      class DiskTypeDeprecaApi < DiskTypeDepreca
+      class DiskTypeDeprecatedApi < DiskTypeDeprecated
         def initialize(args)
           @deleted = Google::Compute::Property::Time.api_munge(args['deleted'])
           @deprecated = Google::Compute::Property::Time.api_munge(args['deprecated'])
@@ -104,9 +104,9 @@ module Google
         end
       end
 
-      # Manages a DiskTypeDepreca nested object
+      # Manages a DiskTypeDeprecated nested object
       # Data is coming from the Puppet manifest
-      class DiskTypeDeprecaCatalog < DiskTypeDepreca
+      class DiskTypeDeprecatedCatalog < DiskTypeDeprecated
         def initialize(args)
           @deleted = Google::Compute::Property::Time.unsafe_munge(args['deleted'])
           @deprecated = Google::Compute::Property::Time.unsafe_munge(args['deprecated'])
@@ -119,7 +119,7 @@ module Google
 
     module Property
       # A class to manage input to Deprecated for disk_type.
-      class DiskTypeDepreca < Google::Compute::Property::Base
+      class DiskTypeDeprecated < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -128,13 +128,13 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::DiskTypeDeprecaCatalog.new(value)
+          Data::DiskTypeDeprecatedCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::DiskTypeDeprecaApi.new(value)
+          Data::DiskTypeDeprecatedApi.new(value)
         end
       end
     end

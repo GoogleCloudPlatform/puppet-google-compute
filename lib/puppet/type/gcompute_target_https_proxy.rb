@@ -98,7 +98,8 @@ Puppet::Type.newtype(:gcompute_target_https_proxy) do
     newvalue(:DISABLE)
   end
 
-  newproperty(:ssl_certificates, parent: Google::Compute::Property::SslCertSelfLinkRefArray) do
+  newproperty(:ssl_certificates,
+              parent: Google::Compute::Property::SslCertificateSelfLinkRefArray) do
     desc <<-DOC
       A list of SslCertificate resources that are used to authenticate connections between users
       and the load balancer. Currently, exactly one SSL certificate must be specified.

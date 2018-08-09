@@ -33,11 +33,11 @@ module Google
     module Data
       # Base class for ResourceRefs
       # Imports self_link from machine_type
-      class MachTypeSelfLinkRef
+      class MachineTypeSelfLinkRef
         include Comparable
 
         def ==(other)
-          return false unless other.is_a? MachTypeSelfLinkRef
+          return false unless other.is_a? MachineTypeSelfLinkRef
           return false if resource != other.resource
           true
         end
@@ -49,7 +49,7 @@ module Google
 
       # A class to fetch the resource value from a referenced block
       # Will return the value exported from a different Puppet resource
-      class MachTypeSelfLinkRefCatalog < MachTypeSelfLinkRef
+      class MachineTypeSelfLinkRefCatalog < MachineTypeSelfLinkRef
         def initialize(title)
           @title = title
         end
@@ -99,7 +99,7 @@ module Google
 
       # A class to manage a JSON blob from GCP API
       # Will immediately return value from JSON blob without changes
-      class MachTypeSelfLinkRefApi < MachTypeSelfLinkRef
+      class MachineTypeSelfLinkRefApi < MachineTypeSelfLinkRef
         attr_reader :resource
 
         def initialize(resource)
@@ -118,7 +118,7 @@ module Google
 
     module Property
       # A class to manage fetching self_link from a machine_type
-      class MachTypeSelfLinkRef < Puppet::Property
+      class MachineTypeSelfLinkRef < Puppet::Property
         # Used for catalog values
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -126,13 +126,13 @@ module Google
 
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::MachTypeSelfLinkRefCatalog.new(value)
+          Data::MachineTypeSelfLinkRefCatalog.new(value)
         end
 
         # Used for fetched JSON values
         def self.api_munge(value)
           return if value.nil?
-          Data::MachTypeSelfLinkRefApi.new(value)
+          Data::MachineTypeSelfLinkRefApi.new(value)
         end
       end
     end

@@ -31,7 +31,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for Properties for instance_template.
-      class InstancTemplatPropert
+      class InstanceTemplateProperties
         include Comparable
 
         attr_reader :can_ip_forward
@@ -86,7 +86,7 @@ module Google
         # rubocop:enable Metrics/MethodLength
 
         def ==(other)
-          return false unless other.is_a? InstancTemplatPropert
+          return false unless other.is_a? InstanceTemplateProperties
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -95,7 +95,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? InstancTemplatPropert
+          return false unless other.is_a? InstanceTemplateProperties
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -122,54 +122,62 @@ module Google
         end
       end
 
-      # Manages a InstancTemplatPropert nested object
+      # Manages a InstanceTemplateProperties nested object
       # Data is coming from the GCP API
-      class InstancTemplatPropertApi < InstancTemplatPropert
+      class InstanceTemplatePropertiesApi < InstanceTemplateProperties
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @can_ip_forward = Google::Compute::Property::Boolean.api_munge(args['canIpForward'])
           @description = Google::Compute::Property::String.api_munge(args['description'])
-          @disks = Google::Compute::Property::InstancTemplatDisksArray.api_munge(args['disks'])
-          @machine_type = Google::Compute::Property::MachiTypeNameRef.api_munge(args['machineType'])
+          @disks = Google::Compute::Property::InstanceTemplateDisksArray.api_munge(args['disks'])
+          @machine_type =
+            Google::Compute::Property::MachineTypeNameRef.api_munge(args['machineType'])
           @metadata = Google::Compute::Property::NameValues.api_munge(args['metadata'])
-          @guest_accelerators = Google::Compute::Property::InstaTemplGuestAccelArray.api_munge(
-            args['guestAccelerators']
-          )
-          @network_interfaces = Google::Compute::Property::InstaTemplNetwoInterArray.api_munge(
-            args['networkInterfaces']
-          )
+          @guest_accelerators =
+            Google::Compute::Property::InstanceTemplateGuestAcceleratorsArray.api_munge(
+              args['guestAccelerators']
+            )
+          @network_interfaces =
+            Google::Compute::Property::InstanceTemplateNetworkInterfacesArray.api_munge(
+              args['networkInterfaces']
+            )
           @scheduling =
-            Google::Compute::Property::InstancTemplatSchedul.api_munge(args['scheduling'])
+            Google::Compute::Property::InstanceTemplateScheduling.api_munge(args['scheduling'])
           @service_accounts =
-            Google::Compute::Property::InstaTemplServiAccouArray.api_munge(args['serviceAccounts'])
-          @tags = Google::Compute::Property::InstancTemplatTags.api_munge(args['tags'])
+            Google::Compute::Property::InstanceTemplateServiceAccountsArray.api_munge(
+              args['serviceAccounts']
+            )
+          @tags = Google::Compute::Property::InstanceTemplateTags.api_munge(args['tags'])
         end
         # rubocop:enable Metrics/MethodLength
       end
 
-      # Manages a InstancTemplatPropert nested object
+      # Manages a InstanceTemplateProperties nested object
       # Data is coming from the Puppet manifest
-      class InstancTemplatPropertCatalog < InstancTemplatPropert
+      class InstanceTemplatePropertiesCatalog < InstanceTemplateProperties
         # rubocop:disable Metrics/MethodLength
         def initialize(args)
           @can_ip_forward = Google::Compute::Property::Boolean.unsafe_munge(args['can_ip_forward'])
           @description = Google::Compute::Property::String.unsafe_munge(args['description'])
-          @disks = Google::Compute::Property::InstancTemplatDisksArray.unsafe_munge(args['disks'])
+          @disks = Google::Compute::Property::InstanceTemplateDisksArray.unsafe_munge(args['disks'])
           @machine_type =
-            Google::Compute::Property::MachiTypeNameRef.unsafe_munge(args['machine_type'])
+            Google::Compute::Property::MachineTypeNameRef.unsafe_munge(args['machine_type'])
           @metadata = Google::Compute::Property::NameValues.unsafe_munge(args['metadata'])
-          @guest_accelerators = Google::Compute::Property::InstaTemplGuestAccelArray.unsafe_munge(
-            args['guest_accelerators']
-          )
-          @network_interfaces = Google::Compute::Property::InstaTemplNetwoInterArray.unsafe_munge(
-            args['network_interfaces']
-          )
+          @guest_accelerators =
+            Google::Compute::Property::InstanceTemplateGuestAcceleratorsArray.unsafe_munge(
+              args['guest_accelerators']
+            )
+          @network_interfaces =
+            Google::Compute::Property::InstanceTemplateNetworkInterfacesArray.unsafe_munge(
+              args['network_interfaces']
+            )
           @scheduling =
-            Google::Compute::Property::InstancTemplatSchedul.unsafe_munge(args['scheduling'])
-          @service_accounts = Google::Compute::Property::InstaTemplServiAccouArray.unsafe_munge(
-            args['service_accounts']
-          )
-          @tags = Google::Compute::Property::InstancTemplatTags.unsafe_munge(args['tags'])
+            Google::Compute::Property::InstanceTemplateScheduling.unsafe_munge(args['scheduling'])
+          @service_accounts =
+            Google::Compute::Property::InstanceTemplateServiceAccountsArray.unsafe_munge(
+              args['service_accounts']
+            )
+          @tags = Google::Compute::Property::InstanceTemplateTags.unsafe_munge(args['tags'])
         end
         # rubocop:enable Metrics/MethodLength
       end
@@ -177,7 +185,7 @@ module Google
 
     module Property
       # A class to manage input to Properties for instance_template.
-      class InstancTemplatPropert < Google::Compute::Property::Base
+      class InstanceTemplateProperties < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -186,13 +194,13 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::InstancTemplatPropertCatalog.new(value)
+          Data::InstanceTemplatePropertiesCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::InstancTemplatPropertApi.new(value)
+          Data::InstanceTemplatePropertiesApi.new(value)
         end
       end
     end

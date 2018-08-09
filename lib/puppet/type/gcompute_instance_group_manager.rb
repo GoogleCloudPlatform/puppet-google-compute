@@ -95,7 +95,8 @@ Puppet::Type.newtype(:gcompute_instance_group_manager) do
     DOC
   end
 
-  newproperty(:current_actions, parent: Google::Compute::Property::InstGrouManaCurrActi) do
+  newproperty(:current_actions,
+              parent: Google::Compute::Property::InstanceGroupManagerCurrentActions) do
     desc <<-DOC
       The list of instance actions and the number of instances in this managed instance group that
       are scheduled for each of those actions. (output only)
@@ -112,11 +113,11 @@ Puppet::Type.newtype(:gcompute_instance_group_manager) do
     desc 'A unique identifier for this resource (output only)'
   end
 
-  newproperty(:instance_group, parent: Google::Compute::Property::InstGrouSelfLinkRef) do
+  newproperty(:instance_group, parent: Google::Compute::Property::InstanceGroupSelfLinkRef) do
     desc 'The instance group being managed (output only)'
   end
 
-  newproperty(:instance_template, parent: Google::Compute::Property::InstTempSelfLinkRef) do
+  newproperty(:instance_template, parent: Google::Compute::Property::InstanceTemplateSelfLinkRef) do
     desc <<-DOC
       The instance template that is specified for this managed instance group. The group uses this
       template to create all new instances in the managed instance group.
@@ -130,17 +131,18 @@ Puppet::Type.newtype(:gcompute_instance_group_manager) do
     DOC
   end
 
-  newproperty(:named_ports, parent: Google::Compute::Property::InstGrouManaNamePortArray) do
+  newproperty(:named_ports,
+              parent: Google::Compute::Property::InstanceGroupManagerNamedPortsArray) do
     desc <<-DOC
       Named ports configured for the Instance Groups complementary to this Instance Group Manager.
     DOC
   end
 
-  newproperty(:region, parent: Google::Compute::Property::RegioSelfLinkRef) do
+  newproperty(:region, parent: Google::Compute::Property::RegionSelfLinkRef) do
     desc 'The region this managed instance group resides (for regional resources). (output only)'
   end
 
-  newproperty(:target_pools, parent: Google::Compute::Property::TargPoolSelfLinkRefArray) do
+  newproperty(:target_pools, parent: Google::Compute::Property::TargetPoolSelfLinkRefArray) do
     desc <<-DOC
       TargetPool resources to which instances in the instanceGroup field are added. The target
       pools automatically apply to all of the instances in the managed instance group.

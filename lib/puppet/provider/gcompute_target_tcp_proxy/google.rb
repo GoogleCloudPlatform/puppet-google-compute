@@ -74,7 +74,7 @@ Puppet::Type.type(:gcompute_target_tcp_proxy).provide(:google) do
       creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       proxy_header: Google::Compute::Property::Enum.api_munge(fetch['proxyHeader']),
-      service: Google::Compute::Property::BackServSelfLinkRef.api_munge(fetch['service']),
+      service: Google::Compute::Property::BackendServiceSelfLinkRef.api_munge(fetch['service']),
       description: resource[:description],
       name: resource[:name]
     }.reject { |_, v| v.nil? }

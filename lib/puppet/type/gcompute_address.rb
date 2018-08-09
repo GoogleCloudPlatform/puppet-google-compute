@@ -124,7 +124,7 @@ Puppet::Type.newtype(:gcompute_address) do
     DOC
   end
 
-  newproperty(:subnetwork, parent: Google::Compute::Property::SubneSelfLinkRef) do
+  newproperty(:subnetwork, parent: Google::Compute::Property::SubnetworkSelfLinkRef) do
     desc <<-DOC
       The URL of the subnetwork in which to reserve the address. If an IP address is specified, it
       must be within the subnetwork's IP range. This field can only be used with INTERNAL type with

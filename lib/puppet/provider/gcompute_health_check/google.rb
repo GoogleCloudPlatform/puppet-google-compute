@@ -81,13 +81,13 @@ Puppet::Type.type(:gcompute_health_check).provide(:google) do
         Google::Compute::Property::Integer.api_munge(fetch['unhealthyThreshold']),
       type: Google::Compute::Property::Enum.api_munge(fetch['type']),
       http_health_check:
-        Google::Compute::Property::HealChecHttpHealChec.api_munge(fetch['httpHealthCheck']),
+        Google::Compute::Property::HealthCheckHttpHealthCheck.api_munge(fetch['httpHealthCheck']),
       https_health_check:
-        Google::Compute::Property::HealChecHttpHealChec.api_munge(fetch['httpsHealthCheck']),
+        Google::Compute::Property::HealthCheckHttpsHealthCheck.api_munge(fetch['httpsHealthCheck']),
       tcp_health_check:
-        Google::Compute::Property::HealChecTcpHealChec.api_munge(fetch['tcpHealthCheck']),
+        Google::Compute::Property::HealthCheckTcpHealthCheck.api_munge(fetch['tcpHealthCheck']),
       ssl_health_check:
-        Google::Compute::Property::HealChecSslHealChec.api_munge(fetch['sslHealthCheck'])
+        Google::Compute::Property::HealthCheckSslHealthCheck.api_munge(fetch['sslHealthCheck'])
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength

@@ -68,7 +68,7 @@ Puppet::Type.newtype(:gcompute_machine_type) do
     desc 'Creation timestamp in RFC3339 text format. (output only)'
   end
 
-  newproperty(:deprecated, parent: Google::Compute::Property::MachineTypeDepreca) do
+  newproperty(:deprecated, parent: Google::Compute::Property::MachineTypeDeprecated) do
     desc 'The deprecation status associated with this machine type. (output only)'
   end
 

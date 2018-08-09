@@ -74,7 +74,7 @@ Puppet::Type.newtype(:gcompute_target_pool) do
     desc 'The region where the target pool resides.'
   end
 
-  newproperty(:backup_pool, parent: Google::Compute::Property::TargPoolSelfLinkRef) do
+  newproperty(:backup_pool, parent: Google::Compute::Property::TargetPoolSelfLinkRef) do
     desc <<-DOC
       This field is applicable only when the containing target pool is serving a forwarding rule as
       the primary pool, and its failoverRatio field is properly set to a value between [0, 1].
@@ -110,7 +110,7 @@ Puppet::Type.newtype(:gcompute_target_pool) do
     DOC
   end
 
-  newproperty(:health_check, parent: Google::Compute::Property::HttHeaCheSelLinRef) do
+  newproperty(:health_check, parent: Google::Compute::Property::HttpHealthCheckSelfLinkRef) do
     desc <<-DOC
       A reference to a HttpHealthCheck resource. A member instance in this pool is considered
       healthy if and only if the health checks pass. If not specified it means all member instances
@@ -122,7 +122,7 @@ Puppet::Type.newtype(:gcompute_target_pool) do
     desc 'The unique identifier for the resource. (output only)'
   end
 
-  newproperty(:instances, parent: Google::Compute::Property::InstaSelfLinkRefArray) do
+  newproperty(:instances, parent: Google::Compute::Property::InstanceSelfLinkRefArray) do
     desc <<-DOC
       A list of virtual machine instances serving this pool. They must live in zones contained in
       the same region as this pool.

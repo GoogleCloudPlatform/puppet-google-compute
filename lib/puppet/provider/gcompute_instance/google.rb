@@ -95,19 +95,22 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
       can_ip_forward: Google::Compute::Property::Boolean.api_munge(fetch['canIpForward']),
       cpu_platform: Google::Compute::Property::String.api_munge(fetch['cpuPlatform']),
       creation_timestamp: Google::Compute::Property::String.api_munge(fetch['creationTimestamp']),
-      guest_accelerators:
-        Google::Compute::Property::InstancGuestAccelerArray.api_munge(fetch['guestAccelerators']),
+      guest_accelerators: Google::Compute::Property::InstanceGuestAcceleratorsArray.api_munge(
+        fetch['guestAccelerators']
+      ),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       label_fingerprint: Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
       metadata: Google::Compute::Property::NameValues.api_munge(fetch['metadata']),
-      machine_type: Google::Compute::Property::MachTypeSelfLinkRef.api_munge(fetch['machineType']),
+      machine_type:
+        Google::Compute::Property::MachineTypeSelfLinkRef.api_munge(fetch['machineType']),
       min_cpu_platform: Google::Compute::Property::String.api_munge(fetch['minCpuPlatform']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
-      network_interfaces:
-        Google::Compute::Property::InstancNetworkInterfaArray.api_munge(fetch['networkInterfaces']),
+      network_interfaces: Google::Compute::Property::InstanceNetworkInterfacesArray.api_munge(
+        fetch['networkInterfaces']
+      ),
       scheduling: Google::Compute::Property::InstanceScheduling.api_munge(fetch['scheduling']),
       service_accounts:
-        Google::Compute::Property::InstancServiceAccountArray.api_munge(fetch['serviceAccounts']),
+        Google::Compute::Property::InstanceServiceAccountsArray.api_munge(fetch['serviceAccounts']),
       status: Google::Compute::Property::String.api_munge(fetch['status']),
       status_message: Google::Compute::Property::String.api_munge(fetch['statusMessage']),
       tags: Google::Compute::Property::InstanceTags.api_munge(fetch['tags']),

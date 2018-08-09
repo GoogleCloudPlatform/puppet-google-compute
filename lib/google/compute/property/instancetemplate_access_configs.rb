@@ -32,7 +32,7 @@ module Google
   module Compute
     module Data
       # A class to manage data for AccessConfigs for instance_template.
-      class InstaTemplAccesConfi
+      class InstanceTemplateAccessConfigs
         include Comparable
 
         attr_reader :name
@@ -56,7 +56,7 @@ module Google
         end
 
         def ==(other)
-          return false unless other.is_a? InstaTemplAccesConfi
+          return false unless other.is_a? InstanceTemplateAccessConfigs
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             return false if compare[:self] != compare[:other]
@@ -65,7 +65,7 @@ module Google
         end
 
         def <=>(other)
-          return false unless other.is_a? InstaTemplAccesConfi
+          return false unless other.is_a? InstanceTemplateAccessConfigs
           compare_fields(other).each do |compare|
             next if compare[:self].nil? || compare[:other].nil?
             result = compare[:self] <=> compare[:other]
@@ -85,9 +85,9 @@ module Google
         end
       end
 
-      # Manages a InstaTemplAccesConfi nested object
+      # Manages a InstanceTemplateAccessConfigs nested object
       # Data is coming from the GCP API
-      class InstaTemplAccesConfiApi < InstaTemplAccesConfi
+      class InstanceTemplateAccessConfigsApi < InstanceTemplateAccessConfigs
         def initialize(args)
           @name = Google::Compute::Property::String.api_munge(args['name'])
           @nat_ip = Google::Compute::Property::AddressAddressRef.api_munge(args['natIP'])
@@ -95,9 +95,9 @@ module Google
         end
       end
 
-      # Manages a InstaTemplAccesConfi nested object
+      # Manages a InstanceTemplateAccessConfigs nested object
       # Data is coming from the Puppet manifest
-      class InstaTemplAccesConfiCatalog < InstaTemplAccesConfi
+      class InstanceTemplateAccessConfigsCatalog < InstanceTemplateAccessConfigs
         def initialize(args)
           @name = Google::Compute::Property::String.unsafe_munge(args['name'])
           @nat_ip = Google::Compute::Property::AddressAddressRef.unsafe_munge(args['nat_ip'])
@@ -108,7 +108,7 @@ module Google
 
     module Property
       # A class to manage input to AccessConfigs for instance_template.
-      class InstaTemplAccesConfi < Google::Compute::Property::Base
+      class InstanceTemplateAccessConfigs < Google::Compute::Property::Base
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -117,18 +117,18 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          Data::InstaTemplAccesConfiCatalog.new(value)
+          Data::InstanceTemplateAccessConfigsCatalog.new(value)
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          Data::InstaTemplAccesConfiApi.new(value)
+          Data::InstanceTemplateAccessConfigsApi.new(value)
         end
       end
 
       # A Puppet property that holds an integer
-      class InstaTemplAccesConfiArray < Google::Compute::Property::Array
+      class InstanceTemplateAccessConfigsArray < Google::Compute::Property::Array
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
           self.class.unsafe_munge(value)
@@ -137,17 +137,17 @@ module Google
         # Used for parsing Puppet catalog
         def self.unsafe_munge(value)
           return if value.nil?
-          return InstaTemplAccesConfi.unsafe_munge(value) \
+          return InstanceTemplateAccessConfigs.unsafe_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| InstaTemplAccesConfi.unsafe_munge(v) }
+          value.map { |v| InstanceTemplateAccessConfigs.unsafe_munge(v) }
         end
 
         # Used for parsing GCP API responses
         def self.api_munge(value)
           return if value.nil?
-          return InstaTemplAccesConfi.api_munge(value) \
+          return InstanceTemplateAccessConfigs.api_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| InstaTemplAccesConfi.api_munge(v) }
+          value.map { |v| InstanceTemplateAccessConfigs.api_munge(v) }
         end
       end
     end

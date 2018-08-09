@@ -79,7 +79,7 @@ Puppet::Type.newtype(:gcompute_zone) do
     desc 'Name of the resource.'
   end
 
-  newproperty(:region, parent: Google::Compute::Property::RegioSelfLinkRef) do
+  newproperty(:region, parent: Google::Compute::Property::RegionSelfLinkRef) do
     desc 'The region where the zone is located. (output only)'
   end
 

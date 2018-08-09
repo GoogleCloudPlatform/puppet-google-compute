@@ -80,7 +80,7 @@ Puppet::Type.newtype(:gcompute_disk_type) do
     desc 'Server-defined default disk size in GB. (output only)'
   end
 
-  newproperty(:deprecated, parent: Google::Compute::Property::DiskTypeDepreca) do
+  newproperty(:deprecated, parent: Google::Compute::Property::DiskTypeDeprecated) do
     desc 'The deprecation status associated with this disk type. (output only)'
   end
 

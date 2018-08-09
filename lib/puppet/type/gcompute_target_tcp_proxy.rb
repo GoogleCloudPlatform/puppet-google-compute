@@ -94,7 +94,7 @@ Puppet::Type.newtype(:gcompute_target_tcp_proxy) do
     newvalue(:PROXY_V1)
   end
 
-  newproperty(:service, parent: Google::Compute::Property::BackServSelfLinkRef) do
+  newproperty(:service, parent: Google::Compute::Property::BackendServiceSelfLinkRef) do
     desc 'A reference to the BackendService resource.'
   end
 

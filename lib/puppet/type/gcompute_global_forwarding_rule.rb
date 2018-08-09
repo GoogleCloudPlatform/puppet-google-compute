@@ -115,7 +115,7 @@ Puppet::Type.newtype(:gcompute_global_forwarding_rule) do
     newvalue(:ICMP)
   end
 
-  newproperty(:backend_service, parent: Google::Compute::Property::BackServSelfLinkRef) do
+  newproperty(:backend_service, parent: Google::Compute::Property::BackendServiceSelfLinkRef) do
     desc <<-DOC
       A reference to a BackendService to receive the matched traffic. This is used for internal
       load balancing. (not used for external load balancing)
@@ -152,7 +152,7 @@ Puppet::Type.newtype(:gcompute_global_forwarding_rule) do
     DOC
   end
 
-  newproperty(:network, parent: Google::Compute::Property::NetwoSelfLinkRef) do
+  newproperty(:network, parent: Google::Compute::Property::NetworkSelfLinkRef) do
     desc <<-DOC
       For internal load balancing, this field identifies the network that the load balanced IP
       should belong to for this Forwarding Rule. If this field is not specified, the default
@@ -182,7 +182,7 @@ Puppet::Type.newtype(:gcompute_global_forwarding_rule) do
     DOC
   end
 
-  newproperty(:subnetwork, parent: Google::Compute::Property::SubneSelfLinkRef) do
+  newproperty(:subnetwork, parent: Google::Compute::Property::SubnetworkSelfLinkRef) do
     desc <<-DOC
       A reference to a subnetwork. For internal load balancing, this field identifies the
       subnetwork that the load balanced IP should belong to for this Forwarding Rule. If the
