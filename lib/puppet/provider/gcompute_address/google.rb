@@ -111,11 +111,7 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    update_req = Google::Compute::Network::Put.new(self_link(@resource),
-                                                   fetch_auth(@resource),
-                                                   'application/json',
-                                                   resource_to_request)
-    @fetched = wait_for_operation update_req.send, @resource
+    raise 'Address cannot be edited.'
   end
 
   def dirty(field, from, to)
