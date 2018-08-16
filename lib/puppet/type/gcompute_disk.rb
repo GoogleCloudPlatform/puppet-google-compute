@@ -197,17 +197,17 @@ Puppet::Type.newtype(:gcompute_disk) do
     DOC
   end
 
-  newproperty(:type, parent: Google::Compute::Property::DiskTypeSelfLinkRef) do
-    desc <<-DOC
-      URL of the disk type resource describing which disk type to use to create the disk. Provide
-      this when creating the disk.
-    DOC
-  end
-
   newproperty(:users, parent: Google::Compute::Property::InstanceSelfLinkRefArray) do
     desc <<-DOC
       Links to the users of the disk (attached instances) in form:
       project/zones/zone/instances/instance (output only)
+    DOC
+  end
+
+  newproperty(:type, parent: Google::Compute::Property::DiskTypeSelfLinkRef) do
+    desc <<-DOC
+      URL of the disk type resource describing which disk type to use to create the disk. Provide
+      this when creating the disk.
     DOC
   end
 

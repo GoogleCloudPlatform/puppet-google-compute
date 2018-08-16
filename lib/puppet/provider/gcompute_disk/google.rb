@@ -89,8 +89,8 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
       labels: Google::Compute::Property::NameValues.api_munge(fetch['labels']),
       licenses: Google::Compute::Property::StringArray.api_munge(fetch['licenses']),
       size_gb: Google::Compute::Property::Integer.api_munge(fetch['sizeGb']),
-      type: Google::Compute::Property::DiskTypeSelfLinkRef.api_munge(fetch['type']),
       users: Google::Compute::Property::InstanceSelfLinkRefArray.api_munge(fetch['users']),
+      type: Google::Compute::Property::DiskTypeSelfLinkRef.api_munge(fetch['type']),
       name: resource[:name],
       source_image: resource[:source_image]
     }.reject { |_, v| v.nil? }
@@ -161,8 +161,8 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
       labels: resource[:labels],
       licenses: resource[:licenses],
       size_gb: resource[:size_gb],
-      type: resource[:type],
       users: resource[:users],
+      type: resource[:type],
       source_image: resource[:source_image],
       zone: resource[:zone],
       source_image_encryption_key: resource[:source_image_encryption_key],

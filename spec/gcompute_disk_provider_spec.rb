@@ -251,12 +251,12 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[ww xx]) }
               it { is_expected.to have_attributes(name: 'title0') }
               it { is_expected.to have_attributes(size_gb: 2_858_499_398) }
-              # TODO(alexstephen): Implement resourceref test.
-              # it 'type' do
-              #   # Add test code here
-              # end
               # TODO(nelsonjr): Implement complex array object test.
               # it 'users' do
+              #   # Add test code here
+              # end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'type' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(source_image: 'test source_image#0 data') }
@@ -292,12 +292,12 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[uu vv]) }
               it { is_expected.to have_attributes(name: 'title1') }
               it { is_expected.to have_attributes(size_gb: 5_716_998_797) }
-              # TODO(alexstephen): Implement resourceref test.
-              # it 'type' do
-              #   # Add test code here
-              # end
               # TODO(nelsonjr): Implement complex array object test.
               # it 'users' do
+              #   # Add test code here
+              # end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'type' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(source_image: 'test source_image#1 data') }
@@ -333,12 +333,12 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[tt uu vv]) }
               it { is_expected.to have_attributes(name: 'title2') }
               it { is_expected.to have_attributes(size_gb: 8_575_498_196) }
-              # TODO(alexstephen): Implement resourceref test.
-              # it 'type' do
-              #   # Add test code here
-              # end
               # TODO(nelsonjr): Implement complex array object test.
               # it 'users' do
+              #   # Add test code here
+              # end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'type' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(source_image: 'test source_image#2 data') }
@@ -564,12 +564,12 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[ww xx]) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               it { is_expected.to have_attributes(size_gb: 2_858_499_398) }
-              # TODO(alexstephen): Implement resourceref test.
-              # it 'type' do
-              #   # Add test code here
-              # end
               # TODO(nelsonjr): Implement complex array object test.
               # it 'users' do
+              #   # Add test code here
+              # end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'type' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(source_image: 'test source_image#0 data') }
@@ -605,12 +605,12 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[uu vv]) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               it { is_expected.to have_attributes(size_gb: 5_716_998_797) }
-              # TODO(alexstephen): Implement resourceref test.
-              # it 'type' do
-              #   # Add test code here
-              # end
               # TODO(nelsonjr): Implement complex array object test.
               # it 'users' do
+              #   # Add test code here
+              # end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'type' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(source_image: 'test source_image#1 data') }
@@ -646,12 +646,12 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
               it { is_expected.to have_attributes(licenses: %w[tt uu vv]) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               it { is_expected.to have_attributes(size_gb: 8_575_498_196) }
-              # TODO(alexstephen): Implement resourceref test.
-              # it 'type' do
-              #   # Add test code here
-              # end
               # TODO(nelsonjr): Implement complex array object test.
               # it 'users' do
+              #   # Add test code here
+              # end
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'type' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(source_image: 'test source_image#2 data') }
@@ -1223,28 +1223,28 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
     data
   end
 
-  def expect_network_get_success_disk_type(id, data = {})
+  def expect_network_get_success_instance(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
-    body = load_network_result_disk_type("success#{id}~" \
+    body = load_network_result_instance("success#{id}~" \
                                                            "#{id_data}.yaml")
            .to_json
-    uri = uri_data_disk_type(id).merge(data)
+    uri = uri_data_instance(id).merge(data)
 
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
     debug_network "!! GET #{uri}"
     expect(Google::Compute::Network::Get).to receive(:new)
-      .with(self_link_disk_type(uri),
+      .with(self_link_instance(uri),
             instance_of(Google::FakeAuthorization)) do |args|
       debug_network ">> GET #{args}"
       request
     end
   end
 
-  def load_network_result_disk_type(file)
+  def load_network_result_instance(file)
     results = File.join(File.dirname(__FILE__), 'data', 'network',
-                        'gcompute_disk_type', file)
+                        'gcompute_instance', file)
     raise "Network result data file #{results}" unless File.exist?(results)
     data = YAML.safe_load(File.read(results))
     raise "Invalid network results #{results}" unless data.class <= Hash
@@ -1252,23 +1252,23 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
   end
 
   # Creates variable test data to comply with self_link URI parameters
-  # Only used for gcompute_disk_type objects
-  def uri_data_disk_type(id)
+  # Only used for gcompute_instance objects
+  def uri_data_instance(id)
     {
-      project: GoogleTests::Constants::DT_PROJECT_DATA[(id - 1) \
-        % GoogleTests::Constants::DT_PROJECT_DATA.size],
-      zone: GoogleTests::Constants::DT_ZONE_DATA[(id - 1) \
-        % GoogleTests::Constants::DT_ZONE_DATA.size],
-      name: GoogleTests::Constants::DT_NAME_DATA[(id - 1) \
-        % GoogleTests::Constants::DT_NAME_DATA.size]
+      project: GoogleTests::Constants::I_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::I_PROJECT_DATA.size],
+      zone: GoogleTests::Constants::I_ZONE_DATA[(id - 1) \
+        % GoogleTests::Constants::I_ZONE_DATA.size],
+      name: GoogleTests::Constants::I_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::I_NAME_DATA.size]
     }
   end
 
-  def self_link_disk_type(data)
+  def self_link_instance(data)
     URI.join(
       'https://www.googleapis.com/compute/v1/',
-      expand_variables_disk_type(
-        'projects/{{project}}/zones/{{zone}}/diskTypes/{{name}}',
+      expand_variables_instance(
+        'projects/{{project}}/zones/{{zone}}/instances/{{name}}',
         data
       )
     )
@@ -1323,28 +1323,28 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
     )
   end
 
-  def expect_network_get_success_instance(id, data = {})
+  def expect_network_get_success_disk_type(id, data = {})
     id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
-    body = load_network_result_instance("success#{id}~" \
+    body = load_network_result_disk_type("success#{id}~" \
                                                            "#{id_data}.yaml")
            .to_json
-    uri = uri_data_instance(id).merge(data)
+    uri = uri_data_disk_type(id).merge(data)
 
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
     debug_network "!! GET #{uri}"
     expect(Google::Compute::Network::Get).to receive(:new)
-      .with(self_link_instance(uri),
+      .with(self_link_disk_type(uri),
             instance_of(Google::FakeAuthorization)) do |args|
       debug_network ">> GET #{args}"
       request
     end
   end
 
-  def load_network_result_instance(file)
+  def load_network_result_disk_type(file)
     results = File.join(File.dirname(__FILE__), 'data', 'network',
-                        'gcompute_instance', file)
+                        'gcompute_disk_type', file)
     raise "Network result data file #{results}" unless File.exist?(results)
     data = YAML.safe_load(File.read(results))
     raise "Invalid network results #{results}" unless data.class <= Hash
@@ -1352,23 +1352,23 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
   end
 
   # Creates variable test data to comply with self_link URI parameters
-  # Only used for gcompute_instance objects
-  def uri_data_instance(id)
+  # Only used for gcompute_disk_type objects
+  def uri_data_disk_type(id)
     {
-      project: GoogleTests::Constants::I_PROJECT_DATA[(id - 1) \
-        % GoogleTests::Constants::I_PROJECT_DATA.size],
-      zone: GoogleTests::Constants::I_ZONE_DATA[(id - 1) \
-        % GoogleTests::Constants::I_ZONE_DATA.size],
-      name: GoogleTests::Constants::I_NAME_DATA[(id - 1) \
-        % GoogleTests::Constants::I_NAME_DATA.size]
+      project: GoogleTests::Constants::DT_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::DT_PROJECT_DATA.size],
+      zone: GoogleTests::Constants::DT_ZONE_DATA[(id - 1) \
+        % GoogleTests::Constants::DT_ZONE_DATA.size],
+      name: GoogleTests::Constants::DT_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::DT_NAME_DATA.size]
     }
   end
 
-  def self_link_instance(data)
+  def self_link_disk_type(data)
     URI.join(
       'https://www.googleapis.com/compute/v1/',
-      expand_variables_instance(
-        'projects/{{project}}/zones/{{zone}}/instances/{{name}}',
+      expand_variables_disk_type(
+        'projects/{{project}}/zones/{{zone}}/diskTypes/{{name}}',
         data
       )
     )
@@ -1530,8 +1530,8 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
       if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
   end
 
-  def expand_variables_disk_type(template, data, ext_dat = {})
-    Puppet::Type.type(:gcompute_disk_type).provider(:google)
+  def expand_variables_instance(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_instance).provider(:google)
                 .expand_variables(template, data, ext_dat)
   end
 
@@ -1540,8 +1540,8 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                 .expand_variables(template, data, ext_dat)
   end
 
-  def expand_variables_instance(template, data, ext_dat = {})
-    Puppet::Type.type(:gcompute_instance).provider(:google)
+  def expand_variables_disk_type(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_disk_type).provider(:google)
                 .expand_variables(template, data, ext_dat)
   end
 
