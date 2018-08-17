@@ -225,6 +225,9 @@ describe Puppet::Type.type(:gcompute_vpn_tunnel).provider(:google) do
               # it 'labels' do
               #   # Add test code here
               # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
+              end
             end
 
             context 'Gcompute_vpn_tunnel[title1]' do
@@ -255,6 +258,9 @@ describe Puppet::Type.type(:gcompute_vpn_tunnel).provider(:google) do
               # it 'labels' do
               #   # Add test code here
               # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
+              end
             end
 
             context 'Gcompute_vpn_tunnel[title2]' do
@@ -285,6 +291,9 @@ describe Puppet::Type.type(:gcompute_vpn_tunnel).provider(:google) do
               # it 'labels' do
               #   # Add test code here
               # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
+              end
             end
           end
 
@@ -481,6 +490,9 @@ describe Puppet::Type.type(:gcompute_vpn_tunnel).provider(:google) do
               # it 'labels' do
               #   # Add test code here
               # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
+              end
             end
 
             context 'Gcompute_vpn_tunnel[title1]' do
@@ -511,6 +523,9 @@ describe Puppet::Type.type(:gcompute_vpn_tunnel).provider(:google) do
               # it 'labels' do
               #   # Add test code here
               # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
+              end
             end
 
             context 'Gcompute_vpn_tunnel[title2]' do
@@ -541,6 +556,9 @@ describe Puppet::Type.type(:gcompute_vpn_tunnel).provider(:google) do
               # it 'labels' do
               #   # Add test code here
               # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
+              end
             end
           end
 

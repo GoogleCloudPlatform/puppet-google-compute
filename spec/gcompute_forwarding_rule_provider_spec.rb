@@ -279,6 +279,9 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               # it 'target' do
               #   # Add test code here
               # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
+              end
             end
 
             context 'Gcompute_forwarding_rule[title1]' do
@@ -315,6 +318,9 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               # it 'target' do
               #   # Add test code here
               # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
+              end
             end
 
             context 'Gcompute_forwarding_rule[title2]' do
@@ -351,6 +357,9 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               # it 'target' do
               #   # Add test code here
               # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
+              end
             end
           end
 
@@ -601,6 +610,9 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               # it 'target' do
               #   # Add test code here
               # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
+              end
             end
 
             context 'Gcompute_forwarding_rule[title1]' do
@@ -637,6 +649,9 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               # it 'target' do
               #   # Add test code here
               # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
+              end
             end
 
             context 'Gcompute_forwarding_rule[title2]' do
@@ -673,6 +688,9 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               # it 'target' do
               #   # Add test code here
               # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
+              end
             end
           end
 

@@ -84,6 +84,7 @@ Puppet::Type.type(:gcompute_vpn_tunnel).provide(:google) do
       remote_traffic_selector:
         Google::Compute::Property::StringArray.api_munge(fetch['remoteTrafficSelector']),
       labels: Google::Compute::Property::NameValues.api_munge(fetch['labels']),
+      label_fingerprint: Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
       description: resource[:description],
       target_vpn_gateway: resource[:target_vpn_gateway],
       router: resource[:router]
@@ -104,6 +105,7 @@ Puppet::Type.type(:gcompute_vpn_tunnel).provide(:google) do
                                                     resource_to_request)
     @fetched = wait_for_operation create_req.send, @resource
     @property_hash[:ensure] = :present
+    labels_update(@resource)
   end
 
   def destroy
@@ -119,7 +121,8 @@ Puppet::Type.type(:gcompute_vpn_tunnel).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    raise 'VpnTunnel cannot be edited.'
+    labels_update(@resource) if @dirty[:labels] || @dirty[:label_fingerprint]
+    return fetch_resource(@resource, self_link(@resource), 'compute#vpnTunnel')
   end
 
   def dirty(field, from, to)
@@ -130,6 +133,23 @@ Puppet::Type.type(:gcompute_vpn_tunnel).provide(:google) do
     }
   end
 
+  def labels_update(data)
+    ::Google::Compute::Network::Post.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projects/{{project}}/regions/{{region}}/vpnTunnels/{{name}}/setLabels',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        labels: @resource[:labels],
+        labelFingerprint: @fetched['labelFingerprint']
+      }.to_json
+    ).send
+  end
   def exports
     {
       self_link: @fetched['selfLink'],
@@ -155,6 +175,7 @@ Puppet::Type.type(:gcompute_vpn_tunnel).provide(:google) do
       local_traffic_selector: resource[:local_traffic_selector],
       remote_traffic_selector: resource[:remote_traffic_selector],
       labels: resource[:labels],
+      label_fingerprint: resource[:label_fingerprint],
       region: resource[:region]
     }.reject { |_, v| v.nil? }
   end

@@ -109,7 +109,9 @@ Puppet::Type.type(:gcompute_target_tcp_proxy).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    raise 'TargetTcpProxy cannot be edited.'
+    proxy_header_update(@resource) if @dirty[:proxy_header]
+    service_update(@resource) if @dirty[:service]
+    return fetch_resource(@resource, self_link(@resource), 'compute#targetTcpProxy')
   end
 
   def dirty(field, from, to)
@@ -120,6 +122,39 @@ Puppet::Type.type(:gcompute_target_tcp_proxy).provide(:google) do
     }
   end
 
+  def proxy_header_update(data)
+    ::Google::Compute::Network::Post.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projects/{{project}}/global/targetTcpProxies/{{name}}/setProxyHeader',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        proxyHeader: @resource[:proxy_header]
+      }.to_json
+    ).send
+  end
+
+  def service_update(data)
+    ::Google::Compute::Network::Post.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projects/{{project}}/global/targetTcpProxies/{{name}}/setBackendService',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        service: @resource[:service]
+      }.to_json
+    ).send
+  end
   def exports
     {
       self_link: @fetched['selfLink'],

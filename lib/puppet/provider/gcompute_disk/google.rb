@@ -79,6 +79,7 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
   # rubocop:disable Metrics/MethodLength
   def self.fetch_to_hash(fetch, resource)
     {
+      label_fingerprint: Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
       creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
@@ -126,7 +127,9 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    raise 'Disk cannot be edited'
+    label_fingerprint_update(@resource) if @dirty[:label_fingerprint] || @dirty[:labels]
+    size_gb_update(@resource) if @dirty[:size_gb]
+    return fetch_resource(@resource, self_link(@resource), 'compute#disk')
   end
 
   def dirty(field, from, to)
@@ -137,6 +140,40 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
     }
   end
 
+  def label_fingerprint_update(data)
+    ::Google::Compute::Network::Post.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projects/{{project}}/zones/{{zone}}/disks/{{name}}/setLabels',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        labelFingerprint: @fetched['labelFingerprint'],
+        labels: @resource[:labels]
+      }.to_json
+    ).send
+  end
+
+  def size_gb_update(data)
+    ::Google::Compute::Network::Post.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projects/{{project}}/zones/{{zone}}/disks/{{name}}/resize',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        sizeGb: @resource[:size_gb]
+      }.to_json
+    ).send
+  end
   def exports
     {
       name: resource[:name],
@@ -153,6 +190,7 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
       project: resource[:project],
       name: resource[:name],
       kind: 'compute#disk',
+      label_fingerprint: resource[:label_fingerprint],
       creation_timestamp: resource[:creation_timestamp],
       description: resource[:description],
       id: resource[:id],

@@ -114,7 +114,9 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    raise 'Subnetwork cannot be edited.'
+    ip_cidr_range_update(@resource) if @dirty[:ip_cidr_range]
+    private_ip_google_access_update(@resource) if @dirty[:private_ip_google_access]
+    return fetch_resource(@resource, self_link(@resource), 'compute#subnetwork')
   end
 
   def dirty(field, from, to)
@@ -125,6 +127,39 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
     }
   end
 
+  def ip_cidr_range_update(data)
+    ::Google::Compute::Network::Post.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projects/{{project}}/regions/{{region}}/subnetworks/{{name}}/expandIpCidrRange',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        ipCidrRange: @resource[:ip_cidr_range]
+      }.to_json
+    ).send
+  end
+
+  def private_ip_google_access_update(data)
+    ::Google::Compute::Network::Post.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projects/{{project}}/regions/{{region}}/subnetworks/{{name}}/setPrivateIpGoogleAccess',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        privateIpGoogleAccess: @resource[:private_ip_google_access]
+      }.to_json
+    ).send
+  end
   def exports
     {
       self_link: @fetched['selfLink'],

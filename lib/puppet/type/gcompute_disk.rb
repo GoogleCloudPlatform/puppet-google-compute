@@ -147,6 +147,13 @@ Puppet::Type.newtype(:gcompute_disk) do
     DOC
   end
 
+  newproperty(:label_fingerprint, parent: Google::Compute::Property::String) do
+    desc <<-DOC
+      The fingerprint used for optimistic locking of this resource. Used internally during updates.
+      (output only)
+    DOC
+  end
+
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
     desc 'Creation timestamp in RFC3339 text format. (output only)'
   end

@@ -105,7 +105,8 @@ Puppet::Type.type(:gcompute_target_http_proxy).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    raise 'TargetHttpProxy cannot be edited.'
+    url_map_update(@resource) if @dirty[:url_map]
+    return fetch_resource(@resource, self_link(@resource), 'compute#targetHttpProxy')
   end
 
   def dirty(field, from, to)
@@ -116,6 +117,22 @@ Puppet::Type.type(:gcompute_target_http_proxy).provide(:google) do
     }
   end
 
+  def url_map_update(data)
+    ::Google::Compute::Network::Post.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projects/{{project}}/targetHttpProxies/{{name}}/setUrlMap',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        urlMap: @resource[:url_map]
+      }.to_json
+    ).send
+  end
   def exports
     {
       self_link: @fetched['selfLink'],
