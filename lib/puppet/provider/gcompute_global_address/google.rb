@@ -74,6 +74,7 @@ Puppet::Type.type(:gcompute_global_address).provide(:google) do
       description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
+      label_fingerprint: Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
       ip_version: Google::Compute::Property::Enum.api_munge(fetch['ipVersion']),
       region: Google::Compute::Property::RegionSelfLinkRef.api_munge(fetch['region'])
     }.reject { |_, v| v.nil? }
@@ -108,7 +109,8 @@ Puppet::Type.type(:gcompute_global_address).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    raise 'GlobalAddress cannot be edited.'
+    label_fingerprint_update(@resource) if @dirty[:label_fingerprint]
+    return fetch_resource(@resource, self_link(@resource), 'compute#address')
   end
 
   def dirty(field, from, to)
@@ -119,6 +121,22 @@ Puppet::Type.type(:gcompute_global_address).provide(:google) do
     }
   end
 
+  def label_fingerprint_update(data)
+    ::Google::Compute::Network::Post.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projects/{{project}}/global/addresses/{{name}}/setLabels',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        labelFingerprint: @fetched['labelFingerprint']
+      }.to_json
+    ).send
+  end
   def exports
     {
       self_link: @fetched['selfLink'],
@@ -137,6 +155,7 @@ Puppet::Type.type(:gcompute_global_address).provide(:google) do
       creation_timestamp: resource[:creation_timestamp],
       description: resource[:description],
       id: resource[:id],
+      label_fingerprint: resource[:label_fingerprint],
       ip_version: resource[:ip_version],
       region: resource[:region]
     }.reject { |_, v| v.nil? }

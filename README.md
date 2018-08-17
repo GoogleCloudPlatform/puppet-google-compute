@@ -1609,6 +1609,7 @@ gcompute_disk { 'id-of-resource':
     sha256  => string,
   },
   id                             => integer,
+  label_fingerprint              => fingerprint,
   labels                         => namevalues,
   last_attach_timestamp          => time,
   last_detach_timestamp          => time,
@@ -1760,6 +1761,10 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
 
 
 ##### Output-only properties
+
+* `label_fingerprint`: Output only.
+  The fingerprint used for optimistic locking of this resource.  Used
+  internally during updates.
 
 * `creation_timestamp`: Output only.
   Creation timestamp in RFC3339 text format.
@@ -1996,6 +2001,7 @@ gcompute_forwarding_rule { 'id-of-resource':
   ip_address            => string,
   ip_protocol           => 'TCP', 'UDP', 'ESP', 'AH', 'SCTP' or 'ICMP',
   ip_version            => 'IPV4' or 'IPV6',
+  label_fingerprint     => fingerprint,
   load_balancing_scheme => 'INTERNAL' or 'EXTERNAL',
   name                  => string,
   network               => reference to gcompute_network,
@@ -2151,6 +2157,10 @@ Required.  A reference to the region where the regional forwarding rule resides.
 * `id`: Output only.
   The unique identifier for the resource.
 
+* `label_fingerprint`: Output only.
+  The fingerprint used for optimistic locking of this resource.  Used
+  internally during updates.
+
 #### `gcompute_global_address`
 
 Represents a Global Address resource. Global addresses are used for
@@ -2180,6 +2190,7 @@ gcompute_global_address { 'id-of-resource':
   description        => string,
   id                 => integer,
   ip_version         => 'IPV4' or 'IPV6',
+  label_fingerprint  => fingerprint,
   name               => string,
   region             => reference to gcompute_region,
   project            => string,
@@ -2219,6 +2230,10 @@ Required.  Name of the resource. Provided by the client when the resource is
 * `id`: Output only.
   The unique identifier for the resource. This identifier is defined by
   the server.
+
+* `label_fingerprint`: Output only.
+  The fingerprint used for optimistic locking of this resource.  Used
+  internally during updates.
 
 * `region`: Output only.
   A reference to the region where the regional address resides.
@@ -6066,6 +6081,7 @@ gcompute_vpn_tunnel { 'id-of-resource':
   creation_timestamp      => time,
   description             => string,
   ike_version             => integer,
+  label_fingerprint       => fingerprint,
   labels                  => namevalues,
   local_traffic_selector  => [
     string,
@@ -6155,6 +6171,10 @@ Required.  The region where the tunnel is located.
 
 * `shared_secret_hash`: Output only.
   Hash of the shared secret.
+
+* `label_fingerprint`: Output only.
+  The fingerprint used for optimistic locking of this resource.  Used
+  internally during updates.
 
 #### `gcompute_zone`
 
