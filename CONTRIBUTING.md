@@ -246,6 +246,7 @@ puppet-codegen:
   * lib/google/compute/property/double.rb
   * lib/google/compute/property/enum.rb
   * lib/google/compute/property/firewall_allowed.rb
+  * lib/google/compute/property/firewall_denied.rb
   * lib/google/compute/property/forwardingrule_selflink.rb
   * lib/google/compute/property/healthcheck_http_health_check.rb
   * lib/google/compute/property/healthcheck_https_health_check.rb
