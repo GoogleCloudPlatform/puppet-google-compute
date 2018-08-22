@@ -27,14 +27,19 @@
 
 require 'google/compute/network/delete'
 require 'google/compute/network/get'
+require 'google/compute/network/patch'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
+require 'google/compute/property/enum'
 require 'google/compute/property/firewall_allowed'
+require 'google/compute/property/firewall_denied'
 require 'google/compute/property/integer'
+require 'google/compute/property/network_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
 require 'google/hash_utils'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_firewall).provide(:google) do
@@ -55,27 +60,40 @@ Puppet::Type.type(:gcompute_firewall).provide(:google) do
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource), 'compute#firewall')
-      resource.provider = present(name, fetch) unless fetch.nil?
+      resource.provider = present(name, fetch, resource) unless fetch.nil?
+      Google::ObjectStore.instance.add(:gcompute_firewall, resource)
     end
   end
 
-  def self.present(name, fetch)
-    result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+  def self.present(name, fetch, resource)
+    result = new(
+      { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
+    )
+    result.instance_variable_set(:@fetched, fetch)
     result
   end
 
   # rubocop:disable Metrics/MethodLength
-  def self.fetch_to_hash(fetch)
+  def self.fetch_to_hash(fetch, resource)
     {
       allowed: Google::Compute::Property::FirewallAllowedArray.api_munge(fetch['allowed']),
       creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      denied: Google::Compute::Property::FirewallDeniedArray.api_munge(fetch['denied']),
       description: Google::Compute::Property::String.api_munge(fetch['description']),
+      destination_ranges:
+        Google::Compute::Property::StringArray.api_munge(fetch['destinationRanges']),
+      direction: Google::Compute::Property::Enum.api_munge(fetch['direction']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      name: Google::Compute::Property::String.api_munge(fetch['name']),
-      network: Google::Compute::Property::String.api_munge(fetch['network']),
+      network: Google::Compute::Property::NetworkSelfLinkRef.api_munge(fetch['network']),
+      priority: Google::Compute::Property::Integer.api_munge(fetch['priority']),
       source_ranges: Google::Compute::Property::StringArray.api_munge(fetch['sourceRanges']),
+      source_service_accounts:
+        Google::Compute::Property::StringArray.api_munge(fetch['sourceServiceAccounts']),
       source_tags: Google::Compute::Property::StringArray.api_munge(fetch['sourceTags']),
-      target_tags: Google::Compute::Property::StringArray.api_munge(fetch['targetTags'])
+      target_service_accounts:
+        Google::Compute::Property::StringArray.api_munge(fetch['targetServiceAccounts']),
+      target_tags: Google::Compute::Property::StringArray.api_munge(fetch['targetTags']),
+      name: resource[:name]
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength
@@ -92,7 +110,7 @@ Puppet::Type.type(:gcompute_firewall).provide(:google) do
                                                     fetch_auth(@resource),
                                                     'application/json',
                                                     resource_to_request)
-    wait_for_operation create_req.send, @resource
+    @fetched = wait_for_operation create_req.send, @resource
     @property_hash[:ensure] = :present
   end
 
@@ -109,11 +127,11 @@ Puppet::Type.type(:gcompute_firewall).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    update_req = Google::Compute::Network::Put.new(self_link(@resource),
-                                                   fetch_auth(@resource),
-                                                   'application/json',
-                                                   resource_to_request)
-    wait_for_operation update_req.send, @resource
+    update_req = Google::Compute::Network::Patch.new(self_link(@resource),
+                                                     fetch_auth(@resource),
+                                                     'application/json',
+                                                     resource_to_request)
+    @fetched = wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)
@@ -121,6 +139,13 @@ Puppet::Type.type(:gcompute_firewall).provide(:google) do
     @dirty[field] = {
       from: from,
       to: to
+    }
+  end
+
+  def exports
+    {
+      self_link: @fetched['selfLink'],
+      project: resource[:project]
     }
   end
 
@@ -133,11 +158,17 @@ Puppet::Type.type(:gcompute_firewall).provide(:google) do
       kind: 'compute#firewall',
       allowed: resource[:allowed],
       creation_timestamp: resource[:creation_timestamp],
+      denied: resource[:denied],
       description: resource[:description],
+      destination_ranges: resource[:destination_ranges],
+      direction: resource[:direction],
       id: resource[:id],
       network: resource[:network],
+      priority: resource[:priority],
       source_ranges: resource[:source_ranges],
+      source_service_accounts: resource[:source_service_accounts],
       source_tags: resource[:source_tags],
+      target_service_accounts: resource[:target_service_accounts],
       target_tags: resource[:target_tags]
     }.reject { |_, v| v.nil? }
   end
@@ -146,11 +177,17 @@ Puppet::Type.type(:gcompute_firewall).provide(:google) do
     request = {
       kind: 'compute#firewall',
       allowed: @resource[:allowed],
+      denied: @resource[:denied],
       description: @resource[:description],
+      destinationRanges: @resource[:destination_ranges],
+      direction: @resource[:direction],
       name: @resource[:name],
       network: @resource[:network],
+      priority: @resource[:priority],
       sourceRanges: @resource[:source_ranges],
+      sourceServiceAccounts: @resource[:source_service_accounts],
       sourceTags: @resource[:source_tags],
+      targetServiceAccounts: @resource[:target_service_accounts],
       targetTags: @resource[:target_tags]
     }.reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?

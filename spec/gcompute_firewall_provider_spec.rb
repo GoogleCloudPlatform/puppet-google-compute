@@ -54,14 +54,38 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               expect_network_get_success 1, name: 'title0'
               expect_network_get_success 2, name: 'title1'
               expect_network_get_success 3, name: 'title2'
+              expect_network_get_success_network 1
+              expect_network_get_success_network 2
+              expect_network_get_success_network 3
             end
 
             let(:catalog) do
               apply_with_error_check(
                 <<-MANIFEST
+                gcompute_network { 'resource(network,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_network { 'resource(network,1)':
+                  ensure     => present,
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_network { 'resource(network,2)':
+                  ensure     => present,
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
                 gcompute_firewall { 'title0':
-                  ensure        => present,
-                  allowed       => [
+                  ensure                  => present,
+                  allowed                 => [
                     {
                       ip_protocol => 'test ip_protocol#0 data',
                       ports       => ['uu', 'vv'],
@@ -75,18 +99,41 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                       ports       => ['mm', 'nn'],
                     },
                   ],
-                  description   => 'test description#0 data',
-                  network       => 'test network#0 data',
-                  source_ranges => ['dd', 'ee', 'ff', 'gg', 'hh'],
-                  source_tags   => ['vv', 'ww', 'xx', 'yy', 'zz'],
-                  target_tags   => ['tt', 'uu', 'vv', 'ww', 'xx'],
-                  project       => 'test project#0 data',
-                  credential    => 'cred0',
+                  denied                  => [
+                    {
+                      ip_protocol => 'test ip_protocol#0 data',
+                      ports       => ['uu', 'vv'],
+                    },
+                    {
+                      ip_protocol => 'test ip_protocol#1 data',
+                      ports       => ['qq', 'rr'],
+                    },
+                    {
+                      ip_protocol => 'test ip_protocol#2 data',
+                      ports       => ['mm', 'nn'],
+                    },
+                    {
+                      ip_protocol => 'test ip_protocol#3 data',
+                      ports       => ['ii', 'jj'],
+                    },
+                  ],
+                  description             => 'test description#0 data',
+                  destination_ranges      => ['dd', 'ee', 'ff'],
+                  direction               => 'INGRESS',
+                  network                 => 'resource(network,0)',
+                  priority                => 1000,
+                  source_ranges           => ['dd', 'ee', 'ff', 'gg', 'hh'],
+                  source_service_accounts => ['yy', 'zz'],
+                  source_tags             => ['vv', 'ww', 'xx', 'yy', 'zz'],
+                  target_service_accounts => ['ff', 'gg', 'hh'],
+                  target_tags             => ['tt', 'uu', 'vv', 'ww', 'xx'],
+                  project                 => 'test project#0 data',
+                  credential              => 'cred0',
                 }
 
                 gcompute_firewall { 'title1':
-                  ensure        => present,
-                  allowed       => [
+                  ensure                  => present,
+                  allowed                 => [
                     {
                       ip_protocol => 'test ip_protocol#1 data',
                       ports       => ['qq', 'rr'],
@@ -108,18 +155,33 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                       ports       => ['bb', 'cc', 'dd'],
                     },
                   ],
-                  description   => 'test description#1 data',
-                  network       => 'test network#1 data',
-                  source_ranges => ['ii', 'jj', 'kk', 'll'],
-                  source_tags   => ['ss', 'tt', 'uu', 'vv'],
-                  target_tags   => ['oo', 'pp', 'qq', 'rr'],
-                  project       => 'test project#1 data',
-                  credential    => 'cred1',
+                  denied                  => [
+                    {
+                      ip_protocol => 'test ip_protocol#1 data',
+                      ports       => ['qq', 'rr'],
+                    },
+                    {
+                      ip_protocol => 'test ip_protocol#2 data',
+                      ports       => ['mm', 'nn'],
+                    },
+                  ],
+                  description             => 'test description#1 data',
+                  destination_ranges      => ['ii', 'jj', 'kk', 'll'],
+                  direction               => 'EGRESS',
+                  network                 => 'resource(network,1)',
+                  priority                => 1000,
+                  source_ranges           => ['ii', 'jj', 'kk', 'll'],
+                  source_service_accounts => ['dd', 'ee', 'ff'],
+                  source_tags             => ['ss', 'tt', 'uu', 'vv'],
+                  target_service_accounts => ['mm', 'nn', 'oo', 'pp'],
+                  target_tags             => ['oo', 'pp', 'qq', 'rr'],
+                  project                 => 'test project#1 data',
+                  credential              => 'cred1',
                 }
 
                 gcompute_firewall { 'title2':
-                  ensure        => present,
-                  allowed       => [
+                  ensure                  => present,
+                  allowed                 => [
                     {
                       ip_protocol => 'test ip_protocol#2 data',
                       ports       => ['mm', 'nn'],
@@ -133,13 +195,36 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                       ports       => ['ff', 'gg', 'hh'],
                     },
                   ],
-                  description   => 'test description#2 data',
-                  network       => 'test network#2 data',
-                  source_ranges => ['nn', 'oo', 'pp'],
-                  source_tags   => ['qq', 'rr', 'ss', 'tt'],
-                  target_tags   => ['jj', 'kk', 'll'],
-                  project       => 'test project#2 data',
-                  credential    => 'cred2',
+                  denied                  => [
+                    {
+                      ip_protocol => 'test ip_protocol#2 data',
+                      ports       => ['mm', 'nn'],
+                    },
+                    {
+                      ip_protocol => 'test ip_protocol#3 data',
+                      ports       => ['ii', 'jj'],
+                    },
+                    {
+                      ip_protocol => 'test ip_protocol#4 data',
+                      ports       => ['ff', 'gg', 'hh'],
+                    },
+                    {
+                      ip_protocol => 'test ip_protocol#5 data',
+                      ports       => ['bb', 'cc', 'dd'],
+                    },
+                  ],
+                  description             => 'test description#2 data',
+                  destination_ranges      => ['oo', 'pp'],
+                  direction               => 'INGRESS',
+                  network                 => 'resource(network,2)',
+                  priority                => 1000,
+                  source_ranges           => ['nn', 'oo', 'pp'],
+                  source_service_accounts => ['gg', 'hh', 'ii', 'jj'],
+                  source_tags             => ['qq', 'rr', 'ss', 'tt'],
+                  target_service_accounts => ['uu', 'vv'],
+                  target_tags             => ['jj', 'kk', 'll'],
+                  project                 => 'test project#2 data',
+                  credential              => 'cred2',
                 }
                 MANIFEST
               ).catalog
@@ -158,12 +243,24 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 is_expected
                   .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'denied' do
+              #   # Add test code here
+              # end
               it { is_expected.to have_attributes(description: 'test description#0 data') }
+              it { is_expected.to have_attributes(destination_ranges: %w[dd ee ff]) }
+              it { is_expected.to have_attributes(direction: 'INGRESS') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
-              it { is_expected.to have_attributes(network: 'test network#0 data') }
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'network' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(priority: 1_000) }
               it { is_expected.to have_attributes(source_ranges: %w[dd ee ff gg hh]) }
+              it { is_expected.to have_attributes(source_service_accounts: %w[yy zz]) }
               it { is_expected.to have_attributes(source_tags: %w[vv ww xx yy zz]) }
+              it { is_expected.to have_attributes(target_service_accounts: %w[ff gg hh]) }
               it { is_expected.to have_attributes(target_tags: %w[tt uu vv ww xx]) }
             end
 
@@ -180,12 +277,24 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 is_expected
                   .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'denied' do
+              #   # Add test code here
+              # end
               it { is_expected.to have_attributes(description: 'test description#1 data') }
+              it { is_expected.to have_attributes(destination_ranges: %w[ii jj kk ll]) }
+              it { is_expected.to have_attributes(direction: 'EGRESS') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
-              it { is_expected.to have_attributes(network: 'test network#1 data') }
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'network' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(priority: 1_000) }
               it { is_expected.to have_attributes(source_ranges: %w[ii jj kk ll]) }
+              it { is_expected.to have_attributes(source_service_accounts: %w[dd ee ff]) }
               it { is_expected.to have_attributes(source_tags: %w[ss tt uu vv]) }
+              it { is_expected.to have_attributes(target_service_accounts: %w[mm nn oo pp]) }
               it { is_expected.to have_attributes(target_tags: %w[oo pp qq rr]) }
             end
 
@@ -202,12 +311,24 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 is_expected
                   .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'denied' do
+              #   # Add test code here
+              # end
               it { is_expected.to have_attributes(description: 'test description#2 data') }
+              it { is_expected.to have_attributes(destination_ranges: %w[oo pp]) }
+              it { is_expected.to have_attributes(direction: 'INGRESS') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
-              it { is_expected.to have_attributes(network: 'test network#2 data') }
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'network' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(priority: 1_000) }
               it { is_expected.to have_attributes(source_ranges: %w[nn oo pp]) }
+              it { is_expected.to have_attributes(source_service_accounts: %w[gg hh ii jj]) }
               it { is_expected.to have_attributes(source_tags: %w[qq rr ss tt]) }
+              it { is_expected.to have_attributes(target_service_accounts: %w[uu vv]) }
               it { is_expected.to have_attributes(target_tags: %w[jj kk ll]) }
             end
           end
@@ -231,14 +352,38 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               expect_network_get_success 1
               expect_network_get_success 2
               expect_network_get_success 3
+              expect_network_get_success_network 1
+              expect_network_get_success_network 2
+              expect_network_get_success_network 3
             end
 
             let(:catalog) do
               apply_with_error_check(
                 <<-MANIFEST
+                gcompute_network { 'resource(network,0)':
+                  ensure     => present,
+                  name       => 'test name#0 data',
+                  project    => 'test project#0 data',
+                  credential => 'cred0',
+                }
+
+                gcompute_network { 'resource(network,1)':
+                  ensure     => present,
+                  name       => 'test name#1 data',
+                  project    => 'test project#1 data',
+                  credential => 'cred1',
+                }
+
+                gcompute_network { 'resource(network,2)':
+                  ensure     => present,
+                  name       => 'test name#2 data',
+                  project    => 'test project#2 data',
+                  credential => 'cred2',
+                }
+
                 gcompute_firewall { 'title0':
-                  ensure        => present,
-                  allowed       => [
+                  ensure                  => present,
+                  allowed                 => [
                     {
                       ip_protocol => 'test ip_protocol#0 data',
                       ports       => ['uu', 'vv'],
@@ -252,19 +397,42 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                       ports       => ['mm', 'nn'],
                     },
                   ],
-                  description   => 'test description#0 data',
-                  name          => 'test name#0 data',
-                  network       => 'test network#0 data',
-                  source_ranges => ['dd', 'ee', 'ff', 'gg', 'hh'],
-                  source_tags   => ['vv', 'ww', 'xx', 'yy', 'zz'],
-                  target_tags   => ['tt', 'uu', 'vv', 'ww', 'xx'],
-                  project       => 'test project#0 data',
-                  credential    => 'cred0',
+                  denied                  => [
+                    {
+                      ip_protocol => 'test ip_protocol#0 data',
+                      ports       => ['uu', 'vv'],
+                    },
+                    {
+                      ip_protocol => 'test ip_protocol#1 data',
+                      ports       => ['qq', 'rr'],
+                    },
+                    {
+                      ip_protocol => 'test ip_protocol#2 data',
+                      ports       => ['mm', 'nn'],
+                    },
+                    {
+                      ip_protocol => 'test ip_protocol#3 data',
+                      ports       => ['ii', 'jj'],
+                    },
+                  ],
+                  description             => 'test description#0 data',
+                  destination_ranges      => ['dd', 'ee', 'ff'],
+                  direction               => 'INGRESS',
+                  name                    => 'test name#0 data',
+                  network                 => 'resource(network,0)',
+                  priority                => 1000,
+                  source_ranges           => ['dd', 'ee', 'ff', 'gg', 'hh'],
+                  source_service_accounts => ['yy', 'zz'],
+                  source_tags             => ['vv', 'ww', 'xx', 'yy', 'zz'],
+                  target_service_accounts => ['ff', 'gg', 'hh'],
+                  target_tags             => ['tt', 'uu', 'vv', 'ww', 'xx'],
+                  project                 => 'test project#0 data',
+                  credential              => 'cred0',
                 }
 
                 gcompute_firewall { 'title1':
-                  ensure        => present,
-                  allowed       => [
+                  ensure                  => present,
+                  allowed                 => [
                     {
                       ip_protocol => 'test ip_protocol#1 data',
                       ports       => ['qq', 'rr'],
@@ -286,19 +454,34 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                       ports       => ['bb', 'cc', 'dd'],
                     },
                   ],
-                  description   => 'test description#1 data',
-                  name          => 'test name#1 data',
-                  network       => 'test network#1 data',
-                  source_ranges => ['ii', 'jj', 'kk', 'll'],
-                  source_tags   => ['ss', 'tt', 'uu', 'vv'],
-                  target_tags   => ['oo', 'pp', 'qq', 'rr'],
-                  project       => 'test project#1 data',
-                  credential    => 'cred1',
+                  denied                  => [
+                    {
+                      ip_protocol => 'test ip_protocol#1 data',
+                      ports       => ['qq', 'rr'],
+                    },
+                    {
+                      ip_protocol => 'test ip_protocol#2 data',
+                      ports       => ['mm', 'nn'],
+                    },
+                  ],
+                  description             => 'test description#1 data',
+                  destination_ranges      => ['ii', 'jj', 'kk', 'll'],
+                  direction               => 'EGRESS',
+                  name                    => 'test name#1 data',
+                  network                 => 'resource(network,1)',
+                  priority                => 1000,
+                  source_ranges           => ['ii', 'jj', 'kk', 'll'],
+                  source_service_accounts => ['dd', 'ee', 'ff'],
+                  source_tags             => ['ss', 'tt', 'uu', 'vv'],
+                  target_service_accounts => ['mm', 'nn', 'oo', 'pp'],
+                  target_tags             => ['oo', 'pp', 'qq', 'rr'],
+                  project                 => 'test project#1 data',
+                  credential              => 'cred1',
                 }
 
                 gcompute_firewall { 'title2':
-                  ensure        => present,
-                  allowed       => [
+                  ensure                  => present,
+                  allowed                 => [
                     {
                       ip_protocol => 'test ip_protocol#2 data',
                       ports       => ['mm', 'nn'],
@@ -312,14 +495,37 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                       ports       => ['ff', 'gg', 'hh'],
                     },
                   ],
-                  description   => 'test description#2 data',
-                  name          => 'test name#2 data',
-                  network       => 'test network#2 data',
-                  source_ranges => ['nn', 'oo', 'pp'],
-                  source_tags   => ['qq', 'rr', 'ss', 'tt'],
-                  target_tags   => ['jj', 'kk', 'll'],
-                  project       => 'test project#2 data',
-                  credential    => 'cred2',
+                  denied                  => [
+                    {
+                      ip_protocol => 'test ip_protocol#2 data',
+                      ports       => ['mm', 'nn'],
+                    },
+                    {
+                      ip_protocol => 'test ip_protocol#3 data',
+                      ports       => ['ii', 'jj'],
+                    },
+                    {
+                      ip_protocol => 'test ip_protocol#4 data',
+                      ports       => ['ff', 'gg', 'hh'],
+                    },
+                    {
+                      ip_protocol => 'test ip_protocol#5 data',
+                      ports       => ['bb', 'cc', 'dd'],
+                    },
+                  ],
+                  description             => 'test description#2 data',
+                  destination_ranges      => ['oo', 'pp'],
+                  direction               => 'INGRESS',
+                  name                    => 'test name#2 data',
+                  network                 => 'resource(network,2)',
+                  priority                => 1000,
+                  source_ranges           => ['nn', 'oo', 'pp'],
+                  source_service_accounts => ['gg', 'hh', 'ii', 'jj'],
+                  source_tags             => ['qq', 'rr', 'ss', 'tt'],
+                  target_service_accounts => ['uu', 'vv'],
+                  target_tags             => ['jj', 'kk', 'll'],
+                  project                 => 'test project#2 data',
+                  credential              => 'cred2',
                 }
                 MANIFEST
               ).catalog
@@ -338,12 +544,24 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 is_expected
                   .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'denied' do
+              #   # Add test code here
+              # end
               it { is_expected.to have_attributes(description: 'test description#0 data') }
+              it { is_expected.to have_attributes(destination_ranges: %w[dd ee ff]) }
+              it { is_expected.to have_attributes(direction: 'INGRESS') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
-              it { is_expected.to have_attributes(network: 'test network#0 data') }
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'network' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(priority: 1_000) }
               it { is_expected.to have_attributes(source_ranges: %w[dd ee ff gg hh]) }
+              it { is_expected.to have_attributes(source_service_accounts: %w[yy zz]) }
               it { is_expected.to have_attributes(source_tags: %w[vv ww xx yy zz]) }
+              it { is_expected.to have_attributes(target_service_accounts: %w[ff gg hh]) }
               it { is_expected.to have_attributes(target_tags: %w[tt uu vv ww xx]) }
             end
 
@@ -360,12 +578,24 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 is_expected
                   .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'denied' do
+              #   # Add test code here
+              # end
               it { is_expected.to have_attributes(description: 'test description#1 data') }
+              it { is_expected.to have_attributes(destination_ranges: %w[ii jj kk ll]) }
+              it { is_expected.to have_attributes(direction: 'EGRESS') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
-              it { is_expected.to have_attributes(network: 'test network#1 data') }
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'network' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(priority: 1_000) }
               it { is_expected.to have_attributes(source_ranges: %w[ii jj kk ll]) }
+              it { is_expected.to have_attributes(source_service_accounts: %w[dd ee ff]) }
               it { is_expected.to have_attributes(source_tags: %w[ss tt uu vv]) }
+              it { is_expected.to have_attributes(target_service_accounts: %w[mm nn oo pp]) }
               it { is_expected.to have_attributes(target_tags: %w[oo pp qq rr]) }
             end
 
@@ -382,12 +612,24 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 is_expected
                   .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'denied' do
+              #   # Add test code here
+              # end
               it { is_expected.to have_attributes(description: 'test description#2 data') }
+              it { is_expected.to have_attributes(destination_ranges: %w[oo pp]) }
+              it { is_expected.to have_attributes(direction: 'INGRESS') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
-              it { is_expected.to have_attributes(network: 'test network#2 data') }
+              # TODO(alexstephen): Implement resourceref test.
+              # it 'network' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(priority: 1_000) }
               it { is_expected.to have_attributes(source_ranges: %w[nn oo pp]) }
+              it { is_expected.to have_attributes(source_service_accounts: %w[gg hh ii jj]) }
               it { is_expected.to have_attributes(source_tags: %w[qq rr ss tt]) }
+              it { is_expected.to have_attributes(target_service_accounts: %w[uu vv]) }
               it { is_expected.to have_attributes(target_tags: %w[jj kk ll]) }
             end
           end
@@ -460,23 +702,54 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                     'ports' => %w[mm nn]
                   }
                 ],
+                'denied' => [
+                  {
+                    'IPProtocol' => 'test ip_protocol#0 data',
+                    'ports' => %w[uu vv]
+                  },
+                  {
+                    'IPProtocol' => 'test ip_protocol#1 data',
+                    'ports' => %w[qq rr]
+                  },
+                  {
+                    'IPProtocol' => 'test ip_protocol#2 data',
+                    'ports' => %w[mm nn]
+                  },
+                  {
+                    'IPProtocol' => 'test ip_protocol#3 data',
+                    'ports' => %w[ii jj]
+                  }
+                ],
                 'description' => 'test description#0 data',
+                'destinationRanges' => %w[dd ee ff],
+                'direction' => 'INGRESS',
                 'name' => 'title0',
-                'network' => 'test network#0 data',
+                'network' => 'selflink(resource(network,0))',
+                'priority' => 1_000,
                 'sourceRanges' => %w[dd ee ff gg hh],
+                'sourceServiceAccounts' => %w[yy zz],
                 'sourceTags' => %w[vv ww xx yy zz],
+                'targetServiceAccounts' => %w[ff gg hh],
                 'targetTags' => %w[tt uu vv ww xx]
               },
               name: 'title0'
             expect_network_get_async 1, name: 'title0'
+            expect_network_get_success_network 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_network { 'resource(network,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_firewall { 'title0':
-                ensure        => present,
-                allowed       => [
+                ensure                  => present,
+                allowed                 => [
                   {
                     ip_protocol => 'test ip_protocol#0 data',
                     ports       => ['uu', 'vv'],
@@ -490,13 +763,36 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                     ports       => ['mm', 'nn'],
                   },
                 ],
-                description   => 'test description#0 data',
-                network       => 'test network#0 data',
-                source_ranges => ['dd', 'ee', 'ff', 'gg', 'hh'],
-                source_tags   => ['vv', 'ww', 'xx', 'yy', 'zz'],
-                target_tags   => ['tt', 'uu', 'vv', 'ww', 'xx'],
-                project       => 'test project#0 data',
-                credential    => 'cred0',
+                denied                  => [
+                  {
+                    ip_protocol => 'test ip_protocol#0 data',
+                    ports       => ['uu', 'vv'],
+                  },
+                  {
+                    ip_protocol => 'test ip_protocol#1 data',
+                    ports       => ['qq', 'rr'],
+                  },
+                  {
+                    ip_protocol => 'test ip_protocol#2 data',
+                    ports       => ['mm', 'nn'],
+                  },
+                  {
+                    ip_protocol => 'test ip_protocol#3 data',
+                    ports       => ['ii', 'jj'],
+                  },
+                ],
+                description             => 'test description#0 data',
+                destination_ranges      => ['dd', 'ee', 'ff'],
+                direction               => 'INGRESS',
+                network                 => 'resource(network,0)',
+                priority                => 1000,
+                source_ranges           => ['dd', 'ee', 'ff', 'gg', 'hh'],
+                source_service_accounts => ['yy', 'zz'],
+                source_tags             => ['vv', 'ww', 'xx', 'yy', 'zz'],
+                target_service_accounts => ['ff', 'gg', 'hh'],
+                target_tags             => ['tt', 'uu', 'vv', 'ww', 'xx'],
+                project                 => 'test project#0 data',
+                credential              => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_firewall[title0]').provider.ensure
@@ -536,21 +832,52 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   'ports' => %w[mm nn]
                 }
               ],
+              'denied' => [
+                {
+                  'IPProtocol' => 'test ip_protocol#0 data',
+                  'ports' => %w[uu vv]
+                },
+                {
+                  'IPProtocol' => 'test ip_protocol#1 data',
+                  'ports' => %w[qq rr]
+                },
+                {
+                  'IPProtocol' => 'test ip_protocol#2 data',
+                  'ports' => %w[mm nn]
+                },
+                {
+                  'IPProtocol' => 'test ip_protocol#3 data',
+                  'ports' => %w[ii jj]
+                }
+              ],
               'description' => 'test description#0 data',
+              'destinationRanges' => %w[dd ee ff],
+              'direction' => 'INGRESS',
               'name' => 'test name#0 data',
-              'network' => 'test network#0 data',
+              'network' => 'selflink(resource(network,0))',
+              'priority' => 1_000,
               'sourceRanges' => %w[dd ee ff gg hh],
+              'sourceServiceAccounts' => %w[yy zz],
               'sourceTags' => %w[vv ww xx yy zz],
+              'targetServiceAccounts' => %w[ff gg hh],
               'targetTags' => %w[tt uu vv ww xx]
             expect_network_get_async 1
+            expect_network_get_success_network 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_network { 'resource(network,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_firewall { 'title0':
-                ensure        => present,
-                allowed       => [
+                ensure                  => present,
+                allowed                 => [
                   {
                     ip_protocol => 'test ip_protocol#0 data',
                     ports       => ['uu', 'vv'],
@@ -564,14 +891,37 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                     ports       => ['mm', 'nn'],
                   },
                 ],
-                description   => 'test description#0 data',
-                name          => 'test name#0 data',
-                network       => 'test network#0 data',
-                source_ranges => ['dd', 'ee', 'ff', 'gg', 'hh'],
-                source_tags   => ['vv', 'ww', 'xx', 'yy', 'zz'],
-                target_tags   => ['tt', 'uu', 'vv', 'ww', 'xx'],
-                project       => 'test project#0 data',
-                credential    => 'cred0',
+                denied                  => [
+                  {
+                    ip_protocol => 'test ip_protocol#0 data',
+                    ports       => ['uu', 'vv'],
+                  },
+                  {
+                    ip_protocol => 'test ip_protocol#1 data',
+                    ports       => ['qq', 'rr'],
+                  },
+                  {
+                    ip_protocol => 'test ip_protocol#2 data',
+                    ports       => ['mm', 'nn'],
+                  },
+                  {
+                    ip_protocol => 'test ip_protocol#3 data',
+                    ports       => ['ii', 'jj'],
+                  },
+                ],
+                description             => 'test description#0 data',
+                destination_ranges      => ['dd', 'ee', 'ff'],
+                direction               => 'INGRESS',
+                name                    => 'test name#0 data',
+                network                 => 'resource(network,0)',
+                priority                => 1000,
+                source_ranges           => ['dd', 'ee', 'ff', 'gg', 'hh'],
+                source_service_accounts => ['yy', 'zz'],
+                source_tags             => ['vv', 'ww', 'xx', 'yy', 'zz'],
+                target_service_accounts => ['ff', 'gg', 'hh'],
+                target_tags             => ['tt', 'uu', 'vv', 'ww', 'xx'],
+                project                 => 'test project#0 data',
+                credential              => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_firewall[title0]').provider.ensure
@@ -598,13 +948,22 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
         context 'title == name (pass)' do
           before(:each) do
             expect_network_get_failed 1, name: 'title0'
+            expect_network_get_success_network 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_network { 'resource(network,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_firewall { 'title0':
                 ensure     => absent,
+                network    => 'resource(network,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -630,14 +989,23 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
         context 'title != name (pass)' do
           before(:each) do
             expect_network_get_failed 1
+            expect_network_get_success_network 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_network { 'resource(network,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_firewall { 'title0':
                 ensure     => absent,
                 name       => 'test name#0 data',
+                network    => 'resource(network,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -667,13 +1035,22 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
             expect_network_get_success 1, name: 'title0'
             expect_network_delete 1, 'title0'
             expect_network_get_async 1, name: 'title0'
+            expect_network_get_success_network 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_network { 'resource(network,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_firewall { 'title0':
                 ensure     => absent,
+                network    => 'resource(network,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -701,14 +1078,23 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
             expect_network_get_success 1
             expect_network_delete 1
             expect_network_get_async 1
+            expect_network_get_success_network 1
           end
 
           subject do
             apply_with_error_check(
               <<-MANIFEST
+              gcompute_network { 'resource(network,0)':
+                ensure     => present,
+                name       => 'test name#0 data',
+                project    => 'test project#0 data',
+                credential => 'cred0',
+              }
+
               gcompute_firewall { 'title0':
                 ensure     => absent,
                 name       => 'test name#0 data',
+                network    => 'resource(network,0)',
                 project    => 'test project#0 data',
                 credential => 'cred0',
               }
@@ -817,6 +1203,11 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
     body = { kind: 'compute#operation',
              status: 'DONE', targetLink: self_link(merged_uri) }.to_json
 
+    # Remove refs that are also part of the body
+    expected_body = Hash[expected_body.map do |k, v|
+      [k.is_a?(Symbol) ? k.id2name : k, v]
+    end]
+
     request = double('request')
     allow(request).to receive(:send).and_return(http_success(body))
 
@@ -858,6 +1249,55 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
     data
   end
 
+  def expect_network_get_success_network(id, data = {})
+    id_data = data.fetch(:name, '').include?('title') ? 'title' : 'name'
+    body = load_network_result_network("success#{id}~" \
+                                                           "#{id_data}.yaml")
+           .to_json
+    uri = uri_data_network(id).merge(data)
+
+    request = double('request')
+    allow(request).to receive(:send).and_return(http_success(body))
+
+    debug_network "!! GET #{uri}"
+    expect(Google::Compute::Network::Get).to receive(:new)
+      .with(self_link_network(uri),
+            instance_of(Google::FakeAuthorization)) do |args|
+      debug_network ">> GET #{args}"
+      request
+    end
+  end
+
+  def load_network_result_network(file)
+    results = File.join(File.dirname(__FILE__), 'data', 'network',
+                        'gcompute_network', file)
+    raise "Network result data file #{results}" unless File.exist?(results)
+    data = YAML.safe_load(File.read(results))
+    raise "Invalid network results #{results}" unless data.class <= Hash
+    data
+  end
+
+  # Creates variable test data to comply with self_link URI parameters
+  # Only used for gcompute_network objects
+  def uri_data_network(id)
+    {
+      project: GoogleTests::Constants::N_PROJECT_DATA[(id - 1) \
+        % GoogleTests::Constants::N_PROJECT_DATA.size],
+      name: GoogleTests::Constants::N_NAME_DATA[(id - 1) \
+        % GoogleTests::Constants::N_NAME_DATA.size]
+    }
+  end
+
+  def self_link_network(data)
+    URI.join(
+      'https://www.googleapis.com/compute/v1/',
+      expand_variables_network(
+        'projects/{{project}}/global/networks/{{name}}',
+        data
+      )
+    )
+  end
+
   def debug(message)
     puts(message) if ENV['RSPEC_DEBUG']
   end
@@ -865,6 +1305,11 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
   def debug_network(message)
     puts("Network #{message}") \
       if ENV['RSPEC_DEBUG'] || ENV['RSPEC_HTTP_VERBOSE']
+  end
+
+  def expand_variables_network(template, data, ext_dat = {})
+    Puppet::Type.type(:gcompute_network).provider(:google)
+                .expand_variables(template, data, ext_dat)
   end
 
   def create_type(id)
