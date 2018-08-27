@@ -25,40 +25,26 @@
 #
 # ----------------------------------------------------------------------------
 
----
-kind: compute#healthCheck
-name: title2
-id: 6448502614
-checkIntervalSec: 5
-creationTimestamp: '2196-03-05T12:24:32+00:00'
-description: test description#2 data
-healthyThreshold: 2
-httpHealthCheck:
-  host: test host#2 data
-  requestPath: "/"
-  port: 2278536410
-  portName: test port_name#2 data
-  proxyHeader: NONE
-httpsHealthCheck:
-  host: test host#2 data
-  requestPath: "/"
-  port: 2278536410
-  portName: test port_name#2 data
-  proxyHeader: NONE
-project: "'test project#2 data'"
-sslHealthCheck:
-  request: test request#2 data
-  response: test response#2 data
-  port: 2278536410
-  portName: test port_name#2 data
-  proxyHeader: NONE
-tcpHealthCheck:
-  request: test request#2 data
-  response: test response#2 data
-  port: 2278536410
-  portName: test port_name#2 data
-  proxyHeader: NONE
-timeoutSec: 5
-type: HTTP
-unhealthyThreshold: 2
-selfLink: selflink(resource(health_check,2))
+require 'google/compute/property/base'
+require 'google/compute/property/enum'
+
+module Google
+  module Compute
+    module Property
+      # A Puppet property that holds an enum which contains a default value.
+      # Since default values for enums are not returned from the GCP API,
+      # we need to return true from `insync?` if the property is absent
+      # in the response but set to the default in the config.
+      class ProxyHeaderEnum < Google::Compute::Property::Enum
+        def insync?(is)
+          debug("insync enum? #{name}: '#{is}' == '#{should}'")
+          if is == :absent && should == 'NONE'
+            true
+          else
+            super
+          end
+        end
+      end
+    end
+  end
+end

@@ -30,6 +30,7 @@ require 'google/compute/network/get'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
 require 'google/compute/property/enum'
+require 'google/compute/property/health_check_proxy_header'
 require 'google/compute/property/healthcheck_http_health_check'
 require 'google/compute/property/healthcheck_https_health_check'
 require 'google/compute/property/healthcheck_ssl_health_check'
@@ -38,6 +39,7 @@ require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
 require 'google/hash_utils'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.type(:gcompute_health_check).provide(:google) do
@@ -58,24 +60,27 @@ Puppet::Type.type(:gcompute_health_check).provide(:google) do
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource), 'compute#healthCheck')
-      resource.provider = present(name, fetch) unless fetch.nil?
+      resource.provider = present(name, fetch, resource) unless fetch.nil?
+      Google::ObjectStore.instance.add(:gcompute_health_check, resource)
     end
   end
 
-  def self.present(name, fetch)
-    result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+  def self.present(name, fetch, resource)
+    result = new(
+      { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
+    )
+    result.instance_variable_set(:@fetched, fetch)
     result
   end
 
   # rubocop:disable Metrics/MethodLength
-  def self.fetch_to_hash(fetch)
+  def self.fetch_to_hash(fetch, resource)
     {
       check_interval_sec: Google::Compute::Property::Integer.api_munge(fetch['checkIntervalSec']),
       creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       description: Google::Compute::Property::String.api_munge(fetch['description']),
       healthy_threshold: Google::Compute::Property::Integer.api_munge(fetch['healthyThreshold']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      name: Google::Compute::Property::String.api_munge(fetch['name']),
       timeout_sec: Google::Compute::Property::Integer.api_munge(fetch['timeoutSec']),
       unhealthy_threshold:
         Google::Compute::Property::Integer.api_munge(fetch['unhealthyThreshold']),
@@ -87,7 +92,8 @@ Puppet::Type.type(:gcompute_health_check).provide(:google) do
       tcp_health_check:
         Google::Compute::Property::HealthCheckTcpHealthCheck.api_munge(fetch['tcpHealthCheck']),
       ssl_health_check:
-        Google::Compute::Property::HealthCheckSslHealthCheck.api_munge(fetch['sslHealthCheck'])
+        Google::Compute::Property::HealthCheckSslHealthCheck.api_munge(fetch['sslHealthCheck']),
+      name: resource[:name]
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength
@@ -104,7 +110,7 @@ Puppet::Type.type(:gcompute_health_check).provide(:google) do
                                                     fetch_auth(@resource),
                                                     'application/json',
                                                     resource_to_request)
-    wait_for_operation create_req.send, @resource
+    @fetched = wait_for_operation create_req.send, @resource
     @property_hash[:ensure] = :present
   end
 
@@ -125,7 +131,7 @@ Puppet::Type.type(:gcompute_health_check).provide(:google) do
                                                    fetch_auth(@resource),
                                                    'application/json',
                                                    resource_to_request)
-    wait_for_operation update_req.send, @resource
+    @fetched = wait_for_operation update_req.send, @resource
   end
 
   def dirty(field, from, to)
@@ -133,6 +139,13 @@ Puppet::Type.type(:gcompute_health_check).provide(:google) do
     @dirty[field] = {
       from: from,
       to: to
+    }
+  end
+
+  def exports
+    {
+      self_link: @fetched['selfLink'],
+      project: resource[:project]
     }
   end
 
