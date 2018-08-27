@@ -63,20 +63,20 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                   ensure              => present,
                   check_interval_sec  => 5,
                   description         => 'test description#0 data',
-                  healthy_threshold   => 295703256,
+                  healthy_threshold   => 2,
                   http_health_check   => {
                     host         => 'test host#0 data',
                     port         => 759512136,
                     port_name    => 'test port_name#0 data',
                     proxy_header => 'NONE',
-                    request_path => 'test request_path#0 data',
+                    request_path => '/',
                   },
                   https_health_check  => {
                     host         => 'test host#0 data',
                     port         => 759512136,
                     port_name    => 'test port_name#0 data',
                     proxy_header => 'NONE',
-                    request_path => 'test request_path#0 data',
+                    request_path => '/',
                   },
                   ssl_health_check    => {
                     port         => 759512136,
@@ -103,32 +103,32 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                   ensure              => present,
                   check_interval_sec  => 5,
                   description         => 'test description#1 data',
-                  healthy_threshold   => 591406512,
+                  healthy_threshold   => 2,
                   http_health_check   => {
                     host         => 'test host#1 data',
                     port         => 1519024273,
                     port_name    => 'test port_name#1 data',
-                    proxy_header => 'PROXY_V1',
-                    request_path => 'test request_path#1 data',
+                    proxy_header => 'NONE',
+                    request_path => '/',
                   },
                   https_health_check  => {
                     host         => 'test host#1 data',
                     port         => 1519024273,
                     port_name    => 'test port_name#1 data',
-                    proxy_header => 'PROXY_V1',
-                    request_path => 'test request_path#1 data',
+                    proxy_header => 'NONE',
+                    request_path => '/',
                   },
                   ssl_health_check    => {
                     port         => 1519024273,
                     port_name    => 'test port_name#1 data',
-                    proxy_header => 'PROXY_V1',
+                    proxy_header => 'NONE',
                     request      => 'test request#1 data',
                     response     => 'test response#1 data',
                   },
                   tcp_health_check    => {
                     port         => 1519024273,
                     port_name    => 'test port_name#1 data',
-                    proxy_header => 'PROXY_V1',
+                    proxy_header => 'NONE',
                     request      => 'test request#1 data',
                     response     => 'test response#1 data',
                   },
@@ -143,20 +143,20 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                   ensure              => present,
                   check_interval_sec  => 5,
                   description         => 'test description#2 data',
-                  healthy_threshold   => 887109769,
+                  healthy_threshold   => 2,
                   http_health_check   => {
                     host         => 'test host#2 data',
                     port         => 2278536410,
                     port_name    => 'test port_name#2 data',
                     proxy_header => 'NONE',
-                    request_path => 'test request_path#2 data',
+                    request_path => '/',
                   },
                   https_health_check  => {
                     host         => 'test host#2 data',
                     port         => 2278536410,
                     port_name    => 'test port_name#2 data',
                     proxy_header => 'NONE',
-                    request_path => 'test request_path#2 data',
+                    request_path => '/',
                   },
                   ssl_health_check    => {
                     port         => 2278536410,
@@ -193,7 +193,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                   .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
               it { is_expected.to have_attributes(description: 'test description#0 data') }
-              it { is_expected.to have_attributes(healthy_threshold: 295_703_256) }
+              it { is_expected.to have_attributes(healthy_threshold: 2) }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
               it { is_expected.to have_attributes(timeout_sec: 5) }
@@ -228,7 +228,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                   .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
               it { is_expected.to have_attributes(description: 'test description#1 data') }
-              it { is_expected.to have_attributes(healthy_threshold: 591_406_512) }
+              it { is_expected.to have_attributes(healthy_threshold: 2) }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
               it { is_expected.to have_attributes(timeout_sec: 5) }
@@ -263,7 +263,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                   .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
               it { is_expected.to have_attributes(description: 'test description#2 data') }
-              it { is_expected.to have_attributes(healthy_threshold: 887_109_769) }
+              it { is_expected.to have_attributes(healthy_threshold: 2) }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
               it { is_expected.to have_attributes(timeout_sec: 5) }
@@ -316,20 +316,20 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                   ensure              => present,
                   check_interval_sec  => 5,
                   description         => 'test description#0 data',
-                  healthy_threshold   => 295703256,
+                  healthy_threshold   => 2,
                   http_health_check   => {
                     host         => 'test host#0 data',
                     port         => 759512136,
                     port_name    => 'test port_name#0 data',
                     proxy_header => 'NONE',
-                    request_path => 'test request_path#0 data',
+                    request_path => '/',
                   },
                   https_health_check  => {
                     host         => 'test host#0 data',
                     port         => 759512136,
                     port_name    => 'test port_name#0 data',
                     proxy_header => 'NONE',
-                    request_path => 'test request_path#0 data',
+                    request_path => '/',
                   },
                   name                => 'test name#0 data',
                   ssl_health_check    => {
@@ -357,33 +357,33 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                   ensure              => present,
                   check_interval_sec  => 5,
                   description         => 'test description#1 data',
-                  healthy_threshold   => 591406512,
+                  healthy_threshold   => 2,
                   http_health_check   => {
                     host         => 'test host#1 data',
                     port         => 1519024273,
                     port_name    => 'test port_name#1 data',
-                    proxy_header => 'PROXY_V1',
-                    request_path => 'test request_path#1 data',
+                    proxy_header => 'NONE',
+                    request_path => '/',
                   },
                   https_health_check  => {
                     host         => 'test host#1 data',
                     port         => 1519024273,
                     port_name    => 'test port_name#1 data',
-                    proxy_header => 'PROXY_V1',
-                    request_path => 'test request_path#1 data',
+                    proxy_header => 'NONE',
+                    request_path => '/',
                   },
                   name                => 'test name#1 data',
                   ssl_health_check    => {
                     port         => 1519024273,
                     port_name    => 'test port_name#1 data',
-                    proxy_header => 'PROXY_V1',
+                    proxy_header => 'NONE',
                     request      => 'test request#1 data',
                     response     => 'test response#1 data',
                   },
                   tcp_health_check    => {
                     port         => 1519024273,
                     port_name    => 'test port_name#1 data',
-                    proxy_header => 'PROXY_V1',
+                    proxy_header => 'NONE',
                     request      => 'test request#1 data',
                     response     => 'test response#1 data',
                   },
@@ -398,20 +398,20 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                   ensure              => present,
                   check_interval_sec  => 5,
                   description         => 'test description#2 data',
-                  healthy_threshold   => 887109769,
+                  healthy_threshold   => 2,
                   http_health_check   => {
                     host         => 'test host#2 data',
                     port         => 2278536410,
                     port_name    => 'test port_name#2 data',
                     proxy_header => 'NONE',
-                    request_path => 'test request_path#2 data',
+                    request_path => '/',
                   },
                   https_health_check  => {
                     host         => 'test host#2 data',
                     port         => 2278536410,
                     port_name    => 'test port_name#2 data',
                     proxy_header => 'NONE',
-                    request_path => 'test request_path#2 data',
+                    request_path => '/',
                   },
                   name                => 'test name#2 data',
                   ssl_health_check    => {
@@ -449,7 +449,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                   .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
               it { is_expected.to have_attributes(description: 'test description#0 data') }
-              it { is_expected.to have_attributes(healthy_threshold: 295_703_256) }
+              it { is_expected.to have_attributes(healthy_threshold: 2) }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               it { is_expected.to have_attributes(timeout_sec: 5) }
@@ -484,7 +484,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                   .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
               it { is_expected.to have_attributes(description: 'test description#1 data') }
-              it { is_expected.to have_attributes(healthy_threshold: 591_406_512) }
+              it { is_expected.to have_attributes(healthy_threshold: 2) }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               it { is_expected.to have_attributes(timeout_sec: 5) }
@@ -519,7 +519,7 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                   .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
               it { is_expected.to have_attributes(description: 'test description#2 data') }
-              it { is_expected.to have_attributes(healthy_threshold: 887_109_769) }
+              it { is_expected.to have_attributes(healthy_threshold: 2) }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               it { is_expected.to have_attributes(timeout_sec: 5) }
@@ -600,21 +600,21 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                 'kind' => 'compute#healthCheck',
                 'checkIntervalSec' => 5,
                 'description' => 'test description#0 data',
-                'healthyThreshold' => 295_703_256,
+                'healthyThreshold' => 2,
                 'name' => 'title0',
                 'timeoutSec' => 5,
                 'unhealthyThreshold' => 2,
                 'type' => 'TCP',
                 'httpHealthCheck' => {
                   'host' => 'test host#0 data',
-                  'requestPath' => 'test request_path#0 data',
+                  'requestPath' => '/',
                   'port' => 759_512_136,
                   'portName' => 'test port_name#0 data',
                   'proxyHeader' => 'NONE'
                 },
                 'httpsHealthCheck' => {
                   'host' => 'test host#0 data',
-                  'requestPath' => 'test request_path#0 data',
+                  'requestPath' => '/',
                   'port' => 759_512_136,
                   'portName' => 'test port_name#0 data',
                   'proxyHeader' => 'NONE'
@@ -645,20 +645,20 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                 ensure              => present,
                 check_interval_sec  => 5,
                 description         => 'test description#0 data',
-                healthy_threshold   => 295703256,
+                healthy_threshold   => 2,
                 http_health_check   => {
                   host         => 'test host#0 data',
                   port         => 759512136,
                   port_name    => 'test port_name#0 data',
                   proxy_header => 'NONE',
-                  request_path => 'test request_path#0 data',
+                  request_path => '/',
                 },
                 https_health_check  => {
                   host         => 'test host#0 data',
                   port         => 759512136,
                   port_name    => 'test port_name#0 data',
                   proxy_header => 'NONE',
-                  request_path => 'test request_path#0 data',
+                  request_path => '/',
                 },
                 ssl_health_check    => {
                   port         => 759512136,
@@ -706,21 +706,21 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
               'kind' => 'compute#healthCheck',
               'checkIntervalSec' => 5,
               'description' => 'test description#0 data',
-              'healthyThreshold' => 295_703_256,
+              'healthyThreshold' => 2,
               'name' => 'test name#0 data',
               'timeoutSec' => 5,
               'unhealthyThreshold' => 2,
               'type' => 'TCP',
               'httpHealthCheck' => {
                 'host' => 'test host#0 data',
-                'requestPath' => 'test request_path#0 data',
+                'requestPath' => '/',
                 'port' => 759_512_136,
                 'portName' => 'test port_name#0 data',
                 'proxyHeader' => 'NONE'
               },
               'httpsHealthCheck' => {
                 'host' => 'test host#0 data',
-                'requestPath' => 'test request_path#0 data',
+                'requestPath' => '/',
                 'port' => 759_512_136,
                 'portName' => 'test port_name#0 data',
                 'proxyHeader' => 'NONE'
@@ -749,20 +749,20 @@ describe Puppet::Type.type(:gcompute_health_check).provider(:google) do
                 ensure              => present,
                 check_interval_sec  => 5,
                 description         => 'test description#0 data',
-                healthy_threshold   => 295703256,
+                healthy_threshold   => 2,
                 http_health_check   => {
                   host         => 'test host#0 data',
                   port         => 759512136,
                   port_name    => 'test port_name#0 data',
                   proxy_header => 'NONE',
-                  request_path => 'test request_path#0 data',
+                  request_path => '/',
                 },
                 https_health_check  => {
                   host         => 'test host#0 data',
                   port         => 759512136,
                   port_name    => 'test port_name#0 data',
                   proxy_header => 'NONE',
-                  request_path => 'test request_path#0 data',
+                  request_path => '/',
                 },
                 name                => 'test name#0 data',
                 ssl_health_check    => {

@@ -26,6 +26,7 @@
 # ----------------------------------------------------------------------------
 
 require 'google/compute/property/enum'
+require 'google/compute/property/health_check_proxy_header'
 require 'google/compute/property/healthcheck_http_health_check'
 require 'google/compute/property/healthcheck_https_health_check'
 require 'google/compute/property/healthcheck_ssl_health_check'
@@ -33,12 +34,19 @@ require 'google/compute/property/healthcheck_tcp_health_check'
 require 'google/compute/property/integer'
 require 'google/compute/property/string'
 require 'google/compute/property/time'
+require 'google/object_store'
 require 'puppet'
 
 Puppet::Type.newtype(:gcompute_health_check) do
   @doc = <<-DOC
-    An HealthCheck resource. This resource defines a template for how individual virtual machines
-    should be checked for health, via one of the supported protocols.
+    Health Checks determine whether instances are responsive and able to do work. They are an
+    important part of a comprehensive load balancing configuration, as they enable monitoring
+    instances behind load balancers. Health Checks poll instances at a specified interval.
+    Instances that do not respond successfully to some number of probes in a row are marked as
+    unhealthy. No new connections are sent to unhealthy instances, though existing connections will
+    continue. The health check will continue to poll unhealthy instances. If an instance later
+    responds successfully to some number of consecutive probes, it is marked healthy again and can
+    receive new connections.
   DOC
 
   autorequire(:gauth_credential) do
@@ -85,6 +93,7 @@ Puppet::Type.newtype(:gcompute_health_check) do
       A so-far unhealthy instance will be marked healthy after this many consecutive successes. The
       default value is 2.
     DOC
+    defaultto 2
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
@@ -129,6 +138,7 @@ Puppet::Type.newtype(:gcompute_health_check) do
     newvalue(:TCP)
     newvalue(:SSL)
     newvalue(:HTTP)
+    newvalue(:HTTPS)
   end
 
   newproperty(:http_health_check, parent: Google::Compute::Property::HealthCheckHttpHealthCheck) do
@@ -146,5 +156,10 @@ Puppet::Type.newtype(:gcompute_health_check) do
 
   newproperty(:ssl_health_check, parent: Google::Compute::Property::HealthCheckSslHealthCheck) do
     desc 'A nested object resource'
+  end
+
+  # Returns all properties that a provider can export to other resources
+  def exports
+    provider.exports
   end
 end

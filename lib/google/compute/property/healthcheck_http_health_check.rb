@@ -100,7 +100,7 @@ module Google
           @request_path = Google::Compute::Property::String.api_munge(args['requestPath'])
           @port = Google::Compute::Property::Integer.api_munge(args['port'])
           @port_name = Google::Compute::Property::String.api_munge(args['portName'])
-          @proxy_header = Google::Compute::Property::Enum.api_munge(args['proxyHeader'])
+          @proxy_header = Google::Compute::Property::ProxyHeaderEnum.api_munge(args['proxyHeader'])
         end
       end
 
@@ -112,7 +112,8 @@ module Google
           @request_path = Google::Compute::Property::String.unsafe_munge(args['request_path'])
           @port = Google::Compute::Property::Integer.unsafe_munge(args['port'])
           @port_name = Google::Compute::Property::String.unsafe_munge(args['port_name'])
-          @proxy_header = Google::Compute::Property::Enum.unsafe_munge(args['proxy_header'])
+          @proxy_header =
+            Google::Compute::Property::ProxyHeaderEnum.unsafe_munge(args['proxy_header'])
         end
       end
     end
