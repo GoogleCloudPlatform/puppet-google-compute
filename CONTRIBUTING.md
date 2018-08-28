@@ -233,6 +233,7 @@ puppet-codegen:
   * lib/google/compute/property/backendservice_cache_key_policy.rb
   * lib/google/compute/property/backendservice_cdn_policy.rb
   * lib/google/compute/property/backendservice_connection_draining.rb
+  * lib/google/compute/property/backendservice_iap.rb
   * lib/google/compute/property/backendservice_selflink.rb
   * lib/google/compute/property/base.rb
   * lib/google/compute/property/boolean.rb

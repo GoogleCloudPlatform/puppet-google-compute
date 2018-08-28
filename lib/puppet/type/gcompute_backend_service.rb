@@ -29,6 +29,7 @@ require 'google/compute/property/backendservice_backends'
 require 'google/compute/property/backendservice_cache_key_policy'
 require 'google/compute/property/backendservice_cdn_policy'
 require 'google/compute/property/backendservice_connection_draining'
+require 'google/compute/property/backendservice_iap'
 require 'google/compute/property/boolean'
 require 'google/compute/property/double'
 require 'google/compute/property/enum'
@@ -121,6 +122,19 @@ Puppet::Type.newtype(:gcompute_backend_service) do
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do
     desc 'The unique identifier for the resource. (output only)'
+  end
+
+  newproperty(:iap, parent: Google::Compute::Property::BackendServiceIap) do
+    desc 'Settings for enabling Cloud Identity Aware Proxy'
+  end
+
+  newproperty(:load_balancing_scheme, parent: Google::Compute::Property::Enum) do
+    desc <<-DOC
+      Indicates whether the backend service will be used with internal or external load balancing.
+      A backend service created for one type of load balancing cannot be used with the other.
+    DOC
+    newvalue(:INTERNAL)
+    newvalue(:EXTERNAL)
   end
 
   newproperty(:name, parent: Google::Compute::Property::String) do

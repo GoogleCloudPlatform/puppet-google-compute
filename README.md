@@ -1268,7 +1268,14 @@ gcompute_backend_service { 'id-of-resource':
     string,
     ...
   ],
+  iap                     => {
+    enabled                     => boolean,
+    oauth2_client_id            => string,
+    oauth2_client_secret        => string,
+    oauth2_client_secret_sha256 => string,
+  },
   id                      => integer,
+  load_balancing_scheme   => 'INTERNAL' or 'EXTERNAL',
   name                    => string,
   port_name               => string,
   protocol                => 'HTTP', 'HTTPS', 'TCP' or 'SSL',
@@ -1417,6 +1424,28 @@ gcompute_backend_service { 'id-of-resource':
   check can be specified, and a health check is required.
   For internal load balancing, a URL to a HealthCheck resource must be
   specified instead.
+
+##### `iap`
+
+  Settings for enabling Cloud Identity Aware Proxy
+
+##### iap/enabled
+  Enables IAP.
+
+##### iap/oauth2_client_id
+  OAuth2 Client ID for IAP
+
+##### iap/oauth2_client_secret
+  OAuth2 Client Secret for IAP
+
+##### iap/oauth2_client_secret_sha256
+Output only.  OAuth2 Client Secret SHA-256 for IAP
+
+##### `load_balancing_scheme`
+
+  Indicates whether the backend service will be used with internal or
+  external load balancing. A backend service created for one type of
+  load balancing cannot be used with the other.
 
 ##### `name`
 
