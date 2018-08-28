@@ -33,6 +33,7 @@ require 'google/compute/property/backendservice_backends'
 require 'google/compute/property/backendservice_cache_key_policy'
 require 'google/compute/property/backendservice_cdn_policy'
 require 'google/compute/property/backendservice_connection_draining'
+require 'google/compute/property/backendservice_iap'
 require 'google/compute/property/boolean'
 require 'google/compute/property/double'
 require 'google/compute/property/enum'
@@ -91,6 +92,9 @@ Puppet::Type.type(:gcompute_backend_service).provide(:google) do
       enable_cdn: Google::Compute::Property::Boolean.api_munge(fetch['enableCDN']),
       health_checks: Google::Compute::Property::StringArray.api_munge(fetch['healthChecks']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
+      iap: Google::Compute::Property::BackendServiceIap.api_munge(fetch['iap']),
+      load_balancing_scheme:
+        Google::Compute::Property::Enum.api_munge(fetch['loadBalancingScheme']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       port_name: Google::Compute::Property::String.api_munge(fetch['portName']),
       protocol: Google::Compute::Property::Enum.api_munge(fetch['protocol']),
@@ -181,6 +185,8 @@ Puppet::Type.type(:gcompute_backend_service).provide(:google) do
       enable_cdn: resource[:enable_cdn],
       health_checks: resource[:health_checks],
       id: resource[:id],
+      iap: resource[:iap],
+      load_balancing_scheme: resource[:load_balancing_scheme],
       port_name: resource[:port_name],
       protocol: resource[:protocol],
       region: resource[:region],
@@ -201,6 +207,8 @@ Puppet::Type.type(:gcompute_backend_service).provide(:google) do
       description: @resource[:description],
       enableCDN: @resource[:enable_cdn],
       healthChecks: @resource[:health_checks],
+      iap: @resource[:iap],
+      loadBalancingScheme: @resource[:load_balancing_scheme],
       name: @resource[:name],
       portName: @resource[:port_name],
       protocol: @resource[:protocol],
