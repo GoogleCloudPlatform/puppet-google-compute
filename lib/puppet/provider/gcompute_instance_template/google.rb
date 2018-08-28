@@ -224,8 +224,6 @@ Puppet::Type.type(:gcompute_instance_template).provide(:google) do
     result = decode_response(response, kind)
     raise_if_errors result, %w[error errors], 'message'
     raise "Bad response: #{response}" unless response.is_a?(Net::HTTPOK)
-    raise "Incorrect result: #{result['kind']} (expected '#{kind}')" \
-      unless result['kind'] == kind
     result
   end
   # rubocop:enable Metrics/CyclomaticComplexity
