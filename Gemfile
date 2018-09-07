@@ -27,7 +27,10 @@
 
 source 'https://rubygems.org'
 group :test do
+  gem 'google-api-client'
+  gem 'googleauth'
   gem 'metadata-json-lint'
+  gem 'parallel_tests'
   gem 'puppet', ENV['PUPPET_GEM_VERSION'] || '>= 4.2.0'
   gem 'puppet-lint'
   gem 'puppet-lint-unquoted_string-check'
@@ -37,7 +40,9 @@ group :test do
   gem 'rspec'
   gem 'rspec-mocks'
   gem 'rspec-puppet'
-  gem 'parallel_tests'
   gem 'rubocop'
+  gem 'semantic_puppet'
   gem 'simplecov'
+  gem 'vcr'
+  gem 'webmock'
 end
