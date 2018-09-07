@@ -302,6 +302,7 @@ puppet-codegen:
   * lib/google/compute/property/router_advertise_mode.rb
   * lib/google/compute/property/router_advertised_ip_ranges.rb
   * lib/google/compute/property/router_bgp.rb
+  * lib/google/compute/property/router_selflink.rb
   * lib/google/compute/property/snapshot_selflink.rb
   * lib/google/compute/property/snapshot_snapshot_encryption_key.rb
   * lib/google/compute/property/snapshot_source_disk_encryption_key.rb

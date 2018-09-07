@@ -28,6 +28,7 @@
 require 'google/compute/property/integer'
 require 'google/compute/property/namevalues'
 require 'google/compute/property/region_name'
+require 'google/compute/property/router_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/targetvpngateway_selflink'
@@ -95,7 +96,7 @@ Puppet::Type.newtype(:gcompute_vpn_tunnel) do
     desc 'URL of the Target VPN gateway with which this VPN tunnel is associated.'
   end
 
-  newproperty(:router, parent: Google::Compute::Property::String) do
+  newproperty(:router, parent: Google::Compute::Property::RouterSelfLinkRef) do
     desc 'URL of router resource to be used for dynamic routing.'
   end
 
