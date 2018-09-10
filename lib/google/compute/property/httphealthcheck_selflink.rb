@@ -50,8 +50,9 @@ module Google
       # A class to fetch the resource value from a referenced block
       # Will return the value exported from a different Puppet resource
       class HttpHealthCheckSelfLinkRefCatalog < HttpHealthCheckSelfLinkRef
-        def initialize(title)
+        def initialize(title, resource)
           @title = title
+          @resource = resource
         end
 
         # Puppet requires the title for autorequiring
@@ -100,12 +101,12 @@ module Google
       class HttpHealthCheckSelfLinkRef < Puppet::Property
         # Used for catalog values
         def unsafe_munge(value)
-          self.class.unsafe_munge(value)
+          self.class.unsafe_munge(value, @resource)
         end
 
-        def self.unsafe_munge(value)
+        def self.unsafe_munge(value, resource = nil)
           return if value.nil?
-          Data::HttpHealthCheckSelfLinkRefCatalog.new(value)
+          Data::HttpHealthCheckSelfLinkRefCatalog.new(value, resource)
         end
 
         # Used for fetched JSON values
