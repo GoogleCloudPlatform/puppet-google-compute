@@ -50,8 +50,9 @@ module Google
       # A class to fetch the resource value from a referenced block
       # Will return the value exported from a different Puppet resource
       class MachineTypeSelfLinkRefCatalog < MachineTypeSelfLinkRef
-        def initialize(title)
+        def initialize(title, resource)
           @title = title
+          @resource = resource
         end
 
         # Puppet requires the title for autorequiring
@@ -76,21 +77,8 @@ module Google
           unless /https:\/\/www.googleapis.com\/compute\/v1\/projects\/.*\/zones\/{{zone}}\/machineTypes\/[a-z1-9\-]*/.match(@title)
             # We'll asssmble the self_link for the user.
             # We need to get the project name to assemble the self_link
-            projects = Google::ObjectStore.instance
-                                          .resources
-                                          .reject { |name, _a| name == :gauth_credential }
-                                          .map { |_name, array| array.map(&:exports) }
-                                          .flatten
-                                          .map { |x| x[:project] }
-                                          .compact
-                                          .uniq
-            return "https://www.googleapis.com/compute/v1/projects/#{projects[0]}/zones/{{zone}}/machineTypes/#{@title}" \
-              if projects.length == 1
-            raise ["Your Puppet manifest contains multiple projects.",
-                   "We cannot determine which project you wish to use.",
-                   "Please replace #{@title} with a full URL of the form:",
-                   "https://www.googleapis.com/compute/v1/projects/{{project}}/zones/{{zone}}/machineTypes/{{name}}"
-                  ].join(' ')
+
+            return "https://www.googleapis.com/compute/v1/projects/#{@resource.parameters[:project].value}/zones/#{@resource.parameters[:zone].value}/machineTypes/#{@title}"
           end
 
           @title
@@ -121,12 +109,12 @@ module Google
       class MachineTypeSelfLinkRef < Puppet::Property
         # Used for catalog values
         def unsafe_munge(value)
-          self.class.unsafe_munge(value)
+          self.class.unsafe_munge(value, @resource)
         end
 
-        def self.unsafe_munge(value)
+        def self.unsafe_munge(value, resource = nil)
           return if value.nil?
-          Data::MachineTypeSelfLinkRefCatalog.new(value)
+          Data::MachineTypeSelfLinkRefCatalog.new(value, resource)
         end
 
         # Used for fetched JSON values

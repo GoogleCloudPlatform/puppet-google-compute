@@ -51,8 +51,9 @@ module Google
       # A class to fetch the resource value from a referenced block
       # Will return the value exported from a different Puppet resource
       class ForwardingRuleSelfLinkRefCatalog < ForwardingRuleSelfLinkRef
-        def initialize(title)
+        def initialize(title, resource)
           @title = title
+          @resource = resource
         end
 
         # Puppet requires the title for autorequiring
@@ -101,12 +102,12 @@ module Google
       class ForwardingRuleSelfLinkRef < Puppet::Property
         # Used for catalog values
         def unsafe_munge(value)
-          self.class.unsafe_munge(value)
+          self.class.unsafe_munge(value, @resource)
         end
 
-        def self.unsafe_munge(value)
+        def self.unsafe_munge(value, resource = nil)
           return if value.nil?
-          Data::ForwardingRuleSelfLinkRefCatalog.new(value)
+          Data::ForwardingRuleSelfLinkRefCatalog.new(value, resource)
         end
 
         # Used for fetched JSON values
@@ -120,15 +121,15 @@ module Google
       class ForwardingRuleSelfLinkRefArray < Google::Compute::Property::Array
         # Used for parsing Puppet catalog
         def unsafe_munge(value)
-          self.class.unsafe_munge(value)
+          self.class.unsafe_munge(value, @resource)
         end
 
         # Used for parsing Puppet catalog
-        def self.unsafe_munge(value)
+        def self.unsafe_munge(value, resource = nil)
           return if value.nil?
           return ForwardingRuleSelfLinkRef.unsafe_munge(value) \
             unless value.is_a?(::Array)
-          value.map { |v| ForwardingRuleSelfLinkRef.unsafe_munge(v) }
+          value.map { |v| ForwardingRuleSelfLinkRef.unsafe_munge(v, resource) }
         end
 
         # Used for parsing GCP API responses

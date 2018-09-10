@@ -173,8 +173,7 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
   end
   def exports
     {
-      self_link: @fetched['selfLink'],
-      project: resource[:project]
+      self_link: @fetched['selfLink']
     }
   end
 

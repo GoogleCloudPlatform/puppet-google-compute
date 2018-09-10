@@ -181,8 +181,7 @@ Puppet::Type.type(:gcompute_target_ssl_proxy).provide(:google) do
   end
   def exports
     {
-      self_link: @fetched['selfLink'],
-      project: resource[:project]
+      self_link: @fetched['selfLink']
     }
   end
 
