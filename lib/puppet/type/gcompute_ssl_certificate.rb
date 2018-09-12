@@ -33,8 +33,9 @@ require 'puppet'
 
 Puppet::Type.newtype(:gcompute_ssl_certificate) do
   @doc = <<-DOC
-    An SslCertificate resource. This resource provides a mechanism to upload an SSL key and
-    certificate to the load balancer to serve secure connections from the user.
+    An SslCertificate resource, used for HTTPS load balancing. This resource provides a mechanism
+    to upload an SSL key and certificate to the load balancer to serve secure connections from the
+    user.
   DOC
 
   autorequire(:gauth_credential) do
@@ -91,7 +92,7 @@ Puppet::Type.newtype(:gcompute_ssl_certificate) do
   end
 
   newproperty(:private_key, parent: Google::Compute::Property::String) do
-    desc 'The private key in PEM format.'
+    desc 'The write-only private key in PEM format.'
   end
 
   # Returns all properties that a provider can export to other resources

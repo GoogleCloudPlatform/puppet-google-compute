@@ -392,9 +392,11 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_ssl_certificate { 'title0':
-                ensure     => absent,
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure      => absent,
+                certificate => 'test certificate#0 data',
+                private_key => 'test private_key#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_ssl_certificate[title0]')
@@ -424,10 +426,12 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_ssl_certificate { 'title0':
-                ensure     => absent,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure      => absent,
+                certificate => 'test certificate#0 data',
+                name        => 'test name#0 data',
+                private_key => 'test private_key#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_ssl_certificate[title0]')
@@ -461,9 +465,11 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_ssl_certificate { 'title0':
-                ensure     => absent,
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure      => absent,
+                certificate => 'test certificate#0 data',
+                private_key => 'test private_key#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_ssl_certificate[title0]')
@@ -495,10 +501,12 @@ describe Puppet::Type.type(:gcompute_ssl_certificate).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_ssl_certificate { 'title0':
-                ensure     => absent,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure      => absent,
+                certificate => 'test certificate#0 data',
+                name        => 'test name#0 data',
+                private_key => 'test private_key#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_ssl_certificate[title0]')

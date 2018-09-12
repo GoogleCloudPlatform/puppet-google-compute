@@ -74,7 +74,7 @@ module Google
             return entry.exports[:self_link] if entry.title == @title
           end
 
-          unless /https:\/\/www.googleapis.com\/compute\/v1\/projects\/.*\/zones\/{{zone}}\/machineTypes\/[a-z1-9\-]*/.match(@title)
+          unless /https:\/\/www.googleapis.com\/compute\/v1\/projects\/.*\/zones\/[a-z1-9\-]*\/machineTypes\/[a-z1-9\-]*/.match(@title)
             # We'll asssmble the self_link for the user.
             # We need to get the project name to assemble the self_link
 
