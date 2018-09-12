@@ -87,24 +87,30 @@ describe Puppet::Type.type(:gcompute_target_ssl_proxy).provider(:google) do
                 }
 
                 gcompute_ssl_certificate { 'resource(ssl_certificate,0)':
-                  ensure     => present,
-                  name       => 'test name#0 data',
-                  project    => 'test project#0 data',
-                  credential => 'cred0',
+                  ensure      => present,
+                  certificate => 'test certificate#0 data',
+                  name        => 'test name#0 data',
+                  private_key => 'test private_key#0 data',
+                  project     => 'test project#0 data',
+                  credential  => 'cred0',
                 }
 
                 gcompute_ssl_certificate { 'resource(ssl_certificate,1)':
-                  ensure     => present,
-                  name       => 'test name#1 data',
-                  project    => 'test project#1 data',
-                  credential => 'cred1',
+                  ensure      => present,
+                  certificate => 'test certificate#1 data',
+                  name        => 'test name#1 data',
+                  private_key => 'test private_key#1 data',
+                  project     => 'test project#1 data',
+                  credential  => 'cred1',
                 }
 
                 gcompute_ssl_certificate { 'resource(ssl_certificate,2)':
-                  ensure     => present,
-                  name       => 'test name#2 data',
-                  project    => 'test project#2 data',
-                  credential => 'cred2',
+                  ensure      => present,
+                  certificate => 'test certificate#2 data',
+                  name        => 'test name#2 data',
+                  private_key => 'test private_key#2 data',
+                  project     => 'test project#2 data',
+                  credential  => 'cred2',
                 }
 
                 gcompute_target_ssl_proxy { 'title0':
@@ -262,24 +268,30 @@ describe Puppet::Type.type(:gcompute_target_ssl_proxy).provider(:google) do
                 }
 
                 gcompute_ssl_certificate { 'resource(ssl_certificate,0)':
-                  ensure     => present,
-                  name       => 'test name#0 data',
-                  project    => 'test project#0 data',
-                  credential => 'cred0',
+                  ensure      => present,
+                  certificate => 'test certificate#0 data',
+                  name        => 'test name#0 data',
+                  private_key => 'test private_key#0 data',
+                  project     => 'test project#0 data',
+                  credential  => 'cred0',
                 }
 
                 gcompute_ssl_certificate { 'resource(ssl_certificate,1)':
-                  ensure     => present,
-                  name       => 'test name#1 data',
-                  project    => 'test project#1 data',
-                  credential => 'cred1',
+                  ensure      => present,
+                  certificate => 'test certificate#1 data',
+                  name        => 'test name#1 data',
+                  private_key => 'test private_key#1 data',
+                  project     => 'test project#1 data',
+                  credential  => 'cred1',
                 }
 
                 gcompute_ssl_certificate { 'resource(ssl_certificate,2)':
-                  ensure     => present,
-                  name       => 'test name#2 data',
-                  project    => 'test project#2 data',
-                  credential => 'cred2',
+                  ensure      => present,
+                  certificate => 'test certificate#2 data',
+                  name        => 'test name#2 data',
+                  private_key => 'test private_key#2 data',
+                  project     => 'test project#2 data',
+                  credential  => 'cred2',
                 }
 
                 gcompute_target_ssl_proxy { 'title0':
@@ -467,10 +479,12 @@ describe Puppet::Type.type(:gcompute_target_ssl_proxy).provider(:google) do
               }
 
               gcompute_ssl_certificate { 'resource(ssl_certificate,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure      => present,
+                certificate => 'test certificate#0 data',
+                name        => 'test name#0 data',
+                private_key => 'test private_key#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
 
               gcompute_target_ssl_proxy { 'title0':
@@ -529,10 +543,12 @@ describe Puppet::Type.type(:gcompute_target_ssl_proxy).provider(:google) do
               }
 
               gcompute_ssl_certificate { 'resource(ssl_certificate,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure      => present,
+                certificate => 'test certificate#0 data',
+                name        => 'test name#0 data',
+                private_key => 'test private_key#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
 
               gcompute_target_ssl_proxy { 'title0':
@@ -585,10 +601,12 @@ describe Puppet::Type.type(:gcompute_target_ssl_proxy).provider(:google) do
               }
 
               gcompute_ssl_certificate { 'resource(ssl_certificate,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure      => present,
+                certificate => 'test certificate#0 data',
+                name        => 'test name#0 data',
+                private_key => 'test private_key#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
 
               gcompute_target_ssl_proxy { 'title0':
@@ -635,10 +653,12 @@ describe Puppet::Type.type(:gcompute_target_ssl_proxy).provider(:google) do
               }
 
               gcompute_ssl_certificate { 'resource(ssl_certificate,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure      => present,
+                certificate => 'test certificate#0 data',
+                name        => 'test name#0 data',
+                private_key => 'test private_key#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
 
               gcompute_target_ssl_proxy { 'title0':
@@ -690,10 +710,12 @@ describe Puppet::Type.type(:gcompute_target_ssl_proxy).provider(:google) do
               }
 
               gcompute_ssl_certificate { 'resource(ssl_certificate,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure      => present,
+                certificate => 'test certificate#0 data',
+                name        => 'test name#0 data',
+                private_key => 'test private_key#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
 
               gcompute_target_ssl_proxy { 'title0':
@@ -742,10 +764,12 @@ describe Puppet::Type.type(:gcompute_target_ssl_proxy).provider(:google) do
               }
 
               gcompute_ssl_certificate { 'resource(ssl_certificate,0)':
-                ensure     => present,
-                name       => 'test name#0 data',
-                project    => 'test project#0 data',
-                credential => 'cred0',
+                ensure      => present,
+                certificate => 'test certificate#0 data',
+                name        => 'test name#0 data',
+                private_key => 'test private_key#0 data',
+                project     => 'test project#0 data',
+                credential  => 'cred0',
               }
 
               gcompute_target_ssl_proxy { 'title0':
