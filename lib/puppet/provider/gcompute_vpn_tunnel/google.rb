@@ -240,12 +240,12 @@ Puppet::Type.type(:gcompute_vpn_tunnel).provide(:google) do
   end
 
   # rubocop:disable Metrics/CyclomaticComplexity
-  def self.return_if_object(response, kind)
+  def self.return_if_object(response, kind, allow_not_found = false)
     raise "Bad response: #{response.body}" \
       if response.is_a?(Net::HTTPBadRequest)
     raise "Bad response: #{response}" \
       unless response.is_a?(Net::HTTPResponse)
-    return if response.is_a?(Net::HTTPNotFound)
+    return if response.is_a?(Net::HTTPNotFound) && allow_not_found 
     return if response.is_a?(Net::HTTPNoContent)
     result = JSON.parse(response.body)
     raise_if_errors result, %w[error errors], 'message'
@@ -254,8 +254,8 @@ Puppet::Type.type(:gcompute_vpn_tunnel).provide(:google) do
   end
   # rubocop:enable Metrics/CyclomaticComplexity
 
-  def return_if_object(response, kind)
-    self.class.return_if_object(response, kind)
+  def return_if_object(response, kind, allow_not_found = false)
+    self.class.return_if_object(response, kind, allow_not_found)
   end
 
   def self.extract_variables(template)
@@ -333,7 +333,7 @@ Puppet::Type.type(:gcompute_vpn_tunnel).provide(:google) do
     get_request = ::Google::Compute::Network::Get.new(
       self_link, fetch_auth(resource)
     )
-    return_if_object get_request.send, kind
+    return_if_object get_request.send, kind, true
   end
 
   def self.raise_if_errors(response, err_path, msg_field)
