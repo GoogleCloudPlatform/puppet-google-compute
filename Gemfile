@@ -27,6 +27,7 @@
 
 source 'https://rubygems.org'
 group :test do
+  gem 'mocha', '~> 1.3.0'
   gem 'metadata-json-lint'
   gem 'puppet', ENV['PUPPET_GEM_VERSION'] || '>= 4.2.0'
   gem 'puppet-lint'
@@ -38,6 +39,6 @@ group :test do
   gem 'rspec-mocks'
   gem 'rspec-puppet'
   gem 'parallel_tests'
-  gem 'rubocop'
+  gem 'rubocop', '~> 0.52.1'
   gem 'simplecov'
 end
