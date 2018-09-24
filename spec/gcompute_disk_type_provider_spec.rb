@@ -26,6 +26,11 @@
 # ----------------------------------------------------------------------------
 
 require 'spec_helper'
+require 'network_blocker'
+require 'spec/bundle.rb'
+require 'spec/copyright.rb'
+require 'spec/fake_auth.rb'
+require 'spec/test_constants.rb'
 
 describe Puppet::Type.type(:gcompute_disk_type).provider(:google) do
   before(:all) do
