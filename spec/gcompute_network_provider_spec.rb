@@ -63,8 +63,21 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   ensure                  => present,
                   auto_create_subnetworks => true,
                   description             => 'test description#0 data',
-                  gateway_ipv4            => 'test gateway_ipv4#0 data',
                   ipv4_range              => 'test ipv4_range#0 data',
+                  routing_config          => [
+                    {
+                      routing_mode => 'REGIONAL',
+                    },
+                    {
+                      routing_mode => 'GLOBAL',
+                    },
+                    {
+                      routing_mode => 'REGIONAL',
+                    },
+                    {
+                      routing_mode => 'GLOBAL',
+                    },
+                  ],
                   project                 => 'test project#0 data',
                   credential              => 'cred0',
                 }
@@ -73,8 +86,15 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   ensure                  => present,
                   auto_create_subnetworks => false,
                   description             => 'test description#1 data',
-                  gateway_ipv4            => 'test gateway_ipv4#1 data',
                   ipv4_range              => 'test ipv4_range#1 data',
+                  routing_config          => [
+                    {
+                      routing_mode => 'GLOBAL',
+                    },
+                    {
+                      routing_mode => 'REGIONAL',
+                    },
+                  ],
                   project                 => 'test project#1 data',
                   credential              => 'cred1',
                 }
@@ -83,8 +103,21 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   ensure                  => present,
                   auto_create_subnetworks => true,
                   description             => 'test description#2 data',
-                  gateway_ipv4            => 'test gateway_ipv4#2 data',
                   ipv4_range              => 'test ipv4_range#2 data',
+                  routing_config          => [
+                    {
+                      routing_mode => 'REGIONAL',
+                    },
+                    {
+                      routing_mode => 'GLOBAL',
+                    },
+                    {
+                      routing_mode => 'REGIONAL',
+                    },
+                    {
+                      routing_mode => 'GLOBAL',
+                    },
+                  ],
                   project                 => 'test project#2 data',
                   credential              => 'cred2',
                 }
@@ -108,6 +141,10 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 is_expected
                   .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'routingConfig' do
+              #   # Add test code here
+              # end
             end
 
             context 'Gcompute_network[title1]' do
@@ -126,6 +163,10 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 is_expected
                   .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'routingConfig' do
+              #   # Add test code here
+              # end
             end
 
             context 'Gcompute_network[title2]' do
@@ -144,6 +185,10 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 is_expected
                   .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'routingConfig' do
+              #   # Add test code here
+              # end
             end
           end
 
@@ -175,9 +220,22 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   ensure                  => present,
                   auto_create_subnetworks => true,
                   description             => 'test description#0 data',
-                  gateway_ipv4            => 'test gateway_ipv4#0 data',
                   ipv4_range              => 'test ipv4_range#0 data',
                   name                    => 'test name#0 data',
+                  routing_config          => [
+                    {
+                      routing_mode => 'REGIONAL',
+                    },
+                    {
+                      routing_mode => 'GLOBAL',
+                    },
+                    {
+                      routing_mode => 'REGIONAL',
+                    },
+                    {
+                      routing_mode => 'GLOBAL',
+                    },
+                  ],
                   project                 => 'test project#0 data',
                   credential              => 'cred0',
                 }
@@ -186,9 +244,16 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   ensure                  => present,
                   auto_create_subnetworks => false,
                   description             => 'test description#1 data',
-                  gateway_ipv4            => 'test gateway_ipv4#1 data',
                   ipv4_range              => 'test ipv4_range#1 data',
                   name                    => 'test name#1 data',
+                  routing_config          => [
+                    {
+                      routing_mode => 'GLOBAL',
+                    },
+                    {
+                      routing_mode => 'REGIONAL',
+                    },
+                  ],
                   project                 => 'test project#1 data',
                   credential              => 'cred1',
                 }
@@ -197,9 +262,22 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                   ensure                  => present,
                   auto_create_subnetworks => true,
                   description             => 'test description#2 data',
-                  gateway_ipv4            => 'test gateway_ipv4#2 data',
                   ipv4_range              => 'test ipv4_range#2 data',
                   name                    => 'test name#2 data',
+                  routing_config          => [
+                    {
+                      routing_mode => 'REGIONAL',
+                    },
+                    {
+                      routing_mode => 'GLOBAL',
+                    },
+                    {
+                      routing_mode => 'REGIONAL',
+                    },
+                    {
+                      routing_mode => 'GLOBAL',
+                    },
+                  ],
                   project                 => 'test project#2 data',
                   credential              => 'cred2',
                 }
@@ -223,6 +301,10 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 is_expected
                   .to have_attributes(creation_timestamp: ::Time.parse('2045-05-23T12:08:10+00:00'))
               end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'routingConfig' do
+              #   # Add test code here
+              # end
             end
 
             context 'Gcompute_network[title1]' do
@@ -241,6 +323,10 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 is_expected
                   .to have_attributes(creation_timestamp: ::Time.parse('2120-10-14T00:16:21+00:00'))
               end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'routingConfig' do
+              #   # Add test code here
+              # end
             end
 
             context 'Gcompute_network[title2]' do
@@ -259,6 +345,10 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 is_expected
                   .to have_attributes(creation_timestamp: ::Time.parse('2196-03-05T12:24:32+00:00'))
               end
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'routingConfig' do
+              #   # Add test code here
+              # end
             end
           end
 
@@ -317,10 +407,23 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
               {
                 'kind' => 'compute#network',
                 'description' => 'test description#0 data',
-                'gatewayIPv4' => 'test gateway_ipv4#0 data',
                 'IPv4Range' => 'test ipv4_range#0 data',
                 'name' => 'title0',
-                'autoCreateSubnetworks' => true
+                'autoCreateSubnetworks' => true,
+                'routingConfig' => [
+                  {
+                    'routingMode' => 'REGIONAL'
+                  },
+                  {
+                    'routingMode' => 'GLOBAL'
+                  },
+                  {
+                    'routingMode' => 'REGIONAL'
+                  },
+                  {
+                    'routingMode' => 'GLOBAL'
+                  }
+                ]
               },
               name: 'title0'
             expect_network_get_async 1, name: 'title0'
@@ -333,8 +436,21 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 ensure                  => present,
                 auto_create_subnetworks => true,
                 description             => 'test description#0 data',
-                gateway_ipv4            => 'test gateway_ipv4#0 data',
                 ipv4_range              => 'test ipv4_range#0 data',
+                routing_config          => [
+                  {
+                    routing_mode => 'REGIONAL',
+                  },
+                  {
+                    routing_mode => 'GLOBAL',
+                  },
+                  {
+                    routing_mode => 'REGIONAL',
+                  },
+                  {
+                    routing_mode => 'GLOBAL',
+                  },
+                ],
                 project                 => 'test project#0 data',
                 credential              => 'cred0',
               }
@@ -363,10 +479,23 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
               1,
               'kind' => 'compute#network',
               'description' => 'test description#0 data',
-              'gatewayIPv4' => 'test gateway_ipv4#0 data',
               'IPv4Range' => 'test ipv4_range#0 data',
               'name' => 'test name#0 data',
-              'autoCreateSubnetworks' => true
+              'autoCreateSubnetworks' => true,
+              'routingConfig' => [
+                {
+                  'routingMode' => 'REGIONAL'
+                },
+                {
+                  'routingMode' => 'GLOBAL'
+                },
+                {
+                  'routingMode' => 'REGIONAL'
+                },
+                {
+                  'routingMode' => 'GLOBAL'
+                }
+              ]
             expect_network_get_async 1
           end
 
@@ -377,9 +506,22 @@ describe Puppet::Type.type(:gcompute_network).provider(:google) do
                 ensure                  => present,
                 auto_create_subnetworks => true,
                 description             => 'test description#0 data',
-                gateway_ipv4            => 'test gateway_ipv4#0 data',
                 ipv4_range              => 'test ipv4_range#0 data',
                 name                    => 'test name#0 data',
+                routing_config          => [
+                  {
+                    routing_mode => 'REGIONAL',
+                  },
+                  {
+                    routing_mode => 'GLOBAL',
+                  },
+                  {
+                    routing_mode => 'REGIONAL',
+                  },
+                  {
+                    routing_mode => 'GLOBAL',
+                  },
+                ],
                 project                 => 'test project#0 data',
                 credential              => 'cred0',
               }
