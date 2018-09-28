@@ -89,6 +89,13 @@ Puppet::Type.newtype(:gcompute_url_map) do
     desc 'The unique identifier for the resource. (output only)'
   end
 
+  newproperty(:fingerprint, parent: Google::Compute::Property::String) do
+    desc <<-DOC
+      Fingerprint of this resource. This field is used internally during updates of this resource.
+      (output only)
+    DOC
+  end
+
   newproperty(:name, parent: Google::Compute::Property::String) do
     desc <<-DOC
       Name of the resource. Provided by the client when the resource is created. The name must be

@@ -6046,6 +6046,7 @@ gcompute_url_map { 'id-of-resource':
   creation_timestamp => time,
   default_service    => reference to gcompute_backend_service,
   description        => string,
+  fingerprint        => fingerprint,
   host_rules         => [
     {
       description  => string,
@@ -6109,18 +6110,18 @@ Required.  A reference to BackendService resource if none of the hostRules match
   when you create the resource.
 
 ##### host_rules[]/hosts
-  The list of host patterns to match. They must be valid
+Required.  The list of host patterns to match. They must be valid
   hostnames, except * will match any string of ([a-z0-9-.]*). In
   that case, * must be the first character and must be followed in
   the pattern by either - or ..
 
 ##### host_rules[]/path_matcher
-  The name of the PathMatcher to use to match the path portion of
+Required.  The name of the PathMatcher to use to match the path portion of
   the URL if the hostRule matches the URL's host portion.
 
 ##### `name`
 
-  Name of the resource. Provided by the client when the resource is
+Required.  Name of the resource. Provided by the client when the resource is
   created. The name must be 1-63 characters long, and comply with
   RFC1035. Specifically, the name must be 1-63 characters long and match
   the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` which means the
@@ -6133,7 +6134,7 @@ Required.  A reference to BackendService resource if none of the hostRules match
   The list of named PathMatchers to use against the URL.
 
 ##### path_matchers[]/default_service
-  A reference to a BackendService resource. This will be used if
+Required.  A reference to a BackendService resource. This will be used if
   none of the pathRules defined by this PathMatcher is matched by
   the URL's path portion.
 
@@ -6141,7 +6142,7 @@ Required.  A reference to BackendService resource if none of the hostRules match
   An optional description of this resource.
 
 ##### path_matchers[]/name
-  The name to which this PathMatcher is referred by the HostRule.
+Required.  The name to which this PathMatcher is referred by the HostRule.
 
 ##### path_matchers[]/path_rules
   The list of path rules.
@@ -6154,7 +6155,7 @@ Required.  A reference to BackendService resource if none of the hostRules match
   allowed here.
 
 ##### path_matchers[]/path_rules[]/service
-  A reference to the BackendService resource if this rule is
+Required.  A reference to the BackendService resource if this rule is
   matched.
 
 ##### `tests`
@@ -6166,13 +6167,13 @@ Required.  A reference to BackendService resource if none of the hostRules match
   Description of this test case.
 
 ##### tests[]/host
-  Host portion of the URL.
+Required.  Host portion of the URL.
 
 ##### tests[]/path
-  Path portion of the URL.
+Required.  Path portion of the URL.
 
 ##### tests[]/service
-  A reference to expected BackendService resource the given URL should be mapped to.
+Required.  A reference to expected BackendService resource the given URL should be mapped to.
 
 
 ##### Output-only properties
@@ -6182,6 +6183,10 @@ Required.  A reference to BackendService resource if none of the hostRules match
 
 * `id`: Output only.
   The unique identifier for the resource.
+
+* `fingerprint`: Output only.
+  Fingerprint of this resource. This field is used internally during
+  updates of this resource.
 
 #### `gcompute_vpn_tunnel`
 

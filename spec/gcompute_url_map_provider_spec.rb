@@ -346,6 +346,7 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
+              it { is_expected.to have_attributes(fingerprint: 'test fingerprint#0 data') }
               it { is_expected.to have_attributes(name: 'title0') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'pathMatchers' do
@@ -376,6 +377,7 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
+              it { is_expected.to have_attributes(fingerprint: 'test fingerprint#1 data') }
               it { is_expected.to have_attributes(name: 'title1') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'pathMatchers' do
@@ -406,6 +408,7 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
+              it { is_expected.to have_attributes(fingerprint: 'test fingerprint#2 data') }
               it { is_expected.to have_attributes(name: 'title2') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'pathMatchers' do
@@ -732,6 +735,7 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
+              it { is_expected.to have_attributes(fingerprint: 'test fingerprint#0 data') }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'pathMatchers' do
@@ -762,6 +766,7 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
+              it { is_expected.to have_attributes(fingerprint: 'test fingerprint#1 data') }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'pathMatchers' do
@@ -792,6 +797,7 @@ describe Puppet::Type.type(:gcompute_url_map).provider(:google) do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
+              it { is_expected.to have_attributes(fingerprint: 'test fingerprint#2 data') }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               # TODO(nelsonjr): Implement complex array object test.
               # it 'pathMatchers' do

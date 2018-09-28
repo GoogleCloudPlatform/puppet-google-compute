@@ -60,19 +60,21 @@ Puppet::Type.type(:gcompute_url_map).provide(:google) do
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource), 'compute#urlMap')
-      resource.provider = present(name, fetch) unless fetch.nil?
+      resource.provider = present(name, fetch, resource) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_url_map, resource)
     end
   end
 
-  def self.present(name, fetch)
-    result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+  def self.present(name, fetch, resource)
+    result = new(
+      { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
+    )
     result.instance_variable_set(:@fetched, fetch)
     result
   end
 
   # rubocop:disable Metrics/MethodLength
-  def self.fetch_to_hash(fetch)
+  def self.fetch_to_hash(fetch, resource)
     {
       creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       default_service:
@@ -80,10 +82,11 @@ Puppet::Type.type(:gcompute_url_map).provide(:google) do
       description: Google::Compute::Property::String.api_munge(fetch['description']),
       host_rules: Google::Compute::Property::UrlMapHostRulesArray.api_munge(fetch['hostRules']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      name: Google::Compute::Property::String.api_munge(fetch['name']),
+      fingerprint: Google::Compute::Property::String.api_munge(fetch['fingerprint']),
       path_matchers:
         Google::Compute::Property::UrlMapPathMatchersArray.api_munge(fetch['pathMatchers']),
-      tests: Google::Compute::Property::UrlMapTestsArray.api_munge(fetch['tests'])
+      tests: Google::Compute::Property::UrlMapTestsArray.api_munge(fetch['tests']),
+      name: resource[:name]
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength
@@ -150,6 +153,7 @@ Puppet::Type.type(:gcompute_url_map).provide(:google) do
       description: resource[:description],
       host_rules: resource[:host_rules],
       id: resource[:id],
+      fingerprint: resource[:fingerprint],
       path_matchers: resource[:path_matchers],
       tests: resource[:tests]
     }.reject { |_, v| v.nil? }
