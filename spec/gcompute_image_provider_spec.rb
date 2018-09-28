@@ -124,6 +124,10 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                     raw_key => 'test raw_key#0 data',
                     sha256  => 'test sha256#0 data',
                   },
+                  labels                     => {
+                    'test labels#1 data' => 'test labels#1 data',
+                    'test labels#2 data' => 6131251034,
+                  },
                   licenses                   => ['ww', 'xx'],
                   raw_disk                   => {
                     container_type => 'TAR',
@@ -160,6 +164,11 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                   image_encryption_key       => {
                     raw_key => 'test raw_key#1 data',
                     sha256  => 'test sha256#1 data',
+                  },
+                  labels                     => {
+                    'test labels#2 data' => 'test labels#2 data',
+                    'test labels#3 data' => 8175001379,
+                    'test labels#4 data' => 'test labels#4 data',
                   },
                   licenses                   => ['uu', 'vv'],
                   raw_disk                   => {
@@ -200,6 +209,12 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                   image_encryption_key       => {
                     raw_key => 'test raw_key#2 data',
                     sha256  => 'test sha256#2 data',
+                  },
+                  labels                     => {
+                    'test labels#3 data' => 'test labels#3 data',
+                    'test labels#4 data' => 10218751724,
+                    'test labels#5 data' => 'test labels#5 data',
+                    'test labels#6 data' => 14306252413,
                   },
                   licenses                   => ['tt', 'uu', 'vv'],
                   raw_disk                   => {
@@ -242,6 +257,13 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               # it 'guestOsFeatures' do
               #   # Add test code here
               # end
+              # TODO(nelsonjr): Implement complex namevalues property test.
+              # it 'labels' do
+              #   # Add test code here
+              # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
+              end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'imageEncryptionKey' do
@@ -286,6 +308,13 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               # it 'guestOsFeatures' do
               #   # Add test code here
               # end
+              # TODO(nelsonjr): Implement complex namevalues property test.
+              # it 'labels' do
+              #   # Add test code here
+              # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
+              end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'imageEncryptionKey' do
@@ -330,6 +359,13 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               # it 'guestOsFeatures' do
               #   # Add test code here
               # end
+              # TODO(nelsonjr): Implement complex namevalues property test.
+              # it 'labels' do
+              #   # Add test code here
+              # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
+              end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'imageEncryptionKey' do
@@ -443,6 +479,10 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                     raw_key => 'test raw_key#0 data',
                     sha256  => 'test sha256#0 data',
                   },
+                  labels                     => {
+                    'test labels#1 data' => 'test labels#1 data',
+                    'test labels#2 data' => 6131251034,
+                  },
                   licenses                   => ['ww', 'xx'],
                   name                       => 'test name#0 data',
                   raw_disk                   => {
@@ -480,6 +520,11 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                   image_encryption_key       => {
                     raw_key => 'test raw_key#1 data',
                     sha256  => 'test sha256#1 data',
+                  },
+                  labels                     => {
+                    'test labels#2 data' => 'test labels#2 data',
+                    'test labels#3 data' => 8175001379,
+                    'test labels#4 data' => 'test labels#4 data',
                   },
                   licenses                   => ['uu', 'vv'],
                   name                       => 'test name#1 data',
@@ -521,6 +566,12 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                   image_encryption_key       => {
                     raw_key => 'test raw_key#2 data',
                     sha256  => 'test sha256#2 data',
+                  },
+                  labels                     => {
+                    'test labels#3 data' => 'test labels#3 data',
+                    'test labels#4 data' => 10218751724,
+                    'test labels#5 data' => 'test labels#5 data',
+                    'test labels#6 data' => 14306252413,
                   },
                   licenses                   => ['tt', 'uu', 'vv'],
                   name                       => 'test name#2 data',
@@ -564,6 +615,13 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               # it 'guestOsFeatures' do
               #   # Add test code here
               # end
+              # TODO(nelsonjr): Implement complex namevalues property test.
+              # it 'labels' do
+              #   # Add test code here
+              # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
+              end
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'imageEncryptionKey' do
@@ -608,6 +666,13 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               # it 'guestOsFeatures' do
               #   # Add test code here
               # end
+              # TODO(nelsonjr): Implement complex namevalues property test.
+              # it 'labels' do
+              #   # Add test code here
+              # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
+              end
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'imageEncryptionKey' do
@@ -652,6 +717,13 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
               # it 'guestOsFeatures' do
               #   # Add test code here
               # end
+              # TODO(nelsonjr): Implement complex namevalues property test.
+              # it 'labels' do
+              #   # Add test code here
+              # end
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
+              end
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               # TODO(nelsonjr): Implement complex nested property object test.
               # it 'imageEncryptionKey' do
@@ -741,6 +813,10 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                     'type' => 'VIRTIO_SCSI_MULTIQUEUE'
                   }
                 ],
+                'labels' => {
+                  'test labels#1 data' => 'test labels#1 data',
+                  'test labels#2 data' => 6_131_251_034
+                },
                 'imageEncryptionKey' => {
                   'rawKey' => 'test raw_key#0 data',
                   'sha256' => 'test sha256#0 data'
@@ -800,6 +876,10 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                   raw_key => 'test raw_key#0 data',
                   sha256  => 'test sha256#0 data',
                 },
+                labels                     => {
+                  'test labels#1 data' => 'test labels#1 data',
+                  'test labels#2 data' => 6131251034,
+                },
                 licenses                   => ['ww', 'xx'],
                 raw_disk                   => {
                   container_type => 'TAR',
@@ -851,6 +931,10 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                   'type' => 'VIRTIO_SCSI_MULTIQUEUE'
                 }
               ],
+              'labels' => {
+                'test labels#1 data' => 'test labels#1 data',
+                'test labels#2 data' => 6_131_251_034
+              },
               'imageEncryptionKey' => {
                 'rawKey' => 'test raw_key#0 data',
                 'sha256' => 'test sha256#0 data'
@@ -907,6 +991,10 @@ describe Puppet::Type.type(:gcompute_image).provider(:google) do
                 image_encryption_key       => {
                   raw_key => 'test raw_key#0 data',
                   sha256  => 'test sha256#0 data',
+                },
+                labels                     => {
+                  'test labels#1 data' => 'test labels#1 data',
+                  'test labels#2 data' => 6131251034,
                 },
                 licenses                   => ['ww', 'xx'],
                 name                       => 'test name#0 data',

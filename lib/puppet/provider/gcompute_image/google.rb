@@ -37,6 +37,7 @@ require 'google/compute/property/image_image_encryption_key'
 require 'google/compute/property/image_raw_disk'
 require 'google/compute/property/image_source_disk_encryption_key'
 require 'google/compute/property/integer'
+require 'google/compute/property/namevalues'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
@@ -82,6 +83,8 @@ Puppet::Type.type(:gcompute_image).provide(:google) do
       family: Google::Compute::Property::String.api_munge(fetch['family']),
       guest_os_features:
         Google::Compute::Property::ImageGuestOsFeaturesArray.api_munge(fetch['guestOsFeatures']),
+      labels: Google::Compute::Property::NameValues.api_munge(fetch['labels']),
+      label_fingerprint: Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       image_encryption_key:
         Google::Compute::Property::ImageImageEncryptionKey.api_munge(fetch['imageEncryptionKey']),
@@ -129,11 +132,8 @@ Puppet::Type.type(:gcompute_image).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    update_req = Google::Compute::Network::Put.new(self_link(@resource),
-                                                   fetch_auth(@resource),
-                                                   'application/json',
-                                                   resource_to_request)
-    wait_for_operation update_req.send, @resource
+    labels_update(@resource) if @dirty[:labels] || @dirty[:label_fingerprint]
+    return fetch_resource(@resource, self_link(@resource), 'compute#image')
   end
 
   def dirty(field, from, to)
@@ -144,6 +144,23 @@ Puppet::Type.type(:gcompute_image).provide(:google) do
     }
   end
 
+  def labels_update(data)
+    ::Google::Compute::Network::Post.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projects/{{project}}/global/images/{{name}}/setLabels',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        labels: @resource[:labels],
+        labelFingerprint: @fetched['labelFingerprint']
+      }.to_json
+    ).send
+  end
   private
 
   # rubocop:disable Metrics/MethodLength
@@ -159,6 +176,8 @@ Puppet::Type.type(:gcompute_image).provide(:google) do
       disk_size_gb: resource[:disk_size_gb],
       family: resource[:family],
       guest_os_features: resource[:guest_os_features],
+      labels: resource[:labels],
+      label_fingerprint: resource[:label_fingerprint],
       id: resource[:id],
       image_encryption_key: resource[:image_encryption_key],
       licenses: resource[:licenses],
@@ -179,6 +198,7 @@ Puppet::Type.type(:gcompute_image).provide(:google) do
       diskSizeGb: @resource[:disk_size_gb],
       family: @resource[:family],
       guestOsFeatures: @resource[:guest_os_features],
+      labels: @resource[:labels],
       imageEncryptionKey: @resource[:image_encryption_key],
       licenses: @resource[:licenses],
       name: @resource[:name],

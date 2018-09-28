@@ -129,11 +129,8 @@ Puppet::Type.type(:gcompute_instance_group_manager).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    update_req = Google::Compute::Network::Put.new(self_link(@resource),
-                                                   fetch_auth(@resource),
-                                                   'application/json',
-                                                   resource_to_request)
-    @fetched = wait_for_operation update_req.send, @resource
+    instance_template_update(@resource) if @dirty[:instance_template]
+    return fetch_resource(@resource, self_link(@resource), 'compute#instanceGroupManager')
   end
 
   def dirty(field, from, to)
@@ -144,6 +141,22 @@ Puppet::Type.type(:gcompute_instance_group_manager).provide(:google) do
     }
   end
 
+  def instance_template_update(data)
+    ::Google::Compute::Network::Post.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projects/{{project}}/zones/{{zone}}/instanceGroupManagers/{{name}}/setInstanceTemplate',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        instanceTemplate: @resource[:instance_template]
+      }.to_json
+    ).send
+  end
   def exports
     {
       self_link: @fetched['selfLink']

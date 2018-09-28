@@ -81,7 +81,8 @@ Puppet::Type.type(:gcompute_snapshot).provide(:google) do
       description: Google::Compute::Property::String.api_munge(fetch['description']),
       storage_bytes: Google::Compute::Property::Integer.api_munge(fetch['storageBytes']),
       licenses: Google::Compute::Property::LicenseSelfLinkRefArray.api_munge(fetch['licenses']),
-      labels: Google::Compute::Property::StringArray.api_munge(fetch['labels'])
+      labels: Google::Compute::Property::StringArray.api_munge(fetch['labels']),
+      label_fingerprint: Google::Compute::Property::String.api_munge(fetch['labelFingerprint'])
     }.reject { |_, v| v.nil? }
   end
 
@@ -118,11 +119,8 @@ Puppet::Type.type(:gcompute_snapshot).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    update_req = Google::Compute::Network::Put.new(self_link(@resource),
-                                                   fetch_auth(@resource),
-                                                   'application/json',
-                                                   resource_to_request)
-    wait_for_operation update_req.send, @resource
+    labels_update(@resource) if @dirty[:labels] || @dirty[:label_fingerprint]
+    return fetch_resource(@resource, self_link(@resource), 'compute#snapshot')
   end
 
   def dirty(field, from, to)
@@ -133,6 +131,23 @@ Puppet::Type.type(:gcompute_snapshot).provide(:google) do
     }
   end
 
+  def labels_update(data)
+    ::Google::Compute::Network::Post.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projects/{{project}}/global/snapshots/{{name}}/setLabels',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        labels: @resource[:labels],
+        labelFingerprint: @fetched['labelFingerprint']
+      }.to_json
+    ).send
+  end
   def exports
     {
       self_link: @fetched['selfLink']
@@ -153,6 +168,7 @@ Puppet::Type.type(:gcompute_snapshot).provide(:google) do
       storage_bytes: resource[:storage_bytes],
       licenses: resource[:licenses],
       labels: resource[:labels],
+      label_fingerprint: resource[:label_fingerprint],
       source: resource[:source],
       zone: resource[:zone],
       snapshot_encryption_key: resource[:snapshot_encryption_key],

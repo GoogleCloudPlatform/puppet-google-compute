@@ -123,6 +123,7 @@ Puppet::Type.type(:gcompute_global_forwarding_rule).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
+    target_update(@resource) if @dirty[:target]
     update_req = Google::Compute::Network::Put.new(self_link(@resource),
                                                    fetch_auth(@resource),
                                                    'application/json',
@@ -138,6 +139,22 @@ Puppet::Type.type(:gcompute_global_forwarding_rule).provide(:google) do
     }
   end
 
+  def target_update(data)
+    ::Google::Compute::Network::Post.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'products/{{product}}/global/forwardingRules/{{name}}/setTarget',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        target: @resource[:target]
+      }.to_json
+    ).send
+  end
   private
 
   # rubocop:disable Metrics/MethodLength

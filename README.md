@@ -2318,7 +2318,6 @@ gcompute_global_address { 'id-of-resource':
   description        => string,
   id                 => integer,
   ip_version         => 'IPV4' or 'IPV6',
-  label_fingerprint  => fingerprint,
   name               => string,
   region             => reference to gcompute_region,
   project            => string,
@@ -2358,10 +2357,6 @@ Required.  Name of the resource. Provided by the client when the resource is
 * `id`: Output only.
   The unique identifier for the resource. This identifier is defined by
   the server.
-
-* `label_fingerprint`: Output only.
-  The fingerprint used for optimistic locking of this resource.  Used
-  internally during updates.
 
 * `region`: Output only.
   A reference to the region where the regional address resides.
@@ -3577,6 +3572,8 @@ gcompute_image { 'id-of-resource':
     raw_key => string,
     sha256  => string,
   },
+  label_fingerprint          => fingerprint,
+  labels                     => namevalues,
   licenses                   => [
     string,
     ...
@@ -3637,6 +3634,10 @@ gcompute_image { 'id-of-resource':
   WINDOWS to indicate that this is a Windows image. This value is
   purely informational and does not enable or disable any
   features.
+
+##### `labels`
+
+  Labels to apply to this VpnTunnel.
 
 ##### `image_encryption_key`
 
@@ -3759,6 +3760,10 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the
   warning indicating the deprecated resource and recommending its
   replacement. Operations which use OBSOLETE or DELETED resources
   will be rejected and result in an error.
+
+* `label_fingerprint`: Output only.
+  The fingerprint used for optimistic locking of this resource.  Used
+  internally during updates.
 
 * `id`: Output only.
   The unique identifier for the resource. This identifier
@@ -5176,6 +5181,7 @@ gcompute_snapshot { 'id-of-resource':
   description                => string,
   disk_size_gb               => integer,
   id                         => integer,
+  label_fingerprint          => fingerprint,
   labels                     => [
     string,
     ...
@@ -5277,6 +5283,10 @@ Output only.  The RFC 4648 base64 encoded SHA-256 hash of the customer-supplied
   A size of the the storage used by the snapshot. As snapshots share
   storage, this number is expected to change with snapshot
   creation/deletion.
+
+* `label_fingerprint`: Output only.
+  The fingerprint used for optimistic locking of this resource.  Used
+  internally during updates.
 
 #### `gcompute_ssl_certificate`
 

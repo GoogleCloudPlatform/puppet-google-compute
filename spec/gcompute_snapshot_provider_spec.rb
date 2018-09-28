@@ -207,6 +207,9 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(labels: %w[kk ll]) }
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
+              end
             end
 
             context 'Gcompute_snapshot[title1]' do
@@ -228,6 +231,9 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(labels: %w[xx yy zz]) }
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
+              end
             end
 
             context 'Gcompute_snapshot[title2]' do
@@ -249,6 +255,9 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(labels: %w[kk ll mm nn]) }
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
+              end
             end
           end
 
@@ -427,6 +436,9 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(labels: %w[kk ll]) }
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
+              end
             end
 
             context 'Gcompute_snapshot[title1]' do
@@ -448,6 +460,9 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(labels: %w[xx yy zz]) }
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
+              end
             end
 
             context 'Gcompute_snapshot[title2]' do
@@ -469,6 +484,9 @@ describe Puppet::Type.type(:gcompute_snapshot).provider(:google) do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(labels: %w[kk ll mm nn]) }
+              it do
+                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
+              end
             end
           end
 

@@ -151,6 +151,13 @@ Puppet::Type.newtype(:gcompute_snapshot) do
     desc 'Labels to apply to this snapshot.'
   end
 
+  newproperty(:label_fingerprint, parent: Google::Compute::Property::String) do
+    desc <<-DOC
+      The fingerprint used for optimistic locking of this resource. Used internally during updates.
+      (output only)
+    DOC
+  end
+
   # Returns all properties that a provider can export to other resources
   def exports
     provider.exports

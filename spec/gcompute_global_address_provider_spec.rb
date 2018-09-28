@@ -99,9 +99,6 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
-              it do
-                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
-              end
               it { is_expected.to have_attributes(ip_version: 'IPV4') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'region' do
@@ -122,9 +119,6 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
-              it do
-                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
-              end
               it { is_expected.to have_attributes(ip_version: 'IPV6') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'region' do
@@ -145,9 +139,6 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
-              it do
-                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
-              end
               it { is_expected.to have_attributes(ip_version: 'IPV4') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'region' do
@@ -223,9 +214,6 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
-              it do
-                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
-              end
               it { is_expected.to have_attributes(ip_version: 'IPV4') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'region' do
@@ -246,9 +234,6 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
-              it do
-                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
-              end
               it { is_expected.to have_attributes(ip_version: 'IPV6') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'region' do
@@ -269,9 +254,6 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
-              it do
-                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
-              end
               it { is_expected.to have_attributes(ip_version: 'IPV4') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'region' do

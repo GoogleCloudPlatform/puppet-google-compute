@@ -33,6 +33,7 @@ require 'google/compute/property/image_image_encryption_key'
 require 'google/compute/property/image_raw_disk'
 require 'google/compute/property/image_source_disk_encryption_key'
 require 'google/compute/property/integer'
+require 'google/compute/property/namevalues'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
@@ -114,6 +115,17 @@ Puppet::Type.newtype(:gcompute_image) do
       will support VIRTIO_SCSI_MULTIQUEUE. For new Windows images, the server might also populate
       this field with the value WINDOWS, to indicate that this is a Windows image. This value is
       purely informational and does not enable or disable any features.
+    DOC
+  end
+
+  newproperty(:labels, parent: Google::Compute::Property::NameValues) do
+    desc 'Labels to apply to this VpnTunnel.'
+  end
+
+  newproperty(:label_fingerprint, parent: Google::Compute::Property::String) do
+    desc <<-DOC
+      The fingerprint used for optimistic locking of this resource. Used internally during updates.
+      (output only)
     DOC
   end
 
