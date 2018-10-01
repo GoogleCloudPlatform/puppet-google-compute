@@ -26,7 +26,9 @@
 # ----------------------------------------------------------------------------
 
 require 'google/compute/property/boolean'
+require 'google/compute/property/enum'
 require 'google/compute/property/integer'
+require 'google/compute/property/network_routing_config'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
@@ -81,7 +83,7 @@ Puppet::Type.newtype(:gcompute_network) do
     desc <<-DOC
       A gateway address for default routing to other networks. This value is read only and is
       selected by the Google Compute Engine, typically as the first usable address in the
-      IPv4Range.
+      IPv4Range. (output only)
     DOC
   end
 
@@ -124,6 +126,13 @@ Puppet::Type.newtype(:gcompute_network) do
 
   newproperty(:creation_timestamp, parent: Google::Compute::Property::Time) do
     desc 'Creation timestamp in RFC3339 text format. (output only)'
+  end
+
+  newproperty(:routing_config, parent: Google::Compute::Property::NetworkRoutingConfigArray) do
+    desc <<-DOC
+      The network-level routing configuration for this network. Used by Cloud Router to determine
+      what type of network-wide routing behavior to enforce.
+    DOC
   end
 
   # Returns all properties that a provider can export to other resources

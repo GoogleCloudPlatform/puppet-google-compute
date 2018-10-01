@@ -295,6 +295,7 @@ puppet-codegen:
   * lib/google/compute/property/machinetype_name.rb
   * lib/google/compute/property/machinetype_selflink.rb
   * lib/google/compute/property/namevalues.rb
+  * lib/google/compute/property/network_routing_config.rb
   * lib/google/compute/property/network_selflink.rb
   * lib/google/compute/property/region_deprecated.rb
   * lib/google/compute/property/region_name.rb

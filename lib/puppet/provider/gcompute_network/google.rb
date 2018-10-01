@@ -27,10 +27,13 @@
 
 require 'google/compute/network/delete'
 require 'google/compute/network/get'
+require 'google/compute/network/patch'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
 require 'google/compute/property/boolean'
+require 'google/compute/property/enum'
 require 'google/compute/property/integer'
+require 'google/compute/property/network_routing_config'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
 require 'google/compute/property/time'
@@ -56,29 +59,32 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource), 'compute#network')
-      resource.provider = present(name, fetch) unless fetch.nil?
+      resource.provider = present(name, fetch, resource) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_network, resource)
     end
   end
 
-  def self.present(name, fetch)
-    result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+  def self.present(name, fetch, resource)
+    result = new(
+      { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
+    )
     result.instance_variable_set(:@fetched, fetch)
     result
   end
 
   # rubocop:disable Metrics/MethodLength
-  def self.fetch_to_hash(fetch)
+  def self.fetch_to_hash(fetch, resource)
     {
-      description: Google::Compute::Property::String.api_munge(fetch['description']),
       gateway_ipv4: Google::Compute::Property::String.api_munge(fetch['gatewayIPv4']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
-      ipv4_range: Google::Compute::Property::String.api_munge(fetch['IPv4Range']),
-      name: Google::Compute::Property::String.api_munge(fetch['name']),
       subnetworks: Google::Compute::Property::StringArray.api_munge(fetch['subnetworks']),
-      auto_create_subnetworks:
-        Google::Compute::Property::Boolean.api_munge(fetch['autoCreateSubnetworks']),
-      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp'])
+      creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
+      routing_config:
+        Google::Compute::Property::NetworkRoutingConfigArray.api_munge(fetch['routingConfig']),
+      description: resource[:description],
+      ipv4_range: resource[:ipv4_range],
+      name: resource[:name],
+      auto_create_subnetworks: resource[:auto_create_subnetworks]
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength
@@ -112,6 +118,7 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
+    routing_config_update(@resource) if @dirty[:routing_config]
     unless @dirty.keys == [:auto_create_subnetworks]
       raise [
         'Network specification mismatch and cannot be edited.',
@@ -129,6 +136,22 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     }
   end
 
+  def routing_config_update(data)
+    ::Google::Compute::Network::Patch.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projects/{{project}}/regions/{{region}}/subnetworks/{{name}}',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        routingConfig: @resource[:routing_config]
+      }.to_json
+    ).send
+  end
   def exports
     {
       self_link: @fetched['selfLink']
@@ -159,7 +182,8 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
       ipv4_range: resource[:ipv4_range],
       subnetworks: resource[:subnetworks],
       auto_create_subnetworks: resource[:auto_create_subnetworks],
-      creation_timestamp: resource[:creation_timestamp]
+      creation_timestamp: resource[:creation_timestamp],
+      routing_config: resource[:routing_config]
     }.reject { |_, v| v.nil? }
   end
 
@@ -167,10 +191,10 @@ Puppet::Type.type(:gcompute_network).provide(:google) do
     request = {
       kind: 'compute#network',
       description: @resource[:description],
-      gatewayIPv4: @resource[:gateway_ipv4],
       IPv4Range: @resource[:ipv4_range],
       name: @resource[:name],
-      autoCreateSubnetworks: @resource[:auto_create_subnetworks]
+      autoCreateSubnetworks: @resource[:auto_create_subnetworks],
+      routingConfig: @resource[:routing_config]
     }.reject { |_, v| v.nil? }
 
     # Convert boolean symbols into JSON compatible value.
