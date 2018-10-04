@@ -61,19 +61,21 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
       debug("prefetch #{name}") if project.nil?
       debug("prefetch #{name} @ #{project}") unless project.nil?
       fetch = fetch_resource(resource, self_link(resource), 'compute#forwardingRule')
-      resource.provider = present(name, fetch) unless fetch.nil?
+      resource.provider = present(name, fetch, resource) unless fetch.nil?
       Google::ObjectStore.instance.add(:gcompute_forwarding_rule, resource)
     end
   end
 
-  def self.present(name, fetch)
-    result = new({ title: name, ensure: :present }.merge(fetch_to_hash(fetch)))
+  def self.present(name, fetch, resource)
+    result = new(
+      { title: name, ensure: :present }.merge(fetch_to_hash(fetch, resource))
+    )
     result.instance_variable_set(:@fetched, fetch)
     result
   end
 
   # rubocop:disable Metrics/MethodLength
-  def self.fetch_to_hash(fetch)
+  def self.fetch_to_hash(fetch, resource)
     {
       creation_timestamp: Google::Compute::Property::Time.api_munge(fetch['creationTimestamp']),
       description: Google::Compute::Property::String.api_munge(fetch['description']),
@@ -91,7 +93,8 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
       ports: Google::Compute::Property::StringArray.api_munge(fetch['ports']),
       subnetwork: Google::Compute::Property::SubnetworkSelfLinkRef.api_munge(fetch['subnetwork']),
       target: Google::Compute::Property::TargetPoolSelfLinkRef.api_munge(fetch['target']),
-      label_fingerprint: Google::Compute::Property::String.api_munge(fetch['labelFingerprint'])
+      label_fingerprint: Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
+      network_tier: resource[:network_tier]
     }.reject { |_, v| v.nil? }
   end
   # rubocop:enable Metrics/MethodLength
@@ -199,6 +202,7 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
       subnetwork: resource[:subnetwork],
       target: resource[:target],
       label_fingerprint: resource[:label_fingerprint],
+      network_tier: resource[:network_tier],
       region: resource[:region]
     }.reject { |_, v| v.nil? }
   end
@@ -219,7 +223,8 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
       portRange: @resource[:port_range],
       ports: @resource[:ports],
       subnetwork: @resource[:subnetwork],
-      target: @resource[:target]
+      target: @resource[:target],
+      networkTier: @resource[:network_tier]
     }.reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json

@@ -249,6 +249,7 @@ puppet-codegen:
   * lib/google/compute/property/firewall_allowed.rb
   * lib/google/compute/property/firewall_denied.rb
   * lib/google/compute/property/forwardingrule_selflink.rb
+  * lib/google/compute/property/global_address_address_type.rb
   * lib/google/compute/property/health_check_proxy_header.rb
   * lib/google/compute/property/healthcheck_http_health_check.rb
   * lib/google/compute/property/healthcheck_https_health_check.rb
@@ -310,6 +311,7 @@ puppet-codegen:
   * lib/google/compute/property/sslcertificate_selflink.rb
   * lib/google/compute/property/string.rb
   * lib/google/compute/property/string_array.rb
+  * lib/google/compute/property/subnetwork_secondary_ip_ranges.rb
   * lib/google/compute/property/subnetwork_selflink.rb
   * lib/google/compute/property/targetpool_selflink.rb
   * lib/google/compute/property/targetvpngateway_selflink.rb

@@ -25,16 +25,26 @@
 #
 # ----------------------------------------------------------------------------
 
----
-kind: compute#address
-name: test name#2 data
-id: 6448502614
-address: test address#2 data
-addressType: EXTERNAL
-creationTimestamp: '2196-03-05T12:24:32+00:00'
-description: test description#2 data
-ipVersion: IPV4
-labelFingerprint: test label_fingerprint#2 data
-project: "'test project#2 data'"
-region: selflink(resource(region,2))
-selfLink: selflink(resource(global_address,2))
+require 'google/compute/property/base'
+require 'google/compute/property/enum'
+
+module Google
+  module Compute
+    module Property
+      # A Puppet property that holds an enum which contains a default value.
+      # Since default values for enums are not returned from the GCP API,
+      # we need to return true from `insync?` if the property is absent
+      # in the response but set to the default in the config.
+      class AddressTypeEnum < Google::Compute::Property::Enum
+        def insync?(is)
+          debug("insync enum? #{name}: '#{is}' == '#{should}'")
+          if is == :absent && should == 'EXTERNAL'
+            true
+          else
+            super
+          end
+        end
+      end
+    end
+  end
+end

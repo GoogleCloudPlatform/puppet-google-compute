@@ -25,6 +25,7 @@
 #
 # ----------------------------------------------------------------------------
 
+require 'google/compute/property/boolean'
 require 'google/compute/property/enum'
 require 'google/compute/property/firewall_allowed'
 require 'google/compute/property/firewall_denied'
@@ -111,6 +112,16 @@ Puppet::Type.newtype(:gcompute_firewall) do
     DOC
     newvalue(:INGRESS)
     newvalue(:EGRESS)
+  end
+
+  newproperty(:disabled, parent: Google::Compute::Property::Boolean) do
+    desc <<-DOC
+      Denotes whether the firewall rule is disabled, i.e not applied to the network it is
+      associated with. When set to true, the firewall rule is not enforced and the network behaves
+      as if it did not exist. If this is unspecified, the firewall rule will be enabled.
+    DOC
+    newvalue(:true)
+    newvalue(:false)
   end
 
   newproperty(:id, parent: Google::Compute::Property::Integer) do

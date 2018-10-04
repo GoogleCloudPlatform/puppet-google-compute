@@ -30,6 +30,7 @@ require 'google/compute/property/integer'
 require 'google/compute/property/network_selflink'
 require 'google/compute/property/region_name'
 require 'google/compute/property/string'
+require 'google/compute/property/subnetwork_secondary_ip_ranges'
 require 'google/compute/property/time'
 require 'google/object_store'
 require 'puppet'
@@ -120,6 +121,28 @@ Puppet::Type.newtype(:gcompute_subnetwork) do
     desc <<-DOC
       The network this subnet belongs to. Only networks that are in the distributed mode can have
       subnetworks.
+    DOC
+  end
+
+  newproperty(:enable_flow_logs, parent: Google::Compute::Property::Boolean) do
+    desc 'Whether to enable flow logging for this subnetwork.'
+    newvalue(:true)
+    newvalue(:false)
+  end
+
+  newproperty(:fingerprint, parent: Google::Compute::Property::String) do
+    desc <<-DOC
+      Fingerprint of this resource. This field is used internally during updates of this resource.
+      (output only)
+    DOC
+  end
+
+  newproperty(:secondary_ip_ranges,
+              parent: Google::Compute::Property::SubnetworkSecondaryIpRangesArray) do
+    desc <<-DOC
+      An array of configurations for secondary IP ranges for VM instances contained in this
+      subnetwork. The primary IP of such VM must belong to the primary ipCidrRange of the
+      subnetwork. The alias IPs may belong to either primary or secondary ranges.
     DOC
   end
 

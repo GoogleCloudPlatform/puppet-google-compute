@@ -197,6 +197,7 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
                   ip_version            => 'IPV4',
                   load_balancing_scheme => 'INTERNAL',
                   network               => 'resource(network,0)',
+                  network_tier          => 'PREMIUM',
                   port_range            => 'test port_range#0 data',
                   ports                 => ['uu', 'vv'],
                   region                => 'resource(region,0)',
@@ -215,6 +216,7 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
                   ip_version            => 'IPV6',
                   load_balancing_scheme => 'EXTERNAL',
                   network               => 'resource(network,1)',
+                  network_tier          => 'STANDARD',
                   port_range            => 'test port_range#1 data',
                   ports                 => ['qq', 'rr'],
                   region                => 'resource(region,1)',
@@ -233,6 +235,7 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
                   ip_version            => 'IPV4',
                   load_balancing_scheme => 'INTERNAL',
                   network               => 'resource(network,2)',
+                  network_tier          => 'PREMIUM',
                   port_range            => 'test port_range#2 data',
                   ports                 => ['mm', 'nn'],
                   region                => 'resource(region,2)',
@@ -282,6 +285,7 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               it do
                 is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
               end
+              it { is_expected.to have_attributes(network_tier: 'PREMIUM') }
             end
 
             context 'Gcompute_forwarding_rule[title1]' do
@@ -321,6 +325,7 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               it do
                 is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
               end
+              it { is_expected.to have_attributes(network_tier: 'STANDARD') }
             end
 
             context 'Gcompute_forwarding_rule[title2]' do
@@ -360,6 +365,7 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               it do
                 is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
               end
+              it { is_expected.to have_attributes(network_tier: 'PREMIUM') }
             end
           end
 
@@ -526,6 +532,7 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
                   load_balancing_scheme => 'INTERNAL',
                   name                  => 'test name#0 data',
                   network               => 'resource(network,0)',
+                  network_tier          => 'PREMIUM',
                   port_range            => 'test port_range#0 data',
                   ports                 => ['uu', 'vv'],
                   region                => 'resource(region,0)',
@@ -545,6 +552,7 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
                   load_balancing_scheme => 'EXTERNAL',
                   name                  => 'test name#1 data',
                   network               => 'resource(network,1)',
+                  network_tier          => 'STANDARD',
                   port_range            => 'test port_range#1 data',
                   ports                 => ['qq', 'rr'],
                   region                => 'resource(region,1)',
@@ -564,6 +572,7 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
                   load_balancing_scheme => 'INTERNAL',
                   name                  => 'test name#2 data',
                   network               => 'resource(network,2)',
+                  network_tier          => 'PREMIUM',
                   port_range            => 'test port_range#2 data',
                   ports                 => ['mm', 'nn'],
                   region                => 'resource(region,2)',
@@ -613,6 +622,7 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               it do
                 is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
               end
+              it { is_expected.to have_attributes(network_tier: 'PREMIUM') }
             end
 
             context 'Gcompute_forwarding_rule[title1]' do
@@ -652,6 +662,7 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               it do
                 is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
               end
+              it { is_expected.to have_attributes(network_tier: 'STANDARD') }
             end
 
             context 'Gcompute_forwarding_rule[title2]' do
@@ -691,6 +702,7 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               it do
                 is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
               end
+              it { is_expected.to have_attributes(network_tier: 'PREMIUM') }
             end
           end
 
@@ -759,7 +771,8 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
                 'portRange' => 'test port_range#0 data',
                 'ports' => %w[uu vv],
                 'subnetwork' => 'selflink(resource(subnetwork,0))',
-                'target' => 'selflink(resource(target_pool,0))'
+                'target' => 'selflink(resource(target_pool,0))',
+                'networkTier' => 'PREMIUM'
               },
               name: 'title0',
               region: 'test name#0 data'
@@ -821,6 +834,7 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
                 ip_version            => 'IPV4',
                 load_balancing_scheme => 'INTERNAL',
                 network               => 'resource(network,0)',
+                network_tier          => 'PREMIUM',
                 port_range            => 'test port_range#0 data',
                 ports                 => ['uu', 'vv'],
                 region                => 'resource(region,0)',
@@ -865,7 +879,8 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
                 'portRange' => 'test port_range#0 data',
                 'ports' => %w[uu vv],
                 'subnetwork' => 'selflink(resource(subnetwork,0))',
-                'target' => 'selflink(resource(target_pool,0))'
+                'target' => 'selflink(resource(target_pool,0))',
+                'networkTier' => 'PREMIUM'
               },
               region: 'test name#0 data'
             expect_network_get_async 1, region: 'test name#0 data'
@@ -927,6 +942,7 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
                 load_balancing_scheme => 'INTERNAL',
                 name                  => 'test name#0 data',
                 network               => 'resource(network,0)',
+                network_tier          => 'PREMIUM',
                 port_range            => 'test port_range#0 data',
                 ports                 => ['uu', 'vv'],
                 region                => 'resource(region,0)',

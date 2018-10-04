@@ -26,6 +26,7 @@
 # ----------------------------------------------------------------------------
 
 require 'google/compute/property/address_address_type'
+require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/region_name'
 require 'google/compute/property/string'
@@ -122,6 +123,15 @@ Puppet::Type.newtype(:gcompute_address) do
       all following characters must be a dash, lowercase letter, or digit, except the last
       character, which cannot be a dash.
     DOC
+  end
+
+  newproperty(:network_tier, parent: Google::Compute::Property::Enum) do
+    desc <<-DOC
+      The networking tier used for configuring this address. This field can take the following
+      values: PREMIUM or STANDARD. If this field is not specified, it is assumed to be PREMIUM.
+    DOC
+    newvalue(:PREMIUM)
+    newvalue(:STANDARD)
   end
 
   newproperty(:subnetwork, parent: Google::Compute::Property::SubnetworkSelfLinkRef) do
