@@ -1076,6 +1076,7 @@ gcompute_address { 'id-of-resource':
   description        => string,
   id                 => integer,
   name               => string,
+  network_tier       => 'PREMIUM' or 'STANDARD',
   region             => reference to gcompute_region,
   subnetwork         => reference to gcompute_subnetwork,
   users              => [
@@ -1111,6 +1112,12 @@ Required.  Name of the resource. The name must be 1-63 characters long, and
   which means the first character must be a lowercase letter, and all
   following characters must be a dash, lowercase letter, or digit,
   except the last character, which cannot be a dash.
+
+##### `network_tier`
+
+  The networking tier used for configuring this address. This field can
+  take the following values: PREMIUM or STANDARD. If this field is not
+  specified, it is assumed to be PREMIUM.
 
 ##### `subnetwork`
 
@@ -1925,6 +1932,7 @@ gcompute_firewall { 'id-of-resource':
     ...
   ],
   direction               => 'INGRESS' or 'EGRESS',
+  disabled                => boolean,
   id                      => integer,
   name                    => string,
   network                 => reference to gcompute_network,
@@ -2010,6 +2018,13 @@ Required.  The IP protocol to which this rule applies. The protocol type is
   INGRESS. Note: For INGRESS traffic, it is NOT supported to specify
   destinationRanges; For EGRESS traffic, it is NOT supported to specify
   sourceRanges OR sourceTags.
+
+##### `disabled`
+
+  Denotes whether the firewall rule is disabled, i.e not applied to the
+  network it is associated with. When set to true, the firewall rule is
+  not enforced and the network behaves as if it did not exist. If this
+  is unspecified, the firewall rule will be enabled.
 
 ##### `name`
 
@@ -2148,6 +2163,7 @@ gcompute_forwarding_rule { 'id-of-resource':
   load_balancing_scheme => 'INTERNAL' or 'EXTERNAL',
   name                  => string,
   network               => reference to gcompute_network,
+  network_tier          => 'PREMIUM' or 'STANDARD',
   port_range            => string,
   ports                 => [
     string,
@@ -2286,6 +2302,12 @@ Required.  Name of the resource; provided by the client when the resource is
   must be of a type appropriate to the target object.
   This field is not used for internal load balancing.
 
+##### `network_tier`
+
+  The networking tier used for configuring this address. This field can
+  take the following values: PREMIUM or STANDARD. If this field is not
+  specified, it is assumed to be PREMIUM.
+
 ##### `region`
 
 Required.  A reference to the region where the regional forwarding rule resides.
@@ -2329,6 +2351,7 @@ gcompute_global_address { 'my-app-lb-address':
 ```puppet
 gcompute_global_address { 'id-of-resource':
   address            => string,
+  address_type       => 'EXTERNAL' or 'INTERNAL',
   creation_timestamp => time,
   description        => string,
   id                 => integer,
@@ -2360,6 +2383,12 @@ Required.  Name of the resource. Provided by the client when the resource is
 
   The IP Version that will be used by this address. Valid options are
   IPV4 or IPV6. The default value is IPV4.
+
+##### `address_type`
+
+  The type of the address to reserve, default is EXTERNAL.
+  * EXTERNAL indicates public/external single IP address.
+  * INTERNAL indicates internal IP ranges belonging to some network.
 
 
 ##### Output-only properties
@@ -5473,6 +5502,8 @@ gcompute_subnetwork { 'servers':
 gcompute_subnetwork { 'id-of-resource':
   creation_timestamp       => time,
   description              => string,
+  enable_flow_logs         => boolean,
+  fingerprint              => fingerprint,
   gateway_address          => string,
   id                       => integer,
   ip_cidr_range            => string,
@@ -5480,6 +5511,13 @@ gcompute_subnetwork { 'id-of-resource':
   network                  => reference to gcompute_network,
   private_ip_google_access => boolean,
   region                   => reference to gcompute_region,
+  secondary_ip_ranges      => [
+    {
+      ip_cidr_range => string,
+      range_name    => string,
+    },
+    ...
+  ],
   project                  => string,
   credential               => reference to gauth_credential,
 }
@@ -5513,6 +5551,29 @@ Required.  The name of the resource, provided by the client when initially
 Required.  The network this subnet belongs to.
   Only networks that are in the distributed mode can have subnetworks.
 
+##### `enable_flow_logs`
+
+  Whether to enable flow logging for this subnetwork.
+
+##### `secondary_ip_ranges`
+
+  An array of configurations for secondary IP ranges for VM instances
+  contained in this subnetwork. The primary IP of such VM must belong
+  to the primary ipCidrRange of the subnetwork. The alias IPs may belong
+  to either primary or secondary ranges.
+
+##### secondary_ip_ranges[]/range_name
+Required.  The name associated with this subnetwork secondary range, used
+  when adding an alias IP range to a VM instance. The name must
+  be 1-63 characters long, and comply with RFC1035. The name
+  must be unique within the subnetwork.
+
+##### secondary_ip_ranges[]/ip_cidr_range
+Required.  The range of IP addresses belonging to this subnetwork secondary
+  range. Provide this property when you create the subnetwork.
+  Ranges must be unique and non-overlapping with all primary and
+  secondary IP ranges within a network. Only IPv4 is supported.
+
 ##### `private_ip_google_access`
 
   Whether the VMs in this subnet can access Google services without
@@ -5534,6 +5595,10 @@ Required.  URL of the GCP region for this subnetwork.
 
 * `id`: Output only.
   The unique identifier for the resource.
+
+* `fingerprint`: Output only.
+  Fingerprint of this resource. This field is used internally during
+  updates of this resource.
 
 #### `gcompute_target_http_proxy`
 

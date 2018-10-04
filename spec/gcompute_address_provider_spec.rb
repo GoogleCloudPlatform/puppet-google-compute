@@ -142,6 +142,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                   address      => 'test address#0 data',
                   address_type => 'EXTERNAL',
                   description  => 'test description#0 data',
+                  network_tier => 'PREMIUM',
                   region       => 'resource(region,0)',
                   subnetwork   => 'resource(subnetwork,0)',
                   project      => 'test project#0 data',
@@ -153,6 +154,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                   address      => 'test address#1 data',
                   address_type => 'EXTERNAL',
                   description  => 'test description#1 data',
+                  network_tier => 'STANDARD',
                   region       => 'resource(region,1)',
                   subnetwork   => 'resource(subnetwork,1)',
                   project      => 'test project#1 data',
@@ -164,6 +166,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                   address      => 'test address#2 data',
                   address_type => 'EXTERNAL',
                   description  => 'test description#2 data',
+                  network_tier => 'PREMIUM',
                   region       => 'resource(region,2)',
                   subnetwork   => 'resource(subnetwork,2)',
                   project      => 'test project#2 data',
@@ -187,6 +190,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
+              it { is_expected.to have_attributes(network_tier: 'PREMIUM') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'subnetwork' do
               #   # Add test code here
@@ -208,6 +212,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
+              it { is_expected.to have_attributes(network_tier: 'STANDARD') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'subnetwork' do
               #   # Add test code here
@@ -229,6 +234,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
+              it { is_expected.to have_attributes(network_tier: 'PREMIUM') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'subnetwork' do
               #   # Add test code here
@@ -345,6 +351,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                   address_type => 'EXTERNAL',
                   description  => 'test description#0 data',
                   name         => 'test name#0 data',
+                  network_tier => 'PREMIUM',
                   region       => 'resource(region,0)',
                   subnetwork   => 'resource(subnetwork,0)',
                   project      => 'test project#0 data',
@@ -357,6 +364,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                   address_type => 'EXTERNAL',
                   description  => 'test description#1 data',
                   name         => 'test name#1 data',
+                  network_tier => 'STANDARD',
                   region       => 'resource(region,1)',
                   subnetwork   => 'resource(subnetwork,1)',
                   project      => 'test project#1 data',
@@ -369,6 +377,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                   address_type => 'EXTERNAL',
                   description  => 'test description#2 data',
                   name         => 'test name#2 data',
+                  network_tier => 'PREMIUM',
                   region       => 'resource(region,2)',
                   subnetwork   => 'resource(subnetwork,2)',
                   project      => 'test project#2 data',
@@ -392,6 +401,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
+              it { is_expected.to have_attributes(network_tier: 'PREMIUM') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'subnetwork' do
               #   # Add test code here
@@ -413,6 +423,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
+              it { is_expected.to have_attributes(network_tier: 'STANDARD') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'subnetwork' do
               #   # Add test code here
@@ -434,6 +445,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
+              it { is_expected.to have_attributes(network_tier: 'PREMIUM') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'subnetwork' do
               #   # Add test code here
@@ -500,6 +512,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 'addressType' => 'EXTERNAL',
                 'description' => 'test description#0 data',
                 'name' => 'title0',
+                'networkTier' => 'PREMIUM',
                 'subnetwork' => 'selflink(resource(subnetwork,0))'
               },
               name: 'title0',
@@ -541,6 +554,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 address      => 'test address#0 data',
                 address_type => 'EXTERNAL',
                 description  => 'test description#0 data',
+                network_tier => 'PREMIUM',
                 region       => 'resource(region,0)',
                 subnetwork   => 'resource(subnetwork,0)',
                 project      => 'test project#0 data',
@@ -575,6 +589,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 'addressType' => 'EXTERNAL',
                 'description' => 'test description#0 data',
                 'name' => 'test name#0 data',
+                'networkTier' => 'PREMIUM',
                 'subnetwork' => 'selflink(resource(subnetwork,0))'
               },
               region: 'test name#0 data'
@@ -616,6 +631,7 @@ describe Puppet::Type.type(:gcompute_address).provider(:google) do
                 address_type => 'EXTERNAL',
                 description  => 'test description#0 data',
                 name         => 'test name#0 data',
+                network_tier => 'PREMIUM',
                 region       => 'resource(region,0)',
                 subnetwork   => 'resource(subnetwork,0)',
                 project      => 'test project#0 data',

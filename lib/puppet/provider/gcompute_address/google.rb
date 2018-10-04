@@ -30,6 +30,7 @@ require 'google/compute/network/get'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
 require 'google/compute/property/address_address_type'
+require 'google/compute/property/enum'
 require 'google/compute/property/integer'
 require 'google/compute/property/region_name'
 require 'google/compute/property/string'
@@ -77,6 +78,7 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
       description: Google::Compute::Property::String.api_munge(fetch['description']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
+      network_tier: Google::Compute::Property::Enum.api_munge(fetch['networkTier']),
       subnetwork: Google::Compute::Property::SubnetworkSelfLinkRef.api_munge(fetch['subnetwork']),
       users: Google::Compute::Property::StringArray.api_munge(fetch['users'])
     }.reject { |_, v| v.nil? }
@@ -141,6 +143,7 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
       creation_timestamp: resource[:creation_timestamp],
       description: resource[:description],
       id: resource[:id],
+      network_tier: resource[:network_tier],
       subnetwork: resource[:subnetwork],
       users: resource[:users],
       region: resource[:region]
@@ -154,6 +157,7 @@ Puppet::Type.type(:gcompute_address).provide(:google) do
       addressType: @resource[:address_type],
       description: @resource[:description],
       name: @resource[:name],
+      networkTier: @resource[:network_tier],
       subnetwork: @resource[:subnetwork]
     }.reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?

@@ -120,6 +120,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   description             => 'test description#0 data',
                   destination_ranges      => ['dd', 'ee', 'ff'],
                   direction               => 'INGRESS',
+                  disabled                => true,
                   network                 => 'resource(network,0)',
                   priority                => 1000,
                   source_ranges           => ['dd', 'ee', 'ff', 'gg', 'hh'],
@@ -168,6 +169,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   description             => 'test description#1 data',
                   destination_ranges      => ['ii', 'jj', 'kk', 'll'],
                   direction               => 'EGRESS',
+                  disabled                => false,
                   network                 => 'resource(network,1)',
                   priority                => 1000,
                   source_ranges           => ['ii', 'jj', 'kk', 'll'],
@@ -216,6 +218,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   description             => 'test description#2 data',
                   destination_ranges      => ['oo', 'pp'],
                   direction               => 'INGRESS',
+                  disabled                => true,
                   network                 => 'resource(network,2)',
                   priority                => 1000,
                   source_ranges           => ['nn', 'oo', 'pp'],
@@ -250,6 +253,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(destination_ranges: %w[dd ee ff]) }
               it { is_expected.to have_attributes(direction: 'INGRESS') }
+              it { is_expected.to have_attributes(disabled: true) }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'title0') }
               # TODO(alexstephen): Implement resourceref test.
@@ -284,6 +288,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(destination_ranges: %w[ii jj kk ll]) }
               it { is_expected.to have_attributes(direction: 'EGRESS') }
+              it { is_expected.to have_attributes(disabled: false) }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'title1') }
               # TODO(alexstephen): Implement resourceref test.
@@ -318,6 +323,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(destination_ranges: %w[oo pp]) }
               it { is_expected.to have_attributes(direction: 'INGRESS') }
+              it { is_expected.to have_attributes(disabled: true) }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'title2') }
               # TODO(alexstephen): Implement resourceref test.
@@ -418,6 +424,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   description             => 'test description#0 data',
                   destination_ranges      => ['dd', 'ee', 'ff'],
                   direction               => 'INGRESS',
+                  disabled                => true,
                   name                    => 'test name#0 data',
                   network                 => 'resource(network,0)',
                   priority                => 1000,
@@ -467,6 +474,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   description             => 'test description#1 data',
                   destination_ranges      => ['ii', 'jj', 'kk', 'll'],
                   direction               => 'EGRESS',
+                  disabled                => false,
                   name                    => 'test name#1 data',
                   network                 => 'resource(network,1)',
                   priority                => 1000,
@@ -516,6 +524,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                   description             => 'test description#2 data',
                   destination_ranges      => ['oo', 'pp'],
                   direction               => 'INGRESS',
+                  disabled                => true,
                   name                    => 'test name#2 data',
                   network                 => 'resource(network,2)',
                   priority                => 1000,
@@ -551,6 +560,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#0 data') }
               it { is_expected.to have_attributes(destination_ranges: %w[dd ee ff]) }
               it { is_expected.to have_attributes(direction: 'INGRESS') }
+              it { is_expected.to have_attributes(disabled: true) }
               it { is_expected.to have_attributes(id: 2_149_500_871) }
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               # TODO(alexstephen): Implement resourceref test.
@@ -585,6 +595,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#1 data') }
               it { is_expected.to have_attributes(destination_ranges: %w[ii jj kk ll]) }
               it { is_expected.to have_attributes(direction: 'EGRESS') }
+              it { is_expected.to have_attributes(disabled: false) }
               it { is_expected.to have_attributes(id: 4_299_001_743) }
               it { is_expected.to have_attributes(name: 'test name#1 data') }
               # TODO(alexstephen): Implement resourceref test.
@@ -619,6 +630,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               it { is_expected.to have_attributes(description: 'test description#2 data') }
               it { is_expected.to have_attributes(destination_ranges: %w[oo pp]) }
               it { is_expected.to have_attributes(direction: 'INGRESS') }
+              it { is_expected.to have_attributes(disabled: true) }
               it { is_expected.to have_attributes(id: 6_448_502_614) }
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               # TODO(alexstephen): Implement resourceref test.
@@ -723,6 +735,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 'description' => 'test description#0 data',
                 'destinationRanges' => %w[dd ee ff],
                 'direction' => 'INGRESS',
+                'disabled' => true,
                 'name' => 'title0',
                 'network' => 'selflink(resource(network,0))',
                 'priority' => 1_000,
@@ -784,6 +797,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 description             => 'test description#0 data',
                 destination_ranges      => ['dd', 'ee', 'ff'],
                 direction               => 'INGRESS',
+                disabled                => true,
                 network                 => 'resource(network,0)',
                 priority                => 1000,
                 source_ranges           => ['dd', 'ee', 'ff', 'gg', 'hh'],
@@ -853,6 +867,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
               'description' => 'test description#0 data',
               'destinationRanges' => %w[dd ee ff],
               'direction' => 'INGRESS',
+              'disabled' => true,
               'name' => 'test name#0 data',
               'network' => 'selflink(resource(network,0))',
               'priority' => 1_000,
@@ -912,6 +927,7 @@ describe Puppet::Type.type(:gcompute_firewall).provider(:google) do
                 description             => 'test description#0 data',
                 destination_ranges      => ['dd', 'ee', 'ff'],
                 direction               => 'INGRESS',
+                disabled                => true,
                 name                    => 'test name#0 data',
                 network                 => 'resource(network,0)',
                 priority                => 1000,

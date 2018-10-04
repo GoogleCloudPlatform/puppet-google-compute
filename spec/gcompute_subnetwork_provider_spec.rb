@@ -107,10 +107,25 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 gcompute_subnetwork { 'title0':
                   ensure                   => present,
                   description              => 'test description#0 data',
+                  enable_flow_logs         => true,
                   ip_cidr_range            => 'test ip_cidr_range#0 data',
                   network                  => 'resource(network,0)',
                   private_ip_google_access => true,
                   region                   => 'resource(region,0)',
+                  secondary_ip_ranges      => [
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#0 data',
+                      range_name    => 'test range_name#0 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#1 data',
+                      range_name    => 'test range_name#1 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#2 data',
+                      range_name    => 'test range_name#2 data',
+                    },
+                  ],
                   project                  => 'test project#0 data',
                   credential               => 'cred0',
                 }
@@ -118,10 +133,29 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 gcompute_subnetwork { 'title1':
                   ensure                   => present,
                   description              => 'test description#1 data',
+                  enable_flow_logs         => false,
                   ip_cidr_range            => 'test ip_cidr_range#1 data',
                   network                  => 'resource(network,1)',
                   private_ip_google_access => false,
                   region                   => 'resource(region,1)',
+                  secondary_ip_ranges      => [
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#1 data',
+                      range_name    => 'test range_name#1 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#2 data',
+                      range_name    => 'test range_name#2 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#3 data',
+                      range_name    => 'test range_name#3 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#4 data',
+                      range_name    => 'test range_name#4 data',
+                    },
+                  ],
                   project                  => 'test project#1 data',
                   credential               => 'cred1',
                 }
@@ -129,10 +163,33 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 gcompute_subnetwork { 'title2':
                   ensure                   => present,
                   description              => 'test description#2 data',
+                  enable_flow_logs         => true,
                   ip_cidr_range            => 'test ip_cidr_range#2 data',
                   network                  => 'resource(network,2)',
                   private_ip_google_access => true,
                   region                   => 'resource(region,2)',
+                  secondary_ip_ranges      => [
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#2 data',
+                      range_name    => 'test range_name#2 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#3 data',
+                      range_name    => 'test range_name#3 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#4 data',
+                      range_name    => 'test range_name#4 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#5 data',
+                      range_name    => 'test range_name#5 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#6 data',
+                      range_name    => 'test range_name#6 data',
+                    },
+                  ],
                   project                  => 'test project#2 data',
                   credential               => 'cred2',
                 }
@@ -156,6 +213,12 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               it { is_expected.to have_attributes(name: 'title0') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(enable_flow_logs: true) }
+              it { is_expected.to have_attributes(fingerprint: 'test fingerprint#0 data') }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'secondaryIpRanges' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(private_ip_google_access: true) }
@@ -183,6 +246,12 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               # it 'network' do
               #   # Add test code here
               # end
+              it { is_expected.to have_attributes(enable_flow_logs: false) }
+              it { is_expected.to have_attributes(fingerprint: 'test fingerprint#1 data') }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'secondaryIpRanges' do
+              #   # Add test code here
+              # end
               it { is_expected.to have_attributes(private_ip_google_access: false) }
               # TODO(alexstephen): Implement resourceref test.
               # it 'region' do
@@ -206,6 +275,12 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               it { is_expected.to have_attributes(name: 'title2') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(enable_flow_logs: true) }
+              it { is_expected.to have_attributes(fingerprint: 'test fingerprint#2 data') }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'secondaryIpRanges' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(private_ip_google_access: true) }
@@ -288,11 +363,26 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 gcompute_subnetwork { 'title0':
                   ensure                   => present,
                   description              => 'test description#0 data',
+                  enable_flow_logs         => true,
                   ip_cidr_range            => 'test ip_cidr_range#0 data',
                   name                     => 'test name#0 data',
                   network                  => 'resource(network,0)',
                   private_ip_google_access => true,
                   region                   => 'resource(region,0)',
+                  secondary_ip_ranges      => [
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#0 data',
+                      range_name    => 'test range_name#0 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#1 data',
+                      range_name    => 'test range_name#1 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#2 data',
+                      range_name    => 'test range_name#2 data',
+                    },
+                  ],
                   project                  => 'test project#0 data',
                   credential               => 'cred0',
                 }
@@ -300,11 +390,30 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 gcompute_subnetwork { 'title1':
                   ensure                   => present,
                   description              => 'test description#1 data',
+                  enable_flow_logs         => false,
                   ip_cidr_range            => 'test ip_cidr_range#1 data',
                   name                     => 'test name#1 data',
                   network                  => 'resource(network,1)',
                   private_ip_google_access => false,
                   region                   => 'resource(region,1)',
+                  secondary_ip_ranges      => [
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#1 data',
+                      range_name    => 'test range_name#1 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#2 data',
+                      range_name    => 'test range_name#2 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#3 data',
+                      range_name    => 'test range_name#3 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#4 data',
+                      range_name    => 'test range_name#4 data',
+                    },
+                  ],
                   project                  => 'test project#1 data',
                   credential               => 'cred1',
                 }
@@ -312,11 +421,34 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 gcompute_subnetwork { 'title2':
                   ensure                   => present,
                   description              => 'test description#2 data',
+                  enable_flow_logs         => true,
                   ip_cidr_range            => 'test ip_cidr_range#2 data',
                   name                     => 'test name#2 data',
                   network                  => 'resource(network,2)',
                   private_ip_google_access => true,
                   region                   => 'resource(region,2)',
+                  secondary_ip_ranges      => [
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#2 data',
+                      range_name    => 'test range_name#2 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#3 data',
+                      range_name    => 'test range_name#3 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#4 data',
+                      range_name    => 'test range_name#4 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#5 data',
+                      range_name    => 'test range_name#5 data',
+                    },
+                    {
+                      ip_cidr_range => 'test ip_cidr_range#6 data',
+                      range_name    => 'test range_name#6 data',
+                    },
+                  ],
                   project                  => 'test project#2 data',
                   credential               => 'cred2',
                 }
@@ -340,6 +472,12 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               it { is_expected.to have_attributes(name: 'test name#0 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(enable_flow_logs: true) }
+              it { is_expected.to have_attributes(fingerprint: 'test fingerprint#0 data') }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'secondaryIpRanges' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(private_ip_google_access: true) }
@@ -367,6 +505,12 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               # it 'network' do
               #   # Add test code here
               # end
+              it { is_expected.to have_attributes(enable_flow_logs: false) }
+              it { is_expected.to have_attributes(fingerprint: 'test fingerprint#1 data') }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'secondaryIpRanges' do
+              #   # Add test code here
+              # end
               it { is_expected.to have_attributes(private_ip_google_access: false) }
               # TODO(alexstephen): Implement resourceref test.
               # it 'region' do
@@ -390,6 +534,12 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               it { is_expected.to have_attributes(name: 'test name#2 data') }
               # TODO(alexstephen): Implement resourceref test.
               # it 'network' do
+              #   # Add test code here
+              # end
+              it { is_expected.to have_attributes(enable_flow_logs: true) }
+              it { is_expected.to have_attributes(fingerprint: 'test fingerprint#2 data') }
+              # TODO(nelsonjr): Implement complex array object test.
+              # it 'secondaryIpRanges' do
               #   # Add test code here
               # end
               it { is_expected.to have_attributes(private_ip_google_access: true) }
@@ -458,6 +608,21 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 'ipCidrRange' => 'test ip_cidr_range#0 data',
                 'name' => 'title0',
                 'network' => 'selflink(resource(network,0))',
+                'enableFlowLogs' => true,
+                'secondaryIpRanges' => [
+                  {
+                    'rangeName' => 'test range_name#0 data',
+                    'ipCidrRange' => 'test ip_cidr_range#0 data'
+                  },
+                  {
+                    'rangeName' => 'test range_name#1 data',
+                    'ipCidrRange' => 'test ip_cidr_range#1 data'
+                  },
+                  {
+                    'rangeName' => 'test range_name#2 data',
+                    'ipCidrRange' => 'test ip_cidr_range#2 data'
+                  }
+                ],
                 'privateIpGoogleAccess' => true,
                 'region' => 'test name#0 data'
               },
@@ -487,10 +652,25 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               gcompute_subnetwork { 'title0':
                 ensure                   => present,
                 description              => 'test description#0 data',
+                enable_flow_logs         => true,
                 ip_cidr_range            => 'test ip_cidr_range#0 data',
                 network                  => 'resource(network,0)',
                 private_ip_google_access => true,
                 region                   => 'resource(region,0)',
+                secondary_ip_ranges      => [
+                  {
+                    ip_cidr_range => 'test ip_cidr_range#0 data',
+                    range_name    => 'test range_name#0 data',
+                  },
+                  {
+                    ip_cidr_range => 'test ip_cidr_range#1 data',
+                    range_name    => 'test range_name#1 data',
+                  },
+                  {
+                    ip_cidr_range => 'test ip_cidr_range#2 data',
+                    range_name    => 'test range_name#2 data',
+                  },
+                ],
                 project                  => 'test project#0 data',
                 credential               => 'cred0',
               }
@@ -523,6 +703,21 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
                 'ipCidrRange' => 'test ip_cidr_range#0 data',
                 'name' => 'test name#0 data',
                 'network' => 'selflink(resource(network,0))',
+                'enableFlowLogs' => true,
+                'secondaryIpRanges' => [
+                  {
+                    'rangeName' => 'test range_name#0 data',
+                    'ipCidrRange' => 'test ip_cidr_range#0 data'
+                  },
+                  {
+                    'rangeName' => 'test range_name#1 data',
+                    'ipCidrRange' => 'test ip_cidr_range#1 data'
+                  },
+                  {
+                    'rangeName' => 'test range_name#2 data',
+                    'ipCidrRange' => 'test ip_cidr_range#2 data'
+                  }
+                ],
                 'privateIpGoogleAccess' => true,
                 'region' => 'test name#0 data'
               },
@@ -551,11 +746,26 @@ describe Puppet::Type.type(:gcompute_subnetwork).provider(:google) do
               gcompute_subnetwork { 'title0':
                 ensure                   => present,
                 description              => 'test description#0 data',
+                enable_flow_logs         => true,
                 ip_cidr_range            => 'test ip_cidr_range#0 data',
                 name                     => 'test name#0 data',
                 network                  => 'resource(network,0)',
                 private_ip_google_access => true,
                 region                   => 'resource(region,0)',
+                secondary_ip_ranges      => [
+                  {
+                    ip_cidr_range => 'test ip_cidr_range#0 data',
+                    range_name    => 'test range_name#0 data',
+                  },
+                  {
+                    ip_cidr_range => 'test ip_cidr_range#1 data',
+                    range_name    => 'test range_name#1 data',
+                  },
+                  {
+                    ip_cidr_range => 'test ip_cidr_range#2 data',
+                    range_name    => 'test range_name#2 data',
+                  },
+                ],
                 project                  => 'test project#0 data',
                 credential               => 'cred0',
               }

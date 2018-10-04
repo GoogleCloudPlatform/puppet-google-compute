@@ -222,6 +222,15 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
     DOC
   end
 
+  newproperty(:network_tier, parent: Google::Compute::Property::Enum) do
+    desc <<-DOC
+      The networking tier used for configuring this address. This field can take the following
+      values: PREMIUM or STANDARD. If this field is not specified, it is assumed to be PREMIUM.
+    DOC
+    newvalue(:PREMIUM)
+    newvalue(:STANDARD)
+  end
+
   # Returns all properties that a provider can export to other resources
   def exports
     provider.exports

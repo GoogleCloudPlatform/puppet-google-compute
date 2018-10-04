@@ -60,27 +60,30 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               apply_with_error_check(
                 <<-MANIFEST
                 gcompute_global_address { 'title0':
-                  ensure      => present,
-                  description => 'test description#0 data',
-                  ip_version  => 'IPV4',
-                  project     => 'test project#0 data',
-                  credential  => 'cred0',
+                  ensure       => present,
+                  address_type => 'EXTERNAL',
+                  description  => 'test description#0 data',
+                  ip_version   => 'IPV4',
+                  project      => 'test project#0 data',
+                  credential   => 'cred0',
                 }
 
                 gcompute_global_address { 'title1':
-                  ensure      => present,
-                  description => 'test description#1 data',
-                  ip_version  => 'IPV6',
-                  project     => 'test project#1 data',
-                  credential  => 'cred1',
+                  ensure       => present,
+                  address_type => 'EXTERNAL',
+                  description  => 'test description#1 data',
+                  ip_version   => 'IPV6',
+                  project      => 'test project#1 data',
+                  credential   => 'cred1',
                 }
 
                 gcompute_global_address { 'title2':
-                  ensure      => present,
-                  description => 'test description#2 data',
-                  ip_version  => 'IPV4',
-                  project     => 'test project#2 data',
-                  credential  => 'cred2',
+                  ensure       => present,
+                  address_type => 'EXTERNAL',
+                  description  => 'test description#2 data',
+                  ip_version   => 'IPV4',
+                  project      => 'test project#2 data',
+                  credential   => 'cred2',
                 }
                 MANIFEST
               ).catalog
@@ -107,6 +110,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               # it 'region' do
               #   # Add test code here
               # end
+              it { is_expected.to have_attributes(address_type: 'EXTERNAL') }
             end
 
             context 'Gcompute_global_address[title1]' do
@@ -130,6 +134,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               # it 'region' do
               #   # Add test code here
               # end
+              it { is_expected.to have_attributes(address_type: 'EXTERNAL') }
             end
 
             context 'Gcompute_global_address[title2]' do
@@ -153,6 +158,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               # it 'region' do
               #   # Add test code here
               # end
+              it { is_expected.to have_attributes(address_type: 'EXTERNAL') }
             end
           end
 
@@ -181,30 +187,33 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               apply_with_error_check(
                 <<-MANIFEST
                 gcompute_global_address { 'title0':
-                  ensure      => present,
-                  description => 'test description#0 data',
-                  ip_version  => 'IPV4',
-                  name        => 'test name#0 data',
-                  project     => 'test project#0 data',
-                  credential  => 'cred0',
+                  ensure       => present,
+                  address_type => 'EXTERNAL',
+                  description  => 'test description#0 data',
+                  ip_version   => 'IPV4',
+                  name         => 'test name#0 data',
+                  project      => 'test project#0 data',
+                  credential   => 'cred0',
                 }
 
                 gcompute_global_address { 'title1':
-                  ensure      => present,
-                  description => 'test description#1 data',
-                  ip_version  => 'IPV6',
-                  name        => 'test name#1 data',
-                  project     => 'test project#1 data',
-                  credential  => 'cred1',
+                  ensure       => present,
+                  address_type => 'EXTERNAL',
+                  description  => 'test description#1 data',
+                  ip_version   => 'IPV6',
+                  name         => 'test name#1 data',
+                  project      => 'test project#1 data',
+                  credential   => 'cred1',
                 }
 
                 gcompute_global_address { 'title2':
-                  ensure      => present,
-                  description => 'test description#2 data',
-                  ip_version  => 'IPV4',
-                  name        => 'test name#2 data',
-                  project     => 'test project#2 data',
-                  credential  => 'cred2',
+                  ensure       => present,
+                  address_type => 'EXTERNAL',
+                  description  => 'test description#2 data',
+                  ip_version   => 'IPV4',
+                  name         => 'test name#2 data',
+                  project      => 'test project#2 data',
+                  credential   => 'cred2',
                 }
                 MANIFEST
               ).catalog
@@ -231,6 +240,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               # it 'region' do
               #   # Add test code here
               # end
+              it { is_expected.to have_attributes(address_type: 'EXTERNAL') }
             end
 
             context 'Gcompute_global_address[title1]' do
@@ -254,6 +264,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               # it 'region' do
               #   # Add test code here
               # end
+              it { is_expected.to have_attributes(address_type: 'EXTERNAL') }
             end
 
             context 'Gcompute_global_address[title2]' do
@@ -277,6 +288,7 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               # it 'region' do
               #   # Add test code here
               # end
+              it { is_expected.to have_attributes(address_type: 'EXTERNAL') }
             end
           end
 
@@ -336,7 +348,8 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
                 'kind' => 'compute#address',
                 'description' => 'test description#0 data',
                 'name' => 'title0',
-                'ipVersion' => 'IPV4'
+                'ipVersion' => 'IPV4',
+                'addressType' => 'EXTERNAL'
               },
               name: 'title0'
             expect_network_get_async 1, name: 'title0'
@@ -346,11 +359,12 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_global_address { 'title0':
-                ensure      => present,
-                description => 'test description#0 data',
-                ip_version  => 'IPV4',
-                project     => 'test project#0 data',
-                credential  => 'cred0',
+                ensure       => present,
+                address_type => 'EXTERNAL',
+                description  => 'test description#0 data',
+                ip_version   => 'IPV4',
+                project      => 'test project#0 data',
+                credential   => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_global_address[title0]').provider.ensure
@@ -378,7 +392,8 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
               'kind' => 'compute#address',
               'description' => 'test description#0 data',
               'name' => 'test name#0 data',
-              'ipVersion' => 'IPV4'
+              'ipVersion' => 'IPV4',
+              'addressType' => 'EXTERNAL'
             expect_network_get_async 1
           end
 
@@ -386,12 +401,13 @@ describe Puppet::Type.type(:gcompute_global_address).provider(:google) do
             apply_with_error_check(
               <<-MANIFEST
               gcompute_global_address { 'title0':
-                ensure      => present,
-                description => 'test description#0 data',
-                ip_version  => 'IPV4',
-                name        => 'test name#0 data',
-                project     => 'test project#0 data',
-                credential  => 'cred0',
+                ensure       => present,
+                address_type => 'EXTERNAL',
+                description  => 'test description#0 data',
+                ip_version   => 'IPV4',
+                name         => 'test name#0 data',
+                project      => 'test project#0 data',
+                credential   => 'cred0',
               }
               MANIFEST
             ).catalog.resource('Gcompute_global_address[title0]').provider.ensure

@@ -30,6 +30,7 @@ require 'google/compute/network/get'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
 require 'google/compute/property/enum'
+require 'google/compute/property/global_address_address_type'
 require 'google/compute/property/integer'
 require 'google/compute/property/region_selflink'
 require 'google/compute/property/string'
@@ -76,7 +77,8 @@ Puppet::Type.type(:gcompute_global_address).provide(:google) do
       name: Google::Compute::Property::String.api_munge(fetch['name']),
       label_fingerprint: Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
       ip_version: Google::Compute::Property::Enum.api_munge(fetch['ipVersion']),
-      region: Google::Compute::Property::RegionSelfLinkRef.api_munge(fetch['region'])
+      region: Google::Compute::Property::RegionSelfLinkRef.api_munge(fetch['region']),
+      address_type: Google::Compute::Property::AddressTypeEnum.api_munge(fetch['addressType'])
     }.reject { |_, v| v.nil? }
   end
 
@@ -156,7 +158,8 @@ Puppet::Type.type(:gcompute_global_address).provide(:google) do
       id: resource[:id],
       label_fingerprint: resource[:label_fingerprint],
       ip_version: resource[:ip_version],
-      region: resource[:region]
+      region: resource[:region],
+      address_type: resource[:address_type]
     }.reject { |_, v| v.nil? }
   end
 
@@ -165,7 +168,8 @@ Puppet::Type.type(:gcompute_global_address).provide(:google) do
       kind: 'compute#address',
       description: @resource[:description],
       name: @resource[:name],
-      ipVersion: @resource[:ip_version]
+      ipVersion: @resource[:ip_version],
+      addressType: @resource[:address_type]
     }.reject { |_, v| v.nil? }
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json

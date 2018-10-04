@@ -30,6 +30,7 @@ require 'google/compute/network/get'
 require 'google/compute/network/patch'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
+require 'google/compute/property/boolean'
 require 'google/compute/property/enum'
 require 'google/compute/property/firewall_allowed'
 require 'google/compute/property/firewall_denied'
@@ -83,6 +84,7 @@ Puppet::Type.type(:gcompute_firewall).provide(:google) do
       destination_ranges:
         Google::Compute::Property::StringArray.api_munge(fetch['destinationRanges']),
       direction: Google::Compute::Property::Enum.api_munge(fetch['direction']),
+      disabled: Google::Compute::Property::Boolean.api_munge(fetch['disabled']),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       network: Google::Compute::Property::NetworkSelfLinkRef.api_munge(fetch['network']),
       priority: Google::Compute::Property::Integer.api_munge(fetch['priority']),
@@ -150,6 +152,17 @@ Puppet::Type.type(:gcompute_firewall).provide(:google) do
 
   private
 
+  # Hashes have :true or :false which to_json converts to strings
+  def sym_to_bool(value)
+    if value == :true
+      true
+    elsif value == :false
+      false
+    else
+      value
+    end
+  end
+
   def self.resource_to_hash(resource)
     {
       project: resource[:project],
@@ -161,6 +174,7 @@ Puppet::Type.type(:gcompute_firewall).provide(:google) do
       description: resource[:description],
       destination_ranges: resource[:destination_ranges],
       direction: resource[:direction],
+      disabled: resource[:disabled],
       id: resource[:id],
       network: resource[:network],
       priority: resource[:priority],
@@ -180,6 +194,7 @@ Puppet::Type.type(:gcompute_firewall).provide(:google) do
       description: @resource[:description],
       destinationRanges: @resource[:destination_ranges],
       direction: @resource[:direction],
+      disabled: @resource[:disabled],
       name: @resource[:name],
       network: @resource[:network],
       priority: @resource[:priority],
@@ -189,6 +204,10 @@ Puppet::Type.type(:gcompute_firewall).provide(:google) do
       targetServiceAccounts: @resource[:target_service_accounts],
       targetTags: @resource[:target_tags]
     }.reject { |_, v| v.nil? }
+
+    # Convert boolean symbols into JSON compatible value.
+    request = request.inject({}) { |h, (k, v)| h.merge(k => sym_to_bool(v)) }
+
     debug "request: #{request}" unless ENV['PUPPET_HTTP_DEBUG'].nil?
     request.to_json
   end

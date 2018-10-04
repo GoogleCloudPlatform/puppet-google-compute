@@ -34,6 +34,7 @@ require 'google/compute/property/integer'
 require 'google/compute/property/network_selflink'
 require 'google/compute/property/region_name'
 require 'google/compute/property/string'
+require 'google/compute/property/subnetwork_secondary_ip_ranges'
 require 'google/compute/property/time'
 require 'google/hash_utils'
 require 'google/object_store'
@@ -78,6 +79,11 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       ip_cidr_range: Google::Compute::Property::String.api_munge(fetch['ipCidrRange']),
       name: Google::Compute::Property::String.api_munge(fetch['name']),
+      enable_flow_logs: Google::Compute::Property::Boolean.api_munge(fetch['enableFlowLogs']),
+      fingerprint: Google::Compute::Property::String.api_munge(fetch['fingerprint']),
+      secondary_ip_ranges: Google::Compute::Property::SubnetworkSecondaryIpRangesArray.api_munge(
+        fetch['secondaryIpRanges']
+      ),
       private_ip_google_access:
         Google::Compute::Property::Boolean.api_munge(fetch['privateIpGoogleAccess']),
       network: resource[:network],
@@ -115,6 +121,7 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
     ip_cidr_range_update(@resource) if @dirty[:ip_cidr_range]
+    enable_flow_logs_update(@resource) if @dirty[:enable_flow_logs] || @dirty[:fingerprint] || @dirty[:secondary_ip_ranges]
     private_ip_google_access_update(@resource) if @dirty[:private_ip_google_access]
     return fetch_resource(@resource, self_link(@resource), 'compute#subnetwork')
   end
@@ -140,6 +147,25 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
       'application/json',
       {
         ipCidrRange: @resource[:ip_cidr_range]
+      }.to_json
+    ).send
+  end
+
+  def enable_flow_logs_update(data)
+    ::Google::Compute::Network::Patch.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projects/{{project}}/regions/{{region}}/subnetworks/{{name}}',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        enableFlowLogs: @resource[:enable_flow_logs],
+        fingerprint: @fetched['fingerprint'],
+        secondaryIpRanges: @resource[:secondary_ip_ranges]
       }.to_json
     ).send
   end
@@ -190,6 +216,9 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
       id: resource[:id],
       ip_cidr_range: resource[:ip_cidr_range],
       network: resource[:network],
+      enable_flow_logs: resource[:enable_flow_logs],
+      fingerprint: resource[:fingerprint],
+      secondary_ip_ranges: resource[:secondary_ip_ranges],
       private_ip_google_access: resource[:private_ip_google_access],
       region: resource[:region]
     }.reject { |_, v| v.nil? }
@@ -202,6 +231,8 @@ Puppet::Type.type(:gcompute_subnetwork).provide(:google) do
       ipCidrRange: @resource[:ip_cidr_range],
       name: @resource[:name],
       network: @resource[:network],
+      enableFlowLogs: @resource[:enable_flow_logs],
+      secondaryIpRanges: @resource[:secondary_ip_ranges],
       privateIpGoogleAccess: @resource[:private_ip_google_access],
       region: @resource[:region]
     }.reject { |_, v| v.nil? }

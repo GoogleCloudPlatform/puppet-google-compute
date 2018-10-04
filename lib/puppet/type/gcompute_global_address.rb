@@ -26,6 +26,7 @@
 # ----------------------------------------------------------------------------
 
 require 'google/compute/property/enum'
+require 'google/compute/property/global_address_address_type'
 require 'google/compute/property/integer'
 require 'google/compute/property/region_selflink'
 require 'google/compute/property/string'
@@ -111,6 +112,16 @@ Puppet::Type.newtype(:gcompute_global_address) do
 
   newproperty(:region, parent: Google::Compute::Property::RegionSelfLinkRef) do
     desc 'A reference to the region where the regional address resides. (output only)'
+  end
+
+  newproperty(:address_type, parent: Google::Compute::Property::AddressTypeEnum) do
+    desc <<-DOC
+      The type of the address to reserve, default is EXTERNAL. * EXTERNAL indicates public/external
+      single IP address. * INTERNAL indicates internal IP ranges belonging to some network.
+    DOC
+    newvalue(:EXTERNAL)
+    newvalue(:INTERNAL)
+    defaultto 'EXTERNAL'
   end
 
   # Returns all properties that a provider can export to other resources
