@@ -2356,7 +2356,6 @@ gcompute_global_address { 'id-of-resource':
   description        => string,
   id                 => integer,
   ip_version         => 'IPV4' or 'IPV6',
-  label_fingerprint  => fingerprint,
   name               => string,
   region             => reference to gcompute_region,
   project            => string,
@@ -2402,10 +2401,6 @@ Required.  Name of the resource. Provided by the client when the resource is
 * `id`: Output only.
   The unique identifier for the resource. This identifier is defined by
   the server.
-
-* `label_fingerprint`: Output only.
-  The fingerprint used for optimistic locking of this resource.  Used
-  internally during updates.
 
 * `region`: Output only.
   A reference to the region where the regional address resides.
