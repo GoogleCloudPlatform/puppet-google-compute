@@ -93,7 +93,6 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
       ports: Google::Compute::Property::StringArray.api_munge(fetch['ports']),
       subnetwork: Google::Compute::Property::SubnetworkSelfLinkRef.api_munge(fetch['subnetwork']),
       target: Google::Compute::Property::TargetPoolSelfLinkRef.api_munge(fetch['target']),
-      label_fingerprint: Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
       network_tier: resource[:network_tier]
     }.reject { |_, v| v.nil? }
   end
@@ -129,7 +128,6 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
     target_update(@resource) if @dirty[:target]
-    label_fingerprint_update(@resource) if @dirty[:label_fingerprint]
     return fetch_resource(@resource, self_link(@resource), 'compute#forwardingRule')
   end
 
@@ -154,23 +152,6 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
       'application/json',
       {
         target: @resource[:target]
-      }.to_json
-    ).send
-  end
-
-  def label_fingerprint_update(data)
-    ::Google::Compute::Network::Post.new(
-      URI.join(
-        'https://www.googleapis.com/compute/v1/',
-        expand_variables(
-          'projects/{{project}}/regions/{{region}}/forwardingRules/{{name}}/setLabels',
-          data
-        )
-      ),
-      fetch_auth(@resource),
-      'application/json',
-      {
-        labelFingerprint: @fetched['labelFingerprint']
       }.to_json
     ).send
   end
@@ -201,7 +182,6 @@ Puppet::Type.type(:gcompute_forwarding_rule).provide(:google) do
       ports: resource[:ports],
       subnetwork: resource[:subnetwork],
       target: resource[:target],
-      label_fingerprint: resource[:label_fingerprint],
       network_tier: resource[:network_tier],
       region: resource[:region]
     }.reject { |_, v| v.nil? }
