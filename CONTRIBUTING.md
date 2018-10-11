@@ -130,6 +130,7 @@ puppet-codegen:
   * .tools/end2end/data/instance_group.pp
   * .tools/end2end/data/instance_group_manager.pp
   * .tools/end2end/data/instance_template.pp
+  * .tools/end2end/data/interconnect_attachment.pp
   * .tools/end2end/data/license.pp
   * .tools/end2end/data/machine_type.pp
   * .tools/end2end/data/network~auto.pp
@@ -197,6 +198,7 @@ puppet-codegen:
   * examples/instance_group.pp
   * examples/instance_group_manager.pp
   * examples/instance_template.pp
+  * examples/interconnect_attachment.pp
   * examples/license.pp
   * examples/machine_type.pp
   * examples/network~auto.pp
@@ -291,6 +293,7 @@ puppet-codegen:
   * lib/google/compute/property/instancetemplate_source_image_encryption_key.rb
   * lib/google/compute/property/instancetemplate_tags.rb
   * lib/google/compute/property/integer.rb
+  * lib/google/compute/property/interconnectattachment_private_interconnect_info.rb
   * lib/google/compute/property/license_selflink.rb
   * lib/google/compute/property/machinetype_deprecated.rb
   * lib/google/compute/property/machinetype_name.rb
@@ -348,6 +351,7 @@ puppet-codegen:
   * lib/puppet/provider/gcompute_instance_group/google.rb
   * lib/puppet/provider/gcompute_instance_group_manager/google.rb
   * lib/puppet/provider/gcompute_instance_template/google.rb
+  * lib/puppet/provider/gcompute_interconnect_attachment/google.rb
   * lib/puppet/provider/gcompute_license/google.rb
   * lib/puppet/provider/gcompute_machine_type/google.rb
   * lib/puppet/provider/gcompute_network/google.rb
@@ -383,6 +387,7 @@ puppet-codegen:
   * lib/puppet/type/gcompute_instance_group.rb
   * lib/puppet/type/gcompute_instance_group_manager.rb
   * lib/puppet/type/gcompute_instance_template.rb
+  * lib/puppet/type/gcompute_interconnect_attachment.rb
   * lib/puppet/type/gcompute_license.rb
   * lib/puppet/type/gcompute_machine_type.rb
   * lib/puppet/type/gcompute_network.rb
@@ -507,6 +512,12 @@ puppet-codegen:
   * spec/data/network/gcompute_instance_template/success2~title.yaml
   * spec/data/network/gcompute_instance_template/success3~name.yaml
   * spec/data/network/gcompute_instance_template/success3~title.yaml
+  * spec/data/network/gcompute_interconnect_attachment/success1~name.yaml
+  * spec/data/network/gcompute_interconnect_attachment/success1~title.yaml
+  * spec/data/network/gcompute_interconnect_attachment/success2~name.yaml
+  * spec/data/network/gcompute_interconnect_attachment/success2~title.yaml
+  * spec/data/network/gcompute_interconnect_attachment/success3~name.yaml
+  * spec/data/network/gcompute_interconnect_attachment/success3~title.yaml
   * spec/data/network/gcompute_license/success1~name.yaml
   * spec/data/network/gcompute_license/success1~title.yaml
   * spec/data/network/gcompute_license/success2~name.yaml
@@ -633,6 +644,7 @@ puppet-codegen:
   * spec/gcompute_instance_group_provider_spec.rb
   * spec/gcompute_instance_provider_spec.rb
   * spec/gcompute_instance_template_provider_spec.rb
+  * spec/gcompute_interconnect_attachment_provider_spec.rb
   * spec/gcompute_license_provider_spec.rb
   * spec/gcompute_machine_type_provider_spec.rb
   * spec/gcompute_network_provider_spec.rb
