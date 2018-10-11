@@ -149,11 +149,8 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
     debug('flush')
     # return on !@dirty is for aiding testing (puppet already guarantees that)
     return if @created || @deleted || !@dirty
-    update_req = Google::Compute::Network::Put.new(self_link(@resource),
-                                                   fetch_auth(@resource),
-                                                   'application/json',
-                                                   resource_to_request)
-    @fetched = wait_for_operation update_req.send, @resource
+    machine_type_update(@resource) if @dirty[:machine_type]
+    return fetch_resource(@resource, self_link(@resource), 'compute#instance')
   end
 
   def dirty(field, from, to)
@@ -164,6 +161,22 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
     }
   end
 
+  def machine_type_update(data)
+    ::Google::Compute::Network::Post.new(
+      URI.join(
+        'https://www.googleapis.com/compute/v1/',
+        expand_variables(
+          'projdcts/{{project}}/zones/{{zone}}/instances/{{name}}/setMachineType',
+          data
+        )
+      ),
+      fetch_auth(@resource),
+      'application/json',
+      {
+        machineType: @resource[:machine_type]
+      }.to_json
+    ).send
+  end
   def exports
     {
       self_link: @fetched['selfLink']
