@@ -94,13 +94,6 @@ Puppet::Type.newtype(:gcompute_global_address) do
     DOC
   end
 
-  newproperty(:label_fingerprint, parent: Google::Compute::Property::String) do
-    desc <<-DOC
-      The fingerprint used for optimistic locking of this resource. Used internally during updates.
-      (output only)
-    DOC
-  end
-
   newproperty(:ip_version, parent: Google::Compute::Property::Enum) do
     desc <<-DOC
       The IP Version that will be used by this address. Valid options are IPV4 or IPV6. The default

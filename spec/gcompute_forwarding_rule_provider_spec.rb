@@ -282,9 +282,6 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               # it 'target' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
-              end
               it { is_expected.to have_attributes(network_tier: 'PREMIUM') }
             end
 
@@ -322,9 +319,6 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               # it 'target' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
-              end
               it { is_expected.to have_attributes(network_tier: 'STANDARD') }
             end
 
@@ -362,9 +356,6 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               # it 'target' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
-              end
               it { is_expected.to have_attributes(network_tier: 'PREMIUM') }
             end
           end
@@ -619,9 +610,6 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               # it 'target' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#0 data')
-              end
               it { is_expected.to have_attributes(network_tier: 'PREMIUM') }
             end
 
@@ -659,9 +647,6 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               # it 'target' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#1 data')
-              end
               it { is_expected.to have_attributes(network_tier: 'STANDARD') }
             end
 
@@ -699,9 +684,6 @@ describe Puppet::Type.type(:gcompute_forwarding_rule).provider(:google) do
               # it 'target' do
               #   # Add test code here
               # end
-              it do
-                is_expected.to have_attributes(label_fingerprint: 'test label_fingerprint#2 data')
-              end
               it { is_expected.to have_attributes(network_tier: 'PREMIUM') }
             end
           end

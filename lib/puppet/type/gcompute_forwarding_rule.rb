@@ -215,13 +215,6 @@ Puppet::Type.newtype(:gcompute_forwarding_rule) do
     DOC
   end
 
-  newproperty(:label_fingerprint, parent: Google::Compute::Property::String) do
-    desc <<-DOC
-      The fingerprint used for optimistic locking of this resource. Used internally during updates.
-      (output only)
-    DOC
-  end
-
   newproperty(:network_tier, parent: Google::Compute::Property::Enum) do
     desc <<-DOC
       The networking tier used for configuring this address. This field can take the following
