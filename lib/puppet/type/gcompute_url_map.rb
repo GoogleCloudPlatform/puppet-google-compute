@@ -112,7 +112,7 @@ Puppet::Type.newtype(:gcompute_url_map) do
 
   newproperty(:tests, parent: Google::Compute::Property::UrlMapTestsArray) do
     desc <<-DOC
-      The list of expected URL mappings. Request to update this UrlMap will succeed only if all of
+      The list of expected URL mappings. Requests to update this UrlMap will succeed only if all of
       the test cases pass.
     DOC
   end
