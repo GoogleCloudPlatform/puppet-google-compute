@@ -6327,7 +6327,7 @@ Required.  A reference to BackendService resource if none of the hostRules match
   The list of HostRules to use against the URL.
 
 ##### host_rules[]/description
-  An optional description of this resource. Provide this property
+  An optional description of this HostRule. Provide this property
   when you create the resource.
 
 ##### host_rules[]/hosts
@@ -6369,7 +6369,7 @@ Required.  The name to which this PathMatcher is referred by the HostRule.
   The list of path rules.
 
 ##### path_matchers[]/path_rules[]/paths
-  The list of path patterns to match. Each must start with /
+Required.  The list of path patterns to match. Each must start with /
   and the only place a * is allowed is at the end following
   a /. The string fed to the path matcher does not include
   any text after the first ? or #, and those chars are not
@@ -6381,7 +6381,7 @@ Required.  A reference to the BackendService resource if this rule is
 
 ##### `tests`
 
-  The list of expected URL mappings. Request to update this UrlMap will
+  The list of expected URL mappings. Requests to update this UrlMap will
   succeed only if all of the test cases pass.
 
 ##### tests[]/description
