@@ -31,7 +31,7 @@ module Google
   module Compute
     module Property
       # A Puppet property that holds a string
-      class NameValues < Google::Compute::Property::Base
+      class KeyValuePairs < Google::Compute::Property::Base
         def self.api_munge(value)
           return if value.nil?
           value

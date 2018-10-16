@@ -46,8 +46,8 @@ require 'google/compute/property/instance_service_accounts'
 require 'google/compute/property/instance_source_image_encryption_key'
 require 'google/compute/property/instance_tags'
 require 'google/compute/property/integer'
+require 'google/compute/property/keyvaluepairs'
 require 'google/compute/property/machinetype_selflink'
-require 'google/compute/property/namevalues'
 require 'google/compute/property/network_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
@@ -100,7 +100,7 @@ Puppet::Type.type(:gcompute_instance).provide(:google) do
       ),
       id: Google::Compute::Property::Integer.api_munge(fetch['id']),
       label_fingerprint: Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
-      metadata: Google::Compute::Property::NameValues.api_munge(fetch['metadata']),
+      metadata: Google::Compute::Property::KeyValuePairs.api_munge(fetch['metadata']),
       machine_type:
         Google::Compute::Property::MachineTypeSelfLinkRef.api_munge(fetch['machineType']),
       min_cpu_platform: Google::Compute::Property::String.api_munge(fetch['minCpuPlatform']),

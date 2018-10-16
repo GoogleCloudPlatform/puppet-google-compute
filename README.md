@@ -1692,7 +1692,7 @@ gcompute_disk { 'id-of-resource':
   },
   id                             => integer,
   label_fingerprint              => fingerprint,
-  labels                         => namevalues,
+  labels                         => keyvaluepairs,
   last_attach_timestamp          => time,
   last_detach_timestamp          => time,
   licenses                       => [
@@ -3180,7 +3180,7 @@ gcompute_instance_template { 'id-of-resource':
       ...
     ],
     machine_type       => reference to gcompute_machine_type,
-    metadata           => namevalues,
+    metadata           => keyvaluepairs,
     network_interfaces => [
       {
         access_configs  => [
@@ -3920,7 +3920,7 @@ gcompute_instance { 'id-of-resource':
   id                 => integer,
   label_fingerprint  => string,
   machine_type       => reference to gcompute_machine_type,
-  metadata           => namevalues,
+  metadata           => keyvaluepairs,
   min_cpu_platform   => string,
   name               => string,
   network_interfaces => [
@@ -6453,7 +6453,7 @@ gcompute_vpn_tunnel { 'id-of-resource':
   description             => string,
   ike_version             => integer,
   label_fingerprint       => fingerprint,
-  labels                  => namevalues,
+  labels                  => keyvaluepairs,
   local_traffic_selector  => [
     string,
     ...

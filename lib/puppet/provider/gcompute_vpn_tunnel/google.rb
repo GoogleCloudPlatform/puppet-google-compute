@@ -30,7 +30,7 @@ require 'google/compute/network/get'
 require 'google/compute/network/post'
 require 'google/compute/network/put'
 require 'google/compute/property/integer'
-require 'google/compute/property/namevalues'
+require 'google/compute/property/keyvaluepairs'
 require 'google/compute/property/region_name'
 require 'google/compute/property/router_selflink'
 require 'google/compute/property/string'
@@ -84,7 +84,7 @@ Puppet::Type.type(:gcompute_vpn_tunnel).provide(:google) do
         Google::Compute::Property::StringArray.api_munge(fetch['localTrafficSelector']),
       remote_traffic_selector:
         Google::Compute::Property::StringArray.api_munge(fetch['remoteTrafficSelector']),
-      labels: Google::Compute::Property::NameValues.api_munge(fetch['labels']),
+      labels: Google::Compute::Property::KeyValuePairs.api_munge(fetch['labels']),
       label_fingerprint: Google::Compute::Property::String.api_munge(fetch['labelFingerprint']),
       description: resource[:description],
       target_vpn_gateway: resource[:target_vpn_gateway],

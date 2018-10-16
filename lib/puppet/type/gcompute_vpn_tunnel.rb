@@ -26,7 +26,7 @@
 # ----------------------------------------------------------------------------
 
 require 'google/compute/property/integer'
-require 'google/compute/property/namevalues'
+require 'google/compute/property/keyvaluepairs'
 require 'google/compute/property/region_name'
 require 'google/compute/property/router_selflink'
 require 'google/compute/property/string'
@@ -139,7 +139,7 @@ Puppet::Type.newtype(:gcompute_vpn_tunnel) do
     DOC
   end
 
-  newproperty(:labels, parent: Google::Compute::Property::NameValues) do
+  newproperty(:labels, parent: Google::Compute::Property::KeyValuePairs) do
     desc 'Labels to apply to this VpnTunnel.'
   end
 

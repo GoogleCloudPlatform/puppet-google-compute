@@ -254,7 +254,7 @@ describe Puppet::Type.type(:gcompute_vpn_tunnel).provider(:google) do
               it { is_expected.to have_attributes(ike_version: 2) }
               it { is_expected.to have_attributes(local_traffic_selector: %w[jj kk ll mm nn]) }
               it { is_expected.to have_attributes(remote_traffic_selector: %w[xx yy zz]) }
-              # TODO(nelsonjr): Implement complex namevalues property test.
+              # TODO(alexstephen): Implement keyvaluepairs test.
               # it 'labels' do
               #   # Add test code here
               # end
@@ -290,7 +290,7 @@ describe Puppet::Type.type(:gcompute_vpn_tunnel).provider(:google) do
               it { is_expected.to have_attributes(ike_version: 2) }
               it { is_expected.to have_attributes(local_traffic_selector: %w[vv ww xx yy zz]) }
               it { is_expected.to have_attributes(remote_traffic_selector: %w[ww xx yy zz]) }
-              # TODO(nelsonjr): Implement complex namevalues property test.
+              # TODO(alexstephen): Implement keyvaluepairs test.
               # it 'labels' do
               #   # Add test code here
               # end
@@ -326,7 +326,7 @@ describe Puppet::Type.type(:gcompute_vpn_tunnel).provider(:google) do
               it { is_expected.to have_attributes(ike_version: 2) }
               it { is_expected.to have_attributes(local_traffic_selector: %w[gg hh ii jj]) }
               it { is_expected.to have_attributes(remote_traffic_selector: %w[vv ww xx yy zz]) }
-              # TODO(nelsonjr): Implement complex namevalues property test.
+              # TODO(alexstephen): Implement keyvaluepairs test.
               # it 'labels' do
               #   # Add test code here
               # end
@@ -558,7 +558,7 @@ describe Puppet::Type.type(:gcompute_vpn_tunnel).provider(:google) do
               it { is_expected.to have_attributes(ike_version: 2) }
               it { is_expected.to have_attributes(local_traffic_selector: %w[jj kk ll mm nn]) }
               it { is_expected.to have_attributes(remote_traffic_selector: %w[xx yy zz]) }
-              # TODO(nelsonjr): Implement complex namevalues property test.
+              # TODO(alexstephen): Implement keyvaluepairs test.
               # it 'labels' do
               #   # Add test code here
               # end
@@ -594,7 +594,7 @@ describe Puppet::Type.type(:gcompute_vpn_tunnel).provider(:google) do
               it { is_expected.to have_attributes(ike_version: 2) }
               it { is_expected.to have_attributes(local_traffic_selector: %w[vv ww xx yy zz]) }
               it { is_expected.to have_attributes(remote_traffic_selector: %w[ww xx yy zz]) }
-              # TODO(nelsonjr): Implement complex namevalues property test.
+              # TODO(alexstephen): Implement keyvaluepairs test.
               # it 'labels' do
               #   # Add test code here
               # end
@@ -630,7 +630,7 @@ describe Puppet::Type.type(:gcompute_vpn_tunnel).provider(:google) do
               it { is_expected.to have_attributes(ike_version: 2) }
               it { is_expected.to have_attributes(local_traffic_selector: %w[gg hh ii jj]) }
               it { is_expected.to have_attributes(remote_traffic_selector: %w[vv ww xx yy zz]) }
-              # TODO(nelsonjr): Implement complex namevalues property test.
+              # TODO(alexstephen): Implement keyvaluepairs test.
               # it 'labels' do
               #   # Add test code here
               # end

@@ -247,7 +247,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     last_detach_timestamp: ::Time.parse('1986-08-30T10:54:51+00:00')
                   )
               end
-              # TODO(nelsonjr): Implement complex namevalues property test.
+              # TODO(alexstephen): Implement keyvaluepairs test.
               # it 'labels' do
               #   # Add test code here
               # end
@@ -291,7 +291,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     last_detach_timestamp: ::Time.parse('2003-04-28T21:49:42+00:00')
                   )
               end
-              # TODO(nelsonjr): Implement complex namevalues property test.
+              # TODO(alexstephen): Implement keyvaluepairs test.
               # it 'labels' do
               #   # Add test code here
               # end
@@ -335,7 +335,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     last_detach_timestamp: ::Time.parse('2019-12-26T08:44:33+00:00')
                   )
               end
-              # TODO(nelsonjr): Implement complex namevalues property test.
+              # TODO(alexstephen): Implement keyvaluepairs test.
               # it 'labels' do
               #   # Add test code here
               # end
@@ -569,7 +569,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     last_detach_timestamp: ::Time.parse('1986-08-30T10:54:51+00:00')
                   )
               end
-              # TODO(nelsonjr): Implement complex namevalues property test.
+              # TODO(alexstephen): Implement keyvaluepairs test.
               # it 'labels' do
               #   # Add test code here
               # end
@@ -613,7 +613,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     last_detach_timestamp: ::Time.parse('2003-04-28T21:49:42+00:00')
                   )
               end
-              # TODO(nelsonjr): Implement complex namevalues property test.
+              # TODO(alexstephen): Implement keyvaluepairs test.
               # it 'labels' do
               #   # Add test code here
               # end
@@ -657,7 +657,7 @@ describe Puppet::Type.type(:gcompute_disk).provider(:google) do
                     last_detach_timestamp: ::Time.parse('2019-12-26T08:44:33+00:00')
                   )
               end
-              # TODO(nelsonjr): Implement complex namevalues property test.
+              # TODO(alexstephen): Implement keyvaluepairs test.
               # it 'labels' do
               #   # Add test code here
               # end

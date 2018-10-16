@@ -35,7 +35,7 @@ require 'google/compute/property/disk_source_snapshot_encryption_key'
 require 'google/compute/property/disktype_selflink'
 require 'google/compute/property/instance_selflink'
 require 'google/compute/property/integer'
-require 'google/compute/property/namevalues'
+require 'google/compute/property/keyvaluepairs'
 require 'google/compute/property/snapshot_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
@@ -87,7 +87,7 @@ Puppet::Type.type(:gcompute_disk).provide(:google) do
         Google::Compute::Property::Time.api_munge(fetch['lastAttachTimestamp']),
       last_detach_timestamp:
         Google::Compute::Property::Time.api_munge(fetch['lastDetachTimestamp']),
-      labels: Google::Compute::Property::NameValues.api_munge(fetch['labels']),
+      labels: Google::Compute::Property::KeyValuePairs.api_munge(fetch['labels']),
       licenses: Google::Compute::Property::StringArray.api_munge(fetch['licenses']),
       size_gb: Google::Compute::Property::Integer.api_munge(fetch['sizeGb']),
       users: Google::Compute::Property::InstanceSelfLinkRefArray.api_munge(fetch['users']),

@@ -132,7 +132,7 @@ module Google
           @disks = Google::Compute::Property::InstanceTemplateDisksArray.api_munge(args['disks'])
           @machine_type =
             Google::Compute::Property::MachineTypeNameRef.api_munge(args['machineType'])
-          @metadata = Google::Compute::Property::NameValues.api_munge(args['metadata'])
+          @metadata = Google::Compute::Property::KeyValuePairs.api_munge(args['metadata'])
           @guest_accelerators =
             Google::Compute::Property::InstanceTemplateGuestAcceleratorsArray.api_munge(
               args['guestAccelerators']
@@ -162,7 +162,7 @@ module Google
           @disks = Google::Compute::Property::InstanceTemplateDisksArray.unsafe_munge(args['disks'])
           @machine_type =
             Google::Compute::Property::MachineTypeNameRef.unsafe_munge(args['machine_type'])
-          @metadata = Google::Compute::Property::NameValues.unsafe_munge(args['metadata'])
+          @metadata = Google::Compute::Property::KeyValuePairs.unsafe_munge(args['metadata'])
           @guest_accelerators =
             Google::Compute::Property::InstanceTemplateGuestAcceleratorsArray.unsafe_munge(
               args['guest_accelerators']

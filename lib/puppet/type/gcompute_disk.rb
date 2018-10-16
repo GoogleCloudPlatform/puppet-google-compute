@@ -31,7 +31,7 @@ require 'google/compute/property/disk_source_snapshot_encryption_key'
 require 'google/compute/property/disktype_selflink'
 require 'google/compute/property/instance_selflink'
 require 'google/compute/property/integer'
-require 'google/compute/property/namevalues'
+require 'google/compute/property/keyvaluepairs'
 require 'google/compute/property/snapshot_selflink'
 require 'google/compute/property/string'
 require 'google/compute/property/string_array'
@@ -176,7 +176,7 @@ Puppet::Type.newtype(:gcompute_disk) do
     desc 'Last dettach timestamp in RFC3339 text format. (output only)'
   end
 
-  newproperty(:labels, parent: Google::Compute::Property::NameValues) do
+  newproperty(:labels, parent: Google::Compute::Property::KeyValuePairs) do
     desc 'Labels to apply to this disk. A list of key->value pairs.'
   end
 
