@@ -45,6 +45,15 @@ module Google
         attr_reader :service_accounts
         attr_reader :tags
 
+        # set defaults for optional GCE instance template attributes
+        def guest_accelerators
+          @guest_accelerators || []
+        end
+
+        def service_accounts
+          @service_accounts || []
+        end
+
         def to_json(_arg = nil)
           {
             'canIpForward' => can_ip_forward,
