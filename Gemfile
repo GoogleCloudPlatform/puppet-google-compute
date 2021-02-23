@@ -34,7 +34,7 @@ group :test do
   gem 'puppet-lint-unquoted_string-check'
   gem 'puppet-syntax'
   gem 'puppetlabs_spec_helper'
-  gem 'rake', '~> 10.0'
+  gem 'rake', '~> 12.3'
   gem 'rspec'
   gem 'rspec-mocks'
   gem 'rspec-puppet'
